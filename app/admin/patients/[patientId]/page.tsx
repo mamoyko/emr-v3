@@ -1,12 +1,16 @@
 // import Image from "next/image";
 // import Link from "next/link";
 
+import { MyTabs } from "@/components/ui/tabs";
+
+import AdminPage from "../../page";
+
 // import { StatCard } from "@/components/StatCard";
 // import { columns } from "@/components/table/columns";
 // import { DataTable } from "@/components/table/DataTable";
 // import { getRecentAppointmentList } from "@/lib/actions/appointment.actions";
 
-const AdminPage = async () => {
+const AdminPatientPage = async () => {
   // const appointments = await getRecentAppointmentList();
 
   return <div>hahaha</div>;
@@ -62,4 +66,4 @@ const AdminPage = async () => {
   // );
 };
 
-export default AdminPage;
+export default AdminPatientPage;
