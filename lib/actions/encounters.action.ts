@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { ID, Query } from "node-appwrite";
 
-import { Appointment } from "@/types/appwrite.types";
+import { Appointment, Encounters } from "@/types/appwrite.types";
 
 import {
   ENCOUNTER_COLLECTION_ID,
@@ -36,72 +36,27 @@ import { sendSMSNotification } from "./appointment.actions";
 // };
 
 //  GET RECENT APPOINTMENTS
-// export const getRecentAppointmentList = async () => {
-//   try {
-//     const appointments = await databases.listDocuments(
-//       DATABASE_ID!,
-//       APPOINTMENT_COLLECTION_ID!,
-//       [Query.orderDesc("$createdAt")]
-//     );
+export const getEncounterList = async () => {
+  try {
+    const encounters = await databases.listDocuments(
+      DATABASE_ID!,
+      ENCOUNTER_COLLECTION_ID!,
+      [Query.orderDesc("$createdAt")]
+    );
 
-//     // const scheduledAppointments = (
-//     //   appointments.documents as Appointment[]
-//     // ).filter((appointment) => appointment.status === "scheduled");
+    const data = {
+      totalCount: encounters.total,
+      documents: encounters.documents,
+    };
 
-//     // const pendingAppointments = (
-//     //   appointments.documents as Appointment[]
-//     // ).filter((appointment) => appointment.status === "pending");
-
-//     // const cancelledAppointments = (
-//     //   appointments.documents as Appointment[]
-//     // ).filter((appointment) => appointment.status === "cancelled");
-
-//     // const data = {
-//     //   totalCount: appointments.total,
-//     //   scheduledCount: scheduledAppointments.length,
-//     //   pendingCount: pendingAppointments.length,
-//     //   cancelledCount: cancelledAppointments.length,
-//     //   documents: appointments.documents,
-//     // };
-
-//     const initialCounts = {
-//       scheduledCount: 0,
-//       pendingCount: 0,
-//       cancelledCount: 0,
-//     };
-
-//     const counts = (appointments.documents as Appointment[]).reduce(
-//       (acc, appointment) => {
-//         switch (appointment.status) {
-//           case "scheduled":
-//             acc.scheduledCount++;
-//             break;
-//           case "pending":
-//             acc.pendingCount++;
-//             break;
-//           case "cancelled":
-//             acc.cancelledCount++;
-//             break;
-//         }
-//         return acc;
-//       },
-//       initialCounts
-//     );
-
-//     const data = {
-//       totalCount: appointments.total,
-//       ...counts,
-//       documents: appointments.documents,
-//     };
-
-//     return parseStringify(data);
-//   } catch (error) {
-//     console.error(
-//       "An error occurred while retrieving the recent appointments:",
-//       error
-//     );
-//   }
-// };
+    return parseStringify(data);
+  } catch (error) {
+    console.error(
+      "An error occurred while retrieving the recent encounters:",
+      error
+    );
+  }
+};
 
 //  SEND SMS NOTIFICATION
 // export const sendSMSNotification = async (userId: string, content: string) => {
@@ -150,16 +105,13 @@ import { sendSMSNotification } from "./appointment.actions";
 // GET APPOINTMENT
 export const getEncounters = async (patientId: string) => {
   try {
-    console.log({ ENCOUNTER_COLLECTION_ID });
-    const encounters = await databases.getDocument(
+    const encounters = await databases.listDocuments(
       DATABASE_ID!,
       ENCOUNTER_COLLECTION_ID!,
-      patientId
+      [Query.equal("patient", [patientId])]
     );
 
-    console.log({ patientId, encounters });
-
-    return parseStringify(encounters);
+    return parseStringify(encounters.documents);
   } catch (error) {
     console.error(
       "An error occurred while retrieving the existing patient:",

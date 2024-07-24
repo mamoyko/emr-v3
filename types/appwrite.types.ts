@@ -1,3 +1,5 @@
+import exp from "constants";
+
 import { Models } from "node-appwrite";
 
 export interface Patient extends Models.Document {
@@ -33,4 +35,13 @@ export interface Appointment extends Models.Document {
   note: string;
   userId: string;
   cancellationReason: string | null;
+}
+
+export interface Encounters extends Models.Document {
+  patient: Patient;
+  date_and_time: Date;
+  primaryPhysician: string;
+  location: string;
+  encounter_type: string;
+  reason: string;
 }
