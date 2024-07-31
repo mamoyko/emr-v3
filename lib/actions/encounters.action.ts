@@ -1,20 +1,22 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { ID, Query } from "node-appwrite";
+// import { revalidatePath } from "next/cache";
+// import { ID, Query } from "node-appwrite";
+import { Query } from "node-appwrite";
 
-import { Appointment, Encounters } from "@/types/appwrite.types";
+// import { Appointment, Encounters } from "@/types/appwrite.types";
 
 import {
   ENCOUNTER_COLLECTION_ID,
   DATABASE_ID,
   databases,
-  messaging,
-  APPOINTMENT_COLLECTION_ID,
+  // messaging,
+  // APPOINTMENT_COLLECTION_ID,
 } from "../appwrite.config";
-import { formatDateTime, parseStringify } from "../utils";
+// import { formatDateTime, parseStringify } from "../utils";
+import { parseStringify } from "../utils";
 
-import { sendSMSNotification } from "./appointment.actions";
+// import { sendSMSNotification } from "./appointment.actions";
 
 //  CREATE APPOINTMENT
 // export const createAppointment = async (

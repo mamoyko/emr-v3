@@ -3,16 +3,16 @@
 // import { useRouter } from "next/navigation";
 
 import { Header } from "@/components/Header";
-import { Encounters } from "@/types/appwrite.types";
+// import { Encounters } from "@/types/appwrite.types";
 
 // import { columnEncounters } from "../table/columns";
 // import { DataTable } from "../table/DataTable";
 // import { Button } from "../ui/button";
 
-interface EncountersComponentProps {
-  documents: Encounters[];
-  totalCount: number;
-}
+// interface EncountersComponentProps {
+//   documents: Encounters[];
+//   totalCount: number;
+// }
 
 export const CreateEncountersComponent = () => {
   // const router = useRouter();
