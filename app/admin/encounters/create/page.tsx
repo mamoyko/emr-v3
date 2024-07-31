@@ -1,9 +1,9 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Header } from "@/components/Header";
 import EncounterMedicalHistory from "@/components/Encounters/encounterDetailForms/EncounterMedicalHistory";
 import EncounterPhysicalExaminationFindings from "@/components/Encounters/encounterDetailForms/EncounterPhysicalExaminationFindings";
 import EncounterSymptoms from "@/components/Encounters/encounterDetailForms/EncounterSymptoms";
 import EncounterVitalSigns from "@/components/Encounters/encounterDetailForms/EncounterVitalSigns";
+import { Header } from "@/components/Header";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const ENCOUNTERS_DETAILS = [
   {
@@ -30,7 +30,7 @@ const ENCOUNTERS_DETAILS = [
 
 const AdminCreateEncounterPage = () => {
   return (
-    <div className="mx-auto max-w-7xl flex flex-col space-y-14 p-6">
+    <div className="mx-auto flex max-w-7xl flex-col space-y-14 p-6">
       {/* <Header /> */}
 
       <div

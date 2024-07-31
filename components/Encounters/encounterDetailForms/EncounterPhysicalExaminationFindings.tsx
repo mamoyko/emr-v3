@@ -1,97 +1,100 @@
 "use client";
 
-import React, { useState } from "react";
-import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
+import React from "react";
+import { useForm, Controller, FormProvider } from "react-hook-form";
+
 import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  FormControl,
+} from "@/components/ui/form"; // Adjust import path as needed
 
-const EncounterPhysicalExaminationFindings = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
+interface FormData {
+  general_appearance: string;
+  head_and_neck: string;
+  cardiovascular_system: string;
+  respiratory_system: string;
+  gastrointestinal_system: string;
+  genitourinary_system: string;
+  musculoskeletal: string;
+  neurological_system: string;
+  skin: string;
+}
+
+const EncounterPhysicalExaminationFindings: React.FC = () => {
+  const methods = useForm<FormData>({
+    defaultValues: {
+      general_appearance: "",
+      head_and_neck: "",
+      cardiovascular_system: "",
+      respiratory_system: "",
+      gastrointestinal_system: "",
+      genitourinary_system: "",
+      musculoskeletal: "",
+      neurological_system: "",
+      skin: "",
+    },
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const { handleSubmit, control } = methods;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
+  const onSubmit = (data: FormData) => {
+    console.log(data);
   };
 
   return (
-    <div className="w-full">
-      <h2 className="text-lg font-semibold mb-4">
-        Physical Examination Findings
-      </h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700"
+    <FormProvider {...methods}>
+      <div className="mx-auto w-full max-w-md rounded-lg border border-gray-300 p-4 shadow-md">
+        <h2 className="mb-4 text-lg font-semibold">
+          Physical Examination Findings
+        </h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {ENCOUNTER_DETAILS_FIELDS.map(({ name, label }) => (
+            <FormItem key={name}>
+              <FormLabel htmlFor={name}>{label}</FormLabel>
+              <Controller
+                name={name}
+                control={control}
+                render={({ field }) => (
+                  <FormControl>
+                    <textarea
+                      id={name}
+                      {...field}
+                      rows={3}
+                      className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                      required
+                    />
+                  </FormControl>
+                )}
+              />
+            </FormItem>
+          ))}
+          <button
+            type="submit"
+            className="w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
           >
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-            required
-          />
-        </div>
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-            required
-          />
-        </div>
-        <div>
-          <label
-            htmlFor="message"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Message
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-            rows="4"
-            required
-          ></textarea>
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-        >
-          Submit
-        </button>
-      </form>
-    </div>
+            Submit
+          </button>
+        </form>
+      </div>
+    </FormProvider>
   );
 };
 
 export default EncounterPhysicalExaminationFindings;
+
+const ENCOUNTER_DETAILS_FIELDS = [
+  { name: "general_appearance", label: "General Appearance" },
+  { name: "head_and_neck", label: "Head and Neck" },
+  { name: "cardiovascular_system", label: "Cardiovascular System" },
+  { name: "respiratory_system", label: "Respiratory System" },
+  {
+    name: "gastrointestinal_system",
+    label: "Gastrointestinal System",
+  },
+  { name: "genitourinary_system", label: "Genitourinary System" },
+  { name: "musculoskeletal", label: "Musculoskeletal" },
+  { name: "neurological_system", label: "Neurological System" },
+  { name: "skin", label: "Skin" },
+];
