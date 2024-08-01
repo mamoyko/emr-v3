@@ -3,7 +3,7 @@
 import React from "react";
 import { useForm, Controller, FormProvider } from "react-hook-form";
 
-import { FormItem, FormLabel, FormControl } from "@/components/ui/form"; // Adjust import path as needed
+import { FormItem, FormLabel, FormControl } from "@/components/ui/form";
 
 interface FormData {
   general_appearance: string;
@@ -41,7 +41,7 @@ const EncounterPhysicalExaminationFindings: React.FC = () => {
   return (
     <FormProvider {...methods}>
       <div className="flex items-start justify-center">
-        <div className="h-[400px] w-[1150px] overflow-auto rounded-lg border border-gray-300 p-4 shadow-md">
+        <div className="h-[400px] w-[1150px] overflow-auto">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="grid grid-cols-1 gap-4 md:grid-cols-2"

@@ -6,7 +6,7 @@ import { useEffect, useState, ReactNode } from "react";
 
 import { Header } from "@/components/Header";
 
-interface EncounterPageProps {
+interface EncounterFormPageProps {
   children: ReactNode;
   initialTab: string;
 }
@@ -21,7 +21,7 @@ const ENCOUNTERS_DETAILS = [
   { value: "vital-signs", detail: "Vital Signs" },
 ];
 
-const EncounterPage: React.FC<EncounterPageProps> = ({
+const EncounterFormPage: React.FC<EncounterFormPageProps> = ({
   children,
   initialTab,
 }) => {
@@ -60,15 +60,10 @@ const EncounterPage: React.FC<EncounterPageProps> = ({
             </TabsTrigger>
           ))}
         </TabsList>
-        <TabsContent
-          value={currentTab}
-          // className="mt-4 max-h-screen overflow-auto bg-white p-4"
-        >
-          {children}
-        </TabsContent>
+        <TabsContent value={currentTab}>{children}</TabsContent>
       </Tabs>
     </div>
   );
 };
 
-export default EncounterPage;
+export default EncounterFormPage;

@@ -1,11 +1,11 @@
 import EncounterMedicalHistory from "@/components/Encounters/encounterDetailForms/EncounterMedicalHistory";
-import EncounterPage from "@/components/Encounters/encounterDetailForms/EncounterPage";
+import EncounterFormPage from "@/components/Encounters/EncounterFormPage";
 
 const MedicalHistory = () => {
   return (
-    <EncounterPage initialTab="medical-history">
+    <EncounterFormPage initialTab="medical-history">
       <EncounterMedicalHistory />
-    </EncounterPage>
+    </EncounterFormPage>
   );
 };
 

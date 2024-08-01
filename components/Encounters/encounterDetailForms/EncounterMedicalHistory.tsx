@@ -3,7 +3,7 @@
 import React from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 
-import { FormItem, FormLabel, FormControl } from "@/components/ui/form"; // Adjust import path as needed
+import { FormItem, FormLabel, FormControl } from "@/components/ui/form";
 
 interface FormData {
   past_medical_conditions: string;
@@ -33,7 +33,7 @@ const EncounterMedicalHistory: React.FC = () => {
   return (
     <FormProvider {...methods}>
       <div className="flex items-start justify-center">
-        <div className="h-[400px] w-[1150px] overflow-auto rounded-lg border border-gray-300 p-4 shadow-md">
+        <div className="h-[400px] w-[1150px] overflow-auto">
           <form
             onSubmit={methods.handleSubmit(onSubmit)}
             className="grid gap-4 sm:grid-cols-1 md:grid-cols-2"

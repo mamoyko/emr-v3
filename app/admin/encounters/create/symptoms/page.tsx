@@ -1,11 +1,11 @@
-import EncounterPage from "@/components/Encounters/encounterDetailForms/EncounterPage";
 import EncounterSymptoms from "@/components/Encounters/encounterDetailForms/EncounterSymptoms";
+import EncounterFormPage from "@/components/Encounters/EncounterFormPage";
 
 const Symptoms = () => {
   return (
-    <EncounterPage initialTab="symptoms">
+    <EncounterFormPage initialTab="symptoms">
       <EncounterSymptoms />
-    </EncounterPage>
+    </EncounterFormPage>
   );
 };
 

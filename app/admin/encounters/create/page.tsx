@@ -1,10 +1,10 @@
-import EncounterPage from "@/components/Encounters/encounterDetailForms/EncounterPage";
+import EncounterFormPage from "@/components/Encounters/EncounterFormPage";
 
 const AdminCreateEncounterPage = () => {
   return (
-    <EncounterPage initialTab={""}>
+    <EncounterFormPage initialTab={""}>
       <div></div>
-    </EncounterPage>
+    </EncounterFormPage>
   );
 };
 

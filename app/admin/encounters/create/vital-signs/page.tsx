@@ -1,11 +1,11 @@
-import EncounterPage from "@/components/Encounters/encounterDetailForms/EncounterPage";
 import EncounterVitalSigns from "@/components/Encounters/encounterDetailForms/EncounterVitalSigns";
+import EncounterFormPage from "@/components/Encounters/EncounterFormPage";
 
 const VitalSigns = () => {
   return (
-    <EncounterPage initialTab="vital-signs">
+    <EncounterFormPage initialTab="vital-signs">
       <EncounterVitalSigns />
-    </EncounterPage>
+    </EncounterFormPage>
   );
 };
 
