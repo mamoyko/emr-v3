@@ -21,6 +21,7 @@ export const EncountersComponent = ({
   const router = useRouter();
 
   const handleDetailsClick = () => {
+    console.log();
     router.push(`/admin/encounters/create`);
   };
   return (
@@ -35,7 +36,7 @@ export const EncountersComponent = ({
           <Button
             variant="ghost"
             className={`capitalize text-sky-500`}
-            onClick={handleDetailsClick}
+            onClick={() => handleDetailsClick()}
           >
             Add Encounters
           </Button>
