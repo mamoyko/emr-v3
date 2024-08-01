@@ -3,12 +3,7 @@
 import React from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 
-import {
-  // FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-} from "@/components/ui/form"; // Adjust import path as needed
+import { FormItem, FormLabel, FormControl } from "@/components/ui/form"; // Adjust import path as needed
 
 interface FormData {
   past_medical_conditions: string;
@@ -37,36 +32,40 @@ const EncounterMedicalHistory: React.FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <div className="mx-auto w-full max-w-md rounded-lg border border-gray-300 p-4 shadow-md">
-        <h2 className="mb-4 text-lg font-semibold">Medical History</h2>
-        <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
-          {ENCOUNTER_DETAILS_FIELDS.map(({ name, label }: any) => (
-            <FormItem key={name}>
-              <FormLabel htmlFor={name}>{label}</FormLabel>
-              <Controller
-                name={name}
-                control={methods.control}
-                render={({ field }) => (
-                  <FormControl>
-                    <textarea
-                      {...field}
-                      id={name}
-                      rows={3}
-                      className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                      required
-                    />
-                  </FormControl>
-                )}
-              />
-            </FormItem>
-          ))}
-          <button
-            type="submit"
-            className="w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+      <div className="flex items-start justify-center">
+        <div className="h-[400px] w-[1150px] overflow-auto rounded-lg border border-gray-300 p-4 shadow-md">
+          <form
+            onSubmit={methods.handleSubmit(onSubmit)}
+            className="grid gap-4 sm:grid-cols-1 md:grid-cols-2"
           >
-            Submit
-          </button>
-        </form>
+            {ENCOUNTER_DETAILS_FIELDS.map(({ name, label }: any) => (
+              <FormItem key={name} className="flex flex-col">
+                <FormLabel htmlFor={name}>{label}</FormLabel>
+                <Controller
+                  name={name}
+                  control={methods.control}
+                  render={({ field }) => (
+                    <FormControl>
+                      <textarea
+                        {...field}
+                        id={name}
+                        rows={2}
+                        className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                        required
+                      />
+                    </FormControl>
+                  )}
+                />
+              </FormItem>
+            ))}
+            <button
+              type="submit"
+              className="col-span-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
       </div>
     </FormProvider>
   );

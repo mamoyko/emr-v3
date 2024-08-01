@@ -3,12 +3,7 @@
 import React from "react";
 import { useForm, Controller, FormProvider } from "react-hook-form";
 
-import {
-  // FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-} from "@/components/ui/form"; // Adjust import path as needed
+import { FormItem, FormLabel, FormControl } from "@/components/ui/form"; // Adjust import path as needed
 
 interface FormData {
   general_appearance: string;
@@ -45,38 +40,40 @@ const EncounterPhysicalExaminationFindings: React.FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <div className="mx-auto w-full max-w-md rounded-lg border border-gray-300 p-4 shadow-md">
-        <h2 className="mb-4 text-lg font-semibold">
-          Physical Examination Findings
-        </h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {ENCOUNTER_DETAILS_FIELDS.map(({ name, label }: any) => (
-            <FormItem key={name}>
-              <FormLabel htmlFor={name}>{label}</FormLabel>
-              <Controller
-                name={name}
-                control={control}
-                render={({ field }) => (
-                  <FormControl>
-                    <textarea
-                      id={name}
-                      {...field}
-                      rows={3}
-                      className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                      required
-                    />
-                  </FormControl>
-                )}
-              />
-            </FormItem>
-          ))}
-          <button
-            type="submit"
-            className="w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+      <div className="flex items-start justify-center">
+        <div className="h-[400px] w-[1150px] overflow-auto rounded-lg border border-gray-300 p-4 shadow-md">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="grid grid-cols-1 gap-4 md:grid-cols-2"
           >
-            Submit
-          </button>
-        </form>
+            {ENCOUNTER_DETAILS_FIELDS.map(({ name, label }: any) => (
+              <FormItem key={name} className="col-span-1">
+                <FormLabel htmlFor={name}>{label}</FormLabel>
+                <Controller
+                  name={name}
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl>
+                      <textarea
+                        id={name}
+                        {...field}
+                        rows={2}
+                        className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                        required
+                      />
+                    </FormControl>
+                  )}
+                />
+              </FormItem>
+            ))}
+            <button
+              type="submit"
+              className="w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 md:col-span-2"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
       </div>
     </FormProvider>
   );
@@ -89,10 +86,7 @@ const ENCOUNTER_DETAILS_FIELDS = [
   { name: "head_and_neck", label: "Head and Neck" },
   { name: "cardiovascular_system", label: "Cardiovascular System" },
   { name: "respiratory_system", label: "Respiratory System" },
-  {
-    name: "gastrointestinal_system",
-    label: "Gastrointestinal System",
-  },
+  { name: "gastrointestinal_system", label: "Gastrointestinal System" },
   { name: "genitourinary_system", label: "Genitourinary System" },
   { name: "musculoskeletal", label: "Musculoskeletal" },
   { name: "neurological_system", label: "Neurological System" },
