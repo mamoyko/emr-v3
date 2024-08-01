@@ -4,7 +4,7 @@ import React from "react";
 import { useForm, Controller, FormProvider } from "react-hook-form";
 
 import {
-  FormField,
+  // FormField,
   FormItem,
   FormLabel,
   FormControl,
@@ -50,7 +50,7 @@ const EncounterPhysicalExaminationFindings: React.FC = () => {
           Physical Examination Findings
         </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {ENCOUNTER_DETAILS_FIELDS.map(({ name, label }) => (
+          {ENCOUNTER_DETAILS_FIELDS.map(({ name, label }: any) => (
             <FormItem key={name}>
               <FormLabel htmlFor={name}>{label}</FormLabel>
               <Controller

@@ -2,7 +2,7 @@ import EncounterMedicalHistory from "@/components/Encounters/encounterDetailForm
 import EncounterPhysicalExaminationFindings from "@/components/Encounters/encounterDetailForms/EncounterPhysicalExaminationFindings";
 import EncounterSymptoms from "@/components/Encounters/encounterDetailForms/EncounterSymptoms";
 import EncounterVitalSigns from "@/components/Encounters/encounterDetailForms/EncounterVitalSigns";
-import { Header } from "@/components/Header";
+// import { Header } from "@/components/Header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const ENCOUNTERS_DETAILS = [
