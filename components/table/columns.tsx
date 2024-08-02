@@ -8,6 +8,8 @@ import { Doctors } from "@/constants";
 import { formatDateTime } from "@/lib/utils";
 import { Appointment, Encounters } from "@/types/appwrite.types";
 
+import EncounterDialogPage from "../Encounters/encounterDetailDialog/EncounterDialogPage";
+import { EncountersComponent } from "../Encounters/EncountersComponent";
 import { StatusBadge } from "../StatusBadge";
 
 import { ActionsCell, EncounterActionCell } from "./action-cells";
@@ -152,6 +154,7 @@ export const columnEncounters: ColumnDef<Encounters>[] = [
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
-    cell: EncounterActionCell,
+    // cell: EncounterActionCell,
+    cell: EncounterDialogPage,
   },
 ];

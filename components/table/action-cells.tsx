@@ -56,8 +56,7 @@ export const EncounterActionCell: React.FC<EncounterCellProps> = ({ row }) => {
   const encounter = row.original;
 
   const handleDetailsClick = () => {
-    alert("dialog");
-    // router.push(`/admin/encounters/${encounter.$id}`);
+    router.push(`/admin/encounters/${encounter.$id}`);
   };
 
   return (
