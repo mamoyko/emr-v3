@@ -5,8 +5,8 @@ const AdminPatientPage = async () => {
   const encounters = await getEncounterList();
   return (
     <EncountersComponent
-      documents={encounters.documents}
-      totalCount={encounters.totalCount}
+      documents={encounters?.documents}
+      totalCount={encounters?.totalCount}
     />
   );
 };

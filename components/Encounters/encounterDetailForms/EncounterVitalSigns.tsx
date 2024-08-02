@@ -56,12 +56,12 @@ const EncounterVitalSigns: React.FC = () => {
   return (
     <FormProvider {...methods}>
       <div className="flex items-start justify-center">
-        <div className="h-[400px] w-[1150px] overflow-auto p-5">
+        <div className="h-[400px] w-full overflow-auto p-5">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="grid grid-cols-1 gap-6 md:grid-cols-4"
+            className="grid gap-4 sm:grid-cols-1 md:grid-cols-2"
           >
-            <div className="md:col-span-4">
+            <div className="md:col-span-2">
               <FormItem>
                 <FormLabel htmlFor="patient">Patient</FormLabel>
                 <Controller
@@ -82,7 +82,7 @@ const EncounterVitalSigns: React.FC = () => {
             </div>
 
             {ENCOUNTER_DETAILS_FIELDS.map(({ value, label, type }) => (
-              <FormItem key={value} className="col-span-1">
+              <FormItem key={value} className="flex flex-col">
                 <FormLabel htmlFor={value}>{label}</FormLabel>
                 <Controller
                   name={value}
@@ -100,7 +100,7 @@ const EncounterVitalSigns: React.FC = () => {
                         <textarea
                           {...field}
                           id={value}
-                          rows={3}
+                          rows={2}
                           className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
                           required
                         />
@@ -110,7 +110,7 @@ const EncounterVitalSigns: React.FC = () => {
                 />
               </FormItem>
             ))}
-            <div className="flex justify-end md:col-span-4">
+            <div className="flex justify-end md:col-span-2">
               <button
                 type="submit"
                 className="w-1/4 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"

@@ -15,7 +15,7 @@ const ENCOUNTERS_DETAILS = Object.freeze({
     VALUE: "physical-examination-findings",
     LABEL: "Physical Examination Findings",
   },
-  MEDICAL_HISORY: { VALUE: "medical-history", LABEL: "Medical History" },
+  MEDICAL_HISTORY: { VALUE: "medical-history", LABEL: "Medical History" },
 });
 
 const tabClassesStyle = (isActive: any) =>
@@ -52,7 +52,7 @@ const EncounterFormPage = () => {
             </TabsTrigger>
           ))}
         </TabsList>
-        <TabsContent value={ENCOUNTERS_DETAILS.MEDICAL_HISORY.VALUE}>
+        <TabsContent value={ENCOUNTERS_DETAILS.MEDICAL_HISTORY.VALUE}>
           <EncounterMedicalHistory />
         </TabsContent>
         <TabsContent

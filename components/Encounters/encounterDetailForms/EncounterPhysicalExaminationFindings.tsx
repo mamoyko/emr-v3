@@ -46,7 +46,7 @@ const EncounterPhysicalExaminationFindings: React.FC = () => {
   return (
     <FormProvider {...methods}>
       <div className="flex items-start justify-center">
-        <div className="h-[400px] w-[1150px] overflow-auto p-5">
+        <div className="h-[400px] w-full overflow-auto p-5">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="grid grid-cols-1 gap-4 md:grid-cols-2"
