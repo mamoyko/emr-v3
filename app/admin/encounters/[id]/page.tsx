@@ -1,8 +1,7 @@
-// import EncounterFormPage from "@/components/Encounters/EncounterFormPage";
-import ViewEncountersComponent from "@/components/Encounters/ViewEncountersComponent";
+import CreateEncountersComponent from "@/components/Encounters/CreateEncountersComponent";
 
-const AdminViewEncounterPage = () => {
-  return <ViewEncountersComponent />;
+const AdminCreateEncounterPage = () => {
+  return <CreateEncountersComponent />;
 };
 
-export default AdminViewEncounterPage;
+export default AdminCreateEncounterPage;

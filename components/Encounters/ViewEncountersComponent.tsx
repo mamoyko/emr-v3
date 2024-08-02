@@ -1,5 +1,4 @@
 "use client";
-import EncounterFormPage from "@/components/Encounters/encounterDetailForms/EncounterFormPage";
 import { Header } from "@/components/Header";
 
 const ViewEncountersComponent = () => {
@@ -11,8 +10,7 @@ const ViewEncountersComponent = () => {
         <section className="w-full space-y-4">
           <h1 className="header">View Encounters</h1>
         </section>
-
-        <EncounterFormPage />
+        <div>view</div>
       </main>
     </div>
   );
