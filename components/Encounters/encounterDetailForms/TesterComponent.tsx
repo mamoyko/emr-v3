@@ -12,21 +12,25 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const ENCOUNTERS_DETAILS = [
   {
+    id: 1,
     value: "medical_history",
     detail: "Medical History",
     component: <EncounterMedicalHistory />,
   },
   {
+    id: 2,
     value: "physical_examination_findings",
     detail: "Physical Examination Findings",
     component: <EncounterPhysicalExaminationFindings />,
   },
   {
+    id: 3,
     value: "symptoms",
     detail: "Symptoms",
     component: <EncounterSymptoms />,
   },
   {
+    id: 4,
     value: "vital_signs",
     detail: "Vital Signs",
     component: <EncounterVitalSigns />,
@@ -61,7 +65,7 @@ const TesterComponent = ({ params }: { params: { userId: string } }) => {
           <div className="mt-4">
             {ENCOUNTERS_DETAILS.map((encounter) => (
               <TabsContent
-                key={encounter.value === currentTab}
+                key={encounter.id}
                 value={encounter.value}
                 className="p-4"
               >
