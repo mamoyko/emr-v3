@@ -2,11 +2,15 @@ import { Row } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { Appointment } from "@/types/appwrite.types";
+import { Appointment, Encounters } from "@/types/appwrite.types";
 
 import { AppointmentModal } from "../AppointmentModal";
 
 type ActionsCellProps = {
+  row: Row<Appointment>;
+};
+
+type EncounterCellProps = {
   row: Row<Appointment>;
 };
 
@@ -43,6 +47,27 @@ export const ActionsCell: React.FC<ActionsCellProps> = ({ row }) => {
         title="Cancel Appointment"
         description="Are you sure you want to cancel your appointment?"
       />
+    </div>
+  );
+};
+
+export const EncounterActionCell: React.FC<EncounterCellProps> = ({ row }) => {
+  const router = useRouter();
+  const encounter = row.original;
+
+  const handleDetailsClick = () => {
+    router.push(`/admin/encounters/${encounter.$id}`);
+  };
+
+  return (
+    <div className="flex gap-1">
+      <Button
+        variant="ghost"
+        className="capitalize text-rose-500"
+        onClick={handleDetailsClick}
+      >
+        View
+      </Button>
     </div>
   );
 };

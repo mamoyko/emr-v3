@@ -3,13 +3,14 @@
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 
+import { Button } from "@/components/ui/button";
 import { Doctors } from "@/constants";
 import { formatDateTime } from "@/lib/utils";
 import { Appointment, Encounters } from "@/types/appwrite.types";
 
 import { StatusBadge } from "../StatusBadge";
 
-import { ActionsCell } from "./action-cells";
+import { ActionsCell, EncounterActionCell } from "./action-cells";
 
 export const columns: ColumnDef<Appointment>[] = [
   {
@@ -147,5 +148,10 @@ export const columnEncounters: ColumnDef<Encounters>[] = [
       const encounters = row.original;
       return <p className="text-14-medium ">{encounters.reason}</p>;
     },
+  },
+  {
+    id: "actions",
+    header: () => <div className="pl-4">Actions</div>,
+    cell: EncounterActionCell,
   },
 ];

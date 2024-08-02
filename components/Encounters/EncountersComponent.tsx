@@ -21,7 +21,6 @@ export const EncountersComponent = ({
   const router = useRouter();
 
   const handleDetailsClick = () => {
-    console.log();
     router.push(`/admin/encounters/create`);
   };
   return (
