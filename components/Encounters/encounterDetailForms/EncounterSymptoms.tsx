@@ -42,7 +42,119 @@ const EncounterSymptoms: React.FC = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="grid grid-cols-1 gap-4 md:grid-cols-2"
           >
-            {ENCOUNTER_DETAILS_FIELDS.map(({ name, label, type }: any) => (
+            {/* Patient field as a standalone row */}
+            <div className="md:col-span-2">
+              <FormItem>
+                <FormLabel htmlFor="patient">Patient</FormLabel>
+                <Controller
+                  name="patient"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl>
+                      <input
+                        {...field}
+                        id="patient"
+                        className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                        required
+                      />
+                    </FormControl>
+                  )}
+                />
+              </FormItem>
+            </div>
+
+            {/* Symptom Description field as a standalone row */}
+            <div className="md:col-span-2">
+              <FormItem>
+                <FormLabel htmlFor="symptom_description">
+                  Symptom Description
+                </FormLabel>
+                <Controller
+                  name="symptom_description"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl>
+                      <textarea
+                        {...field}
+                        id="symptom_description"
+                        rows={3}
+                        className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                        required
+                      />
+                    </FormControl>
+                  )}
+                />
+              </FormItem>
+            </div>
+
+            {/* Severity, Onset, and Duration fields in a single row */}
+            <div className="grid grid-cols-1 gap-4 md:col-span-2 md:grid-cols-3">
+              <FormItem>
+                <FormLabel htmlFor="severity">Severity</FormLabel>
+                <Controller
+                  name="severity"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl>
+                      <input
+                        {...field}
+                        id="severity"
+                        className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                        required
+                      />
+                    </FormControl>
+                  )}
+                />
+              </FormItem>
+
+              <FormItem>
+                <FormLabel htmlFor="onset">Onset</FormLabel>
+                <Controller
+                  name="onset"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl>
+                      <input
+                        {...field}
+                        id="onset"
+                        className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                        required
+                      />
+                    </FormControl>
+                  )}
+                />
+              </FormItem>
+
+              <FormItem>
+                <FormLabel htmlFor="duration">Duration</FormLabel>
+                <Controller
+                  name="duration"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl>
+                      <input
+                        {...field}
+                        id="duration"
+                        className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                        required
+                      />
+                    </FormControl>
+                  )}
+                />
+              </FormItem>
+            </div>
+
+            {/* Remaining fields */}
+            {ENCOUNTER_DETAILS_FIELDS.filter(
+              (field) =>
+                ![
+                  "patient",
+                  "symptom_description",
+                  "severity",
+                  "duration",
+                  "onset",
+                ].includes(field.name)
+            ).map(({ name, label, type }) => (
               <FormItem key={name} className="col-span-1">
                 <FormLabel htmlFor={name}>{label}</FormLabel>
                 <Controller
@@ -71,6 +183,7 @@ const EncounterSymptoms: React.FC = () => {
                 />
               </FormItem>
             ))}
+
             <button
               type="submit"
               className="w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 md:col-span-2"
@@ -100,10 +213,6 @@ const ENCOUNTER_DETAILS_FIELDS = [
     label: "Aggravating Factors",
     type: "textarea",
   },
-  {
-    name: "relieving_factors",
-    label: "Relieving Factors",
-    type: "textarea",
-  },
+  { name: "relieving_factors", label: "Relieving Factors", type: "textarea" },
   { name: "patient", label: "Patient", type: "input" },
 ];

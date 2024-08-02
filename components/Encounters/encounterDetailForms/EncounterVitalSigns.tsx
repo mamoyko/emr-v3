@@ -44,9 +44,31 @@ const EncounterVitalSigns: React.FC = () => {
         <div className="h-[400px] w-[1150px] overflow-auto">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="grid grid-cols-1 gap-4 md:grid-cols-2"
+            className="grid grid-cols-1 gap-6 md:grid-cols-2"
           >
-            {ENCOUNTER_DETAILS_FIELDS.map(({ name, label, type }: any) => (
+            <div className="md:col-span-2">
+              <FormItem>
+                <FormLabel htmlFor="patient">Patient</FormLabel>
+                <Controller
+                  name="patient"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl>
+                      <input
+                        {...field}
+                        id="patient"
+                        className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                        required
+                      />
+                    </FormControl>
+                  )}
+                />
+              </FormItem>
+            </div>
+
+            {ENCOUNTER_DETAILS_FIELDS.filter(
+              (field) => field.name !== "patient"
+            ).map(({ name, label, type }) => (
               <FormItem key={name} className="col-span-1">
                 <FormLabel htmlFor={name}>{label}</FormLabel>
                 <Controller
@@ -99,5 +121,4 @@ const ENCOUNTER_DETAILS_FIELDS = [
   { name: "weight", label: "Weight", type: "input" },
   { name: "height", label: "Height", type: "input" },
   { name: "body_mass_index", label: "Body Mass Index (BMI)", type: "input" },
-  { name: "patient", label: "Patient", type: "input" },
 ];
