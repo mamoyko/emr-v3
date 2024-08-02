@@ -15,6 +15,28 @@ interface FormData {
   patient: string;
 }
 
+const ENCOUNTER_DETAILS_FIELDS: Array<{
+  value: keyof FormData;
+  label: string;
+  type: "input" | "textarea";
+}> = [
+  {
+    value: "symptom_description",
+    label: "Symptom Description",
+    type: "textarea",
+  },
+  { value: "duration", label: "Duration", type: "input" },
+  { value: "severity", label: "Severity", type: "input" },
+  { value: "onset", label: "Onset", type: "input" },
+  {
+    value: "aggravating_factors",
+    label: "Aggravating Factors",
+    type: "textarea",
+  },
+  { value: "relieving_factors", label: "Relieving Factors", type: "textarea" },
+  { value: "patient", label: "Patient", type: "input" },
+];
+
 const EncounterSymptoms: React.FC = () => {
   const methods = useForm<FormData>({
     defaultValues: {
@@ -37,12 +59,11 @@ const EncounterSymptoms: React.FC = () => {
   return (
     <FormProvider {...methods}>
       <div className="flex items-start justify-center">
-        <div className="h-[400px] w-[1150px] overflow-auto">
+        <div className="h-[400px] w-[1150px] overflow-auto p-5">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="grid grid-cols-1 gap-4 md:grid-cols-2"
           >
-            {/* Patient field as a standalone row */}
             <div className="md:col-span-2">
               <FormItem>
                 <FormLabel htmlFor="patient">Patient</FormLabel>
@@ -63,7 +84,6 @@ const EncounterSymptoms: React.FC = () => {
               </FormItem>
             </div>
 
-            {/* Symptom Description field as a standalone row */}
             <div className="md:col-span-2">
               <FormItem>
                 <FormLabel htmlFor="symptom_description">
@@ -87,7 +107,6 @@ const EncounterSymptoms: React.FC = () => {
               </FormItem>
             </div>
 
-            {/* Severity, Onset, and Duration fields in a single row */}
             <div className="grid grid-cols-1 gap-4 md:col-span-2 md:grid-cols-3">
               <FormItem>
                 <FormLabel htmlFor="severity">Severity</FormLabel>
@@ -144,7 +163,6 @@ const EncounterSymptoms: React.FC = () => {
               </FormItem>
             </div>
 
-            {/* Remaining fields */}
             {ENCOUNTER_DETAILS_FIELDS.filter(
               (field) =>
                 ![
@@ -153,19 +171,19 @@ const EncounterSymptoms: React.FC = () => {
                   "severity",
                   "duration",
                   "onset",
-                ].includes(field.name)
-            ).map(({ name, label, type }) => (
-              <FormItem key={name} className="col-span-1">
-                <FormLabel htmlFor={name}>{label}</FormLabel>
+                ].includes(field.value)
+            ).map(({ value, label, type }) => (
+              <FormItem key={value} className="col-span-1">
+                <FormLabel htmlFor={value}>{label}</FormLabel>
                 <Controller
-                  name={name}
+                  name={value}
                   control={control}
                   render={({ field }) => (
                     <FormControl>
                       {type === "textarea" ? (
                         <textarea
                           {...field}
-                          id={name}
+                          id={value}
                           rows={3}
                           className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
                           required
@@ -173,7 +191,7 @@ const EncounterSymptoms: React.FC = () => {
                       ) : (
                         <input
                           {...field}
-                          id={name}
+                          id={value}
                           className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
                           required
                         />
@@ -184,12 +202,14 @@ const EncounterSymptoms: React.FC = () => {
               </FormItem>
             ))}
 
-            <button
-              type="submit"
-              className="w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 md:col-span-2"
-            >
-              Submit
-            </button>
+            <div className="flex justify-end md:col-span-2">
+              <button
+                type="submit"
+                className="w-1/4 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+              >
+                Submit
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -198,21 +218,3 @@ const EncounterSymptoms: React.FC = () => {
 };
 
 export default EncounterSymptoms;
-
-const ENCOUNTER_DETAILS_FIELDS = [
-  {
-    name: "symptom_description",
-    label: "Symptom Description",
-    type: "textarea",
-  },
-  { name: "duration", label: "Duration", type: "input" },
-  { name: "severity", label: "Severity", type: "input" },
-  { name: "onset", label: "Onset", type: "input" },
-  {
-    name: "aggravating_factors",
-    label: "Aggravating Factors",
-    type: "textarea",
-  },
-  { name: "relieving_factors", label: "Relieving Factors", type: "textarea" },
-  { name: "patient", label: "Patient", type: "input" },
-];

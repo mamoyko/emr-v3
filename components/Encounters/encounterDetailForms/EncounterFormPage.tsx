@@ -9,13 +9,13 @@ import EncounterVitalSigns from "@/components/Encounters/encounterDetailForms/En
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const ENCOUNTERS_DETAILS = Object.freeze({
-  MEDICAL_HISORY: { VALUE: "medical-history", LABEL: "Medical History" },
+  SYMPTOMS: { VALUE: "symptoms", LABEL: "Symptoms" },
+  VITAL_SIGNS: { VALUE: "vital-signs", LABEL: "Vital Signs" },
   PHYSICAL_EXAMINATION_FINDINGS: {
     VALUE: "physical-examination-findings",
     LABEL: "Physical Examination Findings",
   },
-  SYMPTOMS: { VALUE: "symptoms", LABEL: "Symptoms" },
-  VITAL_SIGNS: { VALUE: "vital-signs", LABEL: "Vital Signs" },
+  MEDICAL_HISORY: { VALUE: "medical-history", LABEL: "Medical History" },
 });
 
 const tabClassesStyle = (isActive: any) =>
@@ -29,7 +29,7 @@ const EncounterFormPage = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const [currentTab, setCurrentTab] = useState("medical-history");
+  const [currentTab, setCurrentTab] = useState("symptoms");
 
   const handleTabChange = (value: any) => {
     setCurrentTab(value);
