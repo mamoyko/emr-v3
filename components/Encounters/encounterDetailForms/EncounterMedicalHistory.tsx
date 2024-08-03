@@ -13,6 +13,7 @@ interface FormData {
   immunization_history: string;
   family_medical_history: string;
 }
+
 interface EncounterField {
   value: keyof FormData;
   label: string;
@@ -37,10 +38,10 @@ const EncounterMedicalHistory: React.FC = () => {
   return (
     <FormProvider {...methods}>
       <div className="flex items-start justify-center">
-        <div className="h-[400px] w-full overflow-auto p-5">
+        <div className="w-full">
           <form
             onSubmit={methods.handleSubmit(onSubmit)}
-            className="grid gap-4 sm:grid-cols-1 md:grid-cols-2"
+            className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2"
           >
             {ENCOUNTER_DETAILS_FIELDS.map(
               ({ value, label }: EncounterField) => (
@@ -64,7 +65,7 @@ const EncounterMedicalHistory: React.FC = () => {
                 </FormItem>
               )
             )}
-            <div className="flex justify-end md:col-span-2">
+            <div className="flex justify-end md:col-span-2 lg:col-span-2 xl:col-span-2">
               <button
                 type="submit"
                 className="w-1/4 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"

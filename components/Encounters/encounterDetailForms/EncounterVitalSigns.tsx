@@ -56,7 +56,7 @@ const EncounterVitalSigns: React.FC = () => {
   return (
     <FormProvider {...methods}>
       <div className="flex items-start justify-center">
-        <div className="h-[400px] w-full overflow-auto p-5">
+        <div className="w-full overflow-auto">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="grid gap-4 sm:grid-cols-1 md:grid-cols-2"

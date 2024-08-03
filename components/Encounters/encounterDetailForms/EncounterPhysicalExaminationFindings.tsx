@@ -46,10 +46,10 @@ const EncounterPhysicalExaminationFindings: React.FC = () => {
   return (
     <FormProvider {...methods}>
       <div className="flex items-start justify-center">
-        <div className="h-[400px] w-full overflow-auto p-5">
+        <div className="w-full">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="grid grid-cols-1 gap-4 md:grid-cols-2"
+            className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2"
           >
             {ENCOUNTER_DETAILS_FIELDS.map(
               ({ value, label }: EncounterField) => (

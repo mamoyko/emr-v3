@@ -11,8 +11,6 @@ const CreateEncountersComponent = () => {
         <section className="w-full space-y-4">
           <h1 className="header">View Encounters</h1>
         </section>
-
-        <EncounterFormPage />
       </main>
     </div>
   );

@@ -59,11 +59,31 @@ const EncounterSymptoms: React.FC = () => {
   return (
     <FormProvider {...methods}>
       <div className="flex items-start justify-center">
-        <div className="h-[400px] w-full overflow-auto p-5">
+        <div className="w-full overflow-auto">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="grid gap-4 sm:grid-cols-1 md:grid-cols-2"
           >
+            <div className="md:col-span-2">
+              <FormItem>
+                <FormLabel htmlFor="patient">Patient</FormLabel>
+                <Controller
+                  name="patient"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl>
+                      <input
+                        {...field}
+                        id="patient"
+                        className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                        required
+                      />
+                    </FormControl>
+                  )}
+                />
+              </FormItem>
+            </div>
+
             {ENCOUNTER_DETAILS_FIELDS.map(({ value, label, type }) => (
               <FormItem key={value} className="flex flex-col">
                 <FormLabel htmlFor={value}>{label}</FormLabel>
@@ -93,6 +113,7 @@ const EncounterSymptoms: React.FC = () => {
                 />
               </FormItem>
             ))}
+
             <div className="flex justify-end md:col-span-2">
               <button
                 type="submit"

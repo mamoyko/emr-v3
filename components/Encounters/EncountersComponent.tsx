@@ -9,6 +9,8 @@ import { columnEncounters } from "../table/columns";
 import { DataTable } from "../table/DataTable";
 import { Button } from "../ui/button";
 
+import EncounterCreateDialogPage from "./encounterDetailDialog/EncounterCreateDialogPage";
+
 interface EncountersComponentProps {
   documents: Encounters[];
   totalCount: number;
@@ -32,13 +34,7 @@ export const EncountersComponent = ({
           <h1 className="header">Encounters</h1>
         </section>
         <section className="admin-stat">
-          <Button
-            variant="ghost"
-            className={`capitalize text-sky-500`}
-            onClick={() => handleDetailsClick()}
-          >
-            Add Encounters
-          </Button>
+          <EncounterCreateDialogPage />
         </section>
         <DataTable columns={columnEncounters} data={documents} />
       </main>
