@@ -41,22 +41,32 @@ const ENCOUNTER_DETAILS_FIELDS: Array<{
   { value: "body_mass_index", label: "Body Mass Index (BMI)", type: "input" },
 ];
 
-const EncounterVitalSigns: React.FC = () => {
+interface EncounterVitalSignsProps {
+  mode: string; // "view" or "edit"
+  initialValue?: VitalSigns[];
+}
+
+const EncounterVitalSigns: React.FC<EncounterVitalSignsProps> = ({
+  mode,
+  initialValue = [],
+}) => {
   const methods = useForm<FormData>({
     defaultValues: {
-      vitalSigns: [
-        {
-          blood_pressure: "",
-          heart_rate: "",
-          respiratory_rate: "",
-          temperature: "",
-          oxygen_saturation: "",
-          weight: "",
-          height: "",
-          body_mass_index: "",
-          patient: "",
-        },
-      ],
+      vitalSigns: initialValue.length
+        ? initialValue
+        : [
+            {
+              blood_pressure: "",
+              heart_rate: "",
+              respiratory_rate: "",
+              temperature: "",
+              oxygen_saturation: "",
+              weight: "",
+              height: "",
+              body_mass_index: "",
+              patient: "",
+            },
+          ],
     },
   });
 
@@ -96,6 +106,7 @@ const EncounterVitalSigns: React.FC = () => {
                             id={`patient-${index}`}
                             className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
                             required
+                            disabled={mode === "view"}
                           />
                         </FormControl>
                       )}
@@ -117,6 +128,7 @@ const EncounterVitalSigns: React.FC = () => {
                               id={`${value}-${index}`}
                               className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
                               required
+                              disabled={mode === "view"}
                             />
                           ) : (
                             <textarea
@@ -125,6 +137,7 @@ const EncounterVitalSigns: React.FC = () => {
                               rows={2}
                               className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
                               required
+                              disabled={mode === "view"}
                             />
                           )}
                         </FormControl>
@@ -133,45 +146,49 @@ const EncounterVitalSigns: React.FC = () => {
                   </FormItem>
                 ))}
 
-                <div className="flex justify-end md:col-span-2">
-                  <button
-                    type="button"
-                    onClick={() => remove(index)}
-                    className="w-1/4 max-w-xs rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600"
-                  >
-                    Remove Form Set
-                  </button>
-                </div>
+                {mode === "edit" && (
+                  <div className="flex justify-end md:col-span-2">
+                    <button
+                      type="button"
+                      disabled={fields.length === 1}
+                      onClick={() => remove(index)}
+                      className={`w-full rounded-md px-4 py-2 text-white md:w-1/4 ${fields.length === 1 ? "cursor-not-allowed bg-gray-500" : "bg-red-500 hover:bg-red-600"}`}
+                    >
+                      Remove Form Set
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
-
-            <div className="mt-4 flex justify-end">
-              <button
-                type="button"
-                onClick={() =>
-                  append({
-                    blood_pressure: "",
-                    heart_rate: "",
-                    respiratory_rate: "",
-                    temperature: "",
-                    oxygen_saturation: "",
-                    weight: "",
-                    height: "",
-                    body_mass_index: "",
-                    patient: "",
-                  })
-                }
-                className="mr-4 rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600"
-              >
-                Add Form Set
-              </button>
-              <button
-                type="submit"
-                className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-              >
-                Submit
-              </button>
-            </div>
+            {mode === "edit" && (
+              <div className="mt-4 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() =>
+                    append({
+                      blood_pressure: "",
+                      heart_rate: "",
+                      respiratory_rate: "",
+                      temperature: "",
+                      oxygen_saturation: "",
+                      weight: "",
+                      height: "",
+                      body_mass_index: "",
+                      patient: "",
+                    })
+                  }
+                  className="mr-4 rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600"
+                >
+                  Add Form Set
+                </button>
+                <button
+                  type="submit"
+                  className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                >
+                  Submit
+                </button>
+              </div>
+            )}
           </form>
         </div>
       </div>

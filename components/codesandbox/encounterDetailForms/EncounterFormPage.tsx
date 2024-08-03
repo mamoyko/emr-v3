@@ -34,6 +34,7 @@ const EncounterFormPage = () => {
   const [currentTab, setCurrentTab] = useState(
     ENCOUNTERS_DETAILS.SYMPTOMS.VALUE
   );
+  const [mode, setMode] = useState("edit");
 
   const handleTabChange = (value: string) => {
     setCurrentTab(value);
@@ -42,8 +43,21 @@ const EncounterFormPage = () => {
     router.replace(`${pathname}?${newQuery.toString()}`);
   };
 
+  const toggleMode = () => {
+    setMode((prevMode) => (prevMode === "edit" ? "view" : "edit"));
+  };
+
   return (
-    <div className="container w-full ">
+    <div className="container w-full">
+      <div className="mb-4 flex items-center justify-between">
+        <button
+          onClick={toggleMode}
+          className="rounded-md bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300"
+        >
+          Toggle Mode ({mode})
+        </button>
+      </div>
+
       <Tabs value={currentTab} onValueChange={handleTabChange}>
         <TabsList className="flex flex-wrap justify-center border-b border-gray-200 bg-gray-50">
           {Object.values(ENCOUNTERS_DETAILS).map((detail) => (
@@ -63,18 +77,18 @@ const EncounterFormPage = () => {
 
         <div className="mt-4">
           <TabsContent value={ENCOUNTERS_DETAILS.MEDICAL_HISTORY.VALUE}>
-            <EncounterMedicalHistory />
+            <EncounterMedicalHistory mode={mode} />
           </TabsContent>
           <TabsContent
             value={ENCOUNTERS_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.VALUE}
           >
-            <EncounterPhysicalExaminationFindings />
+            <EncounterPhysicalExaminationFindings mode={mode} />
           </TabsContent>
           <TabsContent value={ENCOUNTERS_DETAILS.SYMPTOMS.VALUE}>
-            <EncounterSymptoms />
+            <EncounterSymptoms defaultValue={[]} mode={mode} />
           </TabsContent>
           <TabsContent value={ENCOUNTERS_DETAILS.VITAL_SIGNS.VALUE}>
-            <EncounterVitalSigns />
+            <EncounterVitalSigns mode={mode} />
           </TabsContent>
         </div>
       </Tabs>

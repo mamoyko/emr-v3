@@ -3,8 +3,8 @@
 import React from "react";
 import {
   useForm,
-  FormProvider,
   Controller,
+  FormProvider,
   useFieldArray,
 } from "react-hook-form";
 
@@ -35,9 +35,17 @@ const ENCOUNTER_DETAILS_FIELDS: {
   { value: "family_medical_history", label: "Family Medical History" },
 ];
 
-const EncounterMedicalHistory: React.FC = () => {
+interface EncounterMedicalHistoryProps {
+  mode: string; // "view" or "edit"
+  initialValue?: FormData;
+}
+
+const EncounterMedicalHistory: React.FC<EncounterMedicalHistoryProps> = ({
+  mode,
+  initialValue,
+}) => {
   const methods = useForm<FormData>({
-    defaultValues: {
+    defaultValues: initialValue || {
       medicalHistories: [
         {
           past_medical_conditions: "",
@@ -88,6 +96,7 @@ const EncounterMedicalHistory: React.FC = () => {
                               rows={2}
                               className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
                               required
+                              disabled={mode === "view"}
                             />
                           </FormControl>
                         )}
@@ -95,41 +104,46 @@ const EncounterMedicalHistory: React.FC = () => {
                     </FormItem>
                   ))}
                 </div>
-                <div className="mt-4 flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => remove(index)}
-                    className="w-full rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600 md:w-1/4"
-                  >
-                    Remove Form Set
-                  </button>
-                </div>
+                {mode === "edit" && (
+                  <div className="mt-4 flex justify-end">
+                    <button
+                      type="button"
+                      disabled={fields.length === 1}
+                      onClick={() => remove(index)}
+                      className={`w-full rounded-md px-4 py-2 text-white md:w-1/4 ${fields.length === 1 ? "cursor-not-allowed bg-gray-500" : "bg-red-500 hover:bg-red-600"}`}
+                    >
+                      Remove Form Set
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
-            <div className="mt-4 flex justify-end">
-              <button
-                type="button"
-                onClick={() =>
-                  append({
-                    past_medical_conditions: "",
-                    past_surgical_history: "",
-                    current_medications: "",
-                    allergies: "",
-                    immunization_history: "",
-                    family_medical_history: "",
-                  })
-                }
-                className="mr-4 rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600"
-              >
-                Add Form Set
-              </button>
-              <button
-                type="submit"
-                className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-              >
-                Submit
-              </button>
-            </div>
+            {mode === "edit" && (
+              <div className="mt-4 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() =>
+                    append({
+                      past_medical_conditions: "",
+                      past_surgical_history: "",
+                      current_medications: "",
+                      allergies: "",
+                      immunization_history: "",
+                      family_medical_history: "",
+                    })
+                  }
+                  className="mr-4 rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600"
+                >
+                  Add Form Set
+                </button>
+                <button
+                  type="submit"
+                  className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                >
+                  Submit
+                </button>
+              </div>
+            )}
           </form>
         </div>
       </div>
