@@ -62,7 +62,7 @@ const EncounterFormPage: React.FC<EncounterFormPageProps> = ({
             routePath(`/admin/encounters`);
             event.stopPropagation();
           }}
-          className="rounded-md bg-rose-500 px-4 py-2 text-gray-700 hover:bg-gray-300"
+          className="rounded-md bg-rose-500 px-4 py-2 text-white hover:bg-rose-400"
         >
           Back
         </button>

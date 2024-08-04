@@ -1,15 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 import { Header } from "@/components/Header";
 import { Encounters } from "@/types/appwrite.types";
 
+import UseRouting from "../helperFunctions/UseRouting";
 import { columnEncounters } from "../table/columns";
 import { DataTable } from "../table/DataTable";
 import { Button } from "../ui/button";
-
-import EncounterCreateDialogPage from "./encounterDetailDialog/EncounterCreateDialogPage";
 
 interface EncountersComponentProps {
   documents: Encounters[];
@@ -20,11 +17,8 @@ export const EncountersComponent = ({
   documents,
   totalCount,
 }: EncountersComponentProps) => {
-  const router = useRouter();
+  const { routePath } = UseRouting();
 
-  const handleDetailsClick = () => {
-    router.push(`/admin/encounters/create`);
-  };
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <Header />
@@ -34,7 +28,13 @@ export const EncountersComponent = ({
           <h1 className="header">Encounters</h1>
         </section>
         <section className="admin-stat">
-          <EncounterCreateDialogPage />
+          <Button
+            variant="ghost"
+            className="capitalize text-sky-500"
+            onClick={() => routePath(`/admin/encounters/create`)}
+          >
+            Add Encounter
+          </Button>
         </section>
         <DataTable columns={columnEncounters} data={documents} />
       </main>

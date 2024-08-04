@@ -8,7 +8,7 @@ import { Doctors } from "@/constants";
 import { formatDateTime } from "@/lib/utils";
 import { Appointment, Encounters } from "@/types/appwrite.types";
 
-import EncounterDialogPage from "../Encounters/encounterDetailDialog/EncounterCreateDialogPage";
+import EncounterDialogPage from "../Encounters/encounterAddPatient/EncounterCreateDialogPage";
 import { EncountersComponent } from "../Encounters/EncountersComponent";
 import { StatusBadge } from "../StatusBadge";
 
