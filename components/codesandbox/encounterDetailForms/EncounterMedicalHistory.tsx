@@ -10,7 +10,7 @@ import {
 
 import { FormItem, FormLabel, FormControl } from "@/components/ui/form";
 
-interface MedicalHistory {
+interface FormData {
   past_medical_conditions: string;
   past_surgical_history: string;
   current_medications: string;
@@ -19,12 +19,8 @@ interface MedicalHistory {
   family_medical_history: string;
 }
 
-interface FormData {
-  medicalHistories: MedicalHistory[];
-}
-
 const ENCOUNTER_DETAILS_FIELDS: {
-  value: keyof MedicalHistory;
+  value: keyof FormData;
   label: string;
 }[] = [
   { value: "past_medical_conditions", label: "Past Medical Conditions" },
@@ -37,16 +33,16 @@ const ENCOUNTER_DETAILS_FIELDS: {
 
 interface EncounterMedicalHistoryProps {
   mode: string; // "view" or "edit"
-  initialValue?: FormData;
+  initialValue?: FormData[];
 }
 
 const EncounterMedicalHistory: React.FC<EncounterMedicalHistoryProps> = ({
   mode,
   initialValue,
 }) => {
-  const methods = useForm<FormData>({
-    defaultValues: initialValue || {
-      medicalHistories: [
+  const methods = useForm<{ formSets: FormData[] }>({
+    defaultValues: {
+      formSets: initialValue || [
         {
           past_medical_conditions: "",
           past_surgical_history: "",
@@ -61,11 +57,11 @@ const EncounterMedicalHistory: React.FC<EncounterMedicalHistoryProps> = ({
 
   const { handleSubmit, control } = methods;
   const { fields, append, remove } = useFieldArray({
-    name: "medicalHistories",
+    name: "formSets",
     control,
   });
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: { formSets: FormData[] }) => {
     console.log(data);
   };
 
@@ -86,7 +82,7 @@ const EncounterMedicalHistory: React.FC<EncounterMedicalHistoryProps> = ({
                         {label}
                       </FormLabel>
                       <Controller
-                        name={`medicalHistories.${index}.${value}` as const}
+                        name={`formSets.${index}.${value}` as const}
                         control={control}
                         render={({ field }) => (
                           <FormControl>
@@ -110,7 +106,11 @@ const EncounterMedicalHistory: React.FC<EncounterMedicalHistoryProps> = ({
                       type="button"
                       disabled={fields.length === 1}
                       onClick={() => remove(index)}
-                      className={`w-full rounded-md px-4 py-2 text-white md:w-1/4 ${fields.length === 1 ? "cursor-not-allowed bg-gray-500" : "bg-red-500 hover:bg-red-600"}`}
+                      className={`w-full rounded-md px-4 py-2 text-white md:w-1/4 ${
+                        fields.length === 1
+                          ? "cursor-not-allowed bg-gray-500"
+                          : "bg-red-500 hover:bg-red-600"
+                      }`}
                     >
                       Remove Form Set
                     </button>

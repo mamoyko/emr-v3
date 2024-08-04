@@ -1,11 +1,16 @@
 "use client";
 
 import React from "react";
-import { useForm, Controller, FormProvider } from "react-hook-form";
+import {
+  useForm,
+  Controller,
+  FormProvider,
+  useFieldArray,
+} from "react-hook-form";
 
 import { FormItem, FormLabel, FormControl } from "@/components/ui/form";
 
-interface FormData {
+interface Symptom {
   symptom_description: string;
   duration: string;
   severity: string;
@@ -15,8 +20,12 @@ interface FormData {
   patient: string;
 }
 
+interface FormData {
+  symptoms: Symptom[];
+}
+
 const ENCOUNTER_DETAILS_FIELDS: Array<{
-  value: keyof FormData;
+  value: keyof Symptom;
   label: string;
   type: "input" | "textarea";
 }> = [
@@ -37,20 +46,36 @@ const ENCOUNTER_DETAILS_FIELDS: Array<{
   { value: "patient", label: "Patient", type: "input" },
 ];
 
-const EncounterSymptoms: React.FC = () => {
+interface EncounterSymptomsProps {
+  mode: string; // "view" or "edit"
+  initialValue?: Symptom[];
+}
+
+const EncounterSymptoms: React.FC<EncounterSymptomsProps> = ({
+  mode,
+  initialValue = [],
+}) => {
   const methods = useForm<FormData>({
     defaultValues: {
-      symptom_description: "",
-      duration: "",
-      severity: "",
-      onset: "",
-      aggravating_factors: "",
-      relieving_factors: "",
-      patient: "",
+      symptoms: initialValue || [
+        {
+          symptom_description: "",
+          duration: "",
+          severity: "",
+          onset: "",
+          aggravating_factors: "",
+          relieving_factors: "",
+          patient: "",
+        },
+      ],
     },
   });
 
   const { handleSubmit, control } = methods;
+  const { fields, append, remove } = useFieldArray({
+    name: "symptoms",
+    control,
+  });
 
   const onSubmit = (data: FormData) => {
     console.log(data);
@@ -60,68 +85,111 @@ const EncounterSymptoms: React.FC = () => {
     <FormProvider {...methods}>
       <div className="flex items-start justify-center">
         <div className="w-full overflow-auto">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="grid gap-4 sm:grid-cols-1 md:grid-cols-2"
-          >
-            <div className="md:col-span-2">
-              <FormItem>
-                <FormLabel htmlFor="patient">Patient</FormLabel>
-                <Controller
-                  name="patient"
-                  control={control}
-                  render={({ field }) => (
-                    <FormControl>
-                      <input
-                        {...field}
-                        id="patient"
-                        className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                        required
-                      />
-                    </FormControl>
-                  )}
-                />
-              </FormItem>
-            </div>
-
-            {ENCOUNTER_DETAILS_FIELDS.map(({ value, label, type }) => (
-              <FormItem key={value} className="flex flex-col">
-                <FormLabel htmlFor={value}>{label}</FormLabel>
-                <Controller
-                  name={value}
-                  control={control}
-                  render={({ field }) => (
-                    <FormControl>
-                      {type === "textarea" ? (
-                        <textarea
-                          {...field}
-                          id={value}
-                          rows={2}
-                          className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                          required
-                        />
-                      ) : (
-                        <input
-                          {...field}
-                          id={value}
-                          className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                          required
-                        />
-                      )}
-                    </FormControl>
-                  )}
-                />
-              </FormItem>
-            ))}
-
-            <div className="flex justify-end md:col-span-2">
-              <button
-                type="submit"
-                className="w-1/4 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {fields.map((field, index) => (
+              <div
+                key={field.id}
+                className="grid grid-cols-1 gap-4 rounded-md border p-4 shadow-sm md:grid-cols-2"
               >
-                Submit
-              </button>
-            </div>
+                <div className="md:col-span-2">
+                  <h3 className="mb-4 text-lg font-semibold">
+                    Form Set {index + 1}
+                  </h3>
+                  <FormItem>
+                    <FormLabel htmlFor={`patient-${index}`}>Patient</FormLabel>
+                    <Controller
+                      name={`symptoms.${index}.patient`}
+                      control={control}
+                      render={({ field }) => (
+                        <FormControl>
+                          <input
+                            {...field}
+                            id={`patient-${index}`}
+                            className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                            required
+                            disabled={mode === "view"}
+                          />
+                        </FormControl>
+                      )}
+                    />
+                  </FormItem>
+                </div>
+
+                {ENCOUNTER_DETAILS_FIELDS.map(({ value, label, type }) => (
+                  <FormItem key={value} className="flex flex-col">
+                    <FormLabel htmlFor={`${value}-${index}`}>{label}</FormLabel>
+                    <Controller
+                      name={
+                        `symptoms.${index}.${value}` as `symptoms.${number}.${keyof Symptom}`
+                      }
+                      control={control}
+                      render={({ field }) => (
+                        <FormControl>
+                          {type === "textarea" ? (
+                            <textarea
+                              {...field}
+                              id={`${value}-${index}`}
+                              rows={2}
+                              className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                              required
+                              disabled={mode === "view"}
+                            />
+                          ) : (
+                            <input
+                              {...field}
+                              id={`${value}-${index}`}
+                              className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                              required
+                              disabled={mode === "view"}
+                            />
+                          )}
+                        </FormControl>
+                      )}
+                    />
+                  </FormItem>
+                ))}
+
+                {mode === "edit" && (
+                  <div className="flex justify-end md:col-span-2">
+                    <button
+                      type="button"
+                      disabled={fields.length === 1}
+                      onClick={() => remove(index)}
+                      className={`w-full rounded-md px-4 py-2 text-white md:w-1/4 ${fields.length === 1 ? "cursor-not-allowed bg-gray-500" : "bg-red-500 hover:bg-red-600"}`}
+                    >
+                      Remove Form Set
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+            {mode === "edit" && (
+              <div className="mt-4 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() =>
+                    append({
+                      symptom_description: "",
+                      duration: "",
+                      severity: "",
+                      onset: "",
+                      aggravating_factors: "",
+                      relieving_factors: "",
+                      patient: "",
+                    })
+                  }
+                  className="mr-4 rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600"
+                >
+                  Add Form Set
+                </button>
+                <button
+                  type="submit"
+                  className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                >
+                  Submit
+                </button>
+              </div>
+            )}
           </form>
         </div>
       </div>

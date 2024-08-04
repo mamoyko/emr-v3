@@ -52,21 +52,19 @@ const EncounterVitalSigns: React.FC<EncounterVitalSignsProps> = ({
 }) => {
   const methods = useForm<FormData>({
     defaultValues: {
-      vitalSigns: initialValue.length
-        ? initialValue
-        : [
-            {
-              blood_pressure: "",
-              heart_rate: "",
-              respiratory_rate: "",
-              temperature: "",
-              oxygen_saturation: "",
-              weight: "",
-              height: "",
-              body_mass_index: "",
-              patient: "",
-            },
-          ],
+      vitalSigns: initialValue || [
+        {
+          blood_pressure: "",
+          heart_rate: "",
+          respiratory_rate: "",
+          temperature: "",
+          oxygen_saturation: "",
+          weight: "",
+          height: "",
+          body_mass_index: "",
+          patient: "",
+        },
+      ],
     },
   });
 

@@ -77,18 +77,21 @@ const EncounterFormPage = () => {
 
         <div className="mt-4">
           <TabsContent value={ENCOUNTERS_DETAILS.MEDICAL_HISTORY.VALUE}>
-            <EncounterMedicalHistory mode={mode} />
+            <EncounterMedicalHistory initialValue={[]} mode={mode} />
           </TabsContent>
           <TabsContent
             value={ENCOUNTERS_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.VALUE}
           >
-            <EncounterPhysicalExaminationFindings mode={mode} />
+            <EncounterPhysicalExaminationFindings
+              initialValue={[]}
+              mode={mode}
+            />
           </TabsContent>
           <TabsContent value={ENCOUNTERS_DETAILS.SYMPTOMS.VALUE}>
-            <EncounterSymptoms defaultValue={[]} mode={mode} />
+            <EncounterSymptoms initialValue={[]} mode={mode} />
           </TabsContent>
           <TabsContent value={ENCOUNTERS_DETAILS.VITAL_SIGNS.VALUE}>
-            <EncounterVitalSigns mode={mode} />
+            <EncounterVitalSigns initialValue={[]} mode={mode} />
           </TabsContent>
         </div>
       </Tabs>

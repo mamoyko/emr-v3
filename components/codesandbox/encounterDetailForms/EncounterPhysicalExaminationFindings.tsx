@@ -11,17 +11,15 @@ import {
 import { FormItem, FormLabel, FormControl } from "@/components/ui/form";
 
 interface FormData {
-  formSets: {
-    general_appearance: string;
-    head_and_neck: string;
-    cardiovascular_system: string;
-    respiratory_system: string;
-    gastrointestinal_system: string;
-    genitourinary_system: string;
-    musculoskeletal: string;
-    neurological_system: string;
-    skin: string;
-  }[];
+  general_appearance: string;
+  head_and_neck: string;
+  cardiovascular_system: string;
+  respiratory_system: string;
+  gastrointestinal_system: string;
+  genitourinary_system: string;
+  musculoskeletal: string;
+  neurological_system: string;
+  skin: string;
 }
 
 const FIELD_NAMES = [
@@ -40,15 +38,15 @@ type FieldName = (typeof FIELD_NAMES)[number];
 
 interface EncounterPhysicalExaminationFindingsProps {
   mode: string; // "view" or "edit"
-  initialValue?: FormData;
+  initialValue?: FormData[];
 }
 
 const EncounterPhysicalExaminationFindings: React.FC<
   EncounterPhysicalExaminationFindingsProps
 > = ({ mode, initialValue }) => {
-  const methods = useForm<FormData>({
-    defaultValues: initialValue || {
-      formSets: [
+  const methods = useForm<{ formSets: FormData[] }>({
+    defaultValues: {
+      formSets: initialValue || [
         {
           general_appearance: "",
           head_and_neck: "",
@@ -70,7 +68,7 @@ const EncounterPhysicalExaminationFindings: React.FC<
     control,
   });
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: { formSets: FormData[] }) => {
     console.log(data);
   };
 

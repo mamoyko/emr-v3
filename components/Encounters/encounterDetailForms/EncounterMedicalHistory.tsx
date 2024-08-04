@@ -1,7 +1,12 @@
 "use client";
 
 import React from "react";
-import { useForm, FormProvider, Controller } from "react-hook-form";
+import {
+  useForm,
+  Controller,
+  FormProvider,
+  useFieldArray,
+} from "react-hook-form";
 
 import { FormItem, FormLabel, FormControl } from "@/components/ui/form";
 
@@ -14,24 +19,49 @@ interface FormData {
   family_medical_history: string;
 }
 
-interface EncounterField {
+const ENCOUNTER_DETAILS_FIELDS: {
   value: keyof FormData;
   label: string;
+}[] = [
+  { value: "past_medical_conditions", label: "Past Medical Conditions" },
+  { value: "past_surgical_history", label: "Past Surgical History" },
+  { value: "current_medications", label: "Current Medications" },
+  { value: "allergies", label: "Allergies" },
+  { value: "immunization_history", label: "Immunization History" },
+  { value: "family_medical_history", label: "Family Medical History" },
+];
+
+interface EncounterMedicalHistoryProps {
+  mode: string; // "view" or "edit"
+  initialValue?: FormData[];
 }
 
-const EncounterMedicalHistory: React.FC = () => {
-  const methods = useForm<FormData>({
+const EncounterMedicalHistory: React.FC<EncounterMedicalHistoryProps> = ({
+  mode,
+  initialValue,
+}) => {
+  const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
-      past_medical_conditions: "",
-      past_surgical_history: "",
-      current_medications: "",
-      allergies: "",
-      immunization_history: "",
-      family_medical_history: "",
+      formSets: initialValue || [
+        {
+          past_medical_conditions: "",
+          past_surgical_history: "",
+          current_medications: "",
+          allergies: "",
+          immunization_history: "",
+          family_medical_history: "",
+        },
+      ],
     },
   });
 
-  const onSubmit = (data: FormData) => {
+  const { handleSubmit, control } = methods;
+  const { fields, append, remove } = useFieldArray({
+    name: "formSets",
+    control,
+  });
+
+  const onSubmit = (data: { formSets: FormData[] }) => {
     console.log(data);
   };
 
@@ -39,40 +69,81 @@ const EncounterMedicalHistory: React.FC = () => {
     <FormProvider {...methods}>
       <div className="flex items-start justify-center">
         <div className="w-full">
-          <form
-            onSubmit={methods.handleSubmit(onSubmit)}
-            className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2"
-          >
-            {ENCOUNTER_DETAILS_FIELDS.map(
-              ({ value, label }: EncounterField) => (
-                <FormItem key={value} className="flex flex-col">
-                  <FormLabel htmlFor={value}>{label}</FormLabel>
-                  <Controller
-                    name={value}
-                    control={methods.control}
-                    render={({ field }) => (
-                      <FormControl>
-                        <textarea
-                          {...field}
-                          id={value}
-                          rows={2}
-                          className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                          required
-                        />
-                      </FormControl>
-                    )}
-                  />
-                </FormItem>
-              )
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {fields.map((field, index) => (
+              <div key={field.id} className="rounded-md border p-4 shadow-sm">
+                <h3 className="mb-4 text-lg font-semibold">
+                  Form Set {index + 1}
+                </h3>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  {ENCOUNTER_DETAILS_FIELDS.map(({ value, label }) => (
+                    <FormItem key={value} className="flex flex-col">
+                      <FormLabel htmlFor={`${value}-${index}`}>
+                        {label}
+                      </FormLabel>
+                      <Controller
+                        name={`formSets.${index}.${value}` as const}
+                        control={control}
+                        render={({ field }) => (
+                          <FormControl>
+                            <textarea
+                              {...field}
+                              id={`${value}-${index}`}
+                              rows={2}
+                              className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                              required
+                              disabled={mode === "view"}
+                            />
+                          </FormControl>
+                        )}
+                      />
+                    </FormItem>
+                  ))}
+                </div>
+                {mode === "edit" && (
+                  <div className="mt-4 flex justify-end">
+                    <button
+                      type="button"
+                      disabled={fields.length === 1}
+                      onClick={() => remove(index)}
+                      className={`w-full rounded-md px-4 py-2 text-white md:w-1/4 ${
+                        fields.length === 1
+                          ? "cursor-not-allowed bg-gray-500"
+                          : "bg-red-500 hover:bg-red-600"
+                      }`}
+                    >
+                      Remove Form Set
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+            {mode === "edit" && (
+              <div className="mt-4 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() =>
+                    append({
+                      past_medical_conditions: "",
+                      past_surgical_history: "",
+                      current_medications: "",
+                      allergies: "",
+                      immunization_history: "",
+                      family_medical_history: "",
+                    })
+                  }
+                  className="mr-4 rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600"
+                >
+                  Add Form Set
+                </button>
+                <button
+                  type="submit"
+                  className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                >
+                  Submit
+                </button>
+              </div>
             )}
-            <div className="flex justify-end md:col-span-2 lg:col-span-2 xl:col-span-2">
-              <button
-                type="submit"
-                className="w-1/4 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-              >
-                Submit
-              </button>
-            </div>
           </form>
         </div>
       </div>
@@ -81,12 +152,3 @@ const EncounterMedicalHistory: React.FC = () => {
 };
 
 export default EncounterMedicalHistory;
-
-const ENCOUNTER_DETAILS_FIELDS: EncounterField[] = [
-  { value: "past_medical_conditions", label: "Past Medical Conditions" },
-  { value: "past_surgical_history", label: "Past Surgical History" },
-  { value: "current_medications", label: "Current Medications" },
-  { value: "allergies", label: "Allergies" },
-  { value: "immunization_history", label: "Immunization History" },
-  { value: "family_medical_history", label: "Family Medical History" },
-];

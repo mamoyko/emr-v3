@@ -63,10 +63,10 @@ export const EncounterActionCell: React.FC<EncounterCellProps> = ({ row }) => {
     <div className="flex gap-1">
       <Button
         variant="ghost"
-        className="capitalize text-rose-500"
+        className="capitalize text-lime-500"
         onClick={handleDetailsClick}
       >
-        View
+        Medical Details
       </Button>
     </div>
   );

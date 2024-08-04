@@ -1,7 +1,7 @@
-import ViewEncountersComponent from "@/components/Encounters/ViewEncountersComponent";
+import EncountersDetailsManagerComponent from "@/components/Encounters/EncountersDetailsManagerComponent";
 
-const AdminViewEncounterPage = () => {
-  return <ViewEncountersComponent />;
+const AdminViewEncounterPage: React.FC = () => {
+  return <EncountersDetailsManagerComponent />;
 };
 
 export default AdminViewEncounterPage;

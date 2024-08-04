@@ -1,13 +1,14 @@
 "use client";
 
-import { useRouter, usePathname } from "next/navigation";
-import { useState } from "react";
+import React, { useState } from "react";
 
-import EncounterMedicalHistory from "@/components/Encounters/encounterDetailForms/EncounterMedicalHistory";
-import EncounterPhysicalExaminationFindings from "@/components/Encounters/encounterDetailForms/EncounterPhysicalExaminationFindings";
-import EncounterSymptoms from "@/components/Encounters/encounterDetailForms/EncounterSymptoms";
-import EncounterVitalSigns from "@/components/Encounters/encounterDetailForms/EncounterVitalSigns";
+import UseRouting from "@/components/helperFunctions/UseRouting";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+import EncounterMedicalHistory from "./EncounterMedicalHistory";
+import EncounterPhysicalExaminationFindings from "./EncounterPhysicalExaminationFindings";
+import EncounterSymptoms from "./EncounterSymptoms";
+import EncounterVitalSigns from "./EncounterVitalSigns";
 
 const ENCOUNTERS_DETAILS = Object.freeze({
   SYMPTOMS: { VALUE: "symptoms", LABEL: "Symptoms" },
@@ -19,37 +20,61 @@ const ENCOUNTERS_DETAILS = Object.freeze({
   MEDICAL_HISTORY: { VALUE: "medical-history", LABEL: "Medical History" },
 });
 
-const tabClassesStyle = (isActive: boolean) =>
-  `p-4 transition-colors duration-300 ease-in-out rounded-t-md ${
-    isActive
-      ? "bg-blue-100 text-blue-700 shadow-md"
-      : "text-gray-600 hover:bg-blue-50"
-  }`;
+interface EncounterFormPageProps {
+  mode: string;
+  setMode: Function;
+}
 
-const EncounterFormPage = () => {
-  const router = useRouter();
-  const pathname = usePathname();
+const EncounterFormPage: React.FC<EncounterFormPageProps> = ({
+  mode,
+  setMode,
+}) => {
+  const { routeDynamicId, routePath } = UseRouting();
 
-  const [currentTab, setCurrentTab] = useState(
-    ENCOUNTERS_DETAILS.SYMPTOMS.VALUE
-  );
+  const [currentTab, setCurrentTab] = useState({
+    tab: ENCOUNTERS_DETAILS.SYMPTOMS.VALUE,
+    tabData: [],
+  });
 
-  const handleTabChange = (value: string) => {
-    setCurrentTab(value);
-    const newQuery = new URLSearchParams(window.location.search);
-    newQuery.set("active", value);
-    router.replace(`${pathname}?${newQuery.toString()}`);
+  const handleTabChange = async (value: string) => {
+    setCurrentTab((prevState) => {
+      const collection = { ...prevState };
+      collection.tab = value;
+      return collection;
+    });
+    routeDynamicId("active", value);
   };
 
   return (
-    <div className="container w-full ">
-      <Tabs value={currentTab} onValueChange={handleTabChange}>
+    <div className="container w-full">
+      <div className="mb-4 flex items-center justify-between">
+        <button
+          onClick={(event) => {
+            setMode((prevMode: any) => (prevMode === "edit" ? "view" : "edit"));
+            event.stopPropagation();
+          }}
+          className="rounded-md bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300"
+        >
+          {mode === "view" ? "Add Medical details" : "View Medical Details"}
+        </button>
+        <button
+          onClick={(event) => {
+            routePath(`/admin/encounters`);
+            event.stopPropagation();
+          }}
+          className="rounded-md bg-rose-500 px-4 py-2 text-gray-700 hover:bg-gray-300"
+        >
+          Back
+        </button>
+      </div>
+
+      <Tabs value={currentTab.tab} onValueChange={handleTabChange}>
         <TabsList className="flex flex-wrap justify-center border-b border-gray-200 bg-gray-50">
           {Object.values(ENCOUNTERS_DETAILS).map((detail) => (
             <TabsTrigger
               key={detail.VALUE}
               className={`px-4 py-2 text-center transition-colors duration-300 ease-in-out ${
-                currentTab === detail.VALUE
+                currentTab.tab === detail.VALUE
                   ? "border-b-2 border-blue-700 font-semibold text-blue-700"
                   : "text-gray-600 hover:text-blue-700"
               }`}
@@ -62,18 +87,27 @@ const EncounterFormPage = () => {
 
         <div className="mt-4">
           <TabsContent value={ENCOUNTERS_DETAILS.MEDICAL_HISTORY.VALUE}>
-            <EncounterMedicalHistory />
+            <EncounterMedicalHistory
+              initialValue={currentTab.tabData}
+              mode={mode}
+            />
           </TabsContent>
           <TabsContent
             value={ENCOUNTERS_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.VALUE}
           >
-            <EncounterPhysicalExaminationFindings />
+            <EncounterPhysicalExaminationFindings
+              initialValue={currentTab.tabData}
+              mode={mode}
+            />
           </TabsContent>
           <TabsContent value={ENCOUNTERS_DETAILS.SYMPTOMS.VALUE}>
-            <EncounterSymptoms />
+            <EncounterSymptoms initialValue={currentTab.tabData} mode={mode} />
           </TabsContent>
           <TabsContent value={ENCOUNTERS_DETAILS.VITAL_SIGNS.VALUE}>
-            <EncounterVitalSigns />
+            <EncounterVitalSigns
+              initialValue={currentTab.tabData}
+              mode={mode}
+            />
           </TabsContent>
         </div>
       </Tabs>

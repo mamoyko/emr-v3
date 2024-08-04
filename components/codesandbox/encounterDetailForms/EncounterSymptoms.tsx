@@ -57,19 +57,17 @@ const EncounterSymptoms: React.FC<EncounterSymptomsProps> = ({
 }) => {
   const methods = useForm<FormData>({
     defaultValues: {
-      symptoms: initialValue.length
-        ? initialValue
-        : [
-            {
-              symptom_description: "",
-              duration: "",
-              severity: "",
-              onset: "",
-              aggravating_factors: "",
-              relieving_factors: "",
-              patient: "",
-            },
-          ],
+      symptoms: initialValue || [
+        {
+          symptom_description: "",
+          duration: "",
+          severity: "",
+          onset: "",
+          aggravating_factors: "",
+          relieving_factors: "",
+          patient: "",
+        },
+      ],
     },
   });
 
