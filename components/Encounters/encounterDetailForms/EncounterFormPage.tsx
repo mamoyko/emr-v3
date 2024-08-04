@@ -29,7 +29,7 @@ const EncounterFormPage: React.FC<EncounterFormPageProps> = ({
   mode,
   setMode,
 }) => {
-  const { routeDynamicId, routePath } = UseRouting();
+  const { routePathId, routePath } = UseRouting();
 
   const [currentTab, setCurrentTab] = useState({
     tab: ENCOUNTERS_DETAILS.SYMPTOMS.VALUE,
@@ -42,7 +42,7 @@ const EncounterFormPage: React.FC<EncounterFormPageProps> = ({
       collection.tab = value;
       return collection;
     });
-    routeDynamicId("active", value);
+    routePathId("active", value);
   };
 
   return (

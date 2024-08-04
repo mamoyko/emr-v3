@@ -4,7 +4,7 @@ const UseRouting = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const routeDynamicId = (param?: string, value?: string) => {
+  const routePathId = (param?: string, value?: string) => {
     if (param && value !== undefined) {
       const newQuery = new URLSearchParams(window.location.search);
       newQuery.set(param, value);
@@ -18,7 +18,7 @@ const UseRouting = () => {
     }
   };
 
-  return { routeDynamicId, routePath };
+  return { routePathId, routePath };
 };
 
 export default UseRouting;
