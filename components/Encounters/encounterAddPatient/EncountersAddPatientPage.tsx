@@ -4,7 +4,6 @@ import React from "react";
 import { useForm, Controller, FormProvider } from "react-hook-form";
 
 import UseRouting from "@/components/helperFunctions/UseRouting";
-import { Button } from "@/components/ui/button";
 import { FormItem, FormLabel, FormControl } from "@/components/ui/form";
 
 interface EncounterDetail {
