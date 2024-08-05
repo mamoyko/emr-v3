@@ -11,7 +11,7 @@ type ActionsCellProps = {
 };
 
 type EncounterCellProps = {
-  row: Row<Appointment>;
+  row: Row<Encounters>;
 };
 
 export const ActionsCell: React.FC<ActionsCellProps> = ({ row }) => {
@@ -58,7 +58,7 @@ export const EncounterActionCell: React.FC<EncounterCellProps> = ({ row }) => {
   const handleDetailsClick = () => {
     router.push(`/admin/encounters/${encounter.$id}`);
   };
-  console.log("row", row);
+
   return (
     <div className="flex gap-1">
       <Button
