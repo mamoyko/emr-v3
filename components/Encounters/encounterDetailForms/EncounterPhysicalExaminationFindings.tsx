@@ -1,14 +1,9 @@
 "use client";
 
 import React from "react";
-import {
-  useForm,
-  Controller,
-  FormProvider,
-  useFieldArray,
-} from "react-hook-form";
+import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 
-import { FormItem, FormLabel, FormControl } from "@/components/ui/form";
+import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 
 interface FormData {
   general_appearance: string;
@@ -22,19 +17,17 @@ interface FormData {
   skin: string;
 }
 
-const FIELD_NAMES = [
-  "general_appearance",
-  "head_and_neck",
-  "cardiovascular_system",
-  "respiratory_system",
-  "gastrointestinal_system",
-  "genitourinary_system",
-  "musculoskeletal",
-  "neurological_system",
-  "skin",
-] as const;
-
-type FieldName = (typeof FIELD_NAMES)[number];
+const FIELD_NAMES: Array<{ value: keyof FormData; label: string }> = [
+  { value: "general_appearance", label: "General Appearance" },
+  { value: "head_and_neck", label: "Head and Neck" },
+  { value: "cardiovascular_system", label: "Cardiovascular System" },
+  { value: "respiratory_system", label: "Respiratory System" },
+  { value: "gastrointestinal_system", label: "Gastrointestinal System" },
+  { value: "genitourinary_system", label: "Genitourinary System" },
+  { value: "musculoskeletal", label: "Musculoskeletal" },
+  { value: "neurological_system", label: "Neurological System" },
+  { value: "skin", label: "Skin" },
+];
 
 interface EncounterPhysicalExaminationFindingsProps {
   mode: string; // "view" or "edit"
@@ -85,28 +78,15 @@ const EncounterPhysicalExaminationFindings: React.FC<
                 <h3 className="col-span-full text-lg font-semibold">
                   Form Set {index + 1}
                 </h3>
-                {FIELD_NAMES.map((fieldName) => (
-                  <FormItem key={fieldName} className="col-span-1">
-                    <FormLabel htmlFor={`${fieldName}-${index}`}>
-                      {fieldName.replace(/_/g, " ").toUpperCase()}
-                    </FormLabel>
-                    <Controller
-                      name={`formSets.${index}.${fieldName}` as const}
-                      control={control}
-                      render={({ field }) => (
-                        <FormControl>
-                          <textarea
-                            id={`${fieldName}-${index}`}
-                            {...field}
-                            rows={2}
-                            className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                            required
-                            disabled={mode === "view"}
-                          />
-                        </FormControl>
-                      )}
-                    />
-                  </FormItem>
+                {FIELD_NAMES.map(({ value, label }) => (
+                  <CustomFormField
+                    key={value}
+                    control={control}
+                    name={`formSets.${index}.${value}`}
+                    label={label}
+                    fieldType={FormFieldType.TEXTAREA}
+                    disabled={mode === "view"}
+                  />
                 ))}
                 {mode === "edit" && (
                   <div className="col-span-full flex justify-end">

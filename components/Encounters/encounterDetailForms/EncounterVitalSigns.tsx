@@ -3,12 +3,12 @@
 import React from "react";
 import {
   useForm,
-  Controller,
   FormProvider,
   useFieldArray,
+  Controller,
 } from "react-hook-form";
 
-import { FormItem, FormLabel, FormControl } from "@/components/ui/form";
+import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 
 interface VitalSigns {
   blood_pressure: string;
@@ -29,16 +29,32 @@ interface FormData {
 const ENCOUNTER_DETAILS_FIELDS: Array<{
   value: keyof VitalSigns;
   label: string;
-  type: "input" | "textarea";
+  type: FormFieldType;
 }> = [
-  { value: "blood_pressure", label: "Blood Pressure", type: "input" },
-  { value: "heart_rate", label: "Heart Rate", type: "input" },
-  { value: "respiratory_rate", label: "Respiratory Rate", type: "input" },
-  { value: "temperature", label: "Temperature", type: "input" },
-  { value: "oxygen_saturation", label: "Oxygen Saturation", type: "input" },
-  { value: "weight", label: "Weight", type: "input" },
-  { value: "height", label: "Height", type: "input" },
-  { value: "body_mass_index", label: "Body Mass Index (BMI)", type: "input" },
+  {
+    value: "blood_pressure",
+    label: "Blood Pressure",
+    type: FormFieldType.INPUT,
+  },
+  { value: "heart_rate", label: "Heart Rate", type: FormFieldType.INPUT },
+  {
+    value: "respiratory_rate",
+    label: "Respiratory Rate",
+    type: FormFieldType.INPUT,
+  },
+  { value: "temperature", label: "Temperature", type: FormFieldType.INPUT },
+  {
+    value: "oxygen_saturation",
+    label: "Oxygen Saturation",
+    type: FormFieldType.INPUT,
+  },
+  { value: "weight", label: "Weight", type: FormFieldType.INPUT },
+  { value: "height", label: "Height", type: FormFieldType.INPUT },
+  {
+    value: "body_mass_index",
+    label: "Body Mass Index (BMI)",
+    type: FormFieldType.INPUT,
+  },
 ];
 
 interface EncounterVitalSignsProps {
@@ -92,56 +108,24 @@ const EncounterVitalSigns: React.FC<EncounterVitalSignsProps> = ({
                   <h3 className="mb-4 text-lg font-semibold">
                     Form Set {index + 1}
                   </h3>
-                  <FormItem>
-                    <FormLabel htmlFor={`patient-${index}`}>Patient</FormLabel>
-                    <Controller
-                      name={`vitalSigns.${index}.patient`}
-                      control={control}
-                      render={({ field }) => (
-                        <FormControl>
-                          <input
-                            {...field}
-                            id={`patient-${index}`}
-                            className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                            required
-                            disabled={mode === "view"}
-                          />
-                        </FormControl>
-                      )}
-                    />
-                  </FormItem>
+                  <CustomFormField
+                    control={control}
+                    name={`vitalSigns.${index}.patient`}
+                    label="Patient"
+                    fieldType={FormFieldType.INPUT}
+                    disabled={mode === "view"}
+                  />
                 </div>
 
                 {ENCOUNTER_DETAILS_FIELDS.map(({ value, label, type }) => (
-                  <FormItem key={value} className="flex flex-col">
-                    <FormLabel htmlFor={`${value}-${index}`}>{label}</FormLabel>
-                    <Controller
-                      name={`vitalSigns.${index}.${value}`}
-                      control={control}
-                      render={({ field }) => (
-                        <FormControl>
-                          {type === "input" ? (
-                            <input
-                              {...field}
-                              id={`${value}-${index}`}
-                              className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                              required
-                              disabled={mode === "view"}
-                            />
-                          ) : (
-                            <textarea
-                              {...field}
-                              id={`${value}-${index}`}
-                              rows={2}
-                              className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                              required
-                              disabled={mode === "view"}
-                            />
-                          )}
-                        </FormControl>
-                      )}
-                    />
-                  </FormItem>
+                  <CustomFormField
+                    key={value}
+                    control={control}
+                    name={`vitalSigns.${index}.${value}`}
+                    label={label}
+                    fieldType={type}
+                    disabled={mode === "view"}
+                  />
                 ))}
 
                 {mode === "edit" && (

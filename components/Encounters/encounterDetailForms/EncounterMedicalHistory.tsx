@@ -1,14 +1,9 @@
 "use client";
 
 import React from "react";
-import {
-  useForm,
-  Controller,
-  FormProvider,
-  useFieldArray,
-} from "react-hook-form";
+import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 
-import { FormItem, FormLabel, FormControl } from "@/components/ui/form";
+import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 
 interface FormData {
   past_medical_conditions: string;
@@ -77,27 +72,14 @@ const EncounterMedicalHistory: React.FC<EncounterMedicalHistoryProps> = ({
                 </h3>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   {ENCOUNTER_DETAILS_FIELDS.map(({ value, label }) => (
-                    <FormItem key={value} className="flex flex-col">
-                      <FormLabel htmlFor={`${value}-${index}`}>
-                        {label}
-                      </FormLabel>
-                      <Controller
-                        name={`formSets.${index}.${value}` as const}
-                        control={control}
-                        render={({ field }) => (
-                          <FormControl>
-                            <textarea
-                              {...field}
-                              id={`${value}-${index}`}
-                              rows={2}
-                              className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                              required
-                              disabled={mode === "view"}
-                            />
-                          </FormControl>
-                        )}
-                      />
-                    </FormItem>
+                    <CustomFormField
+                      key={value}
+                      control={control}
+                      name={`formSets.${index}.${value}`}
+                      label={label}
+                      fieldType={FormFieldType.TEXTAREA}
+                      disabled={mode === "view"}
+                    />
                   ))}
                 </div>
                 {mode === "edit" && (

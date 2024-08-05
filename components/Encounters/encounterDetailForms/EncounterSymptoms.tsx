@@ -1,14 +1,9 @@
 "use client";
 
 import React from "react";
-import {
-  useForm,
-  Controller,
-  FormProvider,
-  useFieldArray,
-} from "react-hook-form";
+import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 
-import { FormItem, FormLabel, FormControl } from "@/components/ui/form";
+import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 
 interface Symptom {
   symptom_description: string;
@@ -27,23 +22,27 @@ interface FormData {
 const ENCOUNTER_DETAILS_FIELDS: Array<{
   value: keyof Symptom;
   label: string;
-  type: "input" | "textarea";
+  type: FormFieldType;
 }> = [
   {
     value: "symptom_description",
     label: "Symptom Description",
-    type: "textarea",
+    type: FormFieldType.TEXTAREA,
   },
-  { value: "duration", label: "Duration", type: "input" },
-  { value: "severity", label: "Severity", type: "input" },
-  { value: "onset", label: "Onset", type: "input" },
+  { value: "duration", label: "Duration", type: FormFieldType.INPUT },
+  { value: "severity", label: "Severity", type: FormFieldType.INPUT },
+  { value: "onset", label: "Onset", type: FormFieldType.INPUT },
   {
     value: "aggravating_factors",
     label: "Aggravating Factors",
-    type: "textarea",
+    type: FormFieldType.TEXTAREA,
   },
-  { value: "relieving_factors", label: "Relieving Factors", type: "textarea" },
-  { value: "patient", label: "Patient", type: "input" },
+  {
+    value: "relieving_factors",
+    label: "Relieving Factors",
+    type: FormFieldType.TEXTAREA,
+  },
+  { value: "patient", label: "Patient", type: FormFieldType.INPUT },
 ];
 
 interface EncounterSymptomsProps {
@@ -87,75 +86,44 @@ const EncounterSymptoms: React.FC<EncounterSymptomsProps> = ({
         <div className="w-full overflow-auto">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {fields.map((field, index) => (
-              <div
-                key={field.id}
-                className="grid grid-cols-1 gap-4 rounded-md border p-4 shadow-sm md:grid-cols-2"
-              >
-                <div className="md:col-span-2">
-                  <h3 className="mb-4 text-lg font-semibold">
-                    Form Set {index + 1}
-                  </h3>
-                  <FormItem>
-                    <FormLabel htmlFor={`patient-${index}`}>Patient</FormLabel>
-                    <Controller
-                      name={`symptoms.${index}.patient`}
-                      control={control}
-                      render={({ field }) => (
-                        <FormControl>
-                          <input
-                            {...field}
-                            id={`patient-${index}`}
-                            className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                            required
-                            disabled={mode === "view"}
-                          />
-                        </FormControl>
-                      )}
-                    />
-                  </FormItem>
+              <div key={field.id} className="rounded-md border p-4 shadow-sm">
+                <h3 className="mb-4 text-lg font-semibold">
+                  Form Set {index + 1}
+                </h3>
+                <div className="mb-4">
+                  <CustomFormField
+                    control={control}
+                    name={`symptoms.${index}.patient`}
+                    label="Patient"
+                    fieldType={FormFieldType.INPUT}
+                    disabled={mode === "view"}
+                  />
                 </div>
-
-                {ENCOUNTER_DETAILS_FIELDS.map(({ value, label, type }) => (
-                  <FormItem key={value} className="flex flex-col">
-                    <FormLabel htmlFor={`${value}-${index}`}>{label}</FormLabel>
-                    <Controller
-                      name={
-                        `symptoms.${index}.${value}` as `symptoms.${number}.${keyof Symptom}`
-                      }
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  {ENCOUNTER_DETAILS_FIELDS.filter(
+                    (field) => field.value !== "patient"
+                  ).map(({ value, label, type }) => (
+                    <CustomFormField
+                      key={value}
                       control={control}
-                      render={({ field }) => (
-                        <FormControl>
-                          {type === "textarea" ? (
-                            <textarea
-                              {...field}
-                              id={`${value}-${index}`}
-                              rows={2}
-                              className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                              required
-                              disabled={mode === "view"}
-                            />
-                          ) : (
-                            <input
-                              {...field}
-                              id={`${value}-${index}`}
-                              className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                              required
-                              disabled={mode === "view"}
-                            />
-                          )}
-                        </FormControl>
-                      )}
+                      name={`symptoms.${index}.${value}`}
+                      label={label}
+                      fieldType={type}
+                      disabled={mode === "view"}
                     />
-                  </FormItem>
-                ))}
-
+                  ))}
+                </div>
                 {mode === "edit" && (
-                  <div className="flex justify-end md:col-span-2">
+                  <div className="mt-4 flex justify-end">
                     <button
                       type="button"
                       disabled={fields.length === 1}
                       onClick={() => remove(index)}
-                      className={`w-full rounded-md px-4 py-2 text-white md:w-1/4 ${fields.length === 1 ? "cursor-not-allowed bg-gray-500" : "bg-red-500 hover:bg-red-600"}`}
+                      className={`w-full rounded-md px-4 py-2 text-white md:w-1/4 ${
+                        fields.length === 1
+                          ? "cursor-not-allowed bg-gray-500"
+                          : "bg-red-500 hover:bg-red-600"
+                      }`}
                     >
                       Remove Form Set
                     </button>
