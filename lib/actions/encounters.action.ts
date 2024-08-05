@@ -2,7 +2,8 @@
 
 // import { revalidatePath } from "next/cache";
 // import { ID, Query } from "node-appwrite";
-import { Query } from "node-appwrite";
+import { revalidatePath } from "next/cache";
+import { ID, Query } from "node-appwrite";
 
 // import { Appointment, Encounters } from "@/types/appwrite.types";
 
@@ -10,6 +11,7 @@ import {
   ENCOUNTER_COLLECTION_ID,
   DATABASE_ID,
   databases,
+  APPOINTMENT_COLLECTION_ID,
   // messaging,
   // APPOINTMENT_COLLECTION_ID,
 } from "../appwrite.config";
@@ -18,7 +20,24 @@ import { parseStringify } from "../utils";
 
 // import { sendSMSNotification } from "./appointment.actions";
 
-//  CREATE APPOINTMENT
+//  CREATE ENCOUNTERS
+export const createEncounter = async (encounters: CreateEncounterParams) => {
+  try {
+    const newEncounter = await databases.createDocument(
+      DATABASE_ID!,
+      ENCOUNTER_COLLECTION_ID!,
+      ID.unique(),
+      encounters
+    );
+
+    revalidatePath("/admin");
+    return parseStringify(newEncounter);
+  } catch (error) {
+    console.error("An error occurred while creating a new encounter:", error);
+  }
+};
+
+//  GET APPOINTMENT
 // export const createAppointment = async (
 //   appointment: CreateAppointmentParams
 // ) => {

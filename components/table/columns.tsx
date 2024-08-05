@@ -95,7 +95,7 @@ export const columnEncounters: ColumnDef<Encounters>[] = [
     header: "Patient",
     cell: ({ row }) => {
       const encounters = row.original;
-      return <p className="text-14-medium ">{encounters.patient.name}</p>;
+      return <p className="text-14-medium ">{encounters?.patient?.name}</p>;
     },
   },
   {

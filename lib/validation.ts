@@ -95,6 +95,15 @@ export const ScheduleAppointmentSchema = z.object({
   cancellationReason: z.string().optional(),
 });
 
+export const CreateEncounterSchema = z.object({
+  primaryPhysician: z.string().min(2, "Select at least one doctor"),
+  date_and_time: z.coerce.date(),
+  patient: z.string(),
+  encounter_type: z.string(),
+  location: z.string(),
+  reason: z.string().optional(),
+});
+
 export const CancelAppointmentSchema = z.object({
   primaryPhysician: z.string().min(2, "Select at least one doctor"),
   schedule: z.coerce.date(),
@@ -114,5 +123,12 @@ export function getAppointmentSchema(type: string) {
       return CancelAppointmentSchema;
     default:
       return ScheduleAppointmentSchema;
+  }
+}
+
+export function getEncounterSchema(type: string) {
+  switch (type) {
+    case "create":
+      return CreateEncounterSchema;
   }
 }

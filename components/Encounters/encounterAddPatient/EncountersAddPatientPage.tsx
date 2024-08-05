@@ -1,10 +1,23 @@
 "use client";
 
-import React from "react";
-import { useForm, Controller, FormProvider } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import UseRouting from "@/components/helperFunctions/UseRouting";
-import { FormItem, FormLabel, FormControl } from "@/components/ui/form";
+import SubmitButton from "@/components/SubmitButton";
+import { Form } from "@/components/ui/form";
+import { SelectItem } from "@/components/ui/select";
+import { Doctors } from "@/constants";
+import { createEncounter } from "@/lib/actions/encounters.action";
+import { getEncounterSchema } from "@/lib/validation";
+
+import CustomFormField, { FormFieldType } from "../../CustomFormField";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 interface EncounterDetail {
   value: string;
@@ -35,8 +48,26 @@ const formatDateTime = (dateTimeString: string) => {
   return formatter.format(date).replace(",", "");
 };
 
-const EncountersAddPatientPage: React.FC = () => {
-  const { routePath } = UseRouting();
+const EncountersAddPatientPage: React.FC = ({
+  type = "create",
+}: {
+  type?: string;
+}) => {
+  const router = useRouter();
+  const EncountertFormValidation = getEncounterSchema(type);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const form = useForm<z.infer<typeof EncountertFormValidation>>({
+    resolver: zodResolver(EncountertFormValidation),
+    defaultValues: {
+      primaryPhysician: "",
+      date_and_time: new Date(Date.now()),
+      patient: "",
+      encounter_type: "",
+      location: "",
+      reason: "",
+    },
+  });
 
   const methods = useForm({
     defaultValues: ENCOUNTER_DETAILS_FIELDS.reduce(
@@ -50,88 +81,106 @@ const EncountersAddPatientPage: React.FC = () => {
 
   const { handleSubmit, control, reset } = methods;
 
-  const onSubmit = (data: Record<string, any>) => {
-    const formattedData = {
-      ...data,
-      date_and_time: formatDateTime(data.date_and_time),
-    };
-    console.log(formattedData);
+  const onSubmit = async (values: z.infer<typeof EncountertFormValidation>) => {
+    setIsLoading(true);
+
+    try {
+      if (type === "create") {
+        const encounters = {
+          primaryPhysician: values.primaryPhysician,
+          date_and_time: new Date(values.date_and_time),
+          patient: "",
+          encounter_type: values.encounter_type,
+          reason: values.reason!,
+          location: values.location,
+        };
+        const newEncounter = await createEncounter(encounters);
+        if (newEncounter) {
+          form.reset();
+          router.push(`/admin/encounters`);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
   };
 
   return (
-    <div className="w-full p-4">
-      <div className="mb-4 flex w-full justify-end">
-        <button
-          onClick={(event) => {
-            routePath(`/admin/encounters`);
-            event.stopPropagation();
-          }}
-          className="rounded-md bg-rose-500 px-4 py-2 text-white hover:bg-rose-400"
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-6">
+        <section className="mb-12 space-y-4">
+          <h1 className="header">Hi there 👋</h1>
+          <p className="text-dark-700">Get started with appointments.</p>
+        </section>
+
+        <CustomFormField
+          fieldType={FormFieldType.SELECT}
+          control={form.control}
+          name="primaryPhysician"
+          label="Doctor"
+          placeholder="Select a doctor"
         >
-          Back
-        </button>
-      </div>
-      <FormProvider {...methods}>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="grid grid-cols-2 gap-4"
-        >
-          {ENCOUNTER_DETAILS_FIELDS.map(({ value, label, type }) => (
-            <FormItem key={value} className="flex flex-col">
-              <FormLabel htmlFor={value}>{label}</FormLabel>
-              <Controller
-                name={value}
-                control={control}
-                render={({ field }) => (
-                  <FormControl>
-                    {type === "textarea" ? (
-                      <textarea
-                        {...field}
-                        id={value}
-                        rows={4}
-                        className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                      />
-                    ) : type === "datetime-local" ? (
-                      <input
-                        {...field}
-                        id={value}
-                        type="datetime-local"
-                        className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                      />
-                    ) : (
-                      <input
-                        {...field}
-                        id={value}
-                        type="text"
-                        required={value === "patient"}
-                        className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                      />
-                    )}
-                  </FormControl>
-                )}
-              />
-            </FormItem>
+          {Doctors.map((doctor, i) => (
+            <SelectItem key={doctor.name + i} value={doctor.name}>
+              <div className="flex cursor-pointer items-center gap-2">
+                <Image
+                  src={doctor.image}
+                  width={32}
+                  height={32}
+                  alt="doctor"
+                  className="rounded-full border border-dark-500"
+                />
+                <p>{doctor.name}</p>
+              </div>
+            </SelectItem>
           ))}
-          <div className="col-span-2 flex justify-end">
-            {/* <Button
-              type="submit"
-              variant="secondary"
-              size="sm"
-              style={{ width: "15%" }}
-              className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-            >
-              Submit
-            </Button> */}
-            <button
-              type="submit"
-              className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
-      </FormProvider>
-    </div>
+        </CustomFormField>
+
+        <CustomFormField
+          fieldType={FormFieldType.DATE_PICKER}
+          control={form.control}
+          name="date_and_time"
+          label="Date and time"
+          showTimeSelect
+          dateFormat="MM/dd/yyyy  -  h:mm aa"
+        />
+
+        <CustomFormField
+          fieldType={FormFieldType.INPUT}
+          control={form.control}
+          name="Patients"
+          label="Patient name"
+          placeholder="Patient name"
+        />
+
+        <CustomFormField
+          fieldType={FormFieldType.INPUT}
+          control={form.control}
+          name="encounter_type"
+          label="Encounter type"
+          placeholder="Encounter type"
+        />
+
+        <CustomFormField
+          fieldType={FormFieldType.INPUT}
+          control={form.control}
+          name="location"
+          label="Location"
+          placeholder="Location"
+        />
+
+        <CustomFormField
+          fieldType={FormFieldType.INPUT}
+          control={form.control}
+          name="reason"
+          label="Reason"
+          placeholder="Reason"
+        />
+
+        <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
+      </form>
+    </Form>
   );
 };
 
