@@ -3,15 +3,17 @@
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 
-import { Button } from "@/components/ui/button";
 import { Doctors } from "@/constants";
 import { formatDateTime } from "@/lib/utils";
-import { Appointment, Encounters } from "@/types/appwrite.types";
+import { Appointment, Encounters, Patients } from "@/types/appwrite.types";
 
-import { EncountersComponent } from "../Encounters/EncountersComponent";
 import { StatusBadge } from "../StatusBadge";
 
-import { ActionsCell, EncounterActionCell } from "./action-cells";
+import {
+  ActionsCell,
+  EncounterActionCell,
+  PatientActionCell,
+} from "./action-cells";
 
 export const columns: ColumnDef<Appointment>[] = [
   {
@@ -154,5 +156,73 @@ export const columnEncounters: ColumnDef<Encounters>[] = [
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
     cell: EncounterActionCell,
+  },
+];
+
+export const columnsPatient: ColumnDef<Patients, any>[] = [
+  // { accessorKey: "$id", header: "ID" },
+  { accessorKey: "name", header: "Name" },
+  { accessorKey: "gender", header: "Gender" },
+  { accessorKey: "occupation", header: "Occupation" },
+  { accessorKey: "phone", header: "Phone" },
+  { accessorKey: "address", header: "Address" },
+  { accessorKey: "allergies", header: "Allergies" },
+  { accessorKey: "birthDate", header: "Birth Date" },
+  { accessorKey: "email", header: "Email" },
+  { accessorKey: "emergencyContactName", header: "Emergency Contact Name" },
+  { accessorKey: "emergencyContactNumber", header: "Emergency Contact Number" },
+  {
+    accessorKey: "encounter",
+    header: "Encounter",
+    cell: ({ row }) => {
+      const encounters = row.original.encounter;
+      return <div>{JSON.stringify(encounters)}</div>;
+    },
+  },
+  // {
+  //   accessorKey: "identificationDocumentId",
+  //   header: "Identification Document ID",
+  // },
+  // {
+  //   accessorKey: "identificationDocumentUrl",
+  //   header: "Identification Document URL",
+  // },
+  { accessorKey: "currentMedication", header: "Current Medication" },
+  { accessorKey: "familyMedicalHistory", header: "Family Medical History" },
+  { accessorKey: "identificationNumber", header: "Identification Number" },
+  { accessorKey: "identificationType", header: "Identification Type" },
+  { accessorKey: "insurancePolicyNumber", header: "Insurance Policy Number" },
+  { accessorKey: "insuranceProvider", header: "Insurance Provider" },
+  { accessorKey: "pastMedicalHistory", header: "Past Medical History" },
+  { accessorKey: "primaryPhysician", header: "Primary Physician" },
+  { accessorKey: "privacyConsent", header: "Privacy Consent" },
+  {
+    accessorKey: "symptoms",
+    header: "Symptoms",
+    cell: ({ row }) => {
+      const symptoms = row.original.symptoms;
+      return <div>{JSON.stringify(symptoms)}</div>;
+    },
+  },
+  {
+    accessorKey: "treatmentConsent",
+    header: "Treatment Consent",
+    cell: ({ row }) => {
+      const treatmentConsent = row.original.treatmentConsent;
+      return <div>{JSON.stringify(treatmentConsent)}</div>;
+    },
+  },
+  // { accessorKey: "$collectionId", header: "Collection ID" },
+  // { accessorKey: "$createdAt", header: "Created At" },
+  // { accessorKey: "$updatedAt", header: "Updated At" },
+  // { accessorKey: "$databaseId", header: "Database ID" },
+  // { accessorKey: "$permissions", header: "Permissions" }, // array
+  // { accessorKey: "$tenant", header: "Tenant" },
+  { accessorKey: "vitalSigns", header: "Vital Signs" },
+  { accessorKey: "userId", header: "User ID" },
+  {
+    id: "actions",
+    header: () => <div className="pl-4">Actions</div>,
+    cell: PatientActionCell,
   },
 ];

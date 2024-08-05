@@ -24,7 +24,7 @@ export function NavigationMenuComponent() {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/admin/encounters" legacyBehavior passHref>
+          <Link href="/admin/patients" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Patients
             </NavigationMenuLink>

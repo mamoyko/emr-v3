@@ -1,14 +1,14 @@
-import { EncountersComponent } from "@/components/Encounters/EncountersComponent";
+import { PatientsComponent } from "@/components/Patients/PatientsComponent";
 import { getUsers } from "@/lib/actions/patient.actions";
 
-const AdminEncounterPage = async () => {
+const AdminPatientPage = async () => {
   const patients = await getUsers();
   return (
-    <EncountersComponent
+    <PatientsComponent
       documents={patients?.documents}
       totalCount={patients?.totalCount}
     />
   );
 };
 
-export default AdminEncounterPage;
+export default AdminPatientPage;

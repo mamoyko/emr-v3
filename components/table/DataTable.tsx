@@ -58,6 +58,7 @@ export function DataTable<TData, TValue>({
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id} className="shad-table-row-header">
               {headerGroup.headers.map((header) => {
+                console.log(headerGroup.headers);
                 return (
                   <TableHead key={header.id}>
                     {header.isPlaceholder
@@ -73,7 +74,7 @@ export function DataTable<TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
+          {table.getRowModel()?.rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}

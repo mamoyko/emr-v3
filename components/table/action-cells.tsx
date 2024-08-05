@@ -14,6 +14,10 @@ type EncounterCellProps = {
   row: Row<Encounters>;
 };
 
+type PatientCellProps = {
+  row: Row<Encounters>;
+};
+
 export const ActionsCell: React.FC<ActionsCellProps> = ({ row }) => {
   const router = useRouter();
   const appointment = row.original;
@@ -58,6 +62,34 @@ export const EncounterActionCell: React.FC<EncounterCellProps> = ({ row }) => {
   const handleDetailsClick = () => {
     router.push(`/admin/encounters/${encounter.$id}`);
   };
+
+  return (
+    <div className="flex gap-1">
+      <Button
+        variant="ghost"
+        className="capitalize text-lime-500"
+        onClick={handleDetailsClick}
+      >
+        Medical Details
+      </Button>
+    </div>
+  );
+};
+
+export const PatientActionCell: React.FC<PatientCellProps> = ({ row }) => {
+  const router = useRouter();
+  const patient = row.original;
+  console.log("patient", patient);
+  const handleDetailsClick = () => {
+    router.push(`/admin/patients/${patient.$id}`);
+  };
+
+  // const handleDetailsClick = () => {
+  //   const queryString = new URLSearchParams({
+  //     patient: JSON.stringify(patient),
+  //   }).toString();
+  //   router.push(`/admin/patients?${queryString}`);
+  // };
 
   return (
     <div className="flex gap-1">

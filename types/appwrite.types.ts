@@ -45,3 +45,39 @@ export interface Encounters extends Models.Document {
   encounter_type: string;
   reason: string;
 }
+
+export interface Patients extends Models.Document {
+  $collectionId: string;
+  $createdAt: string;
+  $updatedAt: string;
+  $databaseId: string;
+  $id: string;
+  $permissions: string[];
+  $tenant: string;
+  address: string;
+  allergies: string;
+  birthDate: string;
+  currentMedication: string;
+  email: string;
+  emergencyContactName: string;
+  emergencyContactNumber: string;
+  encounter: any[];
+  familyMedicalHistory: string;
+  gender: string;
+  identificationDocumentId: string;
+  identificationDocumentUrl: string;
+  identificationNumber: string;
+  identificationType: string;
+  insurancePolicyNumber: string;
+  insuranceProvider: string;
+  name: string;
+  occupation: string;
+  pastMedicalHistory: string;
+  phone: string;
+  primaryPhysician: string;
+  privacyConsent: boolean;
+  symptoms: any[];
+  treatmentConsent: boolean | null;
+  userId: string;
+  vitalSigns: any;
+}
