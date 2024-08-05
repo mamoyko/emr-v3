@@ -1,8 +1,7 @@
 "use client";
 
+import EncountersAddPatientPage from "@/components/forms/encounters/EncountersAddPatientPage";
 import { Header } from "@/components/Header";
-
-import EncountersAddPatientPage from "./encounterAddPatient/EncountersAddPatientPage";
 
 const EncountersAddPatientComponent = () => {
   return (
