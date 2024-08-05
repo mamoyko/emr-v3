@@ -5,6 +5,7 @@ import { ID, InputFile, Query } from "node-appwrite";
 import {
   BUCKET_ID,
   DATABASE_ID,
+  ENCOUNTER_COLLECTION_ID,
   ENDPOINT,
   PATIENT_COLLECTION_ID,
   PROJECT_ID,
@@ -105,6 +106,26 @@ export const getPatient = async (userId: string) => {
   } catch (error) {
     console.error(
       "An error occurred while retrieving the patient details:",
+      error
+    );
+  }
+};
+
+export const getUsers = async () => {
+  try {
+    const patients = await databases.listDocuments(
+      DATABASE_ID!,
+      PATIENT_COLLECTION_ID!,
+      [Query.orderDesc("$createdAt")]
+    );
+    const data = {
+      totalCount: patients.total,
+      documents: patients.documents,
+    };
+    return parseStringify(data);
+  } catch (error) {
+    console.error(
+      "An error occurred while retrieving the user details:",
       error
     );
   }

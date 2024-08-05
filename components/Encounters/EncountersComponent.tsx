@@ -25,7 +25,7 @@ export const EncountersComponent = ({
 
       <main className="admin-main">
         <section className="w-full space-y-4">
-          <h1 className="header">Encounters</h1>
+          <h1 className="header">Patients</h1>
         </section>
         <section className="admin-stat">
           <Button
@@ -33,7 +33,7 @@ export const EncountersComponent = ({
             className="capitalize text-sky-500"
             onClick={() => routePath(`/admin/encounters/create`)}
           >
-            Add Encounter
+            Add Patient
           </Button>
         </section>
         <DataTable columns={columnEncounters} data={documents} />

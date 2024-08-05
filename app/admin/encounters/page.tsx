@@ -1,12 +1,12 @@
 import { EncountersComponent } from "@/components/Encounters/EncountersComponent";
-import { getEncounterList } from "@/lib/actions/encounters.action";
+import { getUsers } from "@/lib/actions/patient.actions";
 
 const AdminPatientPage = async () => {
-  const encounters = await getEncounterList();
+  const patients = await getUsers();
   return (
     <EncountersComponent
-      documents={encounters?.documents}
-      totalCount={encounters?.totalCount}
+      documents={patients?.documents}
+      totalCount={patients?.totalCount}
     />
   );
 };
