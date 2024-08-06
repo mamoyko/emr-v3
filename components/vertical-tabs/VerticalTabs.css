@@ -1,0 +1,28 @@
+.vertical-tabs {
+  display: flex;
+  width: 400px;
+  height: 100%;
+}
+
+.vertical-tab-list {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #ccc;
+  margin-right: 20px;
+  width: 150px;
+  height: 100%;
+}
+
+.vertical-tab-list .shadcn-tab {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.vertical-tab-list .shadcn-tab-selected {
+  background-color: #f0f0f0;
+}
+
+.vertical-tab-content {
+  flex-grow: 1;
+  height: 100%;
+}
