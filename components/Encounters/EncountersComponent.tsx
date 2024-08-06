@@ -25,7 +25,7 @@ export const EncountersComponent = ({
 
       <main className="admin-main">
         <section className="w-full space-y-4">
-          <h1 className="header">Patients</h1>
+          <h1 className="header">Encounter</h1>
         </section>
         <section className="admin-stat">
           <Button

@@ -4,10 +4,7 @@ import React, { useState } from "react";
 
 import UseRouting from "@/components/helperFunctions/UseRouting";
 
-import PatientMedicalHistory from "./PatientMedicalHistory";
-import PatientPhysicalExaminationFindings from "./PatientPhysicalExaminationFindings";
-import PatientSymptoms from "./PatientSymptoms";
-import PatientVitalSigns from "./PatientVitalSigns";
+import PatientFormHelper from "./PatientFormHelper";
 
 const PATIENT_DETAILS = Object.freeze({
   SYMPTOMS: { VALUE: "symptoms", LABEL: "Symptoms" },
@@ -21,10 +18,13 @@ const PATIENT_DETAILS = Object.freeze({
 
 interface PatientFormPageProps {
   mode: string;
-  setMode: Function;
+  handlePatientDetails: Function;
 }
 
-const PatientFormPage: React.FC<PatientFormPageProps> = ({ mode, setMode }) => {
+const PatientFormPage: React.FC<PatientFormPageProps> = ({
+  mode,
+  handlePatientDetails,
+}) => {
   const { routePathId, routePath } = UseRouting();
 
   const [currentTab, setCurrentTab] = useState({
@@ -33,24 +33,21 @@ const PatientFormPage: React.FC<PatientFormPageProps> = ({ mode, setMode }) => {
   });
 
   const handleTabChange = (value: string) => {
-    setCurrentTab((prevState) => {
-      const collection = { ...prevState };
-      collection.tab = value;
-      return collection;
-    });
+    setCurrentTab((prevState) => ({
+      ...prevState,
+      tab: value,
+    }));
     routePathId("active", value);
   };
 
   return (
     <div className="flex h-screen w-full">
       {/* Sidebar Navigation */}
-      <nav className="w-[15%] shrink-0 border-r border-gray-200 bg-gray-50">
+      <nav className="h-full w-[15%] shrink-0 overflow-y-auto border-r border-gray-200 bg-gray-50">
         <div className="p-4">
           <button
             onClick={(event) => {
-              setMode((prevMode: any) =>
-                prevMode === "edit" ? "view" : "edit"
-              );
+              handlePatientDetails(mode === "view" ? "edit" : "view", "mode");
               event.stopPropagation();
             }}
             className="w-full rounded-md bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300"
@@ -87,28 +84,12 @@ const PatientFormPage: React.FC<PatientFormPageProps> = ({ mode, setMode }) => {
         </div>
       </nav>
 
-      {/* Main */}
-      <main className="flex-1 overflow-auto p-4">
-        {currentTab.tab === PATIENT_DETAILS.MEDICAL_HISTORY.VALUE && (
-          <PatientMedicalHistory
-            initialValue={currentTab.tabData}
-            mode={mode}
-          />
-        )}
-        {currentTab.tab ===
-          PATIENT_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.VALUE && (
-          <PatientPhysicalExaminationFindings
-            initialValue={currentTab.tabData}
-            mode={mode}
-          />
-        )}
-        {currentTab.tab === PATIENT_DETAILS.SYMPTOMS.VALUE && (
-          <PatientSymptoms initialValue={currentTab.tabData} mode={mode} />
-        )}
-        {currentTab.tab === PATIENT_DETAILS.VITAL_SIGNS.VALUE && (
-          <PatientVitalSigns initialValue={currentTab.tabData} mode={mode} />
-        )}
-      </main>
+      {/* Component renderer */}
+      <PatientFormHelper
+        mode={mode}
+        currentTab={currentTab}
+        PATIENT_DETAILS={PATIENT_DETAILS}
+      />
     </div>
   );
 };

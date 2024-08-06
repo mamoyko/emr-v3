@@ -3,61 +3,67 @@ import React, { useEffect, useState } from "react";
 
 import { Header } from "@/components/Header";
 
-import PatientFormPage from "../forms/patients/PatientFormPage";
+import PatientFormPage from "./patientHelper/PatientFormPage";
 
 interface PatientDataState {
   data: any[];
-  isErrorMessage: String;
+  isErrorMessage: string;
   isLoading: boolean;
+  mode: "view" | "edit";
 }
 
 const PatientsMedicalDetailsComponent = () => {
-  const [mode, setMode] = useState<"view" | "edit">("view");
-  const [encounterData, setEncounterData] = useState<PatientDataState>({
+  const [patientDetails, setPatientDetails] = useState<PatientDataState>({
     data: [],
     isErrorMessage: "",
     isLoading: false,
+    mode: "view",
   });
 
   const fetchEncountersDetails = async (encounterSlug: string) => {
     try {
-      handleEncounterData(true, "isLoading");
+      handlePatientDetails(true, "isLoading");
       const response = await fetch("https://api.example.com/data");
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const result = await response.json();
-      handleEncounterData(result, "data");
+      handlePatientDetails(result, "data");
     } catch (error) {
-      handleEncounterData(
+      handlePatientDetails(
         error instanceof Error ? error.message : "Error fetching data",
         "isErrorMessage"
       );
     } finally {
-      handleEncounterData(false, "isLoading");
+      handlePatientDetails(false, "isLoading");
     }
   };
 
-  const handleEncounterData = (value: any, field: keyof PatientDataState) => {
-    setEncounterData((prev) => ({
+  const handlePatientDetails = (value: any, field: keyof PatientDataState) => {
+    setPatientDetails((prev) => ({
       ...prev,
       [field]: value,
     }));
   };
 
-  useEffect(() => {
-    fetchEncountersDetails("symptoms");
-  }, []);
+  // useEffect(() => {
+  //   fetchEncountersDetails("symptoms");
+  // }, []);
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <Header />
 
       <main className="admin-main">
-        <section className="w-full space-y-4">
-          <h1 className="header">{`${mode === "view" ? "View" : "Create"} Patient`}</h1>
+        <section className="sticky top-0 z-10 w-full">
+          <h1 className="header">{`${
+            patientDetails.mode === "view" ? "View" : "Create"
+          } Patient`}</h1>
         </section>
-        <PatientFormPage setMode={setMode} mode={mode} />
+        <PatientFormPage
+          handlePatientDetails={handlePatientDetails}
+          mode={patientDetails.mode}
+        />
       </main>
     </div>
   );
