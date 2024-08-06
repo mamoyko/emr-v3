@@ -4,6 +4,10 @@ import React, { useEffect, useState } from "react";
 import { Header } from "@/components/Header";
 
 import PatientFormPage from "./patientHelper/PatientFormPage";
+import {
+  PatientsDataTable,
+  PatientsNavigationPage,
+} from "./patientMedicalDetailsTable/PatientsNavigationPage";
 
 interface PatientDataState {
   data: any[];
@@ -46,10 +50,6 @@ const PatientsMedicalDetailsComponent = () => {
     }));
   };
 
-  // useEffect(() => {
-  //   fetchEncountersDetails("symptoms");
-  // }, []);
-
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <Header />
@@ -60,10 +60,7 @@ const PatientsMedicalDetailsComponent = () => {
             patientDetails.mode === "view" ? "View" : "Create"
           } Patient`}</h1>
         </section>
-        <PatientFormPage
-          handlePatientDetails={handlePatientDetails}
-          mode={patientDetails.mode}
-        />
+        <PatientsNavigationPage />
       </main>
     </div>
   );

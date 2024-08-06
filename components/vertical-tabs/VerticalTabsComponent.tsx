@@ -1,0 +1,86 @@
+import React, { ReactNode, useState } from "react";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+import "./VerticalTabs.css";
+import UseRouting from "../helperFunctions/UseRouting";
+import { FNtransformObjectToArray } from "../Patients/patientMedicalDetailsTable/PatientNavigationHelper";
+
+interface VerticalTabsComponentProps {
+  navigationList: any;
+  DataTable: ReactNode;
+  Footer: ReactNode;
+  childrenProps?: {
+    title?: string;
+    description?: string;
+  };
+  defaultValue: string;
+  handleNavigation: (value: string) => void;
+}
+
+const VerticalTabsComponent = ({
+  navigationList,
+  childrenProps,
+  DataTable,
+  defaultValue,
+  Footer,
+  handleNavigation,
+}: VerticalTabsComponentProps) => {
+  const [currentTab, setCurrentTab] = useState(defaultValue);
+  const { routePathId } = UseRouting();
+
+  const handleTabChange = (value: string) => {
+    setCurrentTab(value);
+    routePathId("active", value);
+    handleNavigation(value);
+  };
+
+  const MEMOIZENAV = Array.isArray(navigationList)
+    ? [...navigationList]
+    : [...FNtransformObjectToArray({ toTransformData: navigationList })];
+
+  return (
+    <Tabs
+      value={currentTab}
+      onValueChange={handleTabChange}
+      className="vertical-tabs"
+    >
+      <TabsList className="vertical-tab-list">
+        {MEMOIZENAV.map((navItem: { value: string; title: string }) => (
+          <TabsTrigger key={navItem.value} value={navItem.value}>
+            {navItem.title}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+
+      <div className="vertical-tab-content">
+        <TabsContent value={currentTab}>
+          <Card className="full-card">
+            {(childrenProps?.title || childrenProps?.description) && (
+              <CardHeader>
+                {childrenProps?.title && (
+                  <CardTitle>{childrenProps.title}</CardTitle>
+                )}
+                {childrenProps?.description && (
+                  <CardDescription>{childrenProps.description}</CardDescription>
+                )}
+              </CardHeader>
+            )}
+            <CardContent className="space-y-2">{DataTable}</CardContent>
+            {Footer && <CardFooter>{Footer}</CardFooter>}
+          </Card>
+        </TabsContent>
+      </div>
+    </Tabs>
+  );
+};
+
+export default VerticalTabsComponent;

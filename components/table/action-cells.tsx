@@ -79,7 +79,6 @@ export const EncounterActionCell: React.FC<EncounterCellProps> = ({ row }) => {
 export const PatientActionCell: React.FC<PatientCellProps> = ({ row }) => {
   const router = useRouter();
   const patient = row.original;
-  console.log("patient", patient);
   const handleDetailsClick = () => {
     router.push(`/admin/patients/${patient.$id}`);
   };
