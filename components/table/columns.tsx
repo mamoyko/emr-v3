@@ -5,13 +5,19 @@ import Image from "next/image";
 
 import { Doctors } from "@/constants";
 import { formatDateTime } from "@/lib/utils";
-import { Appointment, Encounters, Patients } from "@/types/appwrite.types";
+import {
+  Appointment,
+  Encounters,
+  Patient,
+  Patients,
+} from "@/types/appwrite.types";
 
 import { StatusBadge } from "../StatusBadge";
 
 import {
   ActionsCell,
   EncounterActionCell,
+  GenericActionButtonCell,
   PatientActionCell,
 } from "./action-cells";
 
@@ -179,7 +185,7 @@ export const patientSymptoms: ColumnDef<Patients, any>[] = [
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
-    cell: PatientActionCell,
+    cell: ({ row }) => <GenericActionButtonCell row={row} />,
   },
 ];
 
@@ -191,7 +197,7 @@ export const patientMedicalHistory: ColumnDef<Patients, any>[] = [
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
-    cell: PatientActionCell,
+    cell: ({ row }) => <GenericActionButtonCell row={row} />,
   },
 ];
 
@@ -203,7 +209,7 @@ export const patientPhysicalMedicationFindings: ColumnDef<Patients, any>[] = [
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
-    cell: PatientActionCell,
+    cell: ({ row }) => <GenericActionButtonCell row={row} />,
   },
 ];
 
@@ -215,6 +221,6 @@ export const patientVitalSigns: ColumnDef<Patients, any>[] = [
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
-    cell: PatientActionCell,
+    cell: ({ row }) => <GenericActionButtonCell row={row} />,
   },
 ];

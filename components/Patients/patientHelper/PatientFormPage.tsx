@@ -1,97 +1,125 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import UseRouting from "@/components/helperFunctions/UseRouting";
+import {
+  patientSymptoms,
+  patientPhysicalMedicationFindings,
+  patientVitalSigns,
+  patientMedicalHistory,
+} from "@/components/table/columns";
+import VerticalTabsComponent from "@/components/vertical-tabs/VerticalTabsComponent";
 
 import PatientFormHelper from "./PatientFormHelper";
 
-const PATIENT_DETAILS = Object.freeze({
-  SYMPTOMS: { VALUE: "symptoms", LABEL: "Symptoms" },
-  VITAL_SIGNS: { VALUE: "vital-signs", LABEL: "Vital Signs" },
+const ENCOUNTERS_DETAILS = {
+  SYMPTOMS: { value: "symptoms", title: "Symptoms" },
+  VITAL_SIGNS: { value: "vital-signs", title: "Vital Signs" },
   PHYSICAL_EXAMINATION_FINDINGS: {
-    VALUE: "physical-examination-findings",
-    LABEL: "Physical Examination Findings",
+    value: "physical-examination-findings",
+    title: "Physical Examination Findings",
   },
-  MEDICAL_HISTORY: { VALUE: "medical-history", LABEL: "Medical History" },
-});
+  MEDICAL_HISTORY: { value: "medical-history", title: "Medical History" },
+};
 
-interface PatientFormPageProps {
+type TabStateProcess = {
+  tab: string;
+  tabData: any;
+  isLoading: boolean;
+  navigation: string;
   mode: string;
-  handlePatientDetails: Function;
-}
+};
 
-const PatientFormPage: React.FC<PatientFormPageProps> = ({
-  mode,
-  handlePatientDetails,
-}) => {
-  const { routePathId, routePath } = UseRouting();
-
-  const [currentTab, setCurrentTab] = useState({
-    tab: PATIENT_DETAILS.SYMPTOMS.VALUE,
+export const PatientFormPage = () => {
+  const [tabProcess, setTabProcess] = useState<TabStateProcess>({
+    navigation: "",
+    tab: "",
     tabData: [],
+    isLoading: false,
+    mode: "view",
   });
 
-  const handleTabChange = (value: string) => {
-    setCurrentTab((prevState) => ({
-      ...prevState,
-      tab: value,
-    }));
-    routePathId("active", value);
+  const handleStateChange = <stateFN extends keyof TabStateProcess>(
+    key: stateFN,
+    value: TabStateProcess[stateFN]
+  ) => {
+    setTabProcess((prevState) => ({ ...prevState, [key]: value }));
   };
+
+  const handleFetchColumns = (value: string) => {
+    switch (value) {
+      case ENCOUNTERS_DETAILS.SYMPTOMS.value:
+        return patientSymptoms;
+      case ENCOUNTERS_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value:
+        return patientPhysicalMedicationFindings;
+      case ENCOUNTERS_DETAILS.MEDICAL_HISTORY.value:
+        return patientMedicalHistory;
+      case ENCOUNTERS_DETAILS.VITAL_SIGNS.value:
+        return patientVitalSigns;
+      default:
+        return patientSymptoms;
+    }
+  };
+
+  const fetchMedicalDetails = async (value: string) => {
+    handleStateChange("isLoading", true);
+    handleStateChange("tab", value);
+    const response = {
+      ok: true,
+      data: [
+        {
+          symptom_description: "symptoms1 1 1 1",
+          duration: "symptoms1 1 1 1",
+          severity: "symptoms1 1 1 1",
+          onset: "symptoms1 1 1 1",
+          aggravating_factors: "symptoms1 1 1 1",
+          relieving_factors: "symptoms1 1 1 1",
+          patient: "symptoms1 1 1 1",
+        },
+        {
+          symptom_description: "symptoms 2 2 2",
+          duration: "symptoms 2 2 2",
+          severity: "symptoms 2 2 2",
+          onset: "symptoms 2 2 2",
+          aggravating_factors: "symptoms 2 2 2",
+          relieving_factors: "symptoms 2 2 2",
+          patient: "symptoms 2 2 2",
+        },
+      ],
+    };
+
+    if (response.ok) {
+      handleStateChange("tabData", response.data);
+    }
+    handleStateChange("isLoading", false);
+  };
+
+  useEffect(() => {
+    fetchMedicalDetails(tabProcess.navigation);
+  }, [tabProcess.navigation]);
 
   return (
     <div className="flex h-screen w-full">
-      {/* Sidebar Navigation */}
-      <nav className="h-full w-[15%] shrink-0 overflow-y-auto border-r border-gray-200 bg-gray-50">
-        <div className="p-4">
-          <button
-            onClick={(event) => {
-              handlePatientDetails(mode === "view" ? "edit" : "view", "mode");
-              event.stopPropagation();
-            }}
-            className="w-full rounded-md bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300"
-          >
-            {mode === "view" ? "Add Medical Details" : "View Medical Details"}
-          </button>
-        </div>
-        <ul className="p-4">
-          {Object.values(PATIENT_DETAILS).map((detail) => (
-            <li key={detail.VALUE} className="mb-2">
-              <button
-                onClick={() => handleTabChange(detail.VALUE)}
-                className={`w-full px-4 py-2 text-left transition-colors duration-300 ease-in-out ${
-                  currentTab.tab === detail.VALUE
-                    ? "bg-blue-700 text-white"
-                    : "text-gray-600 hover:bg-blue-100"
-                }`}
-              >
-                {detail.LABEL}
-              </button>
-            </li>
-          ))}
-        </ul>
-        <div className="p-4">
-          <button
-            onClick={(event) => {
-              routePath(`/admin/patients`);
-              event.stopPropagation();
-            }}
-            className="w-full rounded-md bg-rose-500 px-4 py-2 text-white hover:bg-rose-400"
-          >
-            Back
-          </button>
-        </div>
-      </nav>
-
-      {/* Component renderer */}
-      <PatientFormHelper
-        mode={mode}
-        currentTab={currentTab}
-        PATIENT_DETAILS={PATIENT_DETAILS}
+      <VerticalTabsComponent
+        handleNavigation={(value: string) => {
+          handleStateChange("navigation", value);
+        }}
+        navigationList={Object.values(ENCOUNTERS_DETAILS)}
+        dataTableProps={
+          ENCOUNTERS_DETAILS[
+            tabProcess.navigation.toUpperCase().replace(/-/g, "_")
+          ] || {}
+        }
+        defaultValue={tabProcess.navigation}
+        Footer={null}
+        DataTable={
+          <PatientFormHelper
+            PATIENT_DETAILS={ENCOUNTERS_DETAILS}
+            currentTab={tabProcess}
+            mode={tabProcess.mode}
+          />
+        }
       />
     </div>
   );
 };
-
-export default PatientFormPage;

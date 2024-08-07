@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import { Header } from "@/components/Header";
 
-import { PatientsNavigationPage } from "./patientMedicalDetailsTable/PatientsNavigationPage";
+import { PatientFormPage } from "./patientHelper/PatientFormPage";
 
 interface PatientDataState {
   data: any[];
@@ -12,7 +12,7 @@ interface PatientDataState {
   mode: "view" | "edit";
 }
 
-const PatientsMedicalDetailsComponent = () => {
+const PatientMedicalFormComponent = () => {
   const [patientDetails, setPatientDetails] = useState<PatientDataState>({
     data: [],
     isErrorMessage: "",
@@ -56,10 +56,10 @@ const PatientsMedicalDetailsComponent = () => {
             patientDetails.mode === "view" ? "View" : "Create"
           } Patient`}</h1>
         </section>
-        <PatientsNavigationPage />
+        <PatientFormPage />
       </main>
     </div>
   );
 };
 
-export default PatientsMedicalDetailsComponent;
+export default PatientMedicalFormComponent;

@@ -11,10 +11,10 @@ interface PatientFormHelperProps {
     tabData: any;
   };
   PATIENT_DETAILS: {
-    MEDICAL_HISTORY: { VALUE: string };
-    PHYSICAL_EXAMINATION_FINDINGS: { VALUE: string };
-    SYMPTOMS: { VALUE: string };
-    VITAL_SIGNS: { VALUE: string };
+    MEDICAL_HISTORY: { title: string; value: string };
+    PHYSICAL_EXAMINATION_FINDINGS: { title: string; value: string };
+    SYMPTOMS: { title: string; value: string };
+    VITAL_SIGNS: { title: string; value: string };
   };
   mode: string;
 }
@@ -26,25 +26,25 @@ const PatientFormHelper = ({
 }: PatientFormHelperProps) => {
   const renderComponent = () => {
     switch (currentTab.tab) {
-      case PATIENT_DETAILS.MEDICAL_HISTORY.VALUE:
+      case PATIENT_DETAILS.MEDICAL_HISTORY.value:
         return (
           <PatientMedicalHistory
             initialValue={currentTab.tabData}
             mode={mode}
           />
         );
-      case PATIENT_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.VALUE:
+      case PATIENT_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value:
         return (
           <PatientPhysicalExaminationFindings
             initialValue={currentTab.tabData}
             mode={mode}
           />
         );
-      case PATIENT_DETAILS.SYMPTOMS.VALUE:
+      case PATIENT_DETAILS.SYMPTOMS.value:
         return (
           <PatientSymptoms initialValue={currentTab.tabData} mode={mode} />
         );
-      case PATIENT_DETAILS.VITAL_SIGNS.VALUE:
+      case PATIENT_DETAILS.VITAL_SIGNS.value:
         return (
           <PatientVitalSigns initialValue={currentTab.tabData} mode={mode} />
         );
@@ -54,9 +54,9 @@ const PatientFormHelper = ({
   };
 
   return (
-    <Fragment>
-      <main className="flex-1 overflow-auto p-4">{renderComponent()}</main>
-    </Fragment>
+    <div className="flex-1 overflow-y-auto overflow-x-hidden p-4">
+      {renderComponent()}
+    </div>
   );
 };
 

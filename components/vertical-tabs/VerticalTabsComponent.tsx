@@ -53,12 +53,16 @@ const VerticalTabsComponent = ({
       onValueChange={handleTabChange}
       className="vertical-tabs"
     >
-      <TabsList className="vertical-tab-list">
-        {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => (
-          <TabsTrigger key={navItem.value} value={navItem.value}>
-            {navItem.title}
-          </TabsTrigger>
-        ))}
+      <TabsList className="vertical-tab-list flex flex-col items-start overflow-y-auto">
+        {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => {
+          return (
+            <div key={navItem.title} className="flex overflow-x-auto ">
+              <TabsTrigger key={navItem.value} value={navItem.value}>
+                <text>{navItem.title}</text>
+              </TabsTrigger>
+            </div>
+          );
+        })}
       </TabsList>
 
       <div className="vertical-tab-content">

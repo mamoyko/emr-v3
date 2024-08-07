@@ -3,6 +3,7 @@ import exp from "constants";
 import { Models } from "node-appwrite";
 
 export interface Patient extends Models.Document {
+  patient_id: string;
   userId: string;
   name: string;
   email: string;
@@ -51,7 +52,8 @@ export interface Patients extends Models.Document {
   $createdAt: string;
   $updatedAt: string;
   $databaseId: string;
-  $id: string;
+  // $id: string;
+  id: string;
   $permissions: string[];
   $tenant: string;
   address: string;

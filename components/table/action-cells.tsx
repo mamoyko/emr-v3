@@ -2,7 +2,12 @@ import { Row } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { Appointment, Encounters } from "@/types/appwrite.types";
+import {
+  Appointment,
+  Encounters,
+  Patient,
+  Patients,
+} from "@/types/appwrite.types";
 
 import { AppointmentModal } from "../AppointmentModal";
 
@@ -16,6 +21,10 @@ type EncounterCellProps = {
 
 type PatientCellProps = {
   row: Row<Encounters>;
+};
+
+type GenericActionCellProps = {
+  row: Row<Patients>;
 };
 
 export const ActionsCell: React.FC<ActionsCellProps> = ({ row }) => {
@@ -83,13 +92,6 @@ export const PatientActionCell: React.FC<PatientCellProps> = ({ row }) => {
     router.push(`/admin/patients/${patient.$id}`);
   };
 
-  // const handleDetailsClick = () => {
-  //   const queryString = new URLSearchParams({
-  //     patient: JSON.stringify(patient),
-  //   }).toString();
-  //   router.push(`/admin/patients?${queryString}`);
-  // };
-
   return (
     <div className="flex gap-1">
       <Button
@@ -98,6 +100,28 @@ export const PatientActionCell: React.FC<PatientCellProps> = ({ row }) => {
         onClick={handleDetailsClick}
       >
         Medical Details
+      </Button>
+    </div>
+  );
+};
+
+export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
+  row,
+}) => {
+  const router = useRouter();
+  const patient = row.original;
+  const handleDetailsClick = () => {
+    router.push(`/admin/patients/create/${patient.id}`);
+  };
+
+  return (
+    <div className="flex gap-1">
+      <Button
+        variant="ghost"
+        className="capitalize text-lime-500"
+        onClick={handleDetailsClick}
+      >
+        Medical Details Form
       </Button>
     </div>
   );

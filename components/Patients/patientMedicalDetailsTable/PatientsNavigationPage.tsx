@@ -69,12 +69,14 @@ export const PatientsNavigationPage = () => {
       ok: true,
       data: [
         {
+          id: "24534",
           name: "name one",
           gender: "G",
           Phone: "+644429131361371",
           address: "secret",
         },
         {
+          id: "24761",
           name: "name two",
           gender: "G",
           Phone: "+644429131361371",
