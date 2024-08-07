@@ -18,7 +18,7 @@ interface VerticalTabsComponentProps {
   navigationList: any;
   DataTable: ReactNode;
   Footer: ReactNode;
-  childrenProps?: {
+  dataTableProps?: {
     title?: string;
     description?: string;
   };
@@ -28,7 +28,7 @@ interface VerticalTabsComponentProps {
 
 const VerticalTabsComponent = ({
   navigationList,
-  childrenProps,
+  dataTableProps,
   DataTable,
   defaultValue,
   Footer,
@@ -43,7 +43,7 @@ const VerticalTabsComponent = ({
     handleNavigation(value);
   };
 
-  const MEMOIZENAV = Array.isArray(navigationList)
+  const MEMOIZE_NAV = Array.isArray(navigationList)
     ? [...navigationList]
     : [...FNtransformObjectToArray({ toTransformData: navigationList })];
 
@@ -54,7 +54,7 @@ const VerticalTabsComponent = ({
       className="vertical-tabs"
     >
       <TabsList className="vertical-tab-list">
-        {MEMOIZENAV.map((navItem: { value: string; title: string }) => (
+        {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => (
           <TabsTrigger key={navItem.value} value={navItem.value}>
             {navItem.title}
           </TabsTrigger>
@@ -64,13 +64,15 @@ const VerticalTabsComponent = ({
       <div className="vertical-tab-content">
         <TabsContent value={currentTab}>
           <Card className="full-card">
-            {(childrenProps?.title || childrenProps?.description) && (
+            {(dataTableProps?.title || dataTableProps?.description) && (
               <CardHeader>
-                {childrenProps?.title && (
-                  <CardTitle>{childrenProps.title}</CardTitle>
+                {dataTableProps?.title && (
+                  <CardTitle>{dataTableProps.title}</CardTitle>
                 )}
-                {childrenProps?.description && (
-                  <CardDescription>{childrenProps.description}</CardDescription>
+                {dataTableProps?.description && (
+                  <CardDescription>
+                    {dataTableProps.description}
+                  </CardDescription>
                 )}
               </CardHeader>
             )}

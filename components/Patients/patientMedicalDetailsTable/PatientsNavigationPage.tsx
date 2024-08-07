@@ -38,12 +38,12 @@ export const PatientsNavigationPage = () => {
     navigation: "symptoms",
     isLoading: false,
     dataTableData: [],
-    columnsTableData: patientSymptoms,
+    columnsTableData: null,
   });
 
-  const handleStateChange = <K extends keyof StateTableProcess>(
-    key: K,
-    value: StateTableProcess[K]
+  const handleStateChange = <stateFN extends keyof StateTableProcess>(
+    key: stateFN,
+    value: StateTableProcess[stateFN]
   ) => {
     setTableProcess((prevState) => ({ ...prevState, [key]: value }));
   };
@@ -59,7 +59,7 @@ export const PatientsNavigationPage = () => {
       case ENCOUNTERS_DETAILS.VITAL_SIGNS.value:
         return patientVitalSigns;
       default:
-        return [];
+        return patientSymptoms;
     }
   };
 
@@ -101,7 +101,7 @@ export const PatientsNavigationPage = () => {
           handleStateChange("navigation", value);
         }}
         navigationList={Object.values(ENCOUNTERS_DETAILS)}
-        childrenProps={
+        dataTableProps={
           ENCOUNTERS_DETAILS[
             tableProcess.navigation.toUpperCase().replace(/-/g, "_")
           ] || {}
