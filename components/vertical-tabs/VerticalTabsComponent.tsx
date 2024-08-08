@@ -11,8 +11,8 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import "./VerticalTabs.css";
+import { FNObjectLevelOneToArray } from "../helperFunctions/TransformObjectToArray";
 import UseRouting from "../helperFunctions/UseRouting";
-import { FNtransformObjectToArray } from "../Patients/patientMedicalDetailsTable/PatientNavigationHelper";
 
 interface VerticalTabsComponentProps {
   navigationList: any;
@@ -47,7 +47,7 @@ const VerticalTabsComponent = ({
 
   const MEMOIZE_NAV = Array.isArray(navigationList)
     ? [...navigationList]
-    : [...FNtransformObjectToArray({ toTransformData: navigationList })];
+    : [...FNObjectLevelOneToArray({ toTransformData: navigationList })];
 
   return (
     <div className="w-full grow-0">

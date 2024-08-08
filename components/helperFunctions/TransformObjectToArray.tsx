@@ -1,4 +1,4 @@
-interface FNtransformObjectToArrayProps {
+interface FNObjectLevelOneToArrayProps {
   toTransformData: {
     [key: string]: {
       value: string;
@@ -7,9 +7,9 @@ interface FNtransformObjectToArrayProps {
   };
 }
 
-export const FNtransformObjectToArray = ({
+export const FNObjectLevelOneToArray = ({
   toTransformData,
-}: FNtransformObjectToArrayProps) => {
+}: FNObjectLevelOneToArrayProps) => {
   const objectToArray = (data: any) => {
     return Object.values(data);
   };

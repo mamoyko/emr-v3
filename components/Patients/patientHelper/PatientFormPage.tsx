@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 
-import UseRouting from "@/components/helperFunctions/UseRouting";
 import {
   patientSymptoms,
   patientPhysicalMedicationFindings,
@@ -33,8 +32,6 @@ type TabStateProcess = {
 };
 
 export const PatientFormPage = () => {
-  const { routePath } = UseRouting();
-
   const [tabProcess, setTabProcess] = useState<TabStateProcess>({
     navigation: "",
     tab: "",
