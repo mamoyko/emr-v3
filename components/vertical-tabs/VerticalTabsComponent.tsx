@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import "./VerticalTabs.css";
 import { FNObjectLevelOneToArray } from "../helperFunctions/TransformObjectToArray";
 import UseRouting from "../helperFunctions/UseRouting";
-import useWindowHeight from "../helperFunctions/useWindowHeight";
+import useWindowDimension from "../helperFunctions/useWindowDimension";
 
 interface VerticalTabsComponentProps {
   navigationList: any;
@@ -38,7 +38,7 @@ const VerticalTabsComponent = ({
 }: VerticalTabsComponentProps) => {
   const [currentTab, setCurrentTab] = useState(defaultValue);
   const { routePathId } = UseRouting();
-  const height = useWindowHeight();
+  const { height, width } = useWindowDimension();
 
   const handleTabChange = (value: string) => {
     setCurrentTab(value);
