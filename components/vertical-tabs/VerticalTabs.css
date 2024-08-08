@@ -1,3 +1,8 @@
+.vertical-tabs-container {
+  display: flex;
+  width: 100%;
+}
+
 .vertical-tabs {
   display: flex;
   width: 100%;
@@ -10,24 +15,25 @@
   border-right: 1px solid #ccc;
   margin-right: 20px;
   width: 250px;
-  height: 100%;
+  overflow-y: auto;
 }
 
-.vertical-tab-list .shadcn-tab {
+.vertical-tab-trigger {
   padding: 10px 20px;
   cursor: pointer;
+  width: 100%;
+  text-align: left;
 }
 
-.vertical-tab-list .shadcn-tab-selected {
+.vertical-tab-trigger:hover {
   background-color: #f0f0f0;
 }
 
 .vertical-tab-content {
   flex-grow: 1;
-  height: 100%;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  width: 100%;
 }
 
 .full-card {

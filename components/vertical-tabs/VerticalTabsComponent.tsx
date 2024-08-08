@@ -54,7 +54,7 @@ const VerticalTabsComponent = ({
   return (
     <div
       className="vertical-tabs-container"
-      style={{ height: `${height - 200}px` }}
+      style={{ height: `${height - 280}px` }}
     >
       <Tabs
         value={currentTab}
@@ -63,7 +63,7 @@ const VerticalTabsComponent = ({
       >
         <TabsList
           className="vertical-tab-list"
-          style={{ height: `${height - 200}px` }}
+          style={{ height: `${height - 280}px` }}
         >
           {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => (
             <TabsTrigger
@@ -78,7 +78,7 @@ const VerticalTabsComponent = ({
         <TabsContent
           className="vertical-tab-content"
           value={currentTab}
-          style={{ height: `${height - 200}px` }}
+          style={{ height: `${height - 280}px` }}
         >
           <Card className="full-card">
             {(TitleComponent || DescriptionComponent) && (
