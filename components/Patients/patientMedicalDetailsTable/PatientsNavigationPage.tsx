@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 
-import UseRouting from "@/components/helperFunctions/UseRouting";
 import {
   patientSymptoms,
   patientPhysicalMedicationFindings,
@@ -12,6 +11,8 @@ import {
 import { DataTable } from "@/components/table/DataTable";
 import { Button } from "@/components/ui/button";
 import VerticalTabsComponent from "@/components/vertical-tabs/VerticalTabsComponent";
+
+import PatientFormHelper from "../patientHelper/PatientFormHelper";
 
 const ENCOUNTERS_DETAILS = {
   SYMPTOMS: { value: "symptoms", title: "Symptoms" },
@@ -23,26 +24,23 @@ const ENCOUNTERS_DETAILS = {
   MEDICAL_HISTORY: { value: "medical-history", title: "Medical History" },
 };
 
-type EncounterDetail = {
-  value: string;
-  title: string;
-};
-
 type StateTableProcess = {
   navigation: string;
   isLoading: boolean;
   dataTableData: any[];
+  formData: any[];
   columnsTableData: any[];
+  isInForm: boolean;
 };
 
 export const PatientsNavigationPage = () => {
-  const { routePath } = UseRouting();
-
   const [tableProcess, setTableProcess] = useState<StateTableProcess>({
     navigation: "symptoms",
     isLoading: false,
     dataTableData: [],
+    formData: [],
     columnsTableData: null,
+    isInForm: false,
   });
 
   const handleStateChange = <stateFN extends keyof StateTableProcess>(
@@ -96,15 +94,17 @@ export const PatientsNavigationPage = () => {
     handleStateChange("isLoading", false);
   };
 
+  const handleDetailsClick = () => {
+    handleStateChange("isInForm", !tableProcess.isInForm);
+  };
+
+  const handleParentProcess = () => {
+    handleStateChange("isInForm", false);
+  };
+
   useEffect(() => {
     fetchMedicalDetails(tableProcess.navigation);
   }, [tableProcess.navigation]);
-
-  const handleDetailsClick = () => {
-    // W.I.P
-    // router issue
-    routePath(`/admin/patients/create/${tableProcess.navigation}`);
-  };
 
   return (
     <div className="flex h-screen w-full">
@@ -112,6 +112,7 @@ export const PatientsNavigationPage = () => {
         handleNavigation={(value: string) => {
           handleStateChange("navigation", value);
         }}
+        handleParentProcess={() => handleParentProcess()}
         navigationList={Object.values(ENCOUNTERS_DETAILS)}
         defaultValue={tableProcess.navigation}
         DescriptionComponent={null}
@@ -127,21 +128,33 @@ export const PatientsNavigationPage = () => {
             <Button
               variant="outline"
               className="capitalize text-lime-500"
-              onClick={handleDetailsClick}
+              onClick={() => handleDetailsClick()}
             >
-              {`Add ${
-                ENCOUNTERS_DETAILS[
-                  tableProcess.navigation.toUpperCase().replace(/-/g, "_")
-                ].title
-              }`}
+              {tableProcess.isInForm
+                ? "Back"
+                : `Add ${
+                    ENCOUNTERS_DETAILS[
+                      tableProcess.navigation.toUpperCase().replace(/-/g, "_")
+                    ].title
+                  }`}
             </Button>
           </div>
         }
         ContentComponent={
-          <DataTable
-            columns={tableProcess.columnsTableData || []}
-            data={tableProcess.dataTableData}
-          />
+          <div className="flex-1 overflow-y-auto overflow-x-hidden">
+            {tableProcess.isInForm ? (
+              <PatientFormHelper
+                currentTab={{ tab: tableProcess.navigation, tabData: [] }}
+                PATIENT_DETAILS={ENCOUNTERS_DETAILS}
+                mode={"edit"}
+              />
+            ) : (
+              <DataTable
+                columns={tableProcess.columnsTableData || []}
+                data={tableProcess.dataTableData}
+              />
+            )}
+          </div>
         }
         FooterComponent={null}
       />

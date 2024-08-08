@@ -99,7 +99,7 @@ export const PatientFormPage = () => {
   };
 
   const handleDetailsClick = () => {
-    routePath(`/admin/patients/create/${tabProcess.navigation}`);
+    // routePath(`/admin/patients/create/${tabProcess.navigation}`);
   };
 
   useEffect(() => {
@@ -113,11 +113,6 @@ export const PatientFormPage = () => {
           handleStateChange("navigation", value);
         }}
         navigationList={Object.values(ENCOUNTERS_DETAILS)}
-        // ContentComponent={
-        //   ENCOUNTERS_DETAILS[
-        //     tabProcess.navigation.toUpperCase().replace(/-/g, "_")
-        //   ] || {}
-        // }
         defaultValue={tabProcess.navigation}
         TitleComponent={
           <div className="flex w-full items-center justify-between">

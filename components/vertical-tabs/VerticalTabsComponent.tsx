@@ -22,6 +22,7 @@ interface VerticalTabsComponentProps {
   handleNavigation: (value: string) => void;
   TitleComponent: ReactNode;
   DescriptionComponent: ReactNode;
+  handleParentProcess: () => void;
 }
 
 const VerticalTabsComponent = ({
@@ -32,6 +33,7 @@ const VerticalTabsComponent = ({
   FooterComponent,
   DescriptionComponent,
   handleNavigation,
+  handleParentProcess,
 }: VerticalTabsComponentProps) => {
   const [currentTab, setCurrentTab] = useState(defaultValue);
   const { routePathId } = UseRouting();
@@ -40,6 +42,7 @@ const VerticalTabsComponent = ({
     setCurrentTab(value);
     routePathId("active", value);
     handleNavigation(value);
+    handleParentProcess();
   };
 
   const MEMOIZE_NAV = Array.isArray(navigationList)
@@ -53,7 +56,7 @@ const VerticalTabsComponent = ({
         onValueChange={handleTabChange}
         className="vertical-tabs"
       >
-        <TabsList className="vertical-tab-list flex flex-col items-start overflow-y-auto">
+        <TabsList className="vertical-tab-list flex flex-col items-start ">
           {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => {
             return (
               <div key={navItem.title} className="flex w-full overflow-x-auto">
