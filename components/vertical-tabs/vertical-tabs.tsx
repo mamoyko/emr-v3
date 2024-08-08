@@ -18,13 +18,6 @@ export const VerticalTabs = () => {
       <TabsList className="vertical-tab-list">
         <TabsTrigger value="account">account</TabsTrigger>
         <TabsTrigger value="password">password</TabsTrigger>
-        <TabsTrigger value="4">3 lorem</TabsTrigger>
-        <TabsTrigger value="5">4 lorem</TabsTrigger>
-        <TabsTrigger value="6">5 lorem</TabsTrigger>
-        <TabsTrigger value="7">6 lorem</TabsTrigger>
-        <TabsTrigger value="8">7 lorem</TabsTrigger>
-        <TabsTrigger value="9">8 lorem</TabsTrigger>
-        <TabsTrigger value="9">9 lorem</TabsTrigger>
       </TabsList>
       <div className="vertical-tab-content">
         <TabsContent value="account">

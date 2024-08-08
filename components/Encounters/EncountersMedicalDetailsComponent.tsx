@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 import { Header } from "@/components/Header";
 
-import { PatientsNavigationPage } from "../Patients/patientMedicalDetailsTable/PatientsNavigationPage";
+import { EncounterNavigationPage } from "./encounterHelperComponent/EncounterNavigationPage";
 
 interface PatientDataState {
   data: any[];
@@ -56,7 +56,7 @@ const EncountersMedicalDetailsComponent = () => {
             patientDetails.mode === "view" ? "View" : "Create"
           } Encounters`}</h1>
         </section>
-        <PatientsNavigationPage />
+        <EncounterNavigationPage />
       </main>
     </div>
   );

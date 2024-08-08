@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 import MedicalDetailsFormHelper from "@/components/forms/medicalDetailsForm/MedicalDetailsFormHelper";
 import {
@@ -32,7 +32,7 @@ type StateTableProcess = {
   isInForm: boolean;
 };
 
-export const PatientsNavigationPage = () => {
+export const EncounterNavigationPage = () => {
   const [tableProcess, setTableProcess] = useState<StateTableProcess>({
     navigation: "symptoms",
     isLoading: false,

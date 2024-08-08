@@ -3,7 +3,7 @@ import FormPhysicalExaminationFindings from "@/components/forms/medicalDetailsFo
 import FormSymptoms from "@/components/forms/medicalDetailsForm/FormSymptoms";
 import FormVitalSigns from "@/components/forms/medicalDetailsForm/FormVitalSigns";
 
-interface PatientFormHelperProps {
+interface MedicalDetailsFormHelperProps {
   currentTab: {
     tab: string;
     tabData: any;
@@ -17,11 +17,11 @@ interface PatientFormHelperProps {
   mode: string;
 }
 
-const PatientFormHelper = ({
+const MedicalDetailsFormHelper = ({
   currentTab,
   PATIENT_DETAILS,
   mode,
-}: PatientFormHelperProps) => {
+}: MedicalDetailsFormHelperProps) => {
   const renderComponent = () => {
     switch (currentTab.tab) {
       case PATIENT_DETAILS.MEDICAL_HISTORY.value:
@@ -51,4 +51,4 @@ const PatientFormHelper = ({
   );
 };
 
-export default PatientFormHelper;
+export default MedicalDetailsFormHelper;

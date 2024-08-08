@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 
+import MedicalDetailsFormHelper from "@/components/forms/medicalDetailsForm/MedicalDetailsFormHelper";
 import {
   patientSymptoms,
   patientPhysicalMedicationFindings,
@@ -10,8 +11,6 @@ import {
 } from "@/components/table/columns";
 import { Button } from "@/components/ui/button";
 import VerticalTabsComponent from "@/components/vertical-tabs/VerticalTabsComponent";
-
-import PatientFormHelper from "./PatientFormHelper";
 
 const ENCOUNTERS_DETAILS = {
   SYMPTOMS: { value: "symptoms", title: "Symptoms" },
@@ -133,7 +132,7 @@ export const PatientFormPage = () => {
         DescriptionComponent={null}
         FooterComponent={null}
         ContentComponent={
-          <PatientFormHelper
+          <MedicalDetailsFormHelper
             PATIENT_DETAILS={ENCOUNTERS_DETAILS}
             currentTab={tabProcess}
             mode={tabProcess.mode}
