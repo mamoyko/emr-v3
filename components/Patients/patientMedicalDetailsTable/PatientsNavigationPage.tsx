@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 
-import MedicalDetailsFormHelper from "@/components/forms/medicalDetailsForm/MedicalDetailsFormHelper";
+import MultiMedicalDetailsFormHelper from "@/components/forms/multiMedicalDetailsForm/MultiMedicalDetailsFormHelper";
 import {
   patientSymptoms,
   patientPhysicalMedicationFindings,
@@ -141,7 +141,7 @@ export const PatientsNavigationPage = () => {
       ContentComponent={
         <div className="flex-1 overflow-y-auto overflow-x-hidden">
           {tableProcess.isInForm ? (
-            <MedicalDetailsFormHelper
+            <MultiMedicalDetailsFormHelper
               currentTab={{ tab: tableProcess.navigation, tabData: [] }}
               PATIENT_DETAILS={ENCOUNTERS_DETAILS}
               mode={"edit"}

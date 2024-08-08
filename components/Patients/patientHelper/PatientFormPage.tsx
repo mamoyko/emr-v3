@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 
-import MedicalDetailsFormHelper from "@/components/forms/medicalDetailsForm/MedicalDetailsFormHelper";
+import MultiMedicalDetailsFormHelper from "@/components/forms/multiMedicalDetailsForm/MultiMedicalDetailsFormHelper";
 import {
   patientSymptoms,
   patientPhysicalMedicationFindings,
@@ -132,7 +132,7 @@ export const PatientFormPage = () => {
         DescriptionComponent={null}
         FooterComponent={null}
         ContentComponent={
-          <MedicalDetailsFormHelper
+          <MultiMedicalDetailsFormHelper
             PATIENT_DETAILS={ENCOUNTERS_DETAILS}
             currentTab={tabProcess}
             mode={tabProcess.mode}
