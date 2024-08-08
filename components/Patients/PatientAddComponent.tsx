@@ -3,7 +3,7 @@
 import EncountersAddPatientPage from "@/components/forms/encounters/EncountersAddPatientPage";
 import { Header } from "@/components/Header";
 
-const EncountersAddComponent = () => {
+const PatientAddComponent = () => {
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <Header />
@@ -20,4 +20,4 @@ const EncountersAddComponent = () => {
   );
 };
 
-export default EncountersAddComponent;
+export default PatientAddComponent;

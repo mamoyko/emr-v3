@@ -33,7 +33,7 @@ export const EncountersComponent = ({
             className="capitalize text-sky-500"
             onClick={() => routePath(`/admin/encounters/create`)}
           >
-            Add Patient
+            Add Encounter
           </Button>
         </section>
         <DataTable columns={columnEncounters} data={documents} />

@@ -31,7 +31,7 @@ export const PatientsComponent = ({
           <Button
             variant="ghost"
             className="capitalize text-sky-500"
-            onClick={() => routePath(`/admin/encounters/create`)}
+            onClick={() => routePath(`/admin/patients/create`)}
           >
             Add Patient
           </Button>

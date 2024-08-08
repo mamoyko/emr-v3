@@ -1,16 +1,7 @@
-import { PatientsComponent } from "@/components/Patients/PatientsComponent";
-import { getUsers } from "@/lib/actions/patient.actions";
-
-import AdminPatientPage from "../page";
+import PatientAddComponent from "@/components/Patients/PatientAddComponent";
 
 const AdminPatientCreatePage = async () => {
-  const patients = await getUsers();
-  return (
-    <PatientsComponent
-      documents={patients?.documents}
-      totalCount={patients?.totalCount}
-    />
-  );
+  return <PatientAddComponent />;
 };
 
 export default AdminPatientCreatePage;
