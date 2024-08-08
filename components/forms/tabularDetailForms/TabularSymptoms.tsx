@@ -5,46 +5,66 @@ import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 
-interface FormData {
-  past_medical_conditions: string;
-  past_surgical_history: string;
-  current_medications: string;
-  allergies: string;
-  immunization_history: string;
-  family_medical_history: string;
+interface Symptom {
+  symptom_description: string;
+  duration: string;
+  severity: string;
+  onset: string;
+  aggravating_factors: string;
+  relieving_factors: string;
+  patient: string;
 }
 
-const PATIENT_DETAILS_FIELDS: {
-  value: keyof FormData;
+interface FormData {
+  symptoms: Symptom[];
+}
+
+const ENCOUNTER_DETAILS_FIELDS: Array<{
+  value: keyof Symptom;
   label: string;
-}[] = [
-  { value: "past_medical_conditions", label: "Past Medical Conditions" },
-  { value: "past_surgical_history", label: "Past Surgical History" },
-  { value: "current_medications", label: "Current Medications" },
-  { value: "allergies", label: "Allergies" },
-  { value: "immunization_history", label: "Immunization History" },
-  { value: "family_medical_history", label: "Family Medical History" },
+  type: FormFieldType;
+}> = [
+  {
+    value: "symptom_description",
+    label: "Symptom Description",
+    type: FormFieldType.TEXTAREA,
+  },
+  { value: "duration", label: "Duration", type: FormFieldType.INPUT },
+  { value: "severity", label: "Severity", type: FormFieldType.INPUT },
+  { value: "onset", label: "Onset", type: FormFieldType.INPUT },
+  {
+    value: "aggravating_factors",
+    label: "Aggravating Factors",
+    type: FormFieldType.TEXTAREA,
+  },
+  {
+    value: "relieving_factors",
+    label: "Relieving Factors",
+    type: FormFieldType.TEXTAREA,
+  },
+  { value: "patient", label: "Patient", type: FormFieldType.INPUT },
 ];
 
-interface PatientMedicalHistoryProps {
+interface TabularSymptomsProps {
   mode: string; // "view" or "edit"
-  initialValue?: FormData[];
+  initialValue?: Symptom[];
 }
 
-const PatientMedicalHistory: React.FC<PatientMedicalHistoryProps> = ({
+const TabularSymptoms: React.FC<TabularSymptomsProps> = ({
   mode,
-  initialValue,
+  initialValue = [],
 }) => {
-  const methods = useForm<{ formSets: FormData[] }>({
+  const methods = useForm<FormData>({
     defaultValues: {
-      formSets: initialValue || [
+      symptoms: initialValue || [
         {
-          past_medical_conditions: "",
-          past_surgical_history: "",
-          current_medications: "",
-          allergies: "",
-          immunization_history: "",
-          family_medical_history: "",
+          symptom_description: "",
+          duration: "",
+          severity: "",
+          onset: "",
+          aggravating_factors: "",
+          relieving_factors: "",
+          patient: "",
         },
       ],
     },
@@ -52,32 +72,43 @@ const PatientMedicalHistory: React.FC<PatientMedicalHistoryProps> = ({
 
   const { handleSubmit, control } = methods;
   const { fields, append, remove } = useFieldArray({
-    name: "formSets",
+    name: "symptoms",
     control,
   });
 
-  const onSubmit = (data: { formSets: FormData[] }) => {
+  const onSubmit = (data: FormData) => {
     console.log(data);
   };
 
   return (
     <FormProvider {...methods}>
       <div className="flex items-start justify-center">
-        <div className="w-full">
+        <div className="w-full overflow-auto">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {fields.map((field, index) => (
               <div key={field.id} className="rounded-md border p-4 shadow-sm">
                 <h3 className="mb-4 text-lg font-semibold">
                   Form Set {index + 1}
                 </h3>
+                <div className="mb-4">
+                  <CustomFormField
+                    control={control}
+                    name={`symptoms.${index}.patient`}
+                    label="Patient"
+                    fieldType={FormFieldType.INPUT}
+                    disabled={mode === "view"}
+                  />
+                </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  {PATIENT_DETAILS_FIELDS.map(({ value, label }) => (
+                  {ENCOUNTER_DETAILS_FIELDS.filter(
+                    (field) => field.value !== "patient"
+                  ).map(({ value, label, type }) => (
                     <CustomFormField
                       key={value}
                       control={control}
-                      name={`formSets.${index}.${value}`}
+                      name={`symptoms.${index}.${value}`}
                       label={label}
-                      fieldType={FormFieldType.TEXTAREA}
+                      fieldType={type}
                       disabled={mode === "view"}
                     />
                   ))}
@@ -106,12 +137,13 @@ const PatientMedicalHistory: React.FC<PatientMedicalHistoryProps> = ({
                   type="button"
                   onClick={() =>
                     append({
-                      past_medical_conditions: "",
-                      past_surgical_history: "",
-                      current_medications: "",
-                      allergies: "",
-                      immunization_history: "",
-                      family_medical_history: "",
+                      symptom_description: "",
+                      duration: "",
+                      severity: "",
+                      onset: "",
+                      aggravating_factors: "",
+                      relieving_factors: "",
+                      patient: "",
                     })
                   }
                   className="mr-4 rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600"
@@ -133,4 +165,4 @@ const PatientMedicalHistory: React.FC<PatientMedicalHistoryProps> = ({
   );
 };
 
-export default PatientMedicalHistory;
+export default TabularSymptoms;

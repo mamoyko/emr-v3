@@ -57,12 +57,12 @@ const PATIENT_DETAILS_FIELDS: Array<{
   },
 ];
 
-interface PatientVitalSignsProps {
+interface FormVitalSignsProps {
   mode: string; // "view" or "edit"
   initialValue?: VitalSigns[];
 }
 
-const PatientVitalSigns: React.FC<PatientVitalSignsProps> = ({
+const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
   mode,
   initialValue = [],
 }) => {
@@ -178,4 +178,4 @@ const PatientVitalSigns: React.FC<PatientVitalSignsProps> = ({
   );
 };
 
-export default PatientVitalSigns;
+export default FormVitalSigns;

@@ -17,10 +17,7 @@ interface FormData {
   skin: string;
 }
 
-const PATIENT_PHYSICAL_EXAMINATION_FINDINGS: Array<{
-  value: keyof FormData;
-  label: string;
-}> = [
+const FIELD_NAMES: Array<{ value: keyof FormData; label: string }> = [
   { value: "general_appearance", label: "General Appearance" },
   { value: "head_and_neck", label: "Head and Neck" },
   { value: "cardiovascular_system", label: "Cardiovascular System" },
@@ -32,13 +29,13 @@ const PATIENT_PHYSICAL_EXAMINATION_FINDINGS: Array<{
   { value: "skin", label: "Skin" },
 ];
 
-interface PatientPhysicalExaminationFindingsProps {
+interface TabularPhysicalExaminationFindingsProps {
   mode: string; // "view" or "edit"
   initialValue?: FormData[];
 }
 
-const PatientPhysicalExaminationFindings: React.FC<
-  PatientPhysicalExaminationFindingsProps
+const TabularPhysicalExaminationFindings: React.FC<
+  TabularPhysicalExaminationFindingsProps
 > = ({ mode, initialValue }) => {
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
@@ -81,18 +78,16 @@ const PatientPhysicalExaminationFindings: React.FC<
                 <h3 className="col-span-full text-lg font-semibold">
                   Form Set {index + 1}
                 </h3>
-                {PATIENT_PHYSICAL_EXAMINATION_FINDINGS.map(
-                  ({ value, label }) => (
-                    <CustomFormField
-                      key={value}
-                      control={control}
-                      name={`formSets.${index}.${value}`}
-                      label={label}
-                      fieldType={FormFieldType.TEXTAREA}
-                      disabled={mode === "view"}
-                    />
-                  )
-                )}
+                {FIELD_NAMES.map(({ value, label }) => (
+                  <CustomFormField
+                    key={value}
+                    control={control}
+                    name={`formSets.${index}.${value}`}
+                    label={label}
+                    fieldType={FormFieldType.TEXTAREA}
+                    disabled={mode === "view"}
+                  />
+                ))}
                 {mode === "edit" && (
                   <div className="col-span-full flex justify-end">
                     <button
@@ -143,4 +138,4 @@ const PatientPhysicalExaminationFindings: React.FC<
   );
 };
 
-export default PatientPhysicalExaminationFindings;
+export default TabularPhysicalExaminationFindings;

@@ -1,7 +1,7 @@
-import EncountersDetailsManagerComponent from "@/components/Encounters/EncountersDetailsManagerComponent";
+import EncountersMedicalDetailsComponent from "@/components/Encounters/EncountersMedicalDetailsComponent";
 
 const AdminViewEncounterPage: React.FC = () => {
-  return <EncountersDetailsManagerComponent />;
+  return <EncountersMedicalDetailsComponent />;
 };
 
 export default AdminViewEncounterPage;

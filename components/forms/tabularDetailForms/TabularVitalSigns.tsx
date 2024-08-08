@@ -57,12 +57,12 @@ const ENCOUNTER_DETAILS_FIELDS: Array<{
   },
 ];
 
-interface EncounterVitalSignsProps {
+interface TabularVitalSignsProps {
   mode: string; // "view" or "edit"
   initialValue?: VitalSigns[];
 }
 
-const EncounterVitalSigns: React.FC<EncounterVitalSignsProps> = ({
+const TabularVitalSigns: React.FC<TabularVitalSignsProps> = ({
   mode,
   initialValue = [],
 }) => {
@@ -178,4 +178,4 @@ const EncounterVitalSigns: React.FC<EncounterVitalSignsProps> = ({
   );
 };
 
-export default EncounterVitalSigns;
+export default TabularVitalSigns;

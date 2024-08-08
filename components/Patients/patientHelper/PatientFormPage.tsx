@@ -109,6 +109,7 @@ export const PatientFormPage = () => {
   return (
     <div className="flex h-screen w-full">
       <VerticalTabsComponent
+        handleParentProcess={() => {}}
         handleNavigation={(value: string) => {
           handleStateChange("navigation", value);
         }}

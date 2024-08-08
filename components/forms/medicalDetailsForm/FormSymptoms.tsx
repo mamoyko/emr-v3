@@ -19,7 +19,7 @@ interface FormData {
   symptoms: Symptom[];
 }
 
-const ENCOUNTER_DETAILS_FIELDS: Array<{
+const PATIENT_DETAILS_FIELDS: Array<{
   value: keyof Symptom;
   label: string;
   type: FormFieldType;
@@ -45,12 +45,12 @@ const ENCOUNTER_DETAILS_FIELDS: Array<{
   { value: "patient", label: "Patient", type: FormFieldType.INPUT },
 ];
 
-interface EncounterSymptomsProps {
+interface FormSymptomsProps {
   mode: string; // "view" or "edit"
   initialValue?: Symptom[];
 }
 
-const EncounterSymptoms: React.FC<EncounterSymptomsProps> = ({
+const FormSymptoms: React.FC<FormSymptomsProps> = ({
   mode,
   initialValue = [],
 }) => {
@@ -100,7 +100,7 @@ const EncounterSymptoms: React.FC<EncounterSymptomsProps> = ({
                   />
                 </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  {ENCOUNTER_DETAILS_FIELDS.filter(
+                  {PATIENT_DETAILS_FIELDS.filter(
                     (field) => field.value !== "patient"
                   ).map(({ value, label, type }) => (
                     <CustomFormField
@@ -165,4 +165,4 @@ const EncounterSymptoms: React.FC<EncounterSymptomsProps> = ({
   );
 };
 
-export default EncounterSymptoms;
+export default FormSymptoms;

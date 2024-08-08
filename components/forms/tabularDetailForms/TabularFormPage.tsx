@@ -5,10 +5,10 @@ import React, { useState } from "react";
 import UseRouting from "@/components/helperFunctions/UseRouting";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import EncounterMedicalHistory from "./EncounterMedicalHistory";
-import EncounterPhysicalExaminationFindings from "./EncounterPhysicalExaminationFindings";
-import EncounterSymptoms from "./EncounterSymptoms";
-import EncounterVitalSigns from "./EncounterVitalSigns";
+import TabularMedicalHistory from "./TabularMedicalHistory";
+import TabularPhysicalExaminationFindings from "./TabularPhysicalExaminationFindings";
+import TabularSymptoms from "./TabularSymptoms";
+import TabularVitalSigns from "./TabularVitalSigns";
 
 const ENCOUNTERS_DETAILS = Object.freeze({
   SYMPTOMS: { VALUE: "symptoms", LABEL: "Symptoms" },
@@ -20,15 +20,12 @@ const ENCOUNTERS_DETAILS = Object.freeze({
   MEDICAL_HISTORY: { VALUE: "medical-history", LABEL: "Medical History" },
 });
 
-interface EncounterFormPageProps {
+interface TabularFormPageProps {
   mode: string;
   setMode: Function;
 }
 
-const EncounterFormPage: React.FC<EncounterFormPageProps> = ({
-  mode,
-  setMode,
-}) => {
+const TabularFormPage: React.FC<TabularFormPageProps> = ({ mode, setMode }) => {
   const { routePathId, routePath } = UseRouting();
 
   const [currentTab, setCurrentTab] = useState({
@@ -87,7 +84,7 @@ const EncounterFormPage: React.FC<EncounterFormPageProps> = ({
 
         <div className="mt-4">
           <TabsContent value={ENCOUNTERS_DETAILS.MEDICAL_HISTORY.VALUE}>
-            <EncounterMedicalHistory
+            <TabularMedicalHistory
               initialValue={currentTab.tabData}
               mode={mode}
             />
@@ -95,19 +92,16 @@ const EncounterFormPage: React.FC<EncounterFormPageProps> = ({
           <TabsContent
             value={ENCOUNTERS_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.VALUE}
           >
-            <EncounterPhysicalExaminationFindings
+            <TabularPhysicalExaminationFindings
               initialValue={currentTab.tabData}
               mode={mode}
             />
           </TabsContent>
           <TabsContent value={ENCOUNTERS_DETAILS.SYMPTOMS.VALUE}>
-            <EncounterSymptoms initialValue={currentTab.tabData} mode={mode} />
+            <TabularSymptoms initialValue={currentTab.tabData} mode={mode} />
           </TabsContent>
           <TabsContent value={ENCOUNTERS_DETAILS.VITAL_SIGNS.VALUE}>
-            <EncounterVitalSigns
-              initialValue={currentTab.tabData}
-              mode={mode}
-            />
+            <TabularVitalSigns initialValue={currentTab.tabData} mode={mode} />
           </TabsContent>
         </div>
       </Tabs>
@@ -115,4 +109,4 @@ const EncounterFormPage: React.FC<EncounterFormPageProps> = ({
   );
 };
 
-export default EncounterFormPage;
+export default TabularFormPage;
