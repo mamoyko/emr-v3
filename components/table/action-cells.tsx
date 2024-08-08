@@ -111,17 +111,17 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
   const router = useRouter();
   const patient = row.original;
   const handleDetailsClick = () => {
-    router.push(`/admin/patients/create/${patient.id}`);
+    // router.push(`/admin/patients/create/${patient.id}`);
   };
 
   return (
     <div className="flex gap-1">
       <Button
         variant="ghost"
-        className="capitalize text-lime-500"
+        className="shad-error"
         onClick={handleDetailsClick}
       >
-        Medical Details Form
+        view
       </Button>
     </div>
   );

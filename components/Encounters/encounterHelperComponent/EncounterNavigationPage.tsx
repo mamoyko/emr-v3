@@ -125,16 +125,12 @@ export const EncounterNavigationPage = () => {
           </span>
           <Button
             variant="outline"
-            className="capitalize text-lime-500"
+            className={
+              tableProcess.isInForm ? "shad-danger-btn" : "shad-primary-btn"
+            }
             onClick={() => handleDetailsClick()}
           >
-            {tableProcess.isInForm
-              ? "Back"
-              : `Add ${
-                  ENCOUNTERS_DETAILS[
-                    tableProcess.navigation.toUpperCase().replace(/-/g, "_")
-                  ].title
-                }`}
+            {tableProcess.isInForm ? "Back" : "Add"}
           </Button>
         </div>
       }
