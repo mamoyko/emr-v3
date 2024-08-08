@@ -139,7 +139,7 @@ export const PatientsNavigationPage = () => {
           {tableProcess.isInForm ? (
             <MultiMedicalDetailsFormHelper
               currentTab={{ tab: tableProcess.navigation, tabData: [] }}
-              PATIENT_DETAILS={ENCOUNTERS_DETAILS}
+              MEDICAL_DETAILS={ENCOUNTERS_DETAILS}
               mode={"edit"}
             />
           ) : (

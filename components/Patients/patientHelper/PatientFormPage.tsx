@@ -133,7 +133,7 @@ export const PatientFormPage = () => {
         FooterComponent={null}
         ContentComponent={
           <MultiMedicalDetailsFormHelper
-            PATIENT_DETAILS={ENCOUNTERS_DETAILS}
+            MEDICAL_DETAILS={ENCOUNTERS_DETAILS}
             currentTab={tabProcess}
             mode={tabProcess.mode}
           />

@@ -119,7 +119,7 @@ const MultiFormSymptoms: React.FC<MultiFormSymptomsProps> = ({
                 </div>
                 {mode === "edit" && (
                   <div className="mt-4 flex justify-end">
-                    <button
+                    <Button
                       type="button"
                       disabled={fields.length === 1}
                       onClick={() => remove(index)}
@@ -130,7 +130,7 @@ const MultiFormSymptoms: React.FC<MultiFormSymptomsProps> = ({
                       }`}
                     >
                       Remove Form Set
-                    </button>
+                    </Button>
                   </div>
                 )}
               </div>

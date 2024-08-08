@@ -1,15 +1,9 @@
 "use client";
 
 import React from "react";
-import {
-  useForm,
-  FormProvider,
-  useFieldArray,
-  Controller,
-} from "react-hook-form";
+import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
-import SubmitButton from "@/components/SubmitButton";
 import { Button } from "@/components/ui/button";
 
 interface VitalSigns {
@@ -135,7 +129,7 @@ const MultiFormVitalSigns: React.FC<MultiFormVitalSignsProps> = ({
 
                 {mode === "edit" && (
                   <div className="flex justify-end md:col-span-2">
-                    <button
+                    <Button
                       type="button"
                       disabled={fields.length === 1}
                       onClick={() => remove(index)}
@@ -146,7 +140,7 @@ const MultiFormVitalSigns: React.FC<MultiFormVitalSignsProps> = ({
                       }`}
                     >
                       Remove Form Set
-                    </button>
+                    </Button>
                   </div>
                 )}
               </div>

@@ -8,7 +8,7 @@ interface MultiMedicalDetailsFormHelperProps {
     tab: string;
     tabData: any;
   };
-  PATIENT_DETAILS: {
+  MEDICAL_DETAILS: {
     MEDICAL_HISTORY: { title: string; value: string };
     PHYSICAL_EXAMINATION_FINDINGS: { title: string; value: string };
     SYMPTOMS: { title: string; value: string };
@@ -19,30 +19,30 @@ interface MultiMedicalDetailsFormHelperProps {
 
 const MultiMedicalDetailsFormHelper = ({
   currentTab,
-  PATIENT_DETAILS,
+  MEDICAL_DETAILS,
   mode,
 }: MultiMedicalDetailsFormHelperProps) => {
   const renderComponent = () => {
     switch (currentTab.tab) {
-      case PATIENT_DETAILS.MEDICAL_HISTORY.value:
+      case MEDICAL_DETAILS.MEDICAL_HISTORY.value:
         return (
           <MultiFormMedicalHistory
             initialValue={currentTab.tabData}
             mode={mode}
           />
         );
-      case PATIENT_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value:
+      case MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value:
         return (
           <MultiFormPhysicalExaminationFindings
             initialValue={currentTab.tabData}
             mode={mode}
           />
         );
-      case PATIENT_DETAILS.SYMPTOMS.value:
+      case MEDICAL_DETAILS.SYMPTOMS.value:
         return (
           <MultiFormSymptoms initialValue={currentTab.tabData} mode={mode} />
         );
-      case PATIENT_DETAILS.VITAL_SIGNS.value:
+      case MEDICAL_DETAILS.VITAL_SIGNS.value:
         return (
           <MultiFormVitalSigns initialValue={currentTab.tabData} mode={mode} />
         );
