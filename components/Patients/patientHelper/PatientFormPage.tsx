@@ -2,12 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 
+import UseRouting from "@/components/helperFunctions/UseRouting";
 import {
   patientSymptoms,
   patientPhysicalMedicationFindings,
   patientVitalSigns,
   patientMedicalHistory,
 } from "@/components/table/columns";
+import { Button } from "@/components/ui/button";
 import VerticalTabsComponent from "@/components/vertical-tabs/VerticalTabsComponent";
 
 import PatientFormHelper from "./PatientFormHelper";
@@ -31,6 +33,8 @@ type TabStateProcess = {
 };
 
 export const PatientFormPage = () => {
+  const { routePath } = UseRouting();
+
   const [tabProcess, setTabProcess] = useState<TabStateProcess>({
     navigation: "",
     tab: "",
@@ -94,6 +98,10 @@ export const PatientFormPage = () => {
     handleStateChange("isLoading", false);
   };
 
+  const handleDetailsClick = () => {
+    routePath(`/admin/patients/create/${tabProcess.navigation}`);
+  };
+
   useEffect(() => {
     fetchMedicalDetails(tabProcess.navigation);
   }, [tabProcess.navigation]);
@@ -105,14 +113,33 @@ export const PatientFormPage = () => {
           handleStateChange("navigation", value);
         }}
         navigationList={Object.values(ENCOUNTERS_DETAILS)}
-        dataTableProps={
-          ENCOUNTERS_DETAILS[
-            tabProcess.navigation.toUpperCase().replace(/-/g, "_")
-          ] || {}
-        }
+        // ContentComponent={
+        //   ENCOUNTERS_DETAILS[
+        //     tabProcess.navigation.toUpperCase().replace(/-/g, "_")
+        //   ] || {}
+        // }
         defaultValue={tabProcess.navigation}
-        Footer={null}
-        DataTable={
+        TitleComponent={
+          <div className="flex w-full items-center justify-between">
+            <span>
+              {
+                ENCOUNTERS_DETAILS[
+                  tabProcess.navigation.toUpperCase().replace(/-/g, "_")
+                ]?.title
+              }
+            </span>
+            <Button
+              variant="ghost"
+              className="capitalize text-lime-500"
+              onClick={handleDetailsClick}
+            >
+              Back
+            </Button>
+          </div>
+        }
+        DescriptionComponent={null}
+        FooterComponent={null}
+        ContentComponent={
           <PatientFormHelper
             PATIENT_DETAILS={ENCOUNTERS_DETAILS}
             currentTab={tabProcess}

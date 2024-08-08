@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 
+import UseRouting from "@/components/helperFunctions/UseRouting";
 import {
   patientSymptoms,
   patientPhysicalMedicationFindings,
@@ -9,6 +10,7 @@ import {
   patientMedicalHistory,
 } from "@/components/table/columns";
 import { DataTable } from "@/components/table/DataTable";
+import { Button } from "@/components/ui/button";
 import VerticalTabsComponent from "@/components/vertical-tabs/VerticalTabsComponent";
 
 const ENCOUNTERS_DETAILS = {
@@ -34,6 +36,8 @@ type StateTableProcess = {
 };
 
 export const PatientsNavigationPage = () => {
+  const { routePath } = UseRouting();
+
   const [tableProcess, setTableProcess] = useState<StateTableProcess>({
     navigation: "symptoms",
     isLoading: false,
@@ -96,6 +100,12 @@ export const PatientsNavigationPage = () => {
     fetchMedicalDetails(tableProcess.navigation);
   }, [tableProcess.navigation]);
 
+  const handleDetailsClick = () => {
+    // W.I.P
+    // router issue
+    routePath(`/admin/patients/create/${tableProcess.navigation}`);
+  };
+
   return (
     <div className="flex h-screen w-full">
       <VerticalTabsComponent
@@ -103,19 +113,37 @@ export const PatientsNavigationPage = () => {
           handleStateChange("navigation", value);
         }}
         navigationList={Object.values(ENCOUNTERS_DETAILS)}
-        dataTableProps={
-          ENCOUNTERS_DETAILS[
-            tableProcess.navigation.toUpperCase().replace(/-/g, "_")
-          ] || {}
-        }
         defaultValue={tableProcess.navigation}
-        Footer={null}
-        DataTable={
+        DescriptionComponent={null}
+        TitleComponent={
+          <div className="flex w-full items-center justify-between">
+            <span>
+              {
+                ENCOUNTERS_DETAILS[
+                  tableProcess.navigation.toUpperCase().replace(/-/g, "_")
+                ].title
+              }
+            </span>
+            <Button
+              variant="outline"
+              className="capitalize text-lime-500"
+              onClick={handleDetailsClick}
+            >
+              {`Add ${
+                ENCOUNTERS_DETAILS[
+                  tableProcess.navigation.toUpperCase().replace(/-/g, "_")
+                ].title
+              }`}
+            </Button>
+          </div>
+        }
+        ContentComponent={
           <DataTable
             columns={tableProcess.columnsTableData || []}
             data={tableProcess.dataTableData}
           />
         }
+        FooterComponent={null}
       />
     </div>
   );

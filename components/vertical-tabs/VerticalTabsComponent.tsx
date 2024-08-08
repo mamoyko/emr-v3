@@ -16,22 +16,21 @@ import { FNtransformObjectToArray } from "../Patients/patientMedicalDetailsTable
 
 interface VerticalTabsComponentProps {
   navigationList: any;
-  DataTable: ReactNode;
-  Footer: ReactNode;
-  dataTableProps?: {
-    title?: string;
-    description?: string;
-  };
+  ContentComponent: ReactNode;
+  FooterComponent: ReactNode;
   defaultValue: string;
   handleNavigation: (value: string) => void;
+  TitleComponent: ReactNode;
+  DescriptionComponent: ReactNode;
 }
 
 const VerticalTabsComponent = ({
   navigationList,
-  dataTableProps,
-  DataTable,
+  ContentComponent,
   defaultValue,
-  Footer,
+  TitleComponent,
+  FooterComponent,
+  DescriptionComponent,
   handleNavigation,
 }: VerticalTabsComponentProps) => {
   const [currentTab, setCurrentTab] = useState(defaultValue);
@@ -48,44 +47,48 @@ const VerticalTabsComponent = ({
     : [...FNtransformObjectToArray({ toTransformData: navigationList })];
 
   return (
-    <Tabs
-      value={currentTab}
-      onValueChange={handleTabChange}
-      className="vertical-tabs"
-    >
-      <TabsList className="vertical-tab-list flex flex-col items-start overflow-y-auto">
-        {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => {
-          return (
-            <div key={navItem.title} className="flex overflow-x-auto ">
-              <TabsTrigger key={navItem.value} value={navItem.value}>
-                <text>{navItem.title}</text>
-              </TabsTrigger>
-            </div>
-          );
-        })}
-      </TabsList>
+    <div className="w-full grow-0">
+      <Tabs
+        value={currentTab}
+        onValueChange={handleTabChange}
+        className="vertical-tabs"
+      >
+        <TabsList className="vertical-tab-list flex flex-col items-start overflow-y-auto">
+          {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => {
+            return (
+              <div key={navItem.title} className="flex w-full overflow-x-auto">
+                <TabsTrigger
+                  key={navItem.value}
+                  value={navItem.value}
+                  className="w-full text-left"
+                >
+                  <span>{navItem.title}</span>
+                </TabsTrigger>
+              </div>
+            );
+          })}
+        </TabsList>
 
-      <div className="vertical-tab-content">
-        <TabsContent value={currentTab}>
-          <Card className="full-card">
-            {(dataTableProps?.title || dataTableProps?.description) && (
-              <CardHeader>
-                {dataTableProps?.title && (
-                  <CardTitle>{dataTableProps.title}</CardTitle>
-                )}
-                {dataTableProps?.description && (
-                  <CardDescription>
-                    {dataTableProps.description}
-                  </CardDescription>
-                )}
-              </CardHeader>
-            )}
-            <CardContent className="space-y-2">{DataTable}</CardContent>
-            {Footer && <CardFooter>{Footer}</CardFooter>}
-          </Card>
-        </TabsContent>
-      </div>
-    </Tabs>
+        <div className="vertical-tab-content">
+          <TabsContent value={currentTab}>
+            <Card className="full-card">
+              {(TitleComponent || DescriptionComponent) && (
+                <CardHeader>
+                  {TitleComponent && <CardTitle>{TitleComponent}</CardTitle>}
+                  {DescriptionComponent && (
+                    <CardDescription>{DescriptionComponent}</CardDescription>
+                  )}
+                </CardHeader>
+              )}
+              <CardContent className="space-y-2">
+                {ContentComponent}
+              </CardContent>
+              {FooterComponent && <CardFooter>{FooterComponent}</CardFooter>}
+            </Card>
+          </TabsContent>
+        </div>
+      </Tabs>
+    </div>
   );
 };
 
