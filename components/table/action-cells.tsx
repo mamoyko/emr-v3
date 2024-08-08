@@ -117,8 +117,8 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
   return (
     <div className="flex gap-1">
       <Button
-        variant="ghost"
-        className="shad-error"
+        variant="text"
+        className="capitalize text-lime-500"
         onClick={handleDetailsClick}
       >
         view
