@@ -4,6 +4,7 @@ import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
+import { Button } from "@/components/ui/button";
 
 interface VitalSigns {
   blood_pressure: string;
@@ -113,12 +114,12 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
             </div>
             {mode === "edit" && (
               <div className="mt-4 flex justify-end">
-                <button
+                <Button
                   type="submit"
                   className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
                 >
                   Submit
-                </button>
+                </Button>
               </div>
             )}
           </form>

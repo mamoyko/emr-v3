@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 
 import UseRouting from "@/components/helperFunctions/UseRouting";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import TabularMedicalHistory from "./TabularMedicalHistory";
@@ -22,10 +23,13 @@ const ENCOUNTERS_DETAILS = Object.freeze({
 
 interface TabularFormPageProps {
   mode: string;
-  setMode: Function;
+  setEnounterMedicalDetails: Function;
 }
 
-const TabularFormPage: React.FC<TabularFormPageProps> = ({ mode, setMode }) => {
+const TabularFormPage: React.FC<TabularFormPageProps> = ({
+  mode,
+  setEnounterMedicalDetails,
+}) => {
   const { routePathId, routePath } = UseRouting();
 
   const [currentTab, setCurrentTab] = useState({
@@ -45,24 +49,28 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({ mode, setMode }) => {
   return (
     <div className="container w-full">
       <div className="mb-4 flex items-center justify-between">
-        <button
+        <Button
           onClick={(event) => {
-            setMode((prevMode: any) => (prevMode === "edit" ? "view" : "edit"));
+            setEnounterMedicalDetails((prevMode: any) => {
+              const collection = { ...prevMode };
+              collection.mode = prevMode.mode === "edit" ? "view" : "edit";
+              return collection;
+            });
             event.stopPropagation();
           }}
-          className="rounded-md bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300"
+          className="shad-gray-btn"
         >
           {mode === "view" ? "Add Medical details" : "View Medical Details"}
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={(event) => {
             routePath(`/admin/encounters`);
             event.stopPropagation();
           }}
-          className="rounded-md bg-rose-500 px-4 py-2 text-white hover:bg-rose-400"
+          className="shad-danger-btn"
         >
           Back
-        </button>
+        </Button>
       </div>
 
       <Tabs value={currentTab.tab} onValueChange={handleTabChange}>

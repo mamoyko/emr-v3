@@ -3,9 +3,9 @@ import React, { useState } from "react";
 
 import { Header } from "@/components/Header";
 
-import { EncounterNavigationPage } from "./encounterHelperComponent/EncounterNavigationPage";
+import TabularFormPage from "../forms/tabularDetailForms/TabularFormPage";
 
-interface PatientDataState {
+interface tabMedicalDetailsState {
   data: any[];
   isErrorMessage: string;
   isLoading: boolean;
@@ -13,34 +13,38 @@ interface PatientDataState {
 }
 
 const EncountersMedicalDetailsComponent = () => {
-  const [patientDetails, setPatientDetails] = useState<PatientDataState>({
-    data: [],
-    isErrorMessage: "",
-    isLoading: false,
-    mode: "view",
-  });
+  const [encounterMedicalDetails, setEnounterMedicalDetails] =
+    useState<tabMedicalDetailsState>({
+      data: [],
+      isErrorMessage: "",
+      isLoading: false,
+      mode: "edit",
+    });
 
   const fetchEncountersDetails = async (encounterSlug: string) => {
     try {
-      handlePatientDetails(true, "isLoading");
+      handleEncounterMedicalDetails(true, "isLoading");
       const response = await fetch("https://api.example.com/data");
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const result = await response.json();
-      handlePatientDetails(result, "data");
+      handleEncounterMedicalDetails(result, "data");
     } catch (error) {
-      handlePatientDetails(
+      handleEncounterMedicalDetails(
         error instanceof Error ? error.message : "Error fetching data",
         "isErrorMessage"
       );
     } finally {
-      handlePatientDetails(false, "isLoading");
+      handleEncounterMedicalDetails(false, "isLoading");
     }
   };
 
-  const handlePatientDetails = (value: any, field: keyof PatientDataState) => {
-    setPatientDetails((prev) => ({
+  const handleEncounterMedicalDetails = (
+    value: any,
+    field: keyof tabMedicalDetailsState
+  ) => {
+    setEnounterMedicalDetails((prev) => ({
       ...prev,
       [field]: value,
     }));
@@ -53,10 +57,13 @@ const EncountersMedicalDetailsComponent = () => {
       <main className="admin-main">
         <section className="sticky top-0 z-10 w-full">
           <h1 className="header">{`${
-            patientDetails.mode === "view" ? "View" : "Create"
+            encounterMedicalDetails.mode === "view" ? "View" : "Create"
           } Encounters`}</h1>
         </section>
-        <EncounterNavigationPage />
+        <TabularFormPage
+          mode={encounterMedicalDetails.mode}
+          setEnounterMedicalDetails={setEnounterMedicalDetails}
+        />
       </main>
     </div>
   );

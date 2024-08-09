@@ -4,6 +4,7 @@ import React from "react";
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
+import { Button } from "@/components/ui/button";
 
 interface FormData {
   past_medical_conditions: string;
@@ -37,16 +38,19 @@ const TabularMedicalHistory: React.FC<TabularMedicalHistoryProps> = ({
 }) => {
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
-      formSets: initialValue || [
-        {
-          past_medical_conditions: "",
-          past_surgical_history: "",
-          current_medications: "",
-          allergies: "",
-          immunization_history: "",
-          family_medical_history: "",
-        },
-      ],
+      formSets:
+        mode === "view" || initialValue.length > 0
+          ? initialValue
+          : [
+              {
+                past_medical_conditions: "",
+                past_surgical_history: "",
+                current_medications: "",
+                allergies: "",
+                immunization_history: "",
+                family_medical_history: "",
+              },
+            ],
     },
   });
 
@@ -84,25 +88,25 @@ const TabularMedicalHistory: React.FC<TabularMedicalHistoryProps> = ({
                 </div>
                 {mode === "edit" && (
                   <div className="mt-4 flex justify-end">
-                    <button
+                    <Button
                       type="button"
                       disabled={fields.length === 1}
                       onClick={() => remove(index)}
-                      className={`w-full rounded-md px-4 py-2 text-white md:w-1/4 ${
+                      className={`shad-remove-btn w-full px-4 py-2 md:w-1/4 ${
                         fields.length === 1
                           ? "cursor-not-allowed bg-gray-500"
                           : "bg-red-500 hover:bg-red-600"
                       }`}
                     >
                       Remove Form Set
-                    </button>
+                    </Button>
                   </div>
                 )}
               </div>
             ))}
             {mode === "edit" && (
-              <div className="mt-4 flex justify-end">
-                <button
+              <div className="mt-4 flex justify-end space-x-5">
+                <Button
                   type="button"
                   onClick={() =>
                     append({
@@ -114,16 +118,13 @@ const TabularMedicalHistory: React.FC<TabularMedicalHistoryProps> = ({
                       family_medical_history: "",
                     })
                   }
-                  className="mr-4 rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600"
+                  className="shad-primary-btn"
                 >
                   Add Form Set
-                </button>
-                <button
-                  type="submit"
-                  className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-                >
+                </Button>
+                <Button type="submit" className="shad-submit-btn">
                   Submit
-                </button>
+                </Button>
               </div>
             )}
           </form>

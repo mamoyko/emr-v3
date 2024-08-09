@@ -104,10 +104,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
             </div>
             {mode === "edit" && (
               <div className="mt-4 flex justify-end">
-                <button
-                  type="submit"
-                  className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-                >
+                <button type="submit" className="shad-submit-btn">
                   Submit
                 </button>
               </div>

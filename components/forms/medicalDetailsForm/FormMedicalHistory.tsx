@@ -4,6 +4,7 @@ import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
+import { Button, Button } from "@/components/ui/button";
 
 interface FormData {
   past_medical_conditions: string;
@@ -76,12 +77,9 @@ const FormMedicalHistory: React.FC<FormMedicalHistoryProps> = ({
             </div>
             {mode === "edit" && (
               <div className="mt-4 flex justify-end">
-                <button
-                  type="submit"
-                  className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-                >
+                <Button type="submit" className="shad-submit-btn">
                   Submit
-                </button>
+                </Button>
               </div>
             )}
           </form>
