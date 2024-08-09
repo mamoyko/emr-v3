@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 
 import UseRouting from "@/components/helperFunctions/UseRouting";
 import { Button } from "@/components/ui/button";
@@ -24,11 +24,13 @@ const ENCOUNTERS_DETAILS = Object.freeze({
 interface TabularFormPageProps {
   mode: string;
   setEnounterMedicalDetails: Function;
+  hideModeButton: boolean;
 }
 
 const TabularFormPage: React.FC<TabularFormPageProps> = ({
   mode,
   setEnounterMedicalDetails,
+  hideModeButton = false,
 }) => {
   const { routePathId, routePath } = UseRouting();
 
@@ -46,22 +48,66 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
     routePathId("active", value);
   };
 
+  const handleComponentRender = (modeValue: string, currentTabState: any) => {
+    switch (currentTabState.tab) {
+      case ENCOUNTERS_DETAILS.SYMPTOMS.VALUE:
+        return (
+          <TabularSymptoms
+            mode={modeValue}
+            initialValue={currentTabState.tabData}
+          />
+        );
+      case ENCOUNTERS_DETAILS.VITAL_SIGNS.VALUE:
+        return (
+          <TabularVitalSigns
+            mode={modeValue}
+            initialValue={currentTabState.tabData}
+          />
+        );
+      case ENCOUNTERS_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.VALUE:
+        return (
+          <TabularPhysicalExaminationFindings
+            mode={modeValue}
+            initialValue={currentTabState.tabData}
+          />
+        );
+      case ENCOUNTERS_DETAILS.MEDICAL_HISTORY.VALUE:
+        return (
+          <TabularMedicalHistory
+            mode={modeValue}
+            initialValue={currentTabState.tabData}
+          />
+        );
+      default:
+        return (
+          <TabularSymptoms
+            mode={modeValue}
+            initialValue={currentTabState.tabData}
+          />
+        );
+    }
+  };
+
   return (
     <div className="container w-full">
       <div className="mb-4 flex items-center justify-between">
-        <Button
-          onClick={(event) => {
-            setEnounterMedicalDetails((prevMode: any) => {
-              const collection = { ...prevMode };
-              collection.mode = prevMode.mode === "edit" ? "view" : "edit";
-              return collection;
-            });
-            event.stopPropagation();
-          }}
-          className="shad-gray-btn"
-        >
-          {mode === "view" ? "Add Medical details" : "View Medical Details"}
-        </Button>
+        {hideModeButton ? (
+          <div />
+        ) : (
+          <Button
+            onClick={(event) => {
+              setEnounterMedicalDetails((prevMode: any) => {
+                const collection = { ...prevMode };
+                collection.mode = prevMode.mode === "edit" ? "view" : "edit";
+                return collection;
+              });
+              event.stopPropagation();
+            }}
+            className="shad-gray-btn"
+          >
+            {mode === "view" ? "Add Medical details" : "View Medical Details"}
+          </Button>
+        )}
         <Button
           onClick={(event) => {
             routePath(`/admin/encounters`);
@@ -89,27 +135,9 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
             </TabsTrigger>
           ))}
         </TabsList>
-
         <div className="mt-4">
-          <TabsContent value={ENCOUNTERS_DETAILS.MEDICAL_HISTORY.VALUE}>
-            <TabularMedicalHistory
-              initialValue={currentTab.tabData}
-              mode={mode}
-            />
-          </TabsContent>
-          <TabsContent
-            value={ENCOUNTERS_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.VALUE}
-          >
-            <TabularPhysicalExaminationFindings
-              initialValue={currentTab.tabData}
-              mode={mode}
-            />
-          </TabsContent>
-          <TabsContent value={ENCOUNTERS_DETAILS.SYMPTOMS.VALUE}>
-            <TabularSymptoms initialValue={currentTab.tabData} mode={mode} />
-          </TabsContent>
-          <TabsContent value={ENCOUNTERS_DETAILS.VITAL_SIGNS.VALUE}>
-            <TabularVitalSigns initialValue={currentTab.tabData} mode={mode} />
+          <TabsContent value={currentTab.tab}>
+            {handleComponentRender(mode, currentTab)}
           </TabsContent>
         </div>
       </Tabs>

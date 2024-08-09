@@ -10,6 +10,7 @@ import {
 } from "@/types/appwrite.types";
 
 import { AppointmentModal } from "../AppointmentModal";
+import DialogCellComponent from "../helperComponent/DialogCellComponent";
 
 type ActionsCellProps = {
   row: Row<Appointment>;
@@ -110,19 +111,10 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
 }) => {
   const router = useRouter();
   const patient = row.original;
-  const handleDetailsClick = () => {
-    // router.push(`/admin/patients/create/${patient.id}`);
-  };
 
   return (
     <div className="flex gap-1">
-      <Button
-        variant="ghost"
-        className="capitalize text-lime-500"
-        onClick={handleDetailsClick}
-      >
-        view
-      </Button>
+      <DialogCellComponent row={patient} />
     </div>
   );
 };

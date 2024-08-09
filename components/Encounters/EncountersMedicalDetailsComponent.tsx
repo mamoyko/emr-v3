@@ -63,6 +63,7 @@ const EncountersMedicalDetailsComponent = () => {
         <TabularFormPage
           mode={encounterMedicalDetails.mode}
           setEnounterMedicalDetails={setEnounterMedicalDetails}
+          hideModeButton={true}
         />
       </main>
     </div>
