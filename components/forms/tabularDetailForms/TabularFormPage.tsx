@@ -6,10 +6,10 @@ import UseRouting from "@/components/helperFunctions/UseRouting";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import TabularMedicalHistory from "./TabularMedicalHistory";
-import TabularPhysicalExaminationFindings from "./TabularPhysicalExaminationFindings";
-import TabularSymptoms from "./TabularSymptoms";
-import TabularVitalSigns from "./TabularVitalSigns";
+import FormMedicalHistory from "../medicalDetailsForm/FormMedicalHistory";
+import FormPhysicalExaminationFindings from "../medicalDetailsForm/FormPhysicalExaminationFindings";
+import FormSymptoms from "../medicalDetailsForm/FormSymptoms";
+import FormVitalSigns from "../medicalDetailsForm/FormVitalSigns";
 
 const ENCOUNTERS_DETAILS = Object.freeze({
   SYMPTOMS: { VALUE: "symptoms", LABEL: "Symptoms" },
@@ -52,35 +52,35 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
     switch (currentTabState.tab) {
       case ENCOUNTERS_DETAILS.SYMPTOMS.VALUE:
         return (
-          <TabularSymptoms
+          <FormSymptoms
             mode={modeValue}
             initialValue={currentTabState.tabData}
           />
         );
       case ENCOUNTERS_DETAILS.VITAL_SIGNS.VALUE:
         return (
-          <TabularVitalSigns
+          <FormVitalSigns
             mode={modeValue}
             initialValue={currentTabState.tabData}
           />
         );
       case ENCOUNTERS_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.VALUE:
         return (
-          <TabularPhysicalExaminationFindings
+          <FormPhysicalExaminationFindings
             mode={modeValue}
             initialValue={currentTabState.tabData}
           />
         );
       case ENCOUNTERS_DETAILS.MEDICAL_HISTORY.VALUE:
         return (
-          <TabularMedicalHistory
+          <FormMedicalHistory
             mode={modeValue}
             initialValue={currentTabState.tabData}
           />
         );
       default:
         return (
-          <TabularSymptoms
+          <FormSymptoms
             mode={modeValue}
             initialValue={currentTabState.tabData}
           />

@@ -20,6 +20,7 @@ const ENCOUNTERS_DETAILS = {
     title: "Physical Examination Findings",
   },
   MEDICAL_HISTORY: { value: "medical-history", title: "Medical History" },
+  ENCOUNTERS: { value: "encounters", title: "Encounters" },
 };
 
 type TabStateProcess = {

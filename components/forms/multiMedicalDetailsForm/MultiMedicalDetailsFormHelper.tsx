@@ -1,7 +1,7 @@
-import MultiFormMedicalHistory from "./MultiFormMedicalHistory";
-import MultiFormPhysicalExaminationFindings from "./MultiFormPhysicalExaminationFindings";
-import MultiFormSymptoms from "./MultiFormSymptoms";
-import MultiFormVitalSigns from "./MultiFormVitalSigns";
+import FormMedicalHistory from "../medicalDetailsForm/FormMedicalHistory";
+import FormPhysicalExaminationFindings from "../medicalDetailsForm/FormPhysicalExaminationFindings";
+import FormSymptoms from "../medicalDetailsForm/FormSymptoms";
+import FormVitalSigns from "../medicalDetailsForm/FormVitalSigns";
 
 interface MultiMedicalDetailsFormHelperProps {
   currentTab: {
@@ -13,6 +13,7 @@ interface MultiMedicalDetailsFormHelperProps {
     PHYSICAL_EXAMINATION_FINDINGS: { title: string; value: string };
     SYMPTOMS: { title: string; value: string };
     VITAL_SIGNS: { title: string; value: string };
+    ENCOUNTERS: { title: string; value: string };
   };
   mode: string;
 }
@@ -26,26 +27,21 @@ const MultiMedicalDetailsFormHelper = ({
     switch (currentTab.tab) {
       case MEDICAL_DETAILS.MEDICAL_HISTORY.value:
         return (
-          <MultiFormMedicalHistory
-            initialValue={currentTab.tabData}
-            mode={mode}
-          />
+          <FormMedicalHistory initialValue={currentTab.tabData} mode={mode} />
         );
       case MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value:
         return (
-          <MultiFormPhysicalExaminationFindings
+          <FormPhysicalExaminationFindings
             initialValue={currentTab.tabData}
             mode={mode}
           />
         );
       case MEDICAL_DETAILS.SYMPTOMS.value:
-        return (
-          <MultiFormSymptoms initialValue={currentTab.tabData} mode={mode} />
-        );
+        return <FormSymptoms initialValue={currentTab.tabData} mode={mode} />;
       case MEDICAL_DETAILS.VITAL_SIGNS.value:
-        return (
-          <MultiFormVitalSigns initialValue={currentTab.tabData} mode={mode} />
-        );
+        return <FormVitalSigns initialValue={currentTab.tabData} mode={mode} />;
+      case MEDICAL_DETAILS.ENCOUNTERS.value:
+        return <FormVitalSigns initialValue={currentTab.tabData} mode={mode} />;
       default:
         return null;
     }

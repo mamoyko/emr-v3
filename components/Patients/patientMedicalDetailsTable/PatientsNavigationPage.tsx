@@ -8,12 +8,13 @@ import {
   patientPhysicalMedicationFindings,
   patientVitalSigns,
   patientMedicalHistory,
+  columnEncounters,
 } from "@/components/table/columns";
 import { DataTable } from "@/components/table/DataTable";
 import { Button } from "@/components/ui/button";
 import VerticalTabsComponent from "@/components/vertical-tabs/VerticalTabsComponent";
 
-const ENCOUNTERS_DETAILS = {
+const MEDICAL_DETAILS = {
   SYMPTOMS: { value: "symptoms", title: "Symptoms" },
   VITAL_SIGNS: { value: "vital-signs", title: "Vital Signs" },
   PHYSICAL_EXAMINATION_FINDINGS: {
@@ -21,6 +22,7 @@ const ENCOUNTERS_DETAILS = {
     title: "Physical Examination Findings",
   },
   MEDICAL_HISTORY: { value: "medical-history", title: "Medical History" },
+  ENCOUNTERS: { value: "encounters", title: "Encounters" },
 };
 
 type StateTableProcess = {
@@ -51,14 +53,16 @@ export const PatientsNavigationPage = () => {
 
   const handleFetchColumns = (value: string) => {
     switch (value) {
-      case ENCOUNTERS_DETAILS.SYMPTOMS.value:
+      case MEDICAL_DETAILS.SYMPTOMS.value:
         return patientSymptoms;
-      case ENCOUNTERS_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value:
+      case MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value:
         return patientPhysicalMedicationFindings;
-      case ENCOUNTERS_DETAILS.MEDICAL_HISTORY.value:
+      case MEDICAL_DETAILS.MEDICAL_HISTORY.value:
         return patientMedicalHistory;
-      case ENCOUNTERS_DETAILS.VITAL_SIGNS.value:
+      case MEDICAL_DETAILS.VITAL_SIGNS.value:
         return patientVitalSigns;
+      case MEDICAL_DETAILS.ENCOUNTERS.value:
+        return columnEncounters;
       default:
         return patientSymptoms;
     }
@@ -111,14 +115,14 @@ export const PatientsNavigationPage = () => {
         handleStateChange("navigation", value);
       }}
       handleParentProcess={() => handleParentProcess()}
-      navigationList={Object.values(ENCOUNTERS_DETAILS)}
+      navigationList={Object.values(MEDICAL_DETAILS)}
       defaultValue={tableProcess.navigation}
       DescriptionComponent={null}
       TitleComponent={
         <div className="flex w-full items-center justify-between">
           <span>
             {
-              ENCOUNTERS_DETAILS[
+              MEDICAL_DETAILS[
                 tableProcess.navigation.toUpperCase().replace(/-/g, "_")
               ].title
             }
@@ -139,7 +143,7 @@ export const PatientsNavigationPage = () => {
           {tableProcess.isInForm ? (
             <MultiMedicalDetailsFormHelper
               currentTab={{ tab: tableProcess.navigation, tabData: [] }}
-              MEDICAL_DETAILS={ENCOUNTERS_DETAILS}
+              MEDICAL_DETAILS={MEDICAL_DETAILS}
               mode={"edit"}
             />
           ) : (
