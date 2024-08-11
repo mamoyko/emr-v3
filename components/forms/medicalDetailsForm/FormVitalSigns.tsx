@@ -1,12 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  useForm,
-  FormProvider,
-  useFieldArray,
-  Controller,
-} from "react-hook-form";
+import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import { Button } from "@/components/ui/button";
@@ -20,7 +15,9 @@ interface VitalSigns {
   weight: string;
   height: string;
   body_mass_index: string;
-  patient: string;
+  patient: {
+    name: string;
+  };
 }
 
 interface FormData {
@@ -82,7 +79,7 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
                 weight: "",
                 height: "",
                 body_mass_index: "",
-                patient: "",
+                patient: { name: "" },
               },
             ],
     },
@@ -114,7 +111,7 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
                   </h3>
                   <CustomFormField
                     control={control}
-                    name={`vitalSigns.${index}.patient`}
+                    name={`vitalSigns.${index}.patient.name`}
                     label="Patient"
                     fieldType={FormFieldType.INPUT}
                     disabled={mode === "view"}
@@ -164,7 +161,7 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
                       weight: "",
                       height: "",
                       body_mass_index: "",
-                      patient: "",
+                      patient: { name: "" },
                     })
                   }
                   className="shad-primary-btn"

@@ -24,6 +24,7 @@ interface VerticalTabsComponentProps {
   TitleComponent: ReactNode;
   DescriptionComponent: ReactNode;
   handleParentProcess: () => void;
+  isLoading: boolean;
 }
 
 const VerticalTabsComponent = ({
@@ -35,16 +36,19 @@ const VerticalTabsComponent = ({
   DescriptionComponent,
   handleNavigation,
   handleParentProcess,
+  isLoading,
 }: VerticalTabsComponentProps) => {
   const [currentTab, setCurrentTab] = useState(defaultValue);
   const { routePathId } = UseRouting();
-  const { height, width } = useWindowDimension();
+  const { height } = useWindowDimension();
 
   const handleTabChange = (value: string) => {
-    setCurrentTab(value);
-    routePathId("active", value);
-    handleNavigation(value);
-    handleParentProcess();
+    if (!isLoading) {
+      setCurrentTab(value);
+      routePathId("active", value);
+      handleNavigation(value);
+      handleParentProcess();
+    }
   };
 
   const MEMOIZE_NAV = Array.isArray(navigationList)
@@ -69,7 +73,8 @@ const VerticalTabsComponent = ({
             <TabsTrigger
               key={navItem.value}
               value={navItem.value}
-              className="vertical-tab-trigger"
+              className={`vertical-tab-trigger ${isLoading ? "cursor-not-allowed opacity-50" : ""}`}
+              disabled={isLoading}
             >
               <span>{navItem.title}</span>
             </TabsTrigger>
@@ -89,7 +94,15 @@ const VerticalTabsComponent = ({
                 )}
               </CardHeader>
             )}
-            <CardContent className="space-y-2">{ContentComponent}</CardContent>
+            {isLoading ? (
+              <div className="flex h-full items-center justify-center">
+                <LoadingSpinner />
+              </div>
+            ) : (
+              <CardContent className="space-y-2">
+                {ContentComponent}
+              </CardContent>
+            )}
             {FooterComponent && <CardFooter>{FooterComponent}</CardFooter>}
           </Card>
         </TabsContent>
@@ -99,3 +112,9 @@ const VerticalTabsComponent = ({
 };
 
 export default VerticalTabsComponent;
+
+const LoadingSpinner: React.FC = () => (
+  <div className="flex h-full items-center justify-center">
+    <div className="size-8 animate-spin rounded-full border-4 border-red-400 border-t-green-500"></div>
+  </div>
+);

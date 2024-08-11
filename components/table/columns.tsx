@@ -228,13 +228,20 @@ export const patientMedicalHistory: ColumnDef<MedicalHistory, any>[] = [
   // { accessorKey: "immunization_history", header: "Immunization History" },
   // { accessorKey: "family_medical_history", header: "Family Medical History" },
   {
+    accessorKey: "patient",
+    header: "Patient",
+    cell: ({ row }) => <GenericNameHandlerCell row={row} />,
+  },
+  {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
     cell: ({ row }) => (
-      <GenericActionButtonCell
-        columnValue={MEDICAL_DETAILS.MEDICAL_HISTORY.value}
-        row={row}
-      />
+      <div className="flex w-full items-center justify-start pl-4 text-left">
+        <GenericActionButtonCell
+          columnValue={MEDICAL_DETAILS.MEDICAL_HISTORY.value}
+          row={row}
+        />
+      </div>
     ),
   },
 ];
@@ -259,13 +266,20 @@ export const patientPhysicalExaminationFindings: ColumnDef<
   // { accessorKey: "neurological_system", header: "Neurological System" },
   // { accessorKey: "skin", header: "Skin" },
   {
+    accessorKey: "patient",
+    header: "Patient",
+    cell: ({ row }) => <GenericNameHandlerCell row={row} />,
+  },
+  {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
     cell: ({ row }) => (
-      <GenericActionButtonCell
-        columnValue={MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value}
-        row={row}
-      />
+      <div className="flex w-full items-center justify-start pl-4 text-left">
+        <GenericActionButtonCell
+          columnValue={MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value}
+          row={row}
+        />
+      </div>
     ),
   },
 ];
@@ -275,7 +289,11 @@ export const patientVitalSigns: ColumnDef<VitalSign, any>[] = [
   {
     accessorKey: "$createdAt",
     header: "Created At",
-    cell: ({ row }) => <GenericDateHandlerCell row={row} />,
+    cell: ({ row }) => (
+      <div className="flex w-full items-center justify-start pl-4 text-left">
+        <GenericDateHandlerCell row={row} />,
+      </div>
+    ),
   },
   // { accessorKey: "blood_pressure", header: "Blood Pressure" },
   // { accessorKey: "heart_rate", header: "Heart Rate" },
@@ -294,10 +312,12 @@ export const patientVitalSigns: ColumnDef<VitalSign, any>[] = [
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
     cell: ({ row }) => (
-      <GenericActionButtonCell
-        columnValue={MEDICAL_DETAILS.VITAL_SIGNS.value}
-        row={row}
-      />
+      <div className="flex w-full items-center justify-start pl-4 text-left">
+        <GenericActionButtonCell
+          columnValue={MEDICAL_DETAILS.VITAL_SIGNS.value}
+          row={row}
+        />
+      </div>
     ),
   },
 ];

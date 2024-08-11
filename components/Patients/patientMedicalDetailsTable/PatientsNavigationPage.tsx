@@ -26,6 +26,8 @@ type StateTableProcess = {
 };
 
 export const PatientsNavigationPage = () => {
+  const EXCLUDED_MEDICAL_DETAILS = [MEDICAL_DETAILS.ENCOUNTERS.value];
+
   const [tableProcess, setTableProcess] = useState<StateTableProcess>({
     navigation: "symptoms",
     dataTableData: [],
@@ -67,6 +69,8 @@ export const PatientsNavigationPage = () => {
     });
     if (result?.response?.ok) {
       handleStateChange("dataTableData", result?.documents);
+    } else {
+      handleStateChange("dataTableData", []);
     }
     setIsLoading(false);
   };
@@ -91,8 +95,9 @@ export const PatientsNavigationPage = () => {
 
   return (
     <VerticalTabsComponent
+      isLoading={isLoading}
       handleNavigation={(value: string) => {
-        if (tableProcess.navigation === "value") return;
+        if (tableProcess.navigation === "value" || isLoading) return;
         setTableProcess((prevState) => {
           const collection = { ...prevState };
           collection.navigation = value;
@@ -114,15 +119,24 @@ export const PatientsNavigationPage = () => {
               ].title
             }
           </span>
-          <Button
-            variant="default"
-            className={
-              tableProcess.isInForm ? "shad-danger-btn" : "shad-primary-btn"
-            }
-            onClick={() => handleDetailsClick()}
-          >
-            {tableProcess.isInForm ? "Back" : "Add"}
-          </Button>
+          {EXCLUDED_MEDICAL_DETAILS.includes(
+            MEDICAL_DETAILS[
+              tableProcess.navigation.toUpperCase().replace(/-/g, "_")
+            ].value
+          ) ? (
+            <div />
+          ) : (
+            <Button
+              variant="default"
+              className={
+                tableProcess.isInForm ? "shad-danger-btn" : "shad-primary-btn"
+              }
+              disabled={isLoading}
+              onClick={() => handleDetailsClick()}
+            >
+              {tableProcess.isInForm ? "Back" : "Add"}
+            </Button>
+          )}
         </div>
       }
       ContentComponent={

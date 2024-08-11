@@ -13,7 +13,9 @@ interface Symptom {
   onset: string;
   aggravating_factors: string;
   relieving_factors: string;
-  patient: string;
+  patient: {
+    name: string;
+  };
 }
 
 interface FormData {
@@ -68,7 +70,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                 onset: "",
                 aggravating_factors: "",
                 relieving_factors: "",
-                patient: "",
+                patient: { name: "" },
               },
             ],
     },
@@ -97,7 +99,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                 <div className="mb-4">
                   <CustomFormField
                     control={control}
-                    name={`symptoms.${index}.patient`}
+                    name={`symptoms.${index}.patient.name`}
                     label="Patient"
                     fieldType={FormFieldType.INPUT}
                     disabled={mode === "view"}
@@ -147,7 +149,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                       onset: "",
                       aggravating_factors: "",
                       relieving_factors: "",
-                      patient: "",
+                      patient: { name: "" },
                     })
                   }
                   className="shad-primary-btn"

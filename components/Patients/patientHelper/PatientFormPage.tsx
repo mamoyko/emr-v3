@@ -96,6 +96,7 @@ export const PatientFormPage = () => {
   return (
     <div className="flex h-screen w-full">
       <VerticalTabsComponent
+        isLoading={false}
         handleParentProcess={() => {}}
         handleNavigation={(value: string) => {
           handleStateChange("navigation", value);
