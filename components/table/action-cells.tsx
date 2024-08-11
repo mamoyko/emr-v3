@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { Appointment, Encounters } from "@/types/appwrite.types";
+import { Appointment, Encounters, Patients } from "@/types/appwrite.types";
 
 import { AppointmentModal } from "../AppointmentModal";
 import { MEDICAL_DETAILS } from "../enums/medicalDetailsEnums";
@@ -20,7 +20,7 @@ type EncounterCellProps = {
 };
 
 type PatientCellProps = {
-  row: Row<Encounters>;
+  row: Row<Patients>;
 };
 
 type GenericActionCellProps = {

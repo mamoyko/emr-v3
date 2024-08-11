@@ -168,7 +168,7 @@ export const columnEncounters: ColumnDef<Encounters>[] = [
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
-    cell: EncounterActionCell,
+    cell: ({ row }) => <EncounterActionCell row={row} />,
   },
 ];
 
@@ -180,7 +180,7 @@ export const columnsPatient: ColumnDef<Patients, any>[] = [
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
-    cell: PatientActionCell,
+    cell: ({ row }) => <PatientActionCell row={row} />,
   },
 ];
 
