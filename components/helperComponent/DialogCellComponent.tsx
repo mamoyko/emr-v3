@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { Fragment, ReactNode, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { CommandDialog } from "@/components/ui/command";
@@ -26,16 +26,14 @@ const DialogCellComponent: React.FC<DialogCellComponentProps> = ({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col space-y-14 p-6">
-      <div className="w-full grow justify-start">
-        <Button
-          variant="ghost"
-          className="capitalize text-rose-500"
-          onClick={() => setIsOpen((prev) => !prev)}
-        >
-          View
-        </Button>
-      </div>
+    <Fragment>
+      <Button
+        variant="ghost"
+        className="capitalize text-rose-500"
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
+        Medical Details
+      </Button>
       <CommandDialog
         open={isOpen}
         onOpenChange={() => setIsOpen((prev) => !prev)}
@@ -64,7 +62,7 @@ const DialogCellComponent: React.FC<DialogCellComponentProps> = ({
           </DialogFooter>
         </DialogContent>
       </CommandDialog>
-    </div>
+    </Fragment>
   );
 };
 

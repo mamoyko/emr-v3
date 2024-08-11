@@ -236,12 +236,10 @@ export const patientMedicalHistory: ColumnDef<MedicalHistory, any>[] = [
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
     cell: ({ row }) => (
-      <div className="flex w-full items-center justify-start pl-4 text-left">
-        <GenericActionButtonCell
-          columnValue={MEDICAL_DETAILS.MEDICAL_HISTORY.value}
-          row={row}
-        />
-      </div>
+      <GenericActionButtonCell
+        columnValue={MEDICAL_DETAILS.MEDICAL_HISTORY.value}
+        row={row}
+      />
     ),
   },
 ];
@@ -274,12 +272,10 @@ export const patientPhysicalExaminationFindings: ColumnDef<
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
     cell: ({ row }) => (
-      <div className="flex w-full items-center justify-start pl-4 text-left">
-        <GenericActionButtonCell
-          columnValue={MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value}
-          row={row}
-        />
-      </div>
+      <GenericActionButtonCell
+        columnValue={MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value}
+        row={row}
+      />
     ),
   },
 ];
@@ -312,12 +308,10 @@ export const patientVitalSigns: ColumnDef<VitalSign, any>[] = [
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
     cell: ({ row }) => (
-      <div className="flex w-full items-center justify-start pl-4 text-left">
-        <GenericActionButtonCell
-          columnValue={MEDICAL_DETAILS.VITAL_SIGNS.value}
-          row={row}
-        />
-      </div>
+      <GenericActionButtonCell
+        columnValue={MEDICAL_DETAILS.VITAL_SIGNS.value}
+        row={row}
+      />
     ),
   },
 ];

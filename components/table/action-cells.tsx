@@ -98,13 +98,7 @@ export const EncounterActionCell: React.FC<EncounterCellProps> = ({ row }) => {
         Medical Details
       </Button> */}
       <DialogCellComponent
-        // dialogStyle={{
-        //   height: height ? `${height - 50}px` : "auto",
-        //   width: width ? `${width}px` : "auto",
-        // }}
         dialogStyle={{
-          // width: "100vw",
-          // height: "100vh",
           height: height ? `${height - 50}px` : "auto",
           width: width ? `${width - 200}px` : "auto",
           maxWidth: "none",
@@ -150,13 +144,21 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
   row,
   columnValue = "",
 }) => {
-  const { height } = useWindowDimension();
+  const { height, width } = useWindowDimension();
 
   const rawDocument = row.original;
   return (
     <div className="flex gap-1">
       <DialogCellComponent
-        dialogStyle={{ height: height ? `${height - 50}px` : "auto" }}
+        // dialogStyle={{ height: height ? `${height - 50}px` : "auto" }}
+        dialogStyle={{
+          height: height ? `${height - 50}px` : "auto",
+          width: width ? `${width / 2.6}px` : "auto",
+          maxWidth: "none",
+          maxHeight: "none",
+          padding: 0,
+          margin: 0,
+        }}
         row={rawDocument}
         ComponentDialogTitle={`${rawDocument?.patient?.name} Medical Details`}
         ComponentDialogDescription={
