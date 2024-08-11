@@ -16,12 +16,15 @@ import {
   VitalSign,
 } from "@/types/appwrite.types";
 
+import { MEDICAL_DETAILS } from "../enums/medicalDetailsEnums";
 import { StatusBadge } from "../StatusBadge";
 
 import {
   ActionsCell,
   EncounterActionCell,
   GenericActionButtonCell,
+  GenericDateHandlerCell,
+  GenericNameHandlerCell,
   PatientActionCell,
 } from "./action-cells";
 
@@ -182,19 +185,33 @@ export const columnsPatient: ColumnDef<Patients, any>[] = [
 ];
 
 export const patientSymptoms: ColumnDef<Symptoms, any>[] = [
-  { accessorKey: "$id", header: "ID" },
-  { accessorKey: "symptom_description", header: "Symptom Description" },
-  { accessorKey: "duration", header: "Duration" },
-  { accessorKey: "severity", header: "Severity" },
-  { accessorKey: "onset", header: "Onset" },
-  { accessorKey: "aggravating_factors", header: "Aggravating Factors" },
-  { accessorKey: "relieving_factors", header: "Relieving Factors" },
-  { accessorKey: "patient", header: "Patient" },
+  // { accessorKey: "$id", header: "ID" },
   {
-    id: "actions",
-    header: () => <div className="pl-4">Actions</div>,
-    cell: ({ row }) => <GenericActionButtonCell row={row} />,
+    accessorKey: "$createdAt",
+    header: "Created At",
+    cell: ({ row }) => <GenericDateHandlerCell row={row} />,
   },
+  // { accessorKey: "symptom_description", header: "Symptom Description" },
+  // { accessorKey: "duration", header: "Duration" },
+  // { accessorKey: "severity", header: "Severity" },
+  // { accessorKey: "onset", header: "Onset" },
+  // { accessorKey: "aggravating_factors", header: "Aggravating Factors" },
+  // { accessorKey: "relieving_factors", header: "Relieving Factors" },
+  // {
+  //   accessorKey: "patient",
+  //   header: "Patient",
+  //   cell: ({ row }) => <GenericNameHandlerCell row={row} />,
+  // },
+  // {
+  //   id: "actions",
+  //   header: () => <div className="pl-4">Actions</div>,
+  //   cell: ({ row }) => (
+  //     <GenericActionButtonCell
+  //       columnValue={MEDICAL_DETAILS.SYMPTOMS.value}
+  //       row={row}
+  //     />
+  //   ),
+  // },
 ];
 
 export const patientMedicalHistory: ColumnDef<MedicalHistory, any>[] = [
@@ -208,11 +225,16 @@ export const patientMedicalHistory: ColumnDef<MedicalHistory, any>[] = [
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
-    cell: ({ row }) => <GenericActionButtonCell row={row} />,
+    cell: ({ row }) => (
+      <GenericActionButtonCell
+        columnValue={MEDICAL_DETAILS.MEDICAL_HISTORY.value}
+        row={row}
+      />
+    ),
   },
 ];
 
-export const patientPhysicalMedicationFindings: ColumnDef<
+export const patientPhysicalExaminationFindings: ColumnDef<
   PhysicalExamFindings,
   any
 >[] = [
@@ -229,7 +251,12 @@ export const patientPhysicalMedicationFindings: ColumnDef<
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
-    cell: ({ row }) => <GenericActionButtonCell row={row} />,
+    cell: ({ row }) => (
+      <GenericActionButtonCell
+        columnValue={MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value}
+        row={row}
+      />
+    ),
   },
 ];
 
@@ -247,6 +274,11 @@ export const patientVitalSigns: ColumnDef<VitalSign, any>[] = [
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
-    cell: ({ row }) => <GenericActionButtonCell row={row} />,
+    cell: ({ row }) => (
+      <GenericActionButtonCell
+        columnValue={MEDICAL_DETAILS.VITAL_SIGNS.value}
+        row={row}
+      />
+    ),
   },
 ];

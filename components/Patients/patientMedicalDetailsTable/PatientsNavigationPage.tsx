@@ -2,10 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 
+import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import MultiMedicalDetailsFormHelper from "@/components/forms/multiMedicalDetailsForm/MultiMedicalDetailsFormHelper";
 import {
   patientSymptoms,
-  patientPhysicalMedicationFindings,
+  patientPhysicalExaminationFindings,
   patientVitalSigns,
   patientMedicalHistory,
   columnEncounters,
@@ -15,17 +16,6 @@ import { Button } from "@/components/ui/button";
 import VerticalTabsComponent from "@/components/vertical-tabs/VerticalTabsComponent";
 
 import PatientsNavigationApiHelper from "./PatientsNavigationApiHelper";
-
-const MEDICAL_DETAILS = {
-  SYMPTOMS: { value: "symptoms", title: "Symptoms" },
-  VITAL_SIGNS: { value: "vital-signs", title: "Vital Signs" },
-  PHYSICAL_EXAMINATION_FINDINGS: {
-    value: "physical-examination-findings",
-    title: "Physical Examination Findings",
-  },
-  MEDICAL_HISTORY: { value: "medical-history", title: "Medical History" },
-  ENCOUNTERS: { value: "encounters", title: "Encounters" },
-};
 
 type StateTableProcess = {
   navigation: string;
@@ -58,7 +48,7 @@ export const PatientsNavigationPage = () => {
       case MEDICAL_DETAILS.SYMPTOMS.value:
         return patientSymptoms;
       case MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value:
-        return patientPhysicalMedicationFindings;
+        return patientPhysicalExaminationFindings;
       case MEDICAL_DETAILS.MEDICAL_HISTORY.value:
         return patientMedicalHistory;
       case MEDICAL_DETAILS.VITAL_SIGNS.value:
@@ -142,7 +132,7 @@ export const PatientsNavigationPage = () => {
           ) : (
             <DataTable
               columns={tableProcess?.columnsTableData || []}
-              data={tableProcess?.dataTableData}
+              data={tableProcess?.dataTableData || []}
             />
           )}
         </div>

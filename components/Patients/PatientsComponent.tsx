@@ -36,7 +36,7 @@ export const PatientsComponent = ({
             Add Patient
           </Button>
         </section>
-        <DataTable columns={columnsPatient} data={documents} />
+        <DataTable columns={columnsPatient} data={documents || []} />
       </main>
     </div>
   );

@@ -1,16 +1,15 @@
 import { Row } from "@tanstack/react-table";
+import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import {
-  Appointment,
-  Encounters,
-  Patient,
-  Patients,
-} from "@/types/appwrite.types";
+import { Appointment, Encounters } from "@/types/appwrite.types";
 
 import { AppointmentModal } from "../AppointmentModal";
+import { MEDICAL_DETAILS } from "../enums/medicalDetailsEnums";
+import MedicalDetailsFormHelper from "../forms/medicalDetailsForm/MedicalDetailsFormHelper";
 import DialogCellComponent from "../helperComponent/DialogCellComponent";
+import "react-datepicker/dist/react-datepicker.css";
 
 type ActionsCellProps = {
   row: Row<Appointment>;
@@ -25,8 +24,21 @@ type PatientCellProps = {
 };
 
 type GenericActionCellProps = {
-  row: Row<Patients>;
+  row: any;
+  columnValue: string;
 };
+
+type GenericNameHandlerCellProps = {
+  row: any;
+};
+
+interface GenericDateCellProps {
+  row: {
+    original: {
+      $createdAt?: string;
+    };
+  };
+}
 
 export const ActionsCell: React.FC<ActionsCellProps> = ({ row }) => {
   const router = useRouter();
@@ -108,13 +120,49 @@ export const PatientActionCell: React.FC<PatientCellProps> = ({ row }) => {
 
 export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
   row,
+  columnValue = "",
 }) => {
   const router = useRouter();
-  const patient = row.original;
+  const rawDocument = row.original;
+  console.log("rawDocument", rawDocument);
+  return (
+    <div className="flex gap-1">
+      <DialogCellComponent row={rawDocument}>
+        {/* <MedicalDetailsFormHelper
+          currentTab={{ tab: columnValue, tabData: rawDocument }}
+          mode={"view"}
+          MEDICAL_DETAILS={MEDICAL_DETAILS}
+        /> */}
+        <div>sasasa</div>
+      </DialogCellComponent>
+    </div>
+  );
+};
+
+export const GenericDateHandlerCell: React.FC<GenericDateCellProps> = ({
+  row,
+}) => {
+  const DOCUMENT = row.original;
+  const dateString = DOCUMENT?.$createdAt ?? null;
+
+  const date = new Date(dateString);
+  const formattedDate = format(date, "EEEE, MMMM d yyyy hh:mm a");
 
   return (
     <div className="flex gap-1">
-      <DialogCellComponent row={patient} />
+      <span>{formattedDate}</span>
+    </div>
+  );
+};
+
+export const GenericNameHandlerCell: React.FC<GenericNameHandlerCellProps> = ({
+  row,
+}) => {
+  const { patient } = row.original;
+  const clientName = patient?.name ?? "Unknown";
+  return (
+    <div className="flex gap-1">
+      <span>{clientName}</span>
     </div>
   );
 };

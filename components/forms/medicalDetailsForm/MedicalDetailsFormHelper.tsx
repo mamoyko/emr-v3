@@ -13,6 +13,7 @@ interface MedicalDetailsFormHelperProps {
     PHYSICAL_EXAMINATION_FINDINGS: { title: string; value: string };
     SYMPTOMS: { title: string; value: string };
     VITAL_SIGNS: { title: string; value: string };
+    ENCOUNTERS: { title: string; value: string };
   };
   mode: string;
 }
@@ -22,6 +23,8 @@ const MedicalDetailsFormHelper = ({
   MEDICAL_DETAILS,
   mode,
 }: MedicalDetailsFormHelperProps) => {
+  console.log("currentTab", currentTab);
+
   const renderComponent = () => {
     switch (currentTab.tab) {
       case MEDICAL_DETAILS.MEDICAL_HISTORY.value:

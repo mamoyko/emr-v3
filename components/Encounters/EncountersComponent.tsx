@@ -36,7 +36,7 @@ export const EncountersComponent = ({
             Add Encounter
           </Button>
         </section>
-        <DataTable columns={columnEncounters} data={documents} />
+        <DataTable columns={columnEncounters} data={documents || []} />
       </main>
     </div>
   );

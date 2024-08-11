@@ -78,6 +78,7 @@ export interface Patients extends Models.Document {
 }
 
 export interface Symptoms extends Models.Document {
+  $createdAt: string;
   $id: string;
   symptom_description: string;
   duration: string;
