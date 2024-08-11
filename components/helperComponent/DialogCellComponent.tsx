@@ -10,19 +10,20 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import useWindowDimension from "../helperFunctions/useWindowDimension";
-
 type DialogCellComponentProps = {
   row: any;
-  children: ReactNode;
+  ComponentDialogDescription: ReactNode;
+  ComponentDialogTitle: ReactNode;
+  dialogStyle: any;
 };
 
 const DialogCellComponent: React.FC<DialogCellComponentProps> = ({
   row,
-  children,
+  ComponentDialogDescription,
+  ComponentDialogTitle,
+  dialogStyle,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { height } = useWindowDimension();
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14 p-6">
@@ -39,14 +40,19 @@ const DialogCellComponent: React.FC<DialogCellComponentProps> = ({
         open={isOpen}
         onOpenChange={() => setIsOpen((prev) => !prev)}
       >
-        <DialogContent style={{ height: height ? `${height - 50}px` : "auto" }}>
-          <DialogHeader>
-            <DialogTitle>{`${row?.patient?.name} medical details`}</DialogTitle>
+        <DialogContent
+          style={{ ...dialogStyle, display: "flex", flexDirection: "column" }}
+        >
+          <DialogHeader className="pl-4 pt-4">
+            <DialogTitle>{ComponentDialogTitle}</DialogTitle>
           </DialogHeader>
-          <DialogDescription className="grow overflow-auto">
-            {children}
+          <DialogDescription
+            className="flex grow flex-col overflow-auto"
+            style={{ alignItems: "flex-start" }}
+          >
+            {ComponentDialogDescription}
           </DialogDescription>
-          <DialogFooter className="mt-auto">
+          <DialogFooter className="pb-4 pr-4">
             <Button
               onClick={() => setIsOpen(false)}
               type="button"

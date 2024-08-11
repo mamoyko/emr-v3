@@ -89,11 +89,9 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
   };
 
   return (
-    <div className="container w-full">
-      <div className="mb-4 flex items-center justify-between">
-        {hideModeButton ? (
-          <div />
-        ) : (
+    <div className="container mx-auto max-w-7xl p-4">
+      <div className="mb-4 flex items-center justify-between space-x-4">
+        {!hideModeButton && (
           <Button
             onClick={(event) => {
               setEnounterMedicalDetails((prevMode: any) => {
@@ -105,18 +103,20 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
             }}
             className="shad-gray-btn"
           >
-            {mode === "view" ? "Add Medical details" : "View Medical Details"}
+            {mode === "view" ? "Add Medical Details" : "View Medical Details"}
           </Button>
         )}
-        <Button
-          onClick={(event) => {
-            routePath(`/admin/encounters`);
-            event.stopPropagation();
-          }}
-          className="shad-danger-btn"
-        >
-          Back
-        </Button>
+        {!hideModeButton && (
+          <Button
+            onClick={(event) => {
+              routePath(`/admin/encounters`);
+              event.stopPropagation();
+            }}
+            className="shad-danger-btn"
+          >
+            Back
+          </Button>
+        )}
       </div>
 
       <Tabs value={currentTab.tab} onValueChange={handleTabChange}>

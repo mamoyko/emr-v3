@@ -8,8 +8,10 @@ import { Appointment, Encounters, Patients } from "@/types/appwrite.types";
 import { AppointmentModal } from "../AppointmentModal";
 import { MEDICAL_DETAILS } from "../enums/medicalDetailsEnums";
 import MedicalDetailsFormHelper from "../forms/medicalDetailsForm/MedicalDetailsFormHelper";
+import TabularFormPage from "../forms/tabularDetailForms/TabularFormPage";
 import DialogCellComponent from "../helperComponent/DialogCellComponent";
 import "react-datepicker/dist/react-datepicker.css";
+import useWindowDimension from "../helperFunctions/useWindowDimension";
 
 type ActionsCellProps = {
   row: Row<Appointment>;
@@ -78,22 +80,48 @@ export const ActionsCell: React.FC<ActionsCellProps> = ({ row }) => {
 };
 
 export const EncounterActionCell: React.FC<EncounterCellProps> = ({ row }) => {
+  const { height, width } = useWindowDimension();
   const router = useRouter();
   const encounter = row.original;
 
-  const handleDetailsClick = () => {
-    router.push(`/admin/encounters/${encounter.$id}`);
-  };
+  // const handleDetailsClick = () => {
+  //   router.push(`/admin/encounters/${encounter.$id}`);
+  // };
 
   return (
     <div className="flex gap-1">
-      <Button
+      {/* <Button
         variant="ghost"
         className="capitalize text-lime-500"
         onClick={handleDetailsClick}
       >
         Medical Details
-      </Button>
+      </Button> */}
+      <DialogCellComponent
+        // dialogStyle={{
+        //   height: height ? `${height - 50}px` : "auto",
+        //   width: width ? `${width}px` : "auto",
+        // }}
+        dialogStyle={{
+          // width: "100vw",
+          // height: "100vh",
+          height: height ? `${height - 50}px` : "auto",
+          width: width ? `${width - 200}px` : "auto",
+          maxWidth: "none",
+          maxHeight: "none",
+          padding: 0,
+          margin: 0,
+        }}
+        row={encounter}
+        ComponentDialogTitle={`${!encounter?.patient ? "n/a" : encounter?.patient?.name} Medical Details`}
+        ComponentDialogDescription={
+          <TabularFormPage
+            mode={"view"}
+            setEnounterMedicalDetails={() => {}}
+            hideModeButton={true}
+          />
+        }
+      />
     </div>
   );
 };
@@ -122,17 +150,23 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
   row,
   columnValue = "",
 }) => {
-  const router = useRouter();
+  const { height } = useWindowDimension();
+
   const rawDocument = row.original;
   return (
     <div className="flex gap-1">
-      <DialogCellComponent row={rawDocument}>
-        <MedicalDetailsFormHelper
-          currentTab={{ tab: columnValue, tabData: [rawDocument] }}
-          mode={"view"}
-          MEDICAL_DETAILS={MEDICAL_DETAILS}
-        />
-      </DialogCellComponent>
+      <DialogCellComponent
+        dialogStyle={{ height: height ? `${height - 50}px` : "auto" }}
+        row={rawDocument}
+        ComponentDialogTitle={`${rawDocument?.patient?.name} Medical Details`}
+        ComponentDialogDescription={
+          <MedicalDetailsFormHelper
+            currentTab={{ tab: columnValue, tabData: [rawDocument] }}
+            mode={"view"}
+            MEDICAL_DETAILS={MEDICAL_DETAILS}
+          />
+        }
+      />
     </div>
   );
 };
