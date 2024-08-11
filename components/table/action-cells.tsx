@@ -124,16 +124,14 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
 }) => {
   const router = useRouter();
   const rawDocument = row.original;
-  console.log("rawDocument", rawDocument);
   return (
     <div className="flex gap-1">
       <DialogCellComponent row={rawDocument}>
-        {/* <MedicalDetailsFormHelper
-          currentTab={{ tab: columnValue, tabData: rawDocument }}
+        <MedicalDetailsFormHelper
+          currentTab={{ tab: columnValue, tabData: [rawDocument] }}
           mode={"view"}
           MEDICAL_DETAILS={MEDICAL_DETAILS}
-        /> */}
-        <div>sasasa</div>
+        />
       </DialogCellComponent>
     </div>
   );

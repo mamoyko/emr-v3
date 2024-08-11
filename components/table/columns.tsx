@@ -197,31 +197,36 @@ export const patientSymptoms: ColumnDef<Symptoms, any>[] = [
   // { accessorKey: "onset", header: "Onset" },
   // { accessorKey: "aggravating_factors", header: "Aggravating Factors" },
   // { accessorKey: "relieving_factors", header: "Relieving Factors" },
-  // {
-  //   accessorKey: "patient",
-  //   header: "Patient",
-  //   cell: ({ row }) => <GenericNameHandlerCell row={row} />,
-  // },
-  // {
-  //   id: "actions",
-  //   header: () => <div className="pl-4">Actions</div>,
-  //   cell: ({ row }) => (
-  //     <GenericActionButtonCell
-  //       columnValue={MEDICAL_DETAILS.SYMPTOMS.value}
-  //       row={row}
-  //     />
-  //   ),
-  // },
+  {
+    accessorKey: "patient",
+    header: "Patient",
+    cell: ({ row }) => <GenericNameHandlerCell row={row} />,
+  },
+  {
+    id: "actions",
+    header: () => <div className="pl-4">Actions</div>,
+    cell: ({ row }) => (
+      <GenericActionButtonCell
+        columnValue={MEDICAL_DETAILS.SYMPTOMS.value}
+        row={row}
+      />
+    ),
+  },
 ];
 
 export const patientMedicalHistory: ColumnDef<MedicalHistory, any>[] = [
-  { accessorKey: "$id", header: "ID" },
-  { accessorKey: "past_medical_conditions", header: "Past Medical Conditions" },
-  { accessorKey: "past_surgical_history", header: "Past Surgical History" },
-  { accessorKey: "current_medications", header: "Current Medications" },
-  { accessorKey: "allergies", header: "Allergies" },
-  { accessorKey: "immunization_history", header: "Immunization History" },
-  { accessorKey: "family_medical_history", header: "Family Medical History" },
+  // { accessorKey: "$id", header: "ID" },
+  {
+    accessorKey: "$createdAt",
+    header: "Created At",
+    cell: ({ row }) => <GenericDateHandlerCell row={row} />,
+  },
+  // { accessorKey: "past_medical_conditions", header: "Past Medical Conditions" },
+  // { accessorKey: "past_surgical_history", header: "Past Surgical History" },
+  // { accessorKey: "current_medications", header: "Current Medications" },
+  // { accessorKey: "allergies", header: "Allergies" },
+  // { accessorKey: "immunization_history", header: "Immunization History" },
+  // { accessorKey: "family_medical_history", header: "Family Medical History" },
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
@@ -238,16 +243,21 @@ export const patientPhysicalExaminationFindings: ColumnDef<
   PhysicalExamFindings,
   any
 >[] = [
-  { accessorKey: "$id", header: "ID" },
-  { accessorKey: "general_appearance", header: "General Appearance" },
-  { accessorKey: "head_and_neck", header: "Head and Neck" },
-  { accessorKey: "cardiovascular_system", header: "Cardiovascular System" },
-  { accessorKey: "respiratory_system", header: "Respiratory System" },
-  { accessorKey: "gastrointestinal_system", header: "Gastrointestinal System" },
-  { accessorKey: "genitourinary_system", header: "Genitourinary System" },
-  { accessorKey: "musculoskeletal", header: "Musculoskeletal" },
-  { accessorKey: "neurological_system", header: "Neurological System" },
-  { accessorKey: "skin", header: "Skin" },
+  // { accessorKey: "$id", header: "ID" },
+  {
+    accessorKey: "$createdAt",
+    header: "Created At",
+    cell: ({ row }) => <GenericDateHandlerCell row={row} />,
+  },
+  // { accessorKey: "general_appearance", header: "General Appearance" },
+  // { accessorKey: "head_and_neck", header: "Head and Neck" },
+  // { accessorKey: "cardiovascular_system", header: "Cardiovascular System" },
+  // { accessorKey: "respiratory_system", header: "Respiratory System" },
+  // { accessorKey: "gastrointestinal_system", header: "Gastrointestinal System" },
+  // { accessorKey: "genitourinary_system", header: "Genitourinary System" },
+  // { accessorKey: "musculoskeletal", header: "Musculoskeletal" },
+  // { accessorKey: "neurological_system", header: "Neurological System" },
+  // { accessorKey: "skin", header: "Skin" },
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
@@ -261,16 +271,25 @@ export const patientPhysicalExaminationFindings: ColumnDef<
 ];
 
 export const patientVitalSigns: ColumnDef<VitalSign, any>[] = [
-  { accessorKey: "$id", header: "ID" },
-  { accessorKey: "blood_pressure", header: "Blood Pressure" },
-  { accessorKey: "heart_rate", header: "Heart Rate" },
-  { accessorKey: "respiratory_rate", header: "Respiratory Rate" },
-  { accessorKey: "temperature", header: "Temperature" },
-  { accessorKey: "oxygen_saturation", header: "Oxygen Saturation" },
-  { accessorKey: "weight", header: "Weight" },
-  { accessorKey: "height", header: "Height" },
-  { accessorKey: "body_mass_index", header: "Body Mass Index" },
-  { accessorKey: "patient", header: "Patient" },
+  // { accessorKey: "$id", header: "ID" },
+  {
+    accessorKey: "$createdAt",
+    header: "Created At",
+    cell: ({ row }) => <GenericDateHandlerCell row={row} />,
+  },
+  // { accessorKey: "blood_pressure", header: "Blood Pressure" },
+  // { accessorKey: "heart_rate", header: "Heart Rate" },
+  // { accessorKey: "respiratory_rate", header: "Respiratory Rate" },
+  // { accessorKey: "temperature", header: "Temperature" },
+  // { accessorKey: "oxygen_saturation", header: "Oxygen Saturation" },
+  // { accessorKey: "weight", header: "Weight" },
+  // { accessorKey: "height", header: "Height" },
+  // { accessorKey: "body_mass_index", header: "Body Mass Index" },
+  {
+    accessorKey: "patient",
+    header: "Patient",
+    cell: ({ row }) => <GenericNameHandlerCell row={row} />,
+  },
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,

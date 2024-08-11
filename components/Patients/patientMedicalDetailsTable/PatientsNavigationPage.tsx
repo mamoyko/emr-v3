@@ -92,7 +92,14 @@ export const PatientsNavigationPage = () => {
   return (
     <VerticalTabsComponent
       handleNavigation={(value: string) => {
-        handleStateChange("navigation", value);
+        if (tableProcess.navigation === "value") return;
+        setTableProcess((prevState) => {
+          const collection = { ...prevState };
+          collection.navigation = value;
+          collection.dataTableData = [];
+          collection.columnsTableData = null;
+          return collection;
+        });
       }}
       handleParentProcess={() => handleParentProcess()}
       navigationList={Object.values(MEDICAL_DETAILS)}

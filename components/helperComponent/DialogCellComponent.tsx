@@ -10,6 +10,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
+import useWindowDimension from "../helperFunctions/useWindowDimension";
+
 type DialogCellComponentProps = {
   row: any;
   children: ReactNode;
@@ -20,7 +22,8 @@ const DialogCellComponent: React.FC<DialogCellComponentProps> = ({
   children,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  console.log("=====", row);
+  const { height } = useWindowDimension();
+
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14 p-6">
       <div className="w-full grow justify-start">
@@ -36,9 +39,9 @@ const DialogCellComponent: React.FC<DialogCellComponentProps> = ({
         open={isOpen}
         onOpenChange={() => setIsOpen((prev) => !prev)}
       >
-        <DialogContent className="flex h-[80vh] w-[80vw] flex-col sm:h-[70vh] sm:w-[70vw] md:h-[60vh] md:w-[60vw] lg:h-[50vh] lg:w-[50vw] xl:h-[40vh] xl:w-[40vw]">
+        <DialogContent style={{ height: height ? `${height - 50}px` : "auto" }}>
           <DialogHeader>
-            <DialogTitle>{` medical details`}</DialogTitle>
+            <DialogTitle>{`${row?.patient?.name} medical details`}</DialogTitle>
           </DialogHeader>
           <DialogDescription className="grow overflow-auto">
             {children}
