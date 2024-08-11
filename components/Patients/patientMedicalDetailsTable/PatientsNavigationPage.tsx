@@ -1,7 +1,5 @@
 "use client";
 
-import { table } from "console";
-
 import React, { useEffect, useState } from "react";
 
 import MultiMedicalDetailsFormHelper from "@/components/forms/multiMedicalDetailsForm/MultiMedicalDetailsFormHelper";
@@ -79,7 +77,6 @@ export const PatientsNavigationPage = () => {
     });
     if (result?.response?.ok) {
       handleStateChange("dataTableData", result?.documents);
-      console.log("result?.documents", result?.documents, value);
     }
     setIsLoading(false);
   };
@@ -105,7 +102,6 @@ export const PatientsNavigationPage = () => {
   return (
     <VerticalTabsComponent
       handleNavigation={(value: string) => {
-        console.log("i run many times");
         handleStateChange("navigation", value);
       }}
       handleParentProcess={() => handleParentProcess()}
