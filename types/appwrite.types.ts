@@ -48,14 +48,7 @@ export interface Encounters extends Models.Document {
 }
 
 export interface Patients extends Models.Document {
-  $collectionId: string;
-  $createdAt: string;
-  $updatedAt: string;
-  $databaseId: string;
-  // $id: string;
   id: string;
-  $permissions: string[];
-  $tenant: string;
   address: string;
   allergies: string;
   birthDate: string;
@@ -82,4 +75,48 @@ export interface Patients extends Models.Document {
   treatmentConsent: boolean | null;
   userId: string;
   vitalSigns: any;
+}
+
+export interface Symptoms extends Models.Document {
+  $id: string;
+  symptom_description: string;
+  duration: string;
+  severity: string;
+  onset: string;
+  aggravating_factors: string;
+  relieving_factors: string;
+  patient: string;
+}
+export interface PhysicalExamFindings extends Models.Document {
+  $id: string;
+  general_appearance: string;
+  head_and_neck: string;
+  cardiovascular_system: string;
+  respiratory_system: string;
+  gastrointestinal_system: string;
+  genitourinary_system: string;
+  musculoskeletal: string;
+  neurological_system: string;
+  skin: string;
+}
+export interface VitalSign extends Models.Document {
+  $id: string;
+  blood_pressure: string;
+  heart_rate: string;
+  respiratory_rate: string;
+  temperature: string;
+  oxygen_saturation: string;
+  weight: string;
+  height: string;
+  body_mass_index: string;
+  patient: string;
+}
+export interface MedicalHistory extends Models.Document {
+  $id: string;
+  past_medical_conditions: string;
+  past_surgical_history: string;
+  current_medications: string;
+  allergies: string;
+  immunization_history: string;
+  family_medical_history: string;
 }

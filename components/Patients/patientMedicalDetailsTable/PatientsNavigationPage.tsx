@@ -1,5 +1,7 @@
 "use client";
 
+import { table } from "console";
+
 import React, { useEffect, useState } from "react";
 
 import MultiMedicalDetailsFormHelper from "@/components/forms/multiMedicalDetailsForm/MultiMedicalDetailsFormHelper";
@@ -14,6 +16,8 @@ import { DataTable } from "@/components/table/DataTable";
 import { Button } from "@/components/ui/button";
 import VerticalTabsComponent from "@/components/vertical-tabs/VerticalTabsComponent";
 
+import PatientsNavigationApiHelper from "./PatientsNavigationApiHelper";
+
 const MEDICAL_DETAILS = {
   SYMPTOMS: { value: "symptoms", title: "Symptoms" },
   VITAL_SIGNS: { value: "vital-signs", title: "Vital Signs" },
@@ -27,7 +31,6 @@ const MEDICAL_DETAILS = {
 
 type StateTableProcess = {
   navigation: string;
-  isLoading: boolean;
   dataTableData: any[];
   formData: any[];
   columnsTableData: any[];
@@ -37,12 +40,13 @@ type StateTableProcess = {
 export const PatientsNavigationPage = () => {
   const [tableProcess, setTableProcess] = useState<StateTableProcess>({
     navigation: "symptoms",
-    isLoading: false,
     dataTableData: [],
     formData: [],
     columnsTableData: null,
     isInForm: false,
   });
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleStateChange = <stateFN extends keyof StateTableProcess>(
     key: stateFN,
@@ -69,32 +73,15 @@ export const PatientsNavigationPage = () => {
   };
 
   const fetchMedicalDetails = async (value: string) => {
-    handleStateChange("isLoading", true);
-    const response = {
-      ok: true,
-      data: [
-        {
-          id: "24534",
-          name: "name one",
-          gender: "G",
-          Phone: "+644429131361371",
-          address: "secret",
-        },
-        {
-          id: "24761",
-          name: "name two",
-          gender: "G",
-          Phone: "+644429131361371",
-          address: "secret",
-        },
-      ],
-    };
-
-    if (response.ok) {
-      handleStateChange("dataTableData", response.data);
-      handleStateChange("columnsTableData", handleFetchColumns(value));
+    setIsLoading(true);
+    const result = await PatientsNavigationApiHelper({
+      actionValue: value,
+    });
+    if (result?.response?.ok) {
+      handleStateChange("dataTableData", result?.documents);
+      console.log("result?.documents", result?.documents, value);
     }
-    handleStateChange("isLoading", false);
+    setIsLoading(false);
   };
 
   const handleDetailsClick = () => {
@@ -106,12 +93,19 @@ export const PatientsNavigationPage = () => {
   };
 
   useEffect(() => {
-    fetchMedicalDetails(tableProcess.navigation);
-  }, [tableProcess.navigation]);
+    if (tableProcess?.navigation) {
+      fetchMedicalDetails(tableProcess.navigation);
+      handleStateChange(
+        "columnsTableData",
+        handleFetchColumns(tableProcess?.navigation)
+      );
+    }
+  }, [tableProcess?.navigation]);
 
   return (
     <VerticalTabsComponent
       handleNavigation={(value: string) => {
+        console.log("i run many times");
         handleStateChange("navigation", value);
       }}
       handleParentProcess={() => handleParentProcess()}
@@ -140,16 +134,19 @@ export const PatientsNavigationPage = () => {
       }
       ContentComponent={
         <div className="flex-1 overflow-y-auto overflow-x-hidden">
-          {tableProcess.isInForm ? (
+          {tableProcess?.isInForm ? (
             <MultiMedicalDetailsFormHelper
-              currentTab={{ tab: tableProcess.navigation, tabData: [] }}
+              currentTab={{
+                tab: tableProcess?.navigation,
+                tabData: tableProcess?.formData,
+              }}
               MEDICAL_DETAILS={MEDICAL_DETAILS}
               mode={"edit"}
             />
           ) : (
             <DataTable
-              columns={tableProcess.columnsTableData || []}
-              data={tableProcess.dataTableData}
+              columns={tableProcess?.columnsTableData || []}
+              data={tableProcess?.dataTableData}
             />
           )}
         </div>
