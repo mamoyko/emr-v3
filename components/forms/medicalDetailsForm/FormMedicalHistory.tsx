@@ -34,7 +34,7 @@ interface FormMedicalHistoryProps {
 
 const FormMedicalHistory: React.FC<FormMedicalHistoryProps> = ({
   mode,
-  initialValue,
+  initialValue = [],
 }) => {
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
@@ -65,72 +65,80 @@ const FormMedicalHistory: React.FC<FormMedicalHistoryProps> = ({
   };
 
   return (
-    <FormProvider {...methods}>
-      <div className="flex items-start justify-center">
-        <div className="w-full">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {fields.map((field, index) => (
-              <div key={field.id} className="rounded-md border p-4 shadow-sm">
-                <h3 className="mb-4 text-lg font-semibold">
-                  Form Set {index + 1}
-                </h3>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  {ENCOUNTER_DETAILS_FIELDS.map(({ value, label }) => (
-                    <CustomFormField
-                      key={value}
-                      control={control}
-                      name={`formSets.${index}.${value}`}
-                      label={label}
-                      fieldType={FormFieldType.TEXTAREA}
-                      disabled={mode === "view"}
-                    />
-                  ))}
-                </div>
-                {mode === "edit" && (
-                  <div className="mt-4 flex justify-end">
-                    <Button
-                      type="button"
-                      disabled={fields.length === 1}
-                      onClick={() => remove(index)}
-                      className={`shad-remove-btn w-full px-4 py-2 md:w-1/4 ${
-                        fields.length === 1
-                          ? "cursor-not-allowed bg-gray-500"
-                          : "bg-red-500 hover:bg-red-600"
-                      }`}
-                    >
-                      Remove Form Set
-                    </Button>
-                  </div>
-                )}
-              </div>
-            ))}
-            {mode === "edit" && (
-              <div className="mt-4 flex justify-end space-x-5">
-                <Button
-                  type="button"
-                  onClick={() =>
-                    append({
-                      past_medical_conditions: "",
-                      past_surgical_history: "",
-                      current_medications: "",
-                      allergies: "",
-                      immunization_history: "",
-                      family_medical_history: "",
-                    })
-                  }
-                  className="shad-primary-btn"
+    <div className="size-full">
+      <FormProvider {...methods}>
+        <div className="flex size-full items-start justify-center">
+          <div className="size-full overflow-auto">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex h-full flex-col space-y-6"
+            >
+              {fields.map((field, index) => (
+                <div
+                  key={field.id}
+                  className="flex h-full flex-col rounded-md border p-4 shadow-sm"
                 >
-                  Add Form Set
-                </Button>
-                <Button type="submit" className="shad-submit-btn">
-                  Submit
-                </Button>
-              </div>
-            )}
-          </form>
+                  <h3 className="mb-4 text-lg font-semibold">
+                    Form Set {index + 1}
+                  </h3>
+                  <div className="grid grow grid-cols-1 gap-4 md:grid-cols-2">
+                    {ENCOUNTER_DETAILS_FIELDS.map(({ value, label }) => (
+                      <CustomFormField
+                        key={value}
+                        control={control}
+                        name={`formSets.${index}.${value}`}
+                        label={label}
+                        fieldType={FormFieldType.TEXTAREA}
+                        disabled={mode === "view"}
+                      />
+                    ))}
+                  </div>
+                  {mode === "edit" && (
+                    <div className="mt-4 flex justify-end">
+                      <Button
+                        type="button"
+                        disabled={fields.length === 1}
+                        onClick={() => remove(index)}
+                        className={`shad-remove-btn w-full px-4 py-2 md:w-1/4 ${
+                          fields.length === 1
+                            ? "cursor-not-allowed bg-gray-500"
+                            : "bg-red-500 hover:bg-red-600"
+                        }`}
+                      >
+                        Remove Form Set
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              ))}
+              {mode === "edit" && (
+                <div className="mt-4 flex justify-end space-x-5">
+                  <Button
+                    type="button"
+                    onClick={() =>
+                      append({
+                        past_medical_conditions: "",
+                        past_surgical_history: "",
+                        current_medications: "",
+                        allergies: "",
+                        immunization_history: "",
+                        family_medical_history: "",
+                      })
+                    }
+                    className="shad-primary-btn"
+                  >
+                    Add Form Set
+                  </Button>
+                  <Button type="submit" className="shad-submit-btn">
+                    Submit
+                  </Button>
+                </div>
+              )}
+            </form>
+          </div>
         </div>
-      </div>
-    </FormProvider>
+      </FormProvider>
+    </div>
   );
 };
 

@@ -1,3 +1,5 @@
+import { Fragment } from "react";
+
 import FormMedicalHistory from "@/components/forms/medicalDetailsForm/FormMedicalHistory";
 import FormPhysicalExaminationFindings from "@/components/forms/medicalDetailsForm/FormPhysicalExaminationFindings";
 import FormSymptoms from "@/components/forms/medicalDetailsForm/FormSymptoms";
@@ -23,8 +25,6 @@ const MedicalDetailsFormHelper = ({
   MEDICAL_DETAILS,
   mode,
 }: MedicalDetailsFormHelperProps) => {
-  console.log("currentTab", currentTab);
-
   const renderComponent = () => {
     switch (currentTab.tab) {
       case MEDICAL_DETAILS.MEDICAL_HISTORY.value:

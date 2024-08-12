@@ -46,7 +46,7 @@ const DialogCellComponent: React.FC<DialogCellComponentProps> = ({
           </DialogHeader>
           <DialogDescription
             className="flex grow flex-col overflow-auto"
-            style={{ alignItems: "flex-start" }}
+            style={{ alignItems: "center", justifyContent: "center" }}
           >
             {ComponentDialogDescription}
           </DialogDescription>

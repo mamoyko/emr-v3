@@ -70,76 +70,78 @@ const FormPhysicalExaminationFindings: React.FC<
   };
 
   return (
-    <FormProvider {...methods}>
-      <div className="flex items-start justify-center">
-        <div className="w-full">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {fields.map((field, index) => (
-              <div
-                key={field.id}
-                className="grid grid-cols-1 gap-4 rounded-md border p-4 shadow-sm sm:grid-cols-1 md:grid-cols-2"
-              >
-                <h3 className="col-span-full text-lg font-semibold">
-                  Form Set {index + 1}
-                </h3>
-                {FIELD_NAMES.map(({ value, label }) => (
-                  <CustomFormField
-                    key={value}
-                    control={control}
-                    name={`formSets.${index}.${value}`}
-                    label={label}
-                    fieldType={FormFieldType.TEXTAREA}
-                    disabled={mode === "view"}
-                  />
-                ))}
-                {mode === "edit" && (
-                  <div className="col-span-full flex justify-end">
-                    <Button
-                      type="button"
-                      disabled={fields.length === 1}
-                      onClick={() => remove(index)}
-                      className={`shad-remove-btn w-full px-4 py-2 md:w-1/4 ${
-                        fields.length === 1
-                          ? "cursor-not-allowed bg-gray-500"
-                          : "bg-red-500 hover:bg-red-600"
-                      }`}
-                    >
-                      Remove Form Set
-                    </Button>
-                  </div>
-                )}
-              </div>
-            ))}
-            {mode === "edit" && (
-              <div className="mt-4 flex justify-end space-x-5">
-                <Button
-                  type="button"
-                  onClick={() =>
-                    append({
-                      general_appearance: "",
-                      head_and_neck: "",
-                      cardiovascular_system: "",
-                      respiratory_system: "",
-                      gastrointestinal_system: "",
-                      genitourinary_system: "",
-                      musculoskeletal: "",
-                      neurological_system: "",
-                      skin: "",
-                    })
-                  }
-                  className="shad-primary-btn"
+    <div className="size-full">
+      <FormProvider {...methods}>
+        <div className="flex size-full items-start justify-center">
+          <div className="size-full overflow-auto">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {fields.map((field, index) => (
+                <div
+                  key={field.id}
+                  className="grid grid-cols-1 gap-4 rounded-md border p-4 shadow-sm sm:grid-cols-1 md:grid-cols-2"
                 >
-                  Add Form Set
-                </Button>
-                <Button type="submit" className="shad-submit-btn">
-                  Submit
-                </Button>
-              </div>
-            )}
-          </form>
+                  <h3 className="col-span-full text-lg font-semibold">
+                    Form Set {index + 1}
+                  </h3>
+                  {FIELD_NAMES.map(({ value, label }) => (
+                    <CustomFormField
+                      key={value}
+                      control={control}
+                      name={`formSets.${index}.${value}`}
+                      label={label}
+                      fieldType={FormFieldType.TEXTAREA}
+                      disabled={mode === "view"}
+                    />
+                  ))}
+                  {mode === "edit" && (
+                    <div className="col-span-full flex justify-end">
+                      <Button
+                        type="button"
+                        disabled={fields.length === 1}
+                        onClick={() => remove(index)}
+                        className={`shad-remove-btn w-full px-4 py-2 md:w-1/4 ${
+                          fields.length === 1
+                            ? "cursor-not-allowed bg-gray-500"
+                            : "bg-red-500 hover:bg-red-600"
+                        }`}
+                      >
+                        Remove Form Set
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              ))}
+              {mode === "edit" && (
+                <div className="mt-4 flex justify-end space-x-5">
+                  <Button
+                    type="button"
+                    onClick={() =>
+                      append({
+                        general_appearance: "",
+                        head_and_neck: "",
+                        cardiovascular_system: "",
+                        respiratory_system: "",
+                        gastrointestinal_system: "",
+                        genitourinary_system: "",
+                        musculoskeletal: "",
+                        neurological_system: "",
+                        skin: "",
+                      })
+                    }
+                    className="shad-primary-btn"
+                  >
+                    Add Form Set
+                  </Button>
+                  <Button type="submit" className="shad-submit-btn">
+                    Submit
+                  </Button>
+                </div>
+              )}
+            </form>
+          </div>
         </div>
-      </div>
-    </FormProvider>
+      </FormProvider>
+    </div>
   );
 };
 

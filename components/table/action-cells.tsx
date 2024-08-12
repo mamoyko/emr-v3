@@ -8,6 +8,7 @@ import { Appointment, Encounters, Patients } from "@/types/appwrite.types";
 import { AppointmentModal } from "../AppointmentModal";
 import { MEDICAL_DETAILS } from "../enums/medicalDetailsEnums";
 import MedicalDetailsFormHelper from "../forms/medicalDetailsForm/MedicalDetailsFormHelper";
+import MultiMedicalDetailsFormHelper from "../forms/multiMedicalDetailsForm/MultiMedicalDetailsFormHelper";
 import TabularFormPage from "../forms/tabularDetailForms/TabularFormPage";
 import DialogCellComponent from "../helperComponent/DialogCellComponent";
 import "react-datepicker/dist/react-datepicker.css";
@@ -150,14 +151,11 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
   return (
     <div className="flex gap-1">
       <DialogCellComponent
-        // dialogStyle={{ height: height ? `${height - 50}px` : "auto" }}
         dialogStyle={{
           height: height ? `${height - 50}px` : "auto",
           width: width ? `${width / 2.6}px` : "auto",
           maxWidth: "none",
           maxHeight: "none",
-          padding: 0,
-          margin: 0,
         }}
         row={rawDocument}
         ComponentDialogTitle={`${rawDocument?.patient?.name} Medical Details`}

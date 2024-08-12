@@ -71,6 +71,7 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
           ? initialValue
           : [
               {
+                patient: { name: "" },
                 blood_pressure: "",
                 heart_rate: "",
                 respiratory_rate: "",
@@ -79,7 +80,6 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
                 weight: "",
                 height: "",
                 body_mass_index: "",
-                patient: { name: "" },
               },
             ],
     },
@@ -96,87 +96,95 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
   };
 
   return (
-    <FormProvider {...methods}>
-      <div className="flex items-start justify-center">
-        <div className="w-full overflow-auto">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {fields.map((field, index) => (
-              <div
-                key={field.id}
-                className="grid grid-cols-1 gap-4 rounded-md border p-4 shadow-sm md:grid-cols-2"
-              >
-                <div className="md:col-span-2">
-                  <h3 className="mb-4 text-lg font-semibold">
-                    Form Set {index + 1}
-                  </h3>
-                  <CustomFormField
-                    control={control}
-                    name={`vitalSigns.${index}.patient.name`}
-                    label="Patient"
-                    fieldType={FormFieldType.INPUT}
-                    disabled={mode === "view"}
-                  />
-                </div>
-
-                {ENCOUNTER_DETAILS_FIELDS.map(({ value, label, type }) => (
-                  <CustomFormField
-                    key={value}
-                    control={control}
-                    name={`vitalSigns.${index}.${value}`}
-                    label={label}
-                    fieldType={type}
-                    disabled={mode === "view"}
-                  />
-                ))}
-
-                {mode === "edit" && (
-                  <div className="flex justify-end md:col-span-2">
-                    <Button
-                      type="button"
-                      disabled={fields.length === 1}
-                      onClick={() => remove(index)}
-                      className={`shad-remove-btn w-full px-4 py-2 md:w-1/4 ${
-                        fields.length === 1
-                          ? "cursor-not-allowed bg-gray-500"
-                          : "bg-red-500 hover:bg-red-600"
-                      }`}
-                    >
-                      Remove Form Set
-                    </Button>
-                  </div>
-                )}
-              </div>
-            ))}
-            {mode === "edit" && (
-              <div className="mt-4 flex justify-end space-x-5">
-                <Button
-                  type="button"
-                  onClick={() =>
-                    append({
-                      blood_pressure: "",
-                      heart_rate: "",
-                      respiratory_rate: "",
-                      temperature: "",
-                      oxygen_saturation: "",
-                      weight: "",
-                      height: "",
-                      body_mass_index: "",
-                      patient: { name: "" },
-                    })
-                  }
-                  className="shad-primary-btn"
+    <div className="size-full">
+      <FormProvider {...methods}>
+        <div className="flex size-full items-start justify-center">
+          <div className="size-full overflow-auto">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex h-full flex-col space-y-6"
+            >
+              {fields.map((field, index) => (
+                <div
+                  key={field.id}
+                  className="grid grow grid-cols-1 gap-4 rounded-md border p-4 shadow-sm md:grid-cols-2"
                 >
-                  Add Form Set
-                </Button>
-                <Button type="submit" className="shad-submit-btn">
-                  Submit
-                </Button>
-              </div>
-            )}
-          </form>
+                  <div className="md:col-span-2">
+                    <h3 className="mb-4 text-lg font-semibold">
+                      Form Set {index + 1}
+                    </h3>
+                    <CustomFormField
+                      control={control}
+                      name={`vitalSigns.${index}.patient.name`}
+                      label="Patient"
+                      fieldType={FormFieldType.INPUT}
+                      disabled={mode === "view"}
+                    />
+                  </div>
+
+                  {ENCOUNTER_DETAILS_FIELDS.map(({ value, label, type }) => {
+                    if (value === "patient") return null;
+                    return (
+                      <CustomFormField
+                        key={value}
+                        control={control}
+                        name={`vitalSigns.${index}.${value}`}
+                        label={label}
+                        fieldType={type}
+                        disabled={mode === "view"}
+                      />
+                    );
+                  })}
+
+                  {mode === "edit" && (
+                    <div className="flex justify-end md:col-span-2">
+                      <Button
+                        type="button"
+                        disabled={fields.length === 1}
+                        onClick={() => remove(index)}
+                        className={`shad-remove-btn w-full px-4 py-2 md:w-1/4 ${
+                          fields.length === 1
+                            ? "cursor-not-allowed bg-gray-500"
+                            : "bg-red-500 hover:bg-red-600"
+                        }`}
+                      >
+                        Remove Form Set
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              ))}
+              {mode === "edit" && (
+                <div className="mt-4 flex justify-end space-x-5">
+                  <Button
+                    type="button"
+                    onClick={() =>
+                      append({
+                        blood_pressure: "",
+                        heart_rate: "",
+                        respiratory_rate: "",
+                        temperature: "",
+                        oxygen_saturation: "",
+                        weight: "",
+                        height: "",
+                        body_mass_index: "",
+                        patient: { name: "" },
+                      })
+                    }
+                    className="shad-primary-btn"
+                  >
+                    Add Form Set
+                  </Button>
+                  <Button type="submit" className="shad-submit-btn">
+                    Submit
+                  </Button>
+                </div>
+              )}
+            </form>
+          </div>
         </div>
-      </div>
-    </FormProvider>
+      </FormProvider>
+    </div>
   );
 };
 
