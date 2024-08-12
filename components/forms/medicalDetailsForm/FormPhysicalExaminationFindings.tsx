@@ -33,11 +33,12 @@ const FIELD_NAMES: Array<{ value: keyof FormData; label: string }> = [
 interface FormPhysicalExaminationFindingsProps {
   mode: string; // "view" or "edit"
   initialValue?: FormData[];
+  handleSubmitForm: (data: { formSets: FormData[] }) => Promise<void>;
 }
 
 const FormPhysicalExaminationFindings: React.FC<
   FormPhysicalExaminationFindingsProps
-> = ({ mode, initialValue }) => {
+> = ({ mode, initialValue = [], handleSubmitForm }) => {
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
       formSets:
@@ -65,16 +66,15 @@ const FormPhysicalExaminationFindings: React.FC<
     control,
   });
 
-  const onSubmit = (data: { formSets: FormData[] }) => {
-    console.log(data);
-  };
-
   return (
     <div className="size-full">
       <FormProvider {...methods}>
         <div className="flex size-full items-start justify-center">
           <div className="size-full overflow-auto">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              onSubmit={handleSubmit((data) => handleSubmitForm(data))}
+              className="space-y-6"
+            >
               {fields.map((field, index) => (
                 <div
                   key={field.id}

@@ -25,23 +25,44 @@ const MedicalDetailsFormHelper = ({
   MEDICAL_DETAILS,
   mode,
 }: MedicalDetailsFormHelperProps) => {
+  const handleSubmitForm = async (data: any) => {
+    console.log("data", data);
+  };
+
   const renderComponent = () => {
     switch (currentTab.tab) {
       case MEDICAL_DETAILS.MEDICAL_HISTORY.value:
         return (
-          <FormMedicalHistory initialValue={currentTab.tabData} mode={mode} />
+          <FormMedicalHistory
+            handleSubmitForm={handleSubmitForm}
+            initialValue={currentTab.tabData}
+            mode={mode}
+          />
         );
       case MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value:
         return (
           <FormPhysicalExaminationFindings
+            handleSubmitForm={handleSubmitForm}
             initialValue={currentTab.tabData}
             mode={mode}
           />
         );
       case MEDICAL_DETAILS.SYMPTOMS.value:
-        return <FormSymptoms initialValue={currentTab.tabData} mode={mode} />;
+        return (
+          <FormSymptoms
+            handleSubmitForm={handleSubmitForm}
+            initialValue={currentTab.tabData}
+            mode={mode}
+          />
+        );
       case MEDICAL_DETAILS.VITAL_SIGNS.value:
-        return <FormVitalSigns initialValue={currentTab.tabData} mode={mode} />;
+        return (
+          <FormVitalSigns
+            handleSubmitForm={handleSubmitForm}
+            initialValue={currentTab.tabData}
+            mode={mode}
+          />
+        );
       default:
         return null;
     }

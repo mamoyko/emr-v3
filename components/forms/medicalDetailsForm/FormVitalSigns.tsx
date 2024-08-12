@@ -6,7 +6,7 @@ import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import { Button } from "@/components/ui/button";
 
-interface VitalSigns {
+interface FormData {
   blood_pressure: string;
   heart_rate: string;
   respiratory_rate: string;
@@ -20,12 +20,8 @@ interface VitalSigns {
   };
 }
 
-interface FormData {
-  vitalSigns: VitalSigns[];
-}
-
 const ENCOUNTER_DETAILS_FIELDS: Array<{
-  value: keyof VitalSigns;
+  value: keyof FormData;
   label: string;
   type: FormFieldType;
 }> = [
@@ -57,16 +53,18 @@ const ENCOUNTER_DETAILS_FIELDS: Array<{
 
 interface FormVitalSignsProps {
   mode: string; // "view" or "edit"
-  initialValue?: VitalSigns[];
+  initialValue?: FormData[];
+  handleSubmitForm: (data: { formSets: FormData[] }) => Promise<void>;
 }
 
 const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
   mode,
   initialValue = [],
+  handleSubmitForm,
 }) => {
-  const methods = useForm<FormData>({
+  const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
-      vitalSigns:
+      formSets:
         mode === "view" || initialValue.length > 0
           ? initialValue
           : [
@@ -87,13 +85,9 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
 
   const { handleSubmit, control } = methods;
   const { fields, append, remove } = useFieldArray({
-    name: "vitalSigns",
+    name: "formSets",
     control,
   });
-
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-  };
 
   return (
     <div className="size-full">
@@ -101,7 +95,7 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
         <div className="flex size-full items-start justify-center">
           <div className="size-full overflow-auto">
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleSubmit((data) => handleSubmitForm(data))}
               className="flex h-full flex-col space-y-6"
             >
               {fields.map((field, index) => (
@@ -115,7 +109,7 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
                     </h3>
                     <CustomFormField
                       control={control}
-                      name={`vitalSigns.${index}.patient.name`}
+                      name={`formSets.${index}.patient.name`}
                       label="Patient"
                       fieldType={FormFieldType.INPUT}
                       disabled={mode === "view"}
@@ -128,7 +122,7 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
                       <CustomFormField
                         key={value}
                         control={control}
-                        name={`vitalSigns.${index}.${value}`}
+                        name={`formSets.${index}.${value}`}
                         label={label}
                         fieldType={type}
                         disabled={mode === "view"}

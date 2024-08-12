@@ -30,11 +30,13 @@ const ENCOUNTER_DETAILS_FIELDS: {
 interface FormMedicalHistoryProps {
   mode: string; // "view" or "edit"
   initialValue?: FormData[];
+  handleSubmitForm: (data: { formSets: FormData[] }) => Promise<void>;
 }
 
 const FormMedicalHistory: React.FC<FormMedicalHistoryProps> = ({
   mode,
   initialValue = [],
+  handleSubmitForm,
 }) => {
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
@@ -60,17 +62,13 @@ const FormMedicalHistory: React.FC<FormMedicalHistoryProps> = ({
     control,
   });
 
-  const onSubmit = (data: { formSets: FormData[] }) => {
-    console.log(data);
-  };
-
   return (
     <div className="size-full">
       <FormProvider {...methods}>
         <div className="flex size-full items-start justify-center">
           <div className="size-full overflow-auto">
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(handleSubmitForm)}
               className="flex h-full flex-col space-y-6"
             >
               {fields.map((field, index) => (

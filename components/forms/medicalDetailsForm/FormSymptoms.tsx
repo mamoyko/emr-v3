@@ -6,7 +6,7 @@ import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import { Button } from "@/components/ui/button";
 
-interface Symptom {
+interface FormData {
   patient: {
     name: string;
   };
@@ -18,12 +18,8 @@ interface Symptom {
   relieving_factors: string;
 }
 
-interface FormData {
-  symptoms: Symptom[];
-}
-
 const ENCOUNTER_DETAILS_FIELDS: Array<{
-  value: keyof Symptom;
+  value: keyof FormData;
   label: string;
   type: FormFieldType;
 }> = [
@@ -50,16 +46,18 @@ const ENCOUNTER_DETAILS_FIELDS: Array<{
 
 interface FormSymptomsProps {
   mode: string; // "view" or "edit"
-  initialValue?: Symptom[];
+  initialValue?: FormData[];
+  handleSubmitForm: (data: { formSets: FormData[] }) => Promise<void>;
 }
 
 const FormSymptoms: React.FC<FormSymptomsProps> = ({
   mode,
   initialValue = [],
+  handleSubmitForm,
 }) => {
-  const methods = useForm<FormData>({
+  const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
-      symptoms:
+      formSets:
         mode === "view" || initialValue.length > 0
           ? initialValue
           : [
@@ -78,13 +76,9 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
 
   const { handleSubmit, control } = methods;
   const { fields, append, remove } = useFieldArray({
-    name: "symptoms",
+    name: "formSets",
     control,
   });
-
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-  };
 
   return (
     <div className="size-full">
@@ -92,7 +86,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
         <div className="flex size-full items-start justify-center">
           <div className="size-full overflow-auto">
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(handleSubmitForm)}
               className="flex h-full flex-col space-y-6"
             >
               {fields.map((field, index) => (
@@ -106,7 +100,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                   <div className="mb-4">
                     <CustomFormField
                       control={control}
-                      name={`symptoms.${index}.patient?.name`}
+                      name={`formSets.${index}.patient.name`}
                       label="Patient"
                       fieldType={FormFieldType.INPUT}
                       disabled={mode === "view"}
@@ -119,7 +113,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                       <CustomFormField
                         key={value}
                         control={control}
-                        name={`symptoms.${index}.${value}`}
+                        name={`formSets.${index}.${value}`}
                         label={label}
                         fieldType={type}
                         disabled={mode === "view"}
