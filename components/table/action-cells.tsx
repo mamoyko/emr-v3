@@ -7,7 +7,6 @@ import { Appointment, Encounters, Patients } from "@/types/appwrite.types";
 
 import { AppointmentModal } from "../AppointmentModal";
 import { MEDICAL_DETAILS } from "../enums/medicalDetailsEnums";
-import MedicalDetailsFormHelper from "../forms/medicalDetailsForm/MedicalDetailsFormHelper";
 import MultiMedicalDetailsFormHelper from "../forms/multiMedicalDetailsForm/MultiMedicalDetailsFormHelper";
 import TabularFormPage from "../forms/tabularDetailForms/TabularFormPage";
 import DialogCellComponent from "../helperComponent/DialogCellComponent";
@@ -160,7 +159,7 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
         row={rawDocument}
         ComponentDialogTitle={`${rawDocument?.patient?.name} Medical Details`}
         ComponentDialogDescription={
-          <MedicalDetailsFormHelper
+          <MultiMedicalDetailsFormHelper
             currentTab={{ tab: columnValue, tabData: [rawDocument] }}
             mode={"view"}
             MEDICAL_DETAILS={MEDICAL_DETAILS}
