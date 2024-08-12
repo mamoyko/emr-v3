@@ -2,6 +2,7 @@ import FormMedicalHistory from "../medicalDetailsForm/FormMedicalHistory";
 import FormPhysicalExaminationFindings from "../medicalDetailsForm/FormPhysicalExaminationFindings";
 import FormSymptoms from "../medicalDetailsForm/FormSymptoms";
 import FormVitalSigns from "../medicalDetailsForm/FormVitalSigns";
+import MultiMedicalDetailsApi from "./MultiMedicalDetailsApi";
 
 interface MultiMedicalDetailsFormHelperProps {
   currentTab: {
@@ -16,15 +17,21 @@ interface MultiMedicalDetailsFormHelperProps {
     ENCOUNTERS: { title: string; value: string };
   };
   mode: string;
+  userId: string;
 }
 
 const MultiMedicalDetailsFormHelper = ({
   currentTab,
   MEDICAL_DETAILS,
   mode,
+  userId,
 }: MultiMedicalDetailsFormHelperProps) => {
   const handleSubmitForm = async (data: { formSets: any }) => {
-    console.log("data", data);
+    const result = await MultiMedicalDetailsApi({
+      actionValue: currentTab.tab,
+      parameters: data.formSets,
+      userId: userId,
+    });
   };
 
   const renderComponent = () => {

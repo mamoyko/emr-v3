@@ -90,13 +90,6 @@ export const EncounterActionCell: React.FC<EncounterCellProps> = ({ row }) => {
 
   return (
     <div className="flex gap-1">
-      {/* <Button
-        variant="ghost"
-        className="capitalize text-lime-500"
-        onClick={handleDetailsClick}
-      >
-        Medical Details
-      </Button> */}
       <DialogCellComponent
         dialogStyle={{
           height: height ? `${height - 50}px` : "auto",
@@ -163,6 +156,7 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
             currentTab={{ tab: columnValue, tabData: [rawDocument] }}
             mode={"view"}
             MEDICAL_DETAILS={MEDICAL_DETAILS}
+            userId={""}
           />
         }
       />

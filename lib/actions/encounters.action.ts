@@ -124,7 +124,7 @@ export const getEncounterList = async () => {
 // };
 
 // GET APPOINTMENT
-export const getEncounters = async (patientId: string) => {
+export const getEncountersById = async (patientId: string) => {
   try {
     const encounters = await databases.listDocuments(
       DATABASE_ID!,

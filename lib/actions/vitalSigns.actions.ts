@@ -16,31 +16,21 @@ import {
 import { parseStringify } from "../utils";
 
 // CREATE APPWRITE USER
-export const createUser = async (user: CreateUserParams) => {
+export const createVitalSigns = async (vitalSign: createVitalSigns) => {
   try {
-    // Create new user -> https://appwrite.io/docs/references/1.5.x/server-nodejs/users#create
-    const newuser = await users.create(
+    const newEncounter = await databases.createDocument(
+      DATABASE_ID!,
+      SYMPTOMS_COLLECTION_ID!,
       ID.unique(),
-      user.email,
-      user.phone,
-      undefined,
-      user.name
+      vitalSign
     );
 
-    return parseStringify(newuser);
-  } catch (error: any) {
-    // Check existing user
-    if (error && error?.code === 409) {
-      const existingUser = await users.list([
-        Query.equal("email", [user.email]),
-      ]);
-
-      return existingUser.users[0];
-    }
-    console.error("An error occurred while creating a new user:", error);
+    // revalidatePath("/admin");
+    return parseStringify(newEncounter);
+  } catch (error) {
+    console.error("An error occurred while creating a new encounter:", error);
   }
 };
-
 // GET USER
 export const getUser = async (userId: string) => {
   try {
@@ -111,16 +101,16 @@ export const getPatient = async (userId: string) => {
   }
 };
 
-export const getVitalSignsByUserId = async () => {
+export const getVitalSignsByUserId = async (userId: string) => {
   try {
-    const symptoms = await databases.listDocuments(
+    const vitalSign = await databases.listDocuments(
       DATABASE_ID!,
       SYMPTOMS_COLLECTION_ID!,
-      [Query.orderDesc("$createdAt")]
+      [Query.orderDesc("$createdAt")][Query.equal("$id", [userId])]
     );
     const data = {
-      totalCount: symptoms.total,
-      documents: symptoms.documents,
+      totalCount: vitalSign.total,
+      documents: vitalSign.documents,
     };
     return parseStringify(data);
   } catch (error) {

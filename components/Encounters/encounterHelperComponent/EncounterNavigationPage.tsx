@@ -133,6 +133,7 @@ export const EncounterNavigationPage = () => {
               currentTab={{ tab: tableProcess.navigation, tabData: [] }}
               MEDICAL_DETAILS={MEDICAL_DETAILS}
               mode={"edit"}
+              userId={""}
             />
           ) : (
             <DataTable

@@ -25,7 +25,7 @@ type StateTableProcess = {
   isInForm: boolean;
 };
 
-export const PatientsNavigationPage = () => {
+export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
   const EXCLUDED_MEDICAL_DETAILS = [MEDICAL_DETAILS.ENCOUNTERS.value];
 
   const [tableProcess, setTableProcess] = useState<StateTableProcess>({
@@ -66,6 +66,7 @@ export const PatientsNavigationPage = () => {
     setIsLoading(true);
     const result = await PatientsNavigationApiHelper({
       actionValue: value,
+      userId,
     });
     if (result?.response?.ok) {
       handleStateChange("dataTableData", result?.documents);
@@ -149,6 +150,7 @@ export const PatientsNavigationPage = () => {
               }}
               MEDICAL_DETAILS={MEDICAL_DETAILS}
               mode={"edit"}
+              userId={userId}
             />
           ) : (
             <DataTable

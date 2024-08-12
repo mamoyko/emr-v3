@@ -48,11 +48,16 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
     routePathId("active", value);
   };
 
+  const handleSubmitForm = async (data: any) => {
+    console.log("TabularFormPage", data);
+  };
+
   const handleComponentRender = (modeValue: string, currentTabState: any) => {
     switch (currentTabState.tab) {
       case ENCOUNTERS_DETAILS.SYMPTOMS.VALUE:
         return (
           <FormSymptoms
+            handleSubmitForm={handleSubmitForm}
             mode={modeValue}
             initialValue={currentTabState.tabData}
           />
@@ -60,6 +65,7 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
       case ENCOUNTERS_DETAILS.VITAL_SIGNS.VALUE:
         return (
           <FormVitalSigns
+            handleSubmitForm={handleSubmitForm}
             mode={modeValue}
             initialValue={currentTabState.tabData}
           />
@@ -67,6 +73,7 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
       case ENCOUNTERS_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.VALUE:
         return (
           <FormPhysicalExaminationFindings
+            handleSubmitForm={handleSubmitForm}
             mode={modeValue}
             initialValue={currentTabState.tabData}
           />
@@ -74,6 +81,7 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
       case ENCOUNTERS_DETAILS.MEDICAL_HISTORY.VALUE:
         return (
           <FormMedicalHistory
+            handleSubmitForm={handleSubmitForm}
             mode={modeValue}
             initialValue={currentTabState.tabData}
           />
@@ -81,6 +89,7 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
       default:
         return (
           <FormSymptoms
+            handleSubmitForm={handleSubmitForm}
             mode={modeValue}
             initialValue={currentTabState.tabData}
           />

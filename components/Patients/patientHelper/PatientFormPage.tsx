@@ -128,6 +128,7 @@ export const PatientFormPage = () => {
             MEDICAL_DETAILS={MEDICAL_DETAILS}
             currentTab={tabProcess}
             mode={tabProcess.mode}
+            userId={""}
           />
         }
       />

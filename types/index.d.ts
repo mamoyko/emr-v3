@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 declare type SearchParamProps = {
   params: { [key: string]: string };
   searchParams: { [key: string]: string | string[] | undefined };
@@ -62,4 +60,47 @@ declare type CreateEncounterParams = {
   encounter_type: string;
   reason: string;
   location: string;
+};
+
+declare type CreateSymptomsParams = {
+  patient: any[];
+  symptom_description: string;
+  duration: string;
+  severity: string;
+  onset: string;
+  aggravating_factors: string;
+  relieving_factors: string;
+};
+
+declare type createVitalSigns = {
+  blood_pressure: string;
+  heart_rate: string;
+  respiratory_rate: string;
+  temperature: string;
+  oxygen_saturation: string;
+  weight: string;
+  height: string;
+  body_mass_index: string;
+  patient: any[];
+};
+
+declare type createPhysicalExaminationFindings = {
+  general_appearance: string;
+  head_and_neck: string;
+  cardiovascular_system: string;
+  respiratory_system: string;
+  gastrointestinal_system: string;
+  genitourinary_system: string;
+  musculoskeletal: string;
+  neurological_system: string;
+  skin: string;
+};
+
+declare type createMedicalHistory = {
+  past_medical_conditions: string;
+  past_surgical_history: string;
+  current_medications: string;
+  allergies: string;
+  immunization_history: string;
+  family_medical_history: string;
 };
