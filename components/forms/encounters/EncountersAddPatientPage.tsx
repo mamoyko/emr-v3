@@ -92,6 +92,7 @@ const EncountersAddPatientPage: React.FC = ({
           encounter_type: values.encounter_type,
           reason: values.reason!,
           location: values.location,
+          collectionId: "",
         };
         const newEncounter = await createEncounter(encounters);
         if (newEncounter) {

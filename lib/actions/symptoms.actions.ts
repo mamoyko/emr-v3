@@ -15,9 +15,16 @@ import {
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
 
-// CREATE APPWRITE USER
-export const createSymptoms = async (symptoms: CreateSymptomsParams) => {
-  console.log("symptoms", symptoms);
+export const createSymptoms = async (
+  symptoms: CreateSymptomsParams
+): Promise<any> => {
+  if (!symptoms) {
+    console.error("No symptoms data provided.");
+    throw new Error("Symptoms data is required.");
+  }
+
+  console.log("Creating symptoms with data:", symptoms);
+
   try {
     const symptomsData = await databases.createDocument(
       DATABASE_ID!,
@@ -25,10 +32,13 @@ export const createSymptoms = async (symptoms: CreateSymptomsParams) => {
       ID.unique(),
       symptoms
     );
-    // revalidatePath("/admin");
+
+    console.log("Symptoms created successfully:", symptomsData);
+
     return parseStringify(symptomsData);
   } catch (error) {
-    console.error("An error occurred while creating a new encounter:", error);
+    console.error("An error occurred while creating symptoms:", error);
+    throw new Error("An error occurred while creating symptoms.");
   }
 };
 

@@ -33,12 +33,13 @@ const FIELD_NAMES: Array<{ value: keyof FormData; label: string }> = [
 interface FormPhysicalExaminationFindingsProps {
   mode: string; // "view" or "edit"
   initialValue?: FormData[];
-  handleSubmitForm: (data: { formSets: FormData[] }) => Promise<void>;
+  handleSubmitForm: (data: any) => Promise<void>;
+  isMultiForm: boolean;
 }
 
 const FormPhysicalExaminationFindings: React.FC<
   FormPhysicalExaminationFindingsProps
-> = ({ mode, initialValue = [], handleSubmitForm }) => {
+> = ({ mode, initialValue = [], handleSubmitForm, isMultiForm }) => {
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
       formSets:
@@ -66,13 +67,18 @@ const FormPhysicalExaminationFindings: React.FC<
     control,
   });
 
+  const handleSubmitData = (data: any) => {
+    data = isMultiForm ? data.formSets : data?.formSets[0];
+    handleSubmitForm(data);
+  };
+
   return (
     <div className="size-full">
       <FormProvider {...methods}>
         <div className="flex size-full items-start justify-center">
           <div className="size-full overflow-auto">
             <form
-              onSubmit={handleSubmit((data) => handleSubmitForm(data))}
+              onSubmit={handleSubmit(handleSubmitData)}
               className="space-y-6"
             >
               {fields.map((field, index) => (
@@ -80,9 +86,11 @@ const FormPhysicalExaminationFindings: React.FC<
                   key={field.id}
                   className="grid grid-cols-1 gap-4 rounded-md border p-4 shadow-sm sm:grid-cols-1 md:grid-cols-2"
                 >
-                  <h3 className="col-span-full text-lg font-semibold">
-                    Form Set {index + 1}
-                  </h3>
+                  {isMultiForm && (
+                    <h3 className="col-span-full text-lg font-semibold">
+                      Form Set {index + 1}
+                    </h3>
+                  )}
                   {FIELD_NAMES.map(({ value, label }) => (
                     <CustomFormField
                       key={value}
@@ -93,45 +101,48 @@ const FormPhysicalExaminationFindings: React.FC<
                       disabled={mode === "view"}
                     />
                   ))}
-                  {mode === "edit" && (
-                    <div className="col-span-full flex justify-end">
-                      <Button
-                        type="button"
-                        disabled={fields.length === 1}
-                        onClick={() => remove(index)}
-                        className={`shad-remove-btn w-full px-4 py-2 md:w-1/4 ${
-                          fields.length === 1
-                            ? "cursor-not-allowed bg-gray-500"
-                            : "bg-red-500 hover:bg-red-600"
-                        }`}
-                      >
-                        Remove Form Set
-                      </Button>
-                    </div>
-                  )}
+                  {mode === "edit" ||
+                    (isMultiForm && (
+                      <div className="col-span-full flex justify-end">
+                        <Button
+                          type="button"
+                          disabled={fields.length === 1}
+                          onClick={() => remove(index)}
+                          className={`shad-remove-btn w-full px-4 py-2 md:w-1/4 ${
+                            fields.length === 1
+                              ? "cursor-not-allowed bg-gray-500"
+                              : "bg-red-500 hover:bg-red-600"
+                          }`}
+                        >
+                          Remove Form Set
+                        </Button>
+                      </div>
+                    ))}
                 </div>
               ))}
               {mode === "edit" && (
                 <div className="mt-4 flex justify-end space-x-5">
-                  <Button
-                    type="button"
-                    onClick={() =>
-                      append({
-                        general_appearance: "",
-                        head_and_neck: "",
-                        cardiovascular_system: "",
-                        respiratory_system: "",
-                        gastrointestinal_system: "",
-                        genitourinary_system: "",
-                        musculoskeletal: "",
-                        neurological_system: "",
-                        skin: "",
-                      })
-                    }
-                    className="shad-primary-btn"
-                  >
-                    Add Form Set
-                  </Button>
+                  {isMultiForm && (
+                    <Button
+                      type="button"
+                      onClick={() =>
+                        append({
+                          general_appearance: "",
+                          head_and_neck: "",
+                          cardiovascular_system: "",
+                          respiratory_system: "",
+                          gastrointestinal_system: "",
+                          genitourinary_system: "",
+                          musculoskeletal: "",
+                          neurological_system: "",
+                          skin: "",
+                        })
+                      }
+                      className="shad-primary-btn"
+                    >
+                      Add Form Set
+                    </Button>
+                  )}
                   <Button type="submit" className="shad-submit-btn">
                     Submit
                   </Button>

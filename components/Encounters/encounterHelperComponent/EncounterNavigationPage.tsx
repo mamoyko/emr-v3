@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 
 import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
-import MultiMedicalDetailsFormHelper from "@/components/forms/multiMedicalDetailsForm/MultiMedicalDetailsFormHelper";
+import MedicalDetailsFormHelper from "@/components/forms/singularMedicalDetailsForm/MedicalDetailsFormHelper";
 import {
   patientSymptoms,
   patientPhysicalExaminationFindings,
@@ -129,11 +129,16 @@ export const EncounterNavigationPage = () => {
       ContentComponent={
         <div className="flex-1 overflow-y-auto overflow-x-hidden">
           {tableProcess.isInForm ? (
-            <MultiMedicalDetailsFormHelper
-              currentTab={{ tab: tableProcess.navigation, tabData: [] }}
+            <MedicalDetailsFormHelper
+              currentTab={{
+                tab: tableProcess.navigation,
+                tabData: [],
+                tabDataExtract: "",
+              }}
               MEDICAL_DETAILS={MEDICAL_DETAILS}
               mode={"edit"}
               userId={""}
+              handleState={() => {}}
             />
           ) : (
             <DataTable

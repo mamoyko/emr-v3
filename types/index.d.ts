@@ -54,6 +54,7 @@ declare type UpdateAppointmentParams = {
 };
 
 declare type CreateEncounterParams = {
+  collectionId: string;
   primaryPhysician: string;
   date_and_time: Date;
   patient: string;
@@ -63,6 +64,7 @@ declare type CreateEncounterParams = {
 };
 
 declare type CreateSymptomsParams = {
+  collectionId: string;
   patient: any[];
   symptom_description: string;
   duration: string;
@@ -73,6 +75,7 @@ declare type CreateSymptomsParams = {
 };
 
 declare type createVitalSigns = {
+  collectionId: string;
   blood_pressure: string;
   heart_rate: string;
   respiratory_rate: string;
@@ -85,6 +88,7 @@ declare type createVitalSigns = {
 };
 
 declare type createPhysicalExaminationFindings = {
+  collectionId: string;
   general_appearance: string;
   head_and_neck: string;
   cardiovascular_system: string;
@@ -97,6 +101,7 @@ declare type createPhysicalExaminationFindings = {
 };
 
 declare type createMedicalHistory = {
+  collectionId: string;
   past_medical_conditions: string;
   past_surgical_history: string;
   current_medications: string;

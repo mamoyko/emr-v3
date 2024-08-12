@@ -7,9 +7,7 @@ import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import { Button } from "@/components/ui/button";
 
 interface FormData {
-  patient: {
-    name: string;
-  };
+  patient: any;
   symptom_description: string;
   duration: string;
   severity: string;
@@ -47,13 +45,15 @@ const ENCOUNTER_DETAILS_FIELDS: Array<{
 interface FormSymptomsProps {
   mode: string; // "view" or "edit"
   initialValue?: FormData[];
-  handleSubmitForm: (data: { formSets: FormData[] }) => Promise<void>;
+  handleSubmitForm: (data: any) => Promise<void>;
+  isMultiForm: boolean;
 }
 
 const FormSymptoms: React.FC<FormSymptomsProps> = ({
   mode,
   initialValue = [],
   handleSubmitForm,
+  isMultiForm,
 }) => {
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
@@ -80,13 +80,19 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
     control,
   });
 
+  const handleSubmitData = (data: any) => {
+    console.log(" to sumit data", data);
+    data = isMultiForm ? data.formSets : data?.formSets[0];
+    handleSubmitForm(data);
+  };
+
   return (
     <div className="size-full">
       <FormProvider {...methods}>
         <div className="flex size-full items-start justify-center">
           <div className="size-full overflow-auto">
             <form
-              onSubmit={handleSubmit(handleSubmitForm)}
+              onSubmit={handleSubmit(handleSubmitData)}
               className="flex h-full flex-col space-y-6"
             >
               {fields.map((field, index) => (
@@ -94,16 +100,18 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                   key={field.id}
                   className="flex flex-1 flex-col gap-4 rounded-md border p-4 shadow-sm"
                 >
-                  <h3 className="mb-4 text-lg font-semibold">
-                    Form Set {index + 1}
-                  </h3>
+                  {isMultiForm && (
+                    <h3 className="mb-4 text-lg font-semibold">
+                      Form Set {index + 1}
+                    </h3>
+                  )}
                   <div className="mb-4">
                     <CustomFormField
                       control={control}
                       name={`formSets.${index}.patient.name`}
                       label="Patient"
                       fieldType={FormFieldType.INPUT}
-                      disabled={mode === "view"}
+                      disabled={true}
                     />
                   </div>
                   <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2">
@@ -120,43 +128,46 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                       />
                     ))}
                   </div>
-                  {mode === "edit" && (
-                    <div className="mt-4 flex justify-end">
-                      <Button
-                        type="button"
-                        disabled={fields.length === 1}
-                        onClick={() => remove(index)}
-                        className={`shad-remove-btn w-full px-4 py-2 md:w-1/4 ${
-                          fields.length === 1
-                            ? "cursor-not-allowed bg-gray-500"
-                            : "bg-red-500 hover:bg-red-600"
-                        }`}
-                      >
-                        Remove Form Set
-                      </Button>
-                    </div>
-                  )}
+                  {mode === "edit" ||
+                    (isMultiForm && (
+                      <div className="mt-4 flex justify-end">
+                        <Button
+                          type="button"
+                          disabled={fields.length === 1}
+                          onClick={() => remove(index)}
+                          className={`shad-remove-btn w-full px-4 py-2 md:w-1/4 ${
+                            fields.length === 1
+                              ? "cursor-not-allowed bg-gray-500"
+                              : "bg-red-500 hover:bg-red-600"
+                          }`}
+                        >
+                          Remove Form Set
+                        </Button>
+                      </div>
+                    ))}
                 </div>
               ))}
               {mode === "edit" && (
                 <div className="mt-4 flex justify-end space-x-5">
-                  <Button
-                    type="button"
-                    onClick={() =>
-                      append({
-                        symptom_description: "",
-                        duration: "",
-                        severity: "",
-                        onset: "",
-                        aggravating_factors: "",
-                        relieving_factors: "",
-                        patient: { name: "" },
-                      })
-                    }
-                    className="shad-primary-btn"
-                  >
-                    Add Form Set
-                  </Button>
+                  {isMultiForm && (
+                    <Button
+                      type="button"
+                      onClick={() =>
+                        append({
+                          symptom_description: "",
+                          duration: "",
+                          severity: "",
+                          onset: "",
+                          aggravating_factors: "",
+                          relieving_factors: "",
+                          patient: { name: "" },
+                        })
+                      }
+                      className="shad-primary-btn"
+                    >
+                      Add Form Set
+                    </Button>
+                  )}
                   <Button type="submit" className="shad-submit-btn">
                     Submit
                   </Button>

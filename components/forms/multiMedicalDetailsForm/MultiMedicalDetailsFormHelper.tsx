@@ -27,7 +27,7 @@ const MultiMedicalDetailsFormHelper = ({
   mode,
   userId,
 }: MultiMedicalDetailsFormHelperProps) => {
-  const handleSubmitForm = async (data: { formSets: any }) => {
+  const handleSubmitForm = async (data: any) => {
     // setIsLoading(true);
     const result = await MultiMedicalDetailsApi({
       actionValue: currentTab.tab,
@@ -52,6 +52,7 @@ const MultiMedicalDetailsFormHelper = ({
             handleSubmitForm={handleSubmitForm}
             initialValue={currentTab.tabData}
             mode={mode}
+            isMultiForm={true}
           />
         );
       case MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value:
@@ -60,6 +61,7 @@ const MultiMedicalDetailsFormHelper = ({
             handleSubmitForm={handleSubmitForm}
             initialValue={currentTab.tabData}
             mode={mode}
+            isMultiForm={true}
           />
         );
       case MEDICAL_DETAILS.SYMPTOMS.value:
@@ -68,6 +70,7 @@ const MultiMedicalDetailsFormHelper = ({
             handleSubmitForm={handleSubmitForm}
             initialValue={currentTab.tabData}
             mode={mode}
+            isMultiForm={true}
           />
         );
       case MEDICAL_DETAILS.VITAL_SIGNS.value:
@@ -76,6 +79,7 @@ const MultiMedicalDetailsFormHelper = ({
             handleSubmitForm={handleSubmitForm}
             initialValue={currentTab.tabData}
             mode={mode}
+            isMultiForm={true}
           />
         );
       case MEDICAL_DETAILS.ENCOUNTERS.value:
@@ -84,6 +88,7 @@ const MultiMedicalDetailsFormHelper = ({
             handleSubmitForm={handleSubmitForm}
             initialValue={currentTab.tabData}
             mode={mode}
+            isMultiForm={true}
           />
         );
       default:

@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
+import React from "react";
+
 import {
   Dialog,
   DialogContent,
@@ -16,7 +17,7 @@ interface EmrLoaderDialogProps {
 export const EmrLoader = () => {
   return (
     <div className="flex h-full items-center justify-center">
-      <div className="relative h-16 w-16">
+      <div className="relative size-16">
         <Image
           src="/assets/icons/leon-cares-eclinic_logo_white-01.png"
           height={64}

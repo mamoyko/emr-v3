@@ -60,6 +60,7 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
             handleSubmitForm={handleSubmitForm}
             mode={modeValue}
             initialValue={currentTabState.tabData}
+            isMultiForm={true}
           />
         );
       case ENCOUNTERS_DETAILS.VITAL_SIGNS.VALUE:
@@ -68,6 +69,7 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
             handleSubmitForm={handleSubmitForm}
             mode={modeValue}
             initialValue={currentTabState.tabData}
+            isMultiForm={true}
           />
         );
       case ENCOUNTERS_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.VALUE:
@@ -76,6 +78,7 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
             handleSubmitForm={handleSubmitForm}
             mode={modeValue}
             initialValue={currentTabState.tabData}
+            isMultiForm={true}
           />
         );
       case ENCOUNTERS_DETAILS.MEDICAL_HISTORY.VALUE:
@@ -84,6 +87,7 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
             handleSubmitForm={handleSubmitForm}
             mode={modeValue}
             initialValue={currentTabState.tabData}
+            isMultiForm={true}
           />
         );
       default:
@@ -92,6 +96,7 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
             handleSubmitForm={handleSubmitForm}
             mode={modeValue}
             initialValue={currentTabState.tabData}
+            isMultiForm={true}
           />
         );
     }

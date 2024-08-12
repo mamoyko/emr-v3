@@ -7,7 +7,7 @@ import { Appointment, Encounters, Patients } from "@/types/appwrite.types";
 
 import { AppointmentModal } from "../AppointmentModal";
 import { MEDICAL_DETAILS } from "../enums/medicalDetailsEnums";
-import MultiMedicalDetailsFormHelper from "../forms/multiMedicalDetailsForm/MultiMedicalDetailsFormHelper";
+import MedicalDetailsFormHelper from "../forms/singularMedicalDetailsForm/MedicalDetailsFormHelper";
 import TabularFormPage from "../forms/tabularDetailForms/TabularFormPage";
 import DialogCellComponent from "../helperComponent/DialogCellComponent";
 import "react-datepicker/dist/react-datepicker.css";
@@ -152,11 +152,16 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
         row={rawDocument}
         ComponentDialogTitle={`${rawDocument?.patient?.name} Medical Details`}
         ComponentDialogDescription={
-          <MultiMedicalDetailsFormHelper
-            currentTab={{ tab: columnValue, tabData: [rawDocument] }}
+          <MedicalDetailsFormHelper
+            currentTab={{
+              tab: columnValue,
+              tabData: [rawDocument],
+              tabDataExtract: "",
+            }}
             mode={"view"}
             MEDICAL_DETAILS={MEDICAL_DETAILS}
             userId={""}
+            handleState={() => {}}
           />
         }
       />
