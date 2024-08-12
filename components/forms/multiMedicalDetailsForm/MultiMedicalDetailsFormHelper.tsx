@@ -28,11 +28,20 @@ const MultiMedicalDetailsFormHelper = ({
   userId,
 }: MultiMedicalDetailsFormHelperProps) => {
   const handleSubmitForm = async (data: { formSets: any }) => {
+    // setIsLoading(true);
     const result = await MultiMedicalDetailsApi({
       actionValue: currentTab.tab,
       parameters: data.formSets,
       userId,
     });
+    if (result?.response?.ok) {
+      console.log("========", result);
+      // handleStateChange("dataTableData", result?.documents);
+    } else {
+      console.log("nopt ok", result);
+      // handleStateChange("dataTableData", []);
+    }
+    // setIsLoading(false);
   };
 
   const renderComponent = () => {

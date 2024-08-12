@@ -14,6 +14,7 @@ import "./VerticalTabs.css";
 import { FNObjectLevelOneToArray } from "../helperFunctions/TransformObjectToArray";
 import UseRouting from "../helperFunctions/UseRouting";
 import useWindowDimension from "../helperFunctions/useWindowDimension";
+import { EmrLoader } from "../loader/EmrLoaderComponents";
 
 interface VerticalTabsComponentProps {
   navigationList: any;
@@ -54,6 +55,8 @@ const VerticalTabsComponent = ({
   const MEMOIZE_NAV = Array.isArray(navigationList)
     ? [...navigationList]
     : [...FNObjectLevelOneToArray({ toTransformData: navigationList })];
+
+  if (!height) return;
 
   return (
     <div
@@ -96,7 +99,7 @@ const VerticalTabsComponent = ({
             )}
             {isLoading ? (
               <div className="flex h-full items-center justify-center">
-                <LoadingSpinner />
+                <EmrLoader />
               </div>
             ) : (
               <CardContent className="space-y-2">
@@ -112,9 +115,3 @@ const VerticalTabsComponent = ({
 };
 
 export default VerticalTabsComponent;
-
-const LoadingSpinner: React.FC = () => (
-  <div className="flex h-full items-center justify-center">
-    <div className="size-8 animate-spin rounded-full border-4 border-red-400 border-t-green-500"></div>
-  </div>
-);

@@ -17,16 +17,16 @@ import { parseStringify } from "../utils";
 
 // CREATE APPWRITE USER
 export const createSymptoms = async (symptoms: CreateSymptomsParams) => {
+  console.log("symptoms", symptoms);
   try {
-    const newEncounter = await databases.createDocument(
+    const symptomsData = await databases.createDocument(
       DATABASE_ID!,
       SYMPTOMS_COLLECTION_ID!,
       ID.unique(),
       symptoms
     );
-
     // revalidatePath("/admin");
-    return parseStringify(newEncounter);
+    return parseStringify(symptomsData);
   } catch (error) {
     console.error("An error occurred while creating a new encounter:", error);
   }
