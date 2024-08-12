@@ -2,6 +2,7 @@ import FormMedicalHistory from "../medicalDetailsForm/FormMedicalHistory";
 import FormPhysicalExaminationFindings from "../medicalDetailsForm/FormPhysicalExaminationFindings";
 import FormSymptoms from "../medicalDetailsForm/FormSymptoms";
 import FormVitalSigns from "../medicalDetailsForm/FormVitalSigns";
+
 import MultiMedicalDetailsApi from "./MultiMedicalDetailsApi";
 
 interface MultiMedicalDetailsFormHelperProps {
@@ -30,7 +31,7 @@ const MultiMedicalDetailsFormHelper = ({
     const result = await MultiMedicalDetailsApi({
       actionValue: currentTab.tab,
       parameters: data.formSets,
-      userId: userId,
+      userId,
     });
   };
 
