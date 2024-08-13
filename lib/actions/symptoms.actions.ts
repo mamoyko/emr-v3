@@ -1,5 +1,7 @@
 "use server";
 
+import { error } from "console";
+
 import { ID, InputFile, Query } from "node-appwrite";
 
 import {
@@ -17,13 +19,16 @@ import { parseStringify } from "../utils";
 
 export const createSymptoms = async (
   symptoms: CreateSymptomsParams
-): Promise<any> => {
+): Promise<{ ok: boolean; code: number; message: string; data: any }> => {
   if (!symptoms) {
     console.error("No symptoms data provided.");
-    throw new Error("Symptoms data is required.");
+    return {
+      ok: false,
+      code: 400,
+      message: "Symptoms data is required.",
+      data: null,
+    };
   }
-
-  console.log("Creating symptoms with data:", symptoms);
 
   try {
     const symptomsData = await databases.createDocument(
@@ -33,12 +38,20 @@ export const createSymptoms = async (
       symptoms
     );
 
-    console.log("Symptoms created successfully:", symptomsData);
-
-    return parseStringify(symptomsData);
-  } catch (error) {
-    console.error("An error occurred while creating symptoms:", error);
-    throw new Error("An error occurred while creating symptoms.");
+    return {
+      ok: true,
+      code: 201,
+      message: "Symptoms created successfully.",
+      data: symptomsData,
+    };
+  } catch (error: any) {
+    console.error("Error creating symptoms:", error);
+    return {
+      ok: false,
+      code: 500,
+      message: `Error creating symptoms: ${error.message || "Unknown error"}`,
+      data: null,
+    };
   }
 };
 

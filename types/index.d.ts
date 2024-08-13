@@ -64,7 +64,6 @@ declare type CreateEncounterParams = {
 };
 
 declare type CreateSymptomsParams = {
-  collectionId: string;
   patient: any[];
   symptom_description: string;
   duration: string;

@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from "react";
 
+import Loading from "@/app/loading";
 import {
   Card,
   CardContent,
@@ -14,7 +15,6 @@ import "./VerticalTabs.css";
 import { FNObjectLevelOneToArray } from "../helperFunctions/TransformObjectToArray";
 import UseRouting from "../helperFunctions/UseRouting";
 import useWindowDimension from "../helperFunctions/useWindowDimension";
-import { EmrLoader } from "../loader/EmrLoaderComponents";
 
 interface VerticalTabsComponentProps {
   navigationList: any;
@@ -99,7 +99,7 @@ const VerticalTabsComponent = ({
             )}
             {isLoading ? (
               <div className="flex h-full items-center justify-center">
-                <EmrLoader />
+                <Loading />
               </div>
             ) : (
               <CardContent className="space-y-2">

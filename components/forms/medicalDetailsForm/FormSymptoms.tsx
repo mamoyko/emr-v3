@@ -81,7 +81,6 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
   });
 
   const handleSubmitData = (data: any) => {
-    console.log(" to sumit data", data);
     data = isMultiForm ? data.formSets : data?.formSets[0];
     handleSubmitForm(data);
   };

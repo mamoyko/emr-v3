@@ -5,9 +5,30 @@ import FormMedicalHistory from "@/components/forms/medicalDetailsForm/FormMedica
 import FormPhysicalExaminationFindings from "@/components/forms/medicalDetailsForm/FormPhysicalExaminationFindings";
 import FormSymptoms from "@/components/forms/medicalDetailsForm/FormSymptoms";
 import FormVitalSigns from "@/components/forms/medicalDetailsForm/FormVitalSigns";
+import { createEncounter } from "@/lib/actions/encounters.action";
+import { createMedicalHistory } from "@/lib/actions/medicalHistory.actions";
+import { createPhysicalExamFindings } from "@/lib/actions/physicalExaminationFindings.actions";
+import { createSymptoms } from "@/lib/actions/symptoms.actions";
+import { createVitalSigns } from "@/lib/actions/vitalSigns.actions";
 
-import MedicalDetailsApi from "./MedicalDetailsApi";
+type FetchFunction = (parameters?: any) => Promise<any>;
 
+const fetchFunctions: Record<string, FetchFunction> = {
+  [MEDICAL_DETAILS.ENCOUNTERS.value]: createEncounter,
+  [MEDICAL_DETAILS.SYMPTOMS.value]: createSymptoms,
+  [MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value]:
+    createPhysicalExamFindings,
+  [MEDICAL_DETAILS.VITAL_SIGNS.value]: createVitalSigns,
+  [MEDICAL_DETAILS.MEDICAL_HISTORY.value]: createMedicalHistory,
+};
+
+const formComponents = {
+  [MEDICAL_DETAILS.MEDICAL_HISTORY.value]: FormMedicalHistory,
+  [MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value]:
+    FormPhysicalExaminationFindings,
+  [MEDICAL_DETAILS.SYMPTOMS.value]: FormSymptoms,
+  [MEDICAL_DETAILS.VITAL_SIGNS.value]: FormVitalSigns,
+};
 interface MedicalDetailsFormHelperProps {
   currentTab: {
     tab: string;
@@ -26,14 +47,6 @@ interface MedicalDetailsFormHelperProps {
   handleState: (data: any) => void;
 }
 
-const formComponents = {
-  [MEDICAL_DETAILS.MEDICAL_HISTORY.value]: FormMedicalHistory,
-  [MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value]:
-    FormPhysicalExaminationFindings,
-  [MEDICAL_DETAILS.SYMPTOMS.value]: FormSymptoms,
-  [MEDICAL_DETAILS.VITAL_SIGNS.value]: FormVitalSigns,
-};
-
 const MedicalDetailsFormHelper = ({
   currentTab,
   mode,
@@ -42,27 +55,20 @@ const MedicalDetailsFormHelper = ({
 }: MedicalDetailsFormHelperProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleSubmitForm = async (data: any) => {
+  const handleSubmitForm = async (dataCollection: any) => {
     setIsLoading(true);
-    data.patient = currentTab.tabDataExtract;
-    try {
-      const result = await MedicalDetailsApi({
-        actionValue: currentTab.tab,
-        parameters: data,
-        userId,
-      });
-      if (result?.response?.ok) {
-        console.log("Success:", result);
-        handleState(result);
-      } else {
-        console.error("Failed:", result.response.message);
-        handleState({ error: result.response.message });
-      }
-    } catch (error) {
-      console.error("Unexpected error:", error);
-      handleState({ error: "An unexpected error occurred" });
-    } finally {
-      setIsLoading(false);
+    dataCollection.patient = currentTab.tabDataExtract;
+    const fetchFunction = fetchFunctions[currentTab.tab];
+
+    if (!fetchFunction) throw new Error("System Error.");
+
+    const result = await fetchFunction(dataCollection);
+    if (result?.response?.ok) {
+      console.log("Success:", result);
+      handleState(result);
+    } else {
+      console.error("Failed:", result.response.message);
+      handleState([]);
     }
   };
 
