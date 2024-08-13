@@ -153,6 +153,7 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
               mode={"edit"}
               userId={userId}
               handleState={(data: any) => {
+                console.log("data", data);
                 handleStateChange("dataTableData", [
                   tableProcess?.dataTableData,
                   ...data,

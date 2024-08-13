@@ -63,9 +63,9 @@ const MedicalDetailsFormHelper = ({
     if (!fetchFunction) throw new Error("System Error.");
 
     const result = await fetchFunction(dataCollection);
-    if (result?.response?.ok) {
+    if (result?.ok) {
       console.log("Success:", result);
-      handleState(result);
+      handleState(result.data);
     } else {
       console.error("Failed:", result.response.message);
       handleState([]);
