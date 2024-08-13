@@ -55,12 +55,12 @@ const MedicalDetailsFormHelper = ({
         console.log("Success:", result);
         handleState(result);
       } else {
-        console.error("Failed:", result.response.message);
-        handleState({ error: result.response.message });
+        console.error("Failed:", result.response.message || "Response error");
+        handleState([]);
       }
     } catch (error) {
       console.error("Unexpected error:", error);
-      handleState({ error: "An unexpected error occurred" });
+      handleState([]);
     } finally {
       setIsLoading(false);
     }
