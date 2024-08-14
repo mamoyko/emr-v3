@@ -153,6 +153,8 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
         ComponentDialogTitle={`${rawDocument?.patient?.name} Medical Details`}
         ComponentDialogDescription={
           <MedicalDetailsFormHelper
+            isLoading={false}
+            handleLoading={() => {}}
             currentTab={{
               tab: columnValue,
               tabData: [rawDocument],

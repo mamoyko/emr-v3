@@ -31,7 +31,6 @@ const PatientsNavigationApiHelper = async ({
 
   try {
     const result = await fetchFunction(userId);
-    console.log("result", result);
     return {
       ...result,
       response: {

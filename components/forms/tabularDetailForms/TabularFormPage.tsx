@@ -61,6 +61,7 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
             mode={modeValue}
             initialValue={currentTabState.tabData}
             isMultiForm={true}
+            isLoading={false}
           />
         );
       case ENCOUNTERS_DETAILS.VITAL_SIGNS.VALUE:
@@ -70,6 +71,7 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
             mode={modeValue}
             initialValue={currentTabState.tabData}
             isMultiForm={true}
+            isLoading={false}
           />
         );
       case ENCOUNTERS_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.VALUE:
@@ -79,6 +81,7 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
             mode={modeValue}
             initialValue={currentTabState.tabData}
             isMultiForm={true}
+            isLoading={false}
           />
         );
       case ENCOUNTERS_DETAILS.MEDICAL_HISTORY.VALUE:
@@ -88,6 +91,7 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
             mode={modeValue}
             initialValue={currentTabState.tabData}
             isMultiForm={true}
+            isLoading={false}
           />
         );
       default:
@@ -97,6 +101,7 @@ const TabularFormPage: React.FC<TabularFormPageProps> = ({
             mode={modeValue}
             initialValue={currentTabState.tabData}
             isMultiForm={true}
+            isLoading={false}
           />
         );
     }

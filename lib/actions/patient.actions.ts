@@ -122,7 +122,6 @@ export const getUsers = async () => {
       totalCount: patients.total,
       documents: patients.documents,
     };
-    console.log("datadatadata", data);
     return parseStringify(data);
   } catch (error) {
     console.error(

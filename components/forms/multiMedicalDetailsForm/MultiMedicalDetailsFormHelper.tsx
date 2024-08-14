@@ -38,6 +38,7 @@ const MultiMedicalDetailsFormHelper = ({
             initialValue={currentTab.tabData}
             mode={mode}
             isMultiForm={true}
+            isLoading={false}
           />
         );
       case MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value:
@@ -47,6 +48,7 @@ const MultiMedicalDetailsFormHelper = ({
             initialValue={currentTab.tabData}
             mode={mode}
             isMultiForm={true}
+            isLoading={false}
           />
         );
       case MEDICAL_DETAILS.SYMPTOMS.value:
@@ -56,6 +58,7 @@ const MultiMedicalDetailsFormHelper = ({
             initialValue={currentTab.tabData}
             mode={mode}
             isMultiForm={true}
+            isLoading={false}
           />
         );
       case MEDICAL_DETAILS.VITAL_SIGNS.value:
@@ -65,6 +68,7 @@ const MultiMedicalDetailsFormHelper = ({
             initialValue={currentTab.tabData}
             mode={mode}
             isMultiForm={true}
+            isLoading={false}
           />
         );
       case MEDICAL_DETAILS.ENCOUNTERS.value:
@@ -74,6 +78,7 @@ const MultiMedicalDetailsFormHelper = ({
             initialValue={currentTab.tabData}
             mode={mode}
             isMultiForm={true}
+            isLoading={false}
           />
         );
       default:

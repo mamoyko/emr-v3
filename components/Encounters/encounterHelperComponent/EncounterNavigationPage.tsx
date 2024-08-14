@@ -130,6 +130,8 @@ export const EncounterNavigationPage = () => {
         <div className="flex-1 overflow-y-auto overflow-x-hidden">
           {tableProcess.isInForm ? (
             <MedicalDetailsFormHelper
+              isLoading={false}
+              handleLoading={() => {}}
               currentTab={{
                 tab: tableProcess.navigation,
                 tabData: [],
