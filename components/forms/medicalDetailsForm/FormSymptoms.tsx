@@ -46,7 +46,7 @@ const ENCOUNTER_DETAILS_FIELDS: Array<{
 interface FormSymptomsProps {
   mode: string; // "view" or "edit"
   initialValue?: FormData[];
-  handleSubmitForm: (dataCollection: any, tabValue: string) => Promise<void>;
+  handleSubmitForm: (dataCollection: any) => Promise<void>;
   isMultiForm: boolean;
   isLoading: boolean;
 }
@@ -91,7 +91,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
     dataCollection = isMultiForm
       ? dataCollection.formSets
       : dataCollection?.formSets[0];
-    handleSubmitForm(dataCollection, MEDICAL_DETAILS.SYMPTOMS.value);
+    handleSubmitForm(dataCollection);
   };
 
   return (

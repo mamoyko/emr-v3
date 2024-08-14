@@ -53,7 +53,7 @@ const ENCOUNTER_DETAILS_FIELDS: Array<{
 interface FormVitalSignsProps {
   mode: string; // "view" or "edit"
   initialValue?: FormData[];
-  handleSubmitForm: (dataCollection: any, tabValue: string) => Promise<void>;
+  handleSubmitForm: (dataCollection: any) => Promise<void>;
   isMultiForm: boolean;
   isLoading: boolean;
 }
@@ -96,7 +96,7 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
     dataCollection = isMultiForm
       ? dataCollection.formSets
       : dataCollection?.formSets[0];
-    handleSubmitForm(dataCollection, MEDICAL_DETAILS.VITAL_SIGNS.value);
+    handleSubmitForm(dataCollection);
   };
 
   return (

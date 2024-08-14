@@ -34,7 +34,7 @@ const FIELD_NAMES: Array<{ value: keyof FormData; label: string }> = [
 interface FormPhysicalExaminationFindingsProps {
   mode: string; // "view" or "edit"
   initialValue?: FormData[];
-  handleSubmitForm: (dataCollection: any, tabValue: string) => Promise<void>;
+  handleSubmitForm: (dataCollection: any) => Promise<void>;
   isMultiForm: boolean;
   isLoading: boolean;
 }
@@ -73,10 +73,7 @@ const FormPhysicalExaminationFindings: React.FC<
     dataCollection = isMultiForm
       ? dataCollection.formSets
       : dataCollection?.formSets[0];
-    handleSubmitForm(
-      dataCollection,
-      MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value
-    );
+    handleSubmitForm(dataCollection);
   };
 
   return (

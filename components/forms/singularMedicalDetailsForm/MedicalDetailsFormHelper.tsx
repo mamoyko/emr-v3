@@ -62,7 +62,7 @@ const MedicalDetailsFormHelper = ({
   handleLoading,
   isLoading,
 }: MedicalDetailsFormHelperProps) => {
-  const handleSubmitForm = async (dataCollection: any, tabValue: string) => {
+  const handleSubmitForm = async (dataCollection: any) => {
     handleLoading(true);
 
     const fetchFunction = fetchFunctions[currentTab.tab];

@@ -31,7 +31,7 @@ const ENCOUNTER_DETAILS_FIELDS: {
 interface FormMedicalHistoryProps {
   mode: string; // "view" or "edit"
   initialValue?: FormData[];
-  handleSubmitForm: (dataCollection: any, tabValue: string) => Promise<void>;
+  handleSubmitForm: (dataCollection: any) => Promise<void>;
   isMultiForm: boolean;
   isLoading: boolean;
 }
@@ -71,7 +71,7 @@ const FormMedicalHistory: React.FC<FormMedicalHistoryProps> = ({
     dataCollection = isMultiForm
       ? dataCollection.formSets
       : dataCollection?.formSets[0];
-    handleSubmitForm(dataCollection, MEDICAL_DETAILS.MEDICAL_HISTORY.value);
+    handleSubmitForm(dataCollection);
   };
 
   return (
