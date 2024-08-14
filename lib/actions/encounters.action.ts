@@ -1,24 +1,16 @@
 "use server";
 
-// import { revalidatePath } from "next/cache";
-// import { ID, Query } from "node-appwrite";
+import console from "console";
+
 import { revalidatePath } from "next/cache";
 import { ID, Query } from "node-appwrite";
-
-// import { Appointment, Encounters } from "@/types/appwrite.types";
 
 import {
   ENCOUNTER_COLLECTION_ID,
   DATABASE_ID,
   databases,
-  APPOINTMENT_COLLECTION_ID,
-  // messaging,
-  // APPOINTMENT_COLLECTION_ID,
 } from "../appwrite.config";
-// import { formatDateTime, parseStringify } from "../utils";
 import { parseStringify } from "../utils";
-
-// import { sendSMSNotification } from "./appointment.actions";
 
 //  CREATE ENCOUNTERS
 export const createEncounter = async (encounters: CreateEncounterParams) => {
@@ -30,7 +22,6 @@ export const createEncounter = async (encounters: CreateEncounterParams) => {
       encounters
     );
 
-    revalidatePath("/admin");
     return parseStringify(newEncounter);
   } catch (error) {
     console.error("An error occurred while creating a new encounter:", error);
@@ -124,14 +115,13 @@ export const getEncounterList = async () => {
 // };
 
 // GET APPOINTMENT
-export const getEncountersById = async (patientId: string) => {
+export const getEncountersById = async (userId: string) => {
   try {
     const encounters = await databases.listDocuments(
       DATABASE_ID!,
       ENCOUNTER_COLLECTION_ID!,
-      [Query.equal("patient", [patientId])]
+      [Query.equal("patient", [userId])]
     );
-
     return parseStringify(encounters.documents);
   } catch (error) {
     console.error(

@@ -32,7 +32,7 @@ export const columns: ColumnDef<Appointment>[] = [
   {
     header: "#",
     cell: ({ row }) => {
-      return <p className="text-14-medium ">{row.index + 1}</p>;
+      return <p className="text-14-medium">{row.index + 1}</p>;
     },
   },
   {
@@ -40,7 +40,7 @@ export const columns: ColumnDef<Appointment>[] = [
     header: "Patient",
     cell: ({ row }) => {
       const appointment = row.original;
-      return <p className="text-14-medium ">{appointment.patient.name}</p>;
+      return <p className="text-14-medium">{appointment.patient.name}</p>;
     },
   },
   {
@@ -102,7 +102,7 @@ export const columnEncounters: ColumnDef<Encounters>[] = [
   {
     header: "#",
     cell: ({ row }) => {
-      return <p className="text-14-medium ">{row.index + 1}</p>;
+      return <p className="text-14-medium">{row.index + 1}</p>;
     },
   },
   {
@@ -110,7 +110,7 @@ export const columnEncounters: ColumnDef<Encounters>[] = [
     header: "Patient",
     cell: ({ row }) => {
       const encounters = row.original;
-      return <p className="text-14-medium ">{encounters?.patient?.name}</p>;
+      return <p className="text-14-medium">{encounters?.patient?.name}</p>;
     },
   },
   {
@@ -154,7 +154,7 @@ export const columnEncounters: ColumnDef<Encounters>[] = [
     header: "Location",
     cell: ({ row }) => {
       const encounters = row.original;
-      return <p className="text-14-medium ">{encounters.location}</p>;
+      return <p className="text-14-medium">{encounters.location}</p>;
     },
   },
   {
@@ -162,7 +162,7 @@ export const columnEncounters: ColumnDef<Encounters>[] = [
     header: "Reason",
     cell: ({ row }) => {
       const encounters = row.original;
-      return <p className="text-14-medium ">{encounters.reason}</p>;
+      return <p className="text-14-medium">{encounters.reason}</p>;
     },
   },
   {
@@ -191,12 +191,6 @@ export const patientSymptoms: ColumnDef<Symptoms, any>[] = [
     header: "Created At",
     cell: ({ row }) => <GenericDateHandlerCell row={row} />,
   },
-  // { accessorKey: "symptom_description", header: "Symptom Description" },
-  // { accessorKey: "duration", header: "Duration" },
-  // { accessorKey: "severity", header: "Severity" },
-  // { accessorKey: "onset", header: "Onset" },
-  // { accessorKey: "aggravating_factors", header: "Aggravating Factors" },
-  // { accessorKey: "relieving_factors", header: "Relieving Factors" },
   {
     accessorKey: "patient",
     header: "Patient",
@@ -221,12 +215,6 @@ export const patientMedicalHistory: ColumnDef<MedicalHistory, any>[] = [
     header: "Created At",
     cell: ({ row }) => <GenericDateHandlerCell row={row} />,
   },
-  // { accessorKey: "past_medical_conditions", header: "Past Medical Conditions" },
-  // { accessorKey: "past_surgical_history", header: "Past Surgical History" },
-  // { accessorKey: "current_medications", header: "Current Medications" },
-  // { accessorKey: "allergies", header: "Allergies" },
-  // { accessorKey: "immunization_history", header: "Immunization History" },
-  // { accessorKey: "family_medical_history", header: "Family Medical History" },
   {
     accessorKey: "patient",
     header: "Patient",
@@ -254,15 +242,6 @@ export const patientPhysicalExaminationFindings: ColumnDef<
     header: "Created At",
     cell: ({ row }) => <GenericDateHandlerCell row={row} />,
   },
-  // { accessorKey: "general_appearance", header: "General Appearance" },
-  // { accessorKey: "head_and_neck", header: "Head and Neck" },
-  // { accessorKey: "cardiovascular_system", header: "Cardiovascular System" },
-  // { accessorKey: "respiratory_system", header: "Respiratory System" },
-  // { accessorKey: "gastrointestinal_system", header: "Gastrointestinal System" },
-  // { accessorKey: "genitourinary_system", header: "Genitourinary System" },
-  // { accessorKey: "musculoskeletal", header: "Musculoskeletal" },
-  // { accessorKey: "neurological_system", header: "Neurological System" },
-  // { accessorKey: "skin", header: "Skin" },
   {
     accessorKey: "patient",
     header: "Patient",
@@ -291,14 +270,6 @@ export const patientVitalSigns: ColumnDef<VitalSign, any>[] = [
       </div>
     ),
   },
-  // { accessorKey: "blood_pressure", header: "Blood Pressure" },
-  // { accessorKey: "heart_rate", header: "Heart Rate" },
-  // { accessorKey: "respiratory_rate", header: "Respiratory Rate" },
-  // { accessorKey: "temperature", header: "Temperature" },
-  // { accessorKey: "oxygen_saturation", header: "Oxygen Saturation" },
-  // { accessorKey: "weight", header: "Weight" },
-  // { accessorKey: "height", header: "Height" },
-  // { accessorKey: "body_mass_index", header: "Body Mass Index" },
   {
     accessorKey: "patient",
     header: "Patient",

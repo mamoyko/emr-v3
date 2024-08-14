@@ -4,6 +4,7 @@ import React from "react";
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
+import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import { Button } from "@/components/ui/button";
 
 interface FormData {
@@ -15,9 +16,7 @@ interface FormData {
   weight: string;
   height: string;
   body_mass_index: string;
-  patient: {
-    name: string;
-  };
+  patient: any;
 }
 
 const ENCOUNTER_DETAILS_FIELDS: Array<{
@@ -54,7 +53,7 @@ const ENCOUNTER_DETAILS_FIELDS: Array<{
 interface FormVitalSignsProps {
   mode: string; // "view" or "edit"
   initialValue?: FormData[];
-  handleSubmitForm: (data: any) => Promise<void>;
+  handleSubmitForm: (dataCollection: any, tabValue: string) => Promise<void>;
   isMultiForm: boolean;
 }
 
@@ -71,7 +70,7 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
           ? initialValue
           : [
               {
-                patient: { name: "" },
+                patient: {},
                 blood_pressure: "",
                 heart_rate: "",
                 respiratory_rate: "",
@@ -91,9 +90,11 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
     control,
   });
 
-  const handleSubmitData = (data: any) => {
-    data = isMultiForm ? data.formSets : data?.formSets[0];
-    handleSubmitForm(data);
+  const handleSubmitData = (dataCollection: any) => {
+    dataCollection = isMultiForm
+      ? dataCollection.formSets
+      : dataCollection?.formSets[0];
+    handleSubmitForm(dataCollection, MEDICAL_DETAILS.VITAL_SIGNS.value);
   };
 
   return (
@@ -116,13 +117,6 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
                         Form Set {index + 1}
                       </h3>
                     )}
-                    <CustomFormField
-                      control={control}
-                      name={`formSets.${index}.patient.name`}
-                      label="Patient"
-                      fieldType={FormFieldType.INPUT}
-                      disabled={mode === "view"}
-                    />
                   </div>
 
                   {ENCOUNTER_DETAILS_FIELDS.map(({ value, label, type }) => {
@@ -173,7 +167,7 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
                           weight: "",
                           height: "",
                           body_mass_index: "",
-                          patient: { name: "" },
+                          patient: {},
                         })
                       }
                       className="shad-primary-btn"

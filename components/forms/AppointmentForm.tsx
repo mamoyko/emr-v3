@@ -30,7 +30,7 @@ export const AppointmentForm = ({
   setOpen,
 }: {
   userId: string;
-  patientId: string;
+  patientId: any;
   type: "create" | "schedule" | "cancel";
   appointment?: Appointment;
   setOpen?: Dispatch<SetStateAction<boolean>>;
@@ -58,7 +58,7 @@ export const AppointmentForm = ({
   ) => {
     setIsLoading(true);
 
-    let status;
+    let status: string;
     switch (type) {
       case "schedule":
         status = "scheduled";

@@ -4,6 +4,7 @@ import React from "react";
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
+import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import { Button } from "@/components/ui/button";
 
 interface FormData {
@@ -30,7 +31,7 @@ const ENCOUNTER_DETAILS_FIELDS: {
 interface FormMedicalHistoryProps {
   mode: string; // "view" or "edit"
   initialValue?: FormData[];
-  handleSubmitForm: (data: any) => Promise<void>;
+  handleSubmitForm: (dataCollection: any, tabValue: string) => Promise<void>;
   isMultiForm: boolean;
 }
 
@@ -64,9 +65,11 @@ const FormMedicalHistory: React.FC<FormMedicalHistoryProps> = ({
     control,
   });
 
-  const handleSubmitData = (data: any) => {
-    data = isMultiForm ? data.formSets : data?.formSets[0];
-    handleSubmitForm(data);
+  const handleSubmitData = (dataCollection: any) => {
+    dataCollection = isMultiForm
+      ? dataCollection.formSets
+      : dataCollection?.formSets[0];
+    handleSubmitForm(dataCollection, MEDICAL_DETAILS.MEDICAL_HISTORY.value);
   };
 
   return (

@@ -117,7 +117,7 @@ export const PatientActionCell: React.FC<PatientCellProps> = ({ row }) => {
   const router = useRouter();
   const patient = row.original;
   const handleDetailsClick = () => {
-    router.push(`/admin/patients/${patient.$id}`);
+    router.push(`/admin/patients/${patient.userId}`);
   };
 
   return (
@@ -156,7 +156,7 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
             currentTab={{
               tab: columnValue,
               tabData: [rawDocument],
-              tabDataExtract: "",
+              tabDataToExtract: "",
             }}
             mode={"view"}
             MEDICAL_DETAILS={MEDICAL_DETAILS}

@@ -1,7 +1,8 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Header } from "@/components/Header";
+import { getPatient } from "@/lib/actions/patient.actions";
 
 import UseRouting from "../helperFunctions/UseRouting";
 import { Button } from "../ui/button";
@@ -11,6 +12,7 @@ import { PatientsNavigationPage } from "./patientMedicalDetailsTable/PatientsNav
 const PatientsMedicalDetailsComponent = () => {
   const { routePath, getRoutePathId } = UseRouting();
   const userId = getRoutePathId();
+
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <Header />

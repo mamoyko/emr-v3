@@ -13,6 +13,11 @@ import { createVitalSigns } from "@/lib/actions/vitalSigns.actions";
 
 type FetchFunction = (parameters?: any) => Promise<any>;
 
+const allowedTabsForPatientExtraction = [
+  MEDICAL_DETAILS.SYMPTOMS.value,
+  MEDICAL_DETAILS.VITAL_SIGNS.value,
+];
+
 const fetchFunctions: Record<string, FetchFunction> = {
   [MEDICAL_DETAILS.ENCOUNTERS.value]: createEncounter,
   [MEDICAL_DETAILS.SYMPTOMS.value]: createSymptoms,
@@ -33,7 +38,7 @@ interface MedicalDetailsFormHelperProps {
   currentTab: {
     tab: string;
     tabData: any;
-    tabDataExtract: string;
+    tabDataToExtract: string;
   };
   MEDICAL_DETAILS: {
     MEDICAL_HISTORY: { title: string; value: string };
@@ -55,9 +60,13 @@ const MedicalDetailsFormHelper = ({
 }: MedicalDetailsFormHelperProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleSubmitForm = async (dataCollection: any) => {
+  const handleSubmitForm = async (dataCollection: any, tabValue: string) => {
     setIsLoading(true);
-    dataCollection.patient = currentTab.tabDataExtract;
+
+    if (allowedTabsForPatientExtraction.includes(tabValue)) {
+      dataCollection.patient = currentTab.tabDataToExtract;
+    }
+
     const fetchFunction = fetchFunctions[currentTab.tab];
 
     if (!fetchFunction) throw new Error("System Error.");
@@ -67,7 +76,7 @@ const MedicalDetailsFormHelper = ({
       console.log("Success:", result);
       handleState(result.data);
     } else {
-      console.error("Failed:", result.response.message);
+      console.error("Failed:", result.message);
       handleState([]);
     }
   };

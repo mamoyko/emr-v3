@@ -5,7 +5,7 @@ import { ID, InputFile, Query } from "node-appwrite";
 import {
   BUCKET_ID,
   DATABASE_ID,
-  SYMPTOMS_COLLECTION_ID,
+  PHYSICAL_EXAM_COLLECTION_ID,
   ENDPOINT,
   PATIENT_COLLECTION_ID,
   PROJECT_ID,
@@ -15,92 +15,41 @@ import {
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
 
+import { handleResponse } from "./actionsHelper";
+
 // CREATE APPWRITE USER
 export const createPhysicalExamFindings = async (
   physicalExamFindings: createPhysicalExaminationFindings
-) => {
+): Promise<{ ok: boolean; code: number; message: string; data: any }> => {
+  if (!physicalExamFindings) {
+    return handleResponse({
+      success: false,
+      errorCode: 400,
+      errorMessage: "Physical Examination Findings data is required.",
+    });
+  }
   try {
-    const newEncounter = await databases.createDocument(
+    const physicalExamFindingsData = await databases.createDocument(
       DATABASE_ID!,
-      SYMPTOMS_COLLECTION_ID!,
+      PHYSICAL_EXAM_COLLECTION_ID!,
       ID.unique(),
       physicalExamFindings
     );
 
-    // revalidatePath("/admin");
-    return parseStringify(newEncounter);
-  } catch (error) {
-    console.error("An error occurred while creating a new encounter:", error);
-  }
-};
-
-// GET USER
-export const getUser = async (userId: string) => {
-  try {
-    const user = await users.get(userId);
-    return parseStringify(user);
-  } catch (error) {
-    console.error(
-      "An error occurred while retrieving the user details:",
-      error
-    );
-  }
-};
-
-// REGISTER PATIENT
-export const registerPatient = async ({
-  identificationDocument,
-  ...patient
-}: RegisterUserParams) => {
-  try {
-    // Upload file ->  // https://appwrite.io/docs/references/cloud/client-web/storage#createFile
-    let file;
-    if (identificationDocument) {
-      const inputFile =
-        identificationDocument &&
-        InputFile.fromBlob(
-          identificationDocument?.get("blobFile") as Blob,
-          identificationDocument?.get("fileName") as string
-        );
-
-      file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile);
-    }
-
-    // Create new patient document -> https://appwrite.io/docs/references/cloud/server-nodejs/databases#createDocument
-    const newPatient = await databases.createDocument(
-      DATABASE_ID!,
-      PATIENT_COLLECTION_ID!,
-      ID.unique(),
-      {
-        identificationDocumentId: file?.$id ? file.$id : null,
-        identificationDocumentUrl: file?.$id
-          ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file.$id}/view??project=${PROJECT_ID}`
-          : null,
-        ...patient,
-      }
-    );
-
-    return parseStringify(newPatient);
-  } catch (error) {
-    console.error("An error occurred while creating a new patient:", error);
-  }
-};
-
-// GET PATIENT
-export const getPatient = async (userId: string) => {
-  try {
-    const patients = await databases.listDocuments(
-      DATABASE_ID!,
-      PATIENT_COLLECTION_ID!,
-      [Query.equal("userId", [userId])]
-    );
-
-    return parseStringify(patients.documents[0]);
-  } catch (error) {
-    console.error(
-      "An error occurred while retrieving the patient details:",
-      error
-    );
+    return handleResponse({
+      success: true,
+      successCode: 201,
+      successMessage: "Physical Examination Findings created successfully.",
+      data: physicalExamFindingsData,
+    });
+  } catch (error: any) {
+    console.error("Error creating Physical Examination Findings:", error);
+    return handleResponse({
+      success: false,
+      errorCode: 500,
+      errorMessage: `Error creating Physical Examination Findings: ${error.message || "Unknown error"}`,
+      errorData: error,
+    });
   }
 };
 
@@ -108,7 +57,7 @@ export const getPhysicalExamFindingsByUserId = async (userId: string) => {
   try {
     const physicalExamFindings = await databases.listDocuments(
       DATABASE_ID!,
-      SYMPTOMS_COLLECTION_ID!,
+      PHYSICAL_EXAM_COLLECTION_ID!,
       [Query.orderDesc("$createdAt")][Query.equal("$id", [userId])]
     );
     const data = {

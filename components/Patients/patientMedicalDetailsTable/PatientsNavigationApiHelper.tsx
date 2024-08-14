@@ -29,20 +29,9 @@ const PatientsNavigationApiHelper = async ({
 
   const fetchFunction = fetchFunctions[actionValue];
 
-  if (!fetchFunction) {
-    return {
-      totalCount: 0,
-      documents: [],
-      response: {
-        ok: false,
-        code: 400,
-        message: "Invalid action value provided",
-      },
-    };
-  }
-
   try {
     const result = await fetchFunction(userId);
+    console.log("result", result);
     return {
       ...result,
       response: {

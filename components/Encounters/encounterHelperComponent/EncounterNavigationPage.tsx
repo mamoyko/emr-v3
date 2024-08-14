@@ -133,7 +133,7 @@ export const EncounterNavigationPage = () => {
               currentTab={{
                 tab: tableProcess.navigation,
                 tabData: [],
-                tabDataExtract: "",
+                tabDataToExtract: "",
               }}
               MEDICAL_DETAILS={MEDICAL_DETAILS}
               mode={"edit"}

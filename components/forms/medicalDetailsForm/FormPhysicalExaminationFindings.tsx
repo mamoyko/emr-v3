@@ -4,6 +4,7 @@ import React from "react";
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
+import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import { Button } from "@/components/ui/button";
 
 interface FormData {
@@ -13,7 +14,7 @@ interface FormData {
   respiratory_system: string;
   gastrointestinal_system: string;
   genitourinary_system: string;
-  musculoskeletal: string;
+  musculoskeletal_system: string;
   neurological_system: string;
   skin: string;
 }
@@ -25,7 +26,7 @@ const FIELD_NAMES: Array<{ value: keyof FormData; label: string }> = [
   { value: "respiratory_system", label: "Respiratory System" },
   { value: "gastrointestinal_system", label: "Gastrointestinal System" },
   { value: "genitourinary_system", label: "Genitourinary System" },
-  { value: "musculoskeletal", label: "Musculoskeletal" },
+  { value: "musculoskeletal_system", label: "Musculoskeletal System" },
   { value: "neurological_system", label: "Neurological System" },
   { value: "skin", label: "Skin" },
 ];
@@ -33,7 +34,7 @@ const FIELD_NAMES: Array<{ value: keyof FormData; label: string }> = [
 interface FormPhysicalExaminationFindingsProps {
   mode: string; // "view" or "edit"
   initialValue?: FormData[];
-  handleSubmitForm: (data: any) => Promise<void>;
+  handleSubmitForm: (dataCollection: any, tabValue: string) => Promise<void>;
   isMultiForm: boolean;
 }
 
@@ -53,7 +54,7 @@ const FormPhysicalExaminationFindings: React.FC<
                 respiratory_system: "",
                 gastrointestinal_system: "",
                 genitourinary_system: "",
-                musculoskeletal: "",
+                musculoskeletal_system: "",
                 neurological_system: "",
                 skin: "",
               },
@@ -67,9 +68,14 @@ const FormPhysicalExaminationFindings: React.FC<
     control,
   });
 
-  const handleSubmitData = (data: any) => {
-    data = isMultiForm ? data.formSets : data?.formSets[0];
-    handleSubmitForm(data);
+  const handleSubmitData = (dataCollection: any) => {
+    dataCollection = isMultiForm
+      ? dataCollection.formSets
+      : dataCollection?.formSets[0];
+    handleSubmitForm(
+      dataCollection,
+      MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value
+    );
   };
 
   return (
@@ -133,7 +139,7 @@ const FormPhysicalExaminationFindings: React.FC<
                           respiratory_system: "",
                           gastrointestinal_system: "",
                           genitourinary_system: "",
-                          musculoskeletal: "",
+                          musculoskeletal_system: "",
                           neurological_system: "",
                           skin: "",
                         })

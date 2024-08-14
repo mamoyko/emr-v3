@@ -14,6 +14,7 @@ import {
 import { DataTable } from "@/components/table/DataTable";
 import { Button } from "@/components/ui/button";
 import VerticalTabsComponent from "@/components/vertical-tabs/VerticalTabsComponent";
+import { getPatient } from "@/lib/actions/patient.actions";
 
 import PatientsNavigationApiHelper from "./PatientsNavigationApiHelper";
 
@@ -23,6 +24,7 @@ type StateTableProcess = {
   formData: any[];
   columnsTableData: any[];
   isInForm: boolean;
+  currentUser: any;
 };
 
 export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
@@ -34,6 +36,7 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
     formData: [],
     columnsTableData: null,
     isInForm: false,
+    currentUser: {},
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -94,6 +97,15 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
     }
   }, [tableProcess?.navigation]);
 
+  const fetchpatient = async () => {
+    const patient = await getPatient(userId);
+    handleStateChange("currentUser", patient);
+  };
+
+  useEffect(() => {
+    fetchpatient();
+  }, []);
+
   return (
     <VerticalTabsComponent
       isLoading={isLoading}
@@ -147,15 +159,16 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
               currentTab={{
                 tab: tableProcess?.navigation,
                 tabData: tableProcess?.formData,
-                tabDataExtract: tableProcess?.dataTableData[0].patient,
+                tabDataToExtract: tableProcess?.currentUser,
               }}
               MEDICAL_DETAILS={MEDICAL_DETAILS}
               mode={"edit"}
               userId={userId}
               handleState={(data: any) => {
+                const collectedData = Array.isArray(data) ? data : [data];
                 handleStateChange("dataTableData", [
                   tableProcess?.dataTableData,
-                  ...data,
+                  ...collectedData,
                 ]);
               }}
             />

@@ -4,6 +4,7 @@ import React from "react";
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
+import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import { Button } from "@/components/ui/button";
 
 interface FormData {
@@ -21,7 +22,6 @@ const ENCOUNTER_DETAILS_FIELDS: Array<{
   label: string;
   type: FormFieldType;
 }> = [
-  { value: "patient", label: "Patient", type: FormFieldType.INPUT },
   {
     value: "symptom_description",
     label: "Symptom Description",
@@ -45,7 +45,7 @@ const ENCOUNTER_DETAILS_FIELDS: Array<{
 interface FormSymptomsProps {
   mode: string; // "view" or "edit"
   initialValue?: FormData[];
-  handleSubmitForm: (data: any) => Promise<void>;
+  handleSubmitForm: (dataCollection: any, tabValue: string) => Promise<void>;
   isMultiForm: boolean;
 }
 
@@ -68,7 +68,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                 onset: "",
                 aggravating_factors: "",
                 relieving_factors: "",
-                patient: { name: "" },
+                patient: {},
               },
             ],
     },
@@ -80,9 +80,11 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
     control,
   });
 
-  const handleSubmitData = (data: any) => {
-    data = isMultiForm ? data.formSets : data?.formSets[0];
-    handleSubmitForm(data);
+  const handleSubmitData = (dataCollection: any) => {
+    dataCollection = isMultiForm
+      ? dataCollection.formSets
+      : dataCollection?.formSets[0];
+    handleSubmitForm(dataCollection, MEDICAL_DETAILS.SYMPTOMS.value);
   };
 
   return (
@@ -104,15 +106,6 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                       Form Set {index + 1}
                     </h3>
                   )}
-                  <div className="mb-4">
-                    <CustomFormField
-                      control={control}
-                      name={`formSets.${index}.patient.name`}
-                      label="Patient"
-                      fieldType={FormFieldType.INPUT}
-                      disabled={true}
-                    />
-                  </div>
                   <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2">
                     {ENCOUNTER_DETAILS_FIELDS.filter(
                       (field) => field.value !== "patient"
@@ -159,7 +152,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                           onset: "",
                           aggravating_factors: "",
                           relieving_factors: "",
-                          patient: { name: "" },
+                          patient: {},
                         })
                       }
                       className="shad-primary-btn"
