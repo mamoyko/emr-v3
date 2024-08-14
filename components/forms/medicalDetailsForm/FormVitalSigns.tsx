@@ -55,6 +55,7 @@ interface FormVitalSignsProps {
   initialValue?: FormData[];
   handleSubmitForm: (dataCollection: any, tabValue: string) => Promise<void>;
   isMultiForm: boolean;
+  isLoading: boolean;
 }
 
 const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
@@ -62,6 +63,7 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
   initialValue = [],
   handleSubmitForm,
   isMultiForm = false,
+  isLoading = false,
 }) => {
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
@@ -175,7 +177,11 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
                       Add Form Set
                     </Button>
                   )}
-                  <Button type="submit" className="shad-submit-btn">
+                  <Button
+                    disabled={isLoading}
+                    type="submit"
+                    className="shad-submit-btn"
+                  >
                     Submit
                   </Button>
                 </div>

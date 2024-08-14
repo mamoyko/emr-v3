@@ -141,10 +141,10 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
           ) : (
             <Button
               variant="default"
+              disabled={isLoading}
               className={
                 tableProcess.isInForm ? "shad-danger-btn" : "shad-primary-btn"
               }
-              disabled={isLoading}
               onClick={() => handleDetailsClick()}
             >
               {tableProcess.isInForm ? "Back" : "Add"}
@@ -156,6 +156,8 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
         <div className="flex-1 overflow-y-auto overflow-x-hidden">
           {tableProcess?.isInForm ? (
             <MedicalDetailsFormHelper
+              handleLoading={setIsLoading}
+              isLoading={isLoading}
               currentTab={{
                 tab: tableProcess?.navigation,
                 tabData: tableProcess?.formData,
@@ -167,7 +169,7 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
               handleState={(data: any) => {
                 const collectedData = Array.isArray(data) ? data : [data];
                 handleStateChange("dataTableData", [
-                  tableProcess?.dataTableData,
+                  ...tableProcess?.dataTableData,
                   ...collectedData,
                 ]);
               }}

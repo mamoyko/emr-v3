@@ -47,6 +47,7 @@ interface FormSymptomsProps {
   initialValue?: FormData[];
   handleSubmitForm: (dataCollection: any, tabValue: string) => Promise<void>;
   isMultiForm: boolean;
+  isLoading: boolean;
 }
 
 const FormSymptoms: React.FC<FormSymptomsProps> = ({
@@ -54,6 +55,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
   initialValue = [],
   handleSubmitForm,
   isMultiForm,
+  isLoading,
 }) => {
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
@@ -160,7 +162,11 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                       Add Form Set
                     </Button>
                   )}
-                  <Button type="submit" className="shad-submit-btn">
+                  <Button
+                    disabled={isLoading}
+                    type="submit"
+                    className="shad-submit-btn"
+                  >
                     Submit
                   </Button>
                 </div>

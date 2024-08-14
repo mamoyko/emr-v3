@@ -36,11 +36,12 @@ interface FormPhysicalExaminationFindingsProps {
   initialValue?: FormData[];
   handleSubmitForm: (dataCollection: any, tabValue: string) => Promise<void>;
   isMultiForm: boolean;
+  isLoading: boolean;
 }
 
 const FormPhysicalExaminationFindings: React.FC<
   FormPhysicalExaminationFindingsProps
-> = ({ mode, initialValue = [], handleSubmitForm, isMultiForm }) => {
+> = ({ mode, initialValue = [], handleSubmitForm, isMultiForm, isLoading }) => {
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
       formSets:
@@ -149,7 +150,11 @@ const FormPhysicalExaminationFindings: React.FC<
                       Add Form Set
                     </Button>
                   )}
-                  <Button type="submit" className="shad-submit-btn">
+                  <Button
+                    disabled={isLoading}
+                    type="submit"
+                    className="shad-submit-btn"
+                  >
                     Submit
                   </Button>
                 </div>

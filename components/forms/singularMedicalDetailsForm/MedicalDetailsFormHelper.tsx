@@ -50,6 +50,8 @@ interface MedicalDetailsFormHelperProps {
   mode: string;
   userId: string;
   handleState: (data: any) => void;
+  handleLoading: (data: any) => void;
+  isLoading: boolean;
 }
 
 const MedicalDetailsFormHelper = ({
@@ -57,28 +59,33 @@ const MedicalDetailsFormHelper = ({
   mode,
   userId,
   handleState,
+  handleLoading,
+  isLoading,
 }: MedicalDetailsFormHelperProps) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const handleSubmitForm = async (dataCollection: any, tabValue: string) => {
-    setIsLoading(true);
-
+    handleLoading(true);
     if (allowedTabsForPatientExtraction.includes(tabValue)) {
-      dataCollection.patient = currentTab.tabDataToExtract;
+      // dataCollection.patient = currentTab.tabDataToExtract;
+      dataCollection.patient = {
+        name: "test",
+        email: "testg@test.test",
+        phone: "1234567890",
+        userId,
+        privacyConsent: true,
+      };
     }
 
     const fetchFunction = fetchFunctions[currentTab.tab];
-
     if (!fetchFunction) throw new Error("System Error.");
 
     const result = await fetchFunction(dataCollection);
+
     if (result?.ok) {
-      console.log("Success:", result);
       handleState(result.data);
     } else {
-      console.error("Failed:", result.message);
       handleState([]);
     }
+    handleLoading(false);
   };
 
   const FormComponent = formComponents[currentTab.tab] || null;
@@ -91,6 +98,7 @@ const MedicalDetailsFormHelper = ({
           initialValue={currentTab.tabData}
           mode={mode}
           isMultiForm={false}
+          isLoading={isLoading}
         />
       )}
     </div>

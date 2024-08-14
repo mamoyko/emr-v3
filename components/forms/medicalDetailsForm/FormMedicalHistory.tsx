@@ -33,6 +33,7 @@ interface FormMedicalHistoryProps {
   initialValue?: FormData[];
   handleSubmitForm: (dataCollection: any, tabValue: string) => Promise<void>;
   isMultiForm: boolean;
+  isLoading: boolean;
 }
 
 const FormMedicalHistory: React.FC<FormMedicalHistoryProps> = ({
@@ -40,6 +41,7 @@ const FormMedicalHistory: React.FC<FormMedicalHistoryProps> = ({
   initialValue = [],
   handleSubmitForm,
   isMultiForm = false,
+  isLoading = false,
 }) => {
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
@@ -142,7 +144,11 @@ const FormMedicalHistory: React.FC<FormMedicalHistoryProps> = ({
                       Add Form Set
                     </Button>
                   )}
-                  <Button type="submit" className="shad-submit-btn">
+                  <Button
+                    disabled={isLoading}
+                    type="submit"
+                    className="shad-submit-btn"
+                  >
                     Submit
                   </Button>
                 </div>
