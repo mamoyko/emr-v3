@@ -9,17 +9,17 @@ import {
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
 
+import { handleResponse } from "./actionsHelper";
+
 export const createSymptoms = async (
   symptoms: CreateSymptomsParams
 ): Promise<{ ok: boolean; code: number; message: string; data: any }> => {
   if (!symptoms) {
-    console.error("No symptoms data provided.");
-    return {
-      ok: false,
-      code: 400,
-      message: "Symptoms data is required.",
-      data: null,
-    };
+    return handleResponse({
+      success: false,
+      errorCode: 400,
+      errorMessage: "Symptoms data is required.",
+    });
   }
 
   try {
@@ -30,20 +30,20 @@ export const createSymptoms = async (
       symptoms
     );
 
-    return {
-      ok: true,
-      code: 201,
-      message: "Symptoms created successfully.",
+    return handleResponse({
+      success: true,
+      successCode: 201,
+      successMessage: "Symptoms created successfully.",
       data: symptomsData,
-    };
+    });
   } catch (error: any) {
-    console.error("Error creating symptoms:", error);
-    return {
-      ok: false,
-      code: 500,
-      message: `Error creating symptoms: ${error.message || "Unknown error"}`,
-      data: null,
-    };
+    console.error("Error creating Symptoms:", error);
+    return handleResponse({
+      success: false,
+      errorCode: 500,
+      errorMessage: `Error creating Symptoms: ${error.message || "Unknown error"}`,
+      errorData: error,
+    });
   }
 };
 

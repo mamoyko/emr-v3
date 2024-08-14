@@ -1,6 +1,6 @@
 "use server";
 
-import { ID, InputFile, Query } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
 
 import {
   DATABASE_ID,
@@ -19,7 +19,7 @@ export const createMedicalHistory = async (
     return handleResponse({
       success: false,
       errorCode: 400,
-      errorMessage: "Physical Examination Findings data is required.",
+      errorMessage: "Medical History data is required.",
     });
   }
   try {
@@ -33,15 +33,15 @@ export const createMedicalHistory = async (
     return handleResponse({
       success: true,
       successCode: 201,
-      successMessage: "Physical Examination Findings created successfully.",
+      successMessage: "Medical History created successfully.",
       data: medicalHistorydata,
     });
   } catch (error: any) {
-    console.error("Error creating Physical Examination Findings:", error);
+    console.error("Error creating Medical History:", error);
     return handleResponse({
       success: false,
       errorCode: 500,
-      errorMessage: `Error creating Physical Examination Findings: ${error.message || "Unknown error"}`,
+      errorMessage: `Error creating Medical History: ${error.message || "Unknown error"}`,
       errorData: error,
     });
   }
