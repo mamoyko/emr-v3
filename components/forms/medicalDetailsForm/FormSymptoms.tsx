@@ -1,5 +1,6 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import React from "react";
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 
@@ -8,7 +9,7 @@ import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import { Button } from "@/components/ui/button";
 
 interface FormData {
-  patient: any;
+  patient: string;
   symptom_description: string;
   duration: string;
   severity: string;
@@ -57,6 +58,10 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
   isMultiForm,
   isLoading,
 }) => {
+  const params = useParams();
+
+  const patientId: string = params.id as string;
+
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
       formSets:
@@ -70,7 +75,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                 onset: "",
                 aggravating_factors: "",
                 relieving_factors: "",
-                patient: {},
+                patient: patientId,
               },
             ],
     },
@@ -154,7 +159,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                           onset: "",
                           aggravating_factors: "",
                           relieving_factors: "",
-                          patient: {},
+                          patient: patientId,
                         })
                       }
                       className="shad-primary-btn"

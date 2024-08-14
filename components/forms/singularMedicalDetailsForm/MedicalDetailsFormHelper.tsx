@@ -64,16 +64,6 @@ const MedicalDetailsFormHelper = ({
 }: MedicalDetailsFormHelperProps) => {
   const handleSubmitForm = async (dataCollection: any, tabValue: string) => {
     handleLoading(true);
-    if (allowedTabsForPatientExtraction.includes(tabValue)) {
-      // dataCollection.patient = currentTab.tabDataToExtract;
-      dataCollection.patient = {
-        name: "test",
-        email: "testg@test.test",
-        phone: "1234567890",
-        userId,
-        privacyConsent: true,
-      };
-    }
 
     const fetchFunction = fetchFunctions[currentTab.tab];
     if (!fetchFunction) throw new Error("System Error.");

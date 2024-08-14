@@ -41,6 +41,30 @@ export const createUser = async (user: CreateUserParams) => {
   }
 };
 
+// GET PATIENT
+
+export const getPatientList = async () => {
+  try {
+    const patients = await databases.listDocuments(
+      DATABASE_ID!,
+      PATIENT_COLLECTION_ID!,
+      [Query.orderDesc("$createdAt")]
+    );
+
+    const data = {
+      totalCount: patients.total,
+      documents: patients.documents,
+    };
+
+    return parseStringify(data);
+  } catch (error) {
+    console.error(
+      "An error occurred while retrieving the recent patients:",
+      error
+    );
+  }
+};
+
 // GET USER
 export const getUser = async (userId: string) => {
   try {

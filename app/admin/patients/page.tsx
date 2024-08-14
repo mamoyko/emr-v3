@@ -1,8 +1,8 @@
 import { PatientsComponent } from "@/components/Patients/PatientsComponent";
-import { getUsers } from "@/lib/actions/patient.actions";
+import { getPatientList } from "@/lib/actions/patient.actions";
 
 const AdminPatientPage = async () => {
-  const patients = await getUsers();
+  const patients = await getPatientList();
   return (
     <PatientsComponent
       documents={patients?.documents}
