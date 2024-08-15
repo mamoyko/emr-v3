@@ -13,11 +13,6 @@ import { createVitalSigns } from "@/lib/actions/vitalSigns.actions";
 
 type FetchFunction = (parameters?: any) => Promise<any>;
 
-const allowedTabsForPatientExtraction = [
-  MEDICAL_DETAILS.SYMPTOMS.value,
-  MEDICAL_DETAILS.VITAL_SIGNS.value,
-];
-
 const fetchFunctions: Record<string, FetchFunction> = {
   [MEDICAL_DETAILS.ENCOUNTERS.value]: createEncounter,
   [MEDICAL_DETAILS.SYMPTOMS.value]: createSymptoms,

@@ -1,10 +1,10 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import React from "react";
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
-import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import { Button } from "@/components/ui/button";
 
 interface FormData {
@@ -16,7 +16,7 @@ interface FormData {
   weight: string;
   height: string;
   body_mass_index: string;
-  patient: any;
+  patient: string;
 }
 
 const ENCOUNTER_DETAILS_FIELDS: Array<{
@@ -65,6 +65,10 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
   isMultiForm = false,
   isLoading = false,
 }) => {
+  const params = useParams();
+
+  const patientId: string = params.id as string;
+
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
       formSets:
@@ -72,7 +76,7 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
           ? initialValue
           : [
               {
-                patient: {},
+                patient: patientId,
                 blood_pressure: "",
                 heart_rate: "",
                 respiratory_rate: "",
@@ -169,7 +173,7 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
                           weight: "",
                           height: "",
                           body_mass_index: "",
-                          patient: {},
+                          patient: patientId,
                         })
                       }
                       className="shad-primary-btn"

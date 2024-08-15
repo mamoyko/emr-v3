@@ -5,7 +5,6 @@ import React from "react";
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
-import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import { Button } from "@/components/ui/button";
 
 interface FormData {
