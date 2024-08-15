@@ -132,3 +132,53 @@ export function getEncounterSchema(type: string) {
       return CreateEncounterSchema;
   }
 }
+
+export const SymptomsFormDataSchema = z.object({
+  symptom_description: z.string().min(1, "Symptom Description is required"),
+  duration: z.string().min(1, "Duration is required"),
+  severity: z.string().min(1, "Severity is required"),
+  onset: z.string().min(1, "Onset is required"),
+  aggravating_factors: z.string().min(1, "Aggravating Factors are required"),
+  relieving_factors: z.string().min(1, "Relieving Factors are required"),
+  patient: z.string().min(1, "Patient ID is required"),
+});
+
+export const VitalSignsFormDataSchema = z.object({
+  blood_pressure: z.string().min(1, "Blood Pressure is required"),
+  heart_rate: z.string().min(1, "Heart Rate is required"),
+  respiratory_rate: z.string().min(1, "Respiratory Rate is required"),
+  temperature: z.string().min(1, "Temperature is required"),
+  oxygen_saturation: z.string().min(1, "Oxygen Saturation is required"),
+  weight: z.string().min(1, "Weight is required"),
+  height: z.string().min(1, "Height is required"),
+  body_mass_index: z.string().min(1, "Body Mass Index is required"),
+});
+
+export const PhysicalExamFindingsFormDataSchema = z.object({
+  general_appearance: z.string().min(1, "General Appearance is required"),
+  head_and_neck: z.string().min(1, "Head and Neck is required"),
+  cardiovascular_system: z.string().min(1, "Cardiovascular System is required"),
+  respiratory_system: z.string().min(1, "Respiratory System is required"),
+  gastrointestinal_system: z
+    .string()
+    .min(1, "Gastrointestinal System is required"),
+  genitourinary_system: z.string().min(1, "Genitourinary System is required"),
+  musculoskeletal_system: z
+    .string()
+    .min(1, "Musculoskeletal System is required"),
+  neurological_system: z.string().min(1, "Neurological System is required"),
+  skin: z.string().min(1, "Skin is required"),
+});
+
+export const MedicalHistoryFormDataSchema = z.object({
+  past_medical_conditions: z
+    .string()
+    .min(1, "Past Medical Conditions is required"),
+  past_surgical_history: z.string().min(1, "Past Surgical History is required"),
+  current_medications: z.string().min(1, "Current Medications is required"),
+  allergies: z.string().min(1, "Allergies is required"),
+  immunization_history: z.string().min(1, "Immunization History is required"),
+  family_medical_history: z
+    .string()
+    .min(1, "Family Medical History is required"),
+});
