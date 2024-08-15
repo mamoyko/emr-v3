@@ -1,10 +1,11 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
+import { z } from "zod";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
-import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import { Button } from "@/components/ui/button";
 
 interface FormData {
@@ -18,6 +19,29 @@ interface FormData {
   neurological_system: string;
   skin: string;
 }
+
+// Define the Zod schema
+const formDataSchema = z.object({
+  general_appearance: z.string().nonempty("General Appearance is required"),
+  head_and_neck: z.string().nonempty("Head and Neck is required"),
+  cardiovascular_system: z
+    .string()
+    .nonempty("Cardiovascular System is required"),
+  respiratory_system: z.string().nonempty("Respiratory System is required"),
+  gastrointestinal_system: z
+    .string()
+    .nonempty("Gastrointestinal System is required"),
+  genitourinary_system: z.string().nonempty("Genitourinary System is required"),
+  musculoskeletal_system: z
+    .string()
+    .nonempty("Musculoskeletal System is required"),
+  neurological_system: z.string().nonempty("Neurological System is required"),
+  skin: z.string().nonempty("Skin is required"),
+});
+
+const schema = z.object({
+  formSets: z.array(formDataSchema),
+});
 
 const FIELD_NAMES: Array<{ value: keyof FormData; label: string }> = [
   { value: "general_appearance", label: "General Appearance" },
@@ -61,6 +85,7 @@ const FormPhysicalExaminationFindings: React.FC<
               },
             ],
     },
+    resolver: zodResolver(schema), // Use the Zod schema for validation
   });
 
   const { handleSubmit, control } = methods;
@@ -70,10 +95,10 @@ const FormPhysicalExaminationFindings: React.FC<
   });
 
   const handleSubmitData = (dataCollection: any) => {
-    dataCollection = isMultiForm
+    const processedData = isMultiForm
       ? dataCollection.formSets
-      : dataCollection?.formSets[0];
-    handleSubmitForm(dataCollection);
+      : dataCollection.formSets[0];
+    handleSubmitForm(processedData);
   };
 
   return (
@@ -83,15 +108,15 @@ const FormPhysicalExaminationFindings: React.FC<
           <div className="size-full overflow-auto">
             <form
               onSubmit={handleSubmit(handleSubmitData)}
-              className="space-y-6"
+              className="flex size-full flex-col space-y-6"
             >
               {fields.map((field, index) => (
                 <div
                   key={field.id}
-                  className="grid grid-cols-1 gap-4 rounded-md border p-4 shadow-sm sm:grid-cols-1 md:grid-cols-2"
+                  className="grid grow gap-4 lg:grid-cols-1 xl:grid-cols-2"
                 >
                   {isMultiForm && (
-                    <h3 className="col-span-full text-lg font-semibold">
+                    <h3 className="mb-4 text-lg font-semibold">
                       Form Set {index + 1}
                     </h3>
                   )}
@@ -107,7 +132,7 @@ const FormPhysicalExaminationFindings: React.FC<
                   ))}
                   {mode === "edit" ||
                     (isMultiForm && (
-                      <div className="col-span-full flex justify-end">
+                      <div className="flex justify-end md:col-span-2">
                         <Button
                           type="button"
                           disabled={fields.length === 1}

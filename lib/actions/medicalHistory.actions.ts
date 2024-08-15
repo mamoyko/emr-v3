@@ -61,7 +61,7 @@ export const getMedicalHstoryByUserId = async (userId: string) => {
     return parseStringify(data);
   } catch (error) {
     console.error(
-      "An error occurred while retrieving the user details:",
+      "An error occurred while retrieving the user medical details:",
       error
     );
   }

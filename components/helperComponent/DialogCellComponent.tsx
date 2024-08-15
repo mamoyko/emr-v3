@@ -41,8 +41,9 @@ const DialogCellComponent: React.FC<DialogCellComponentProps> = ({
         <DialogContent
           style={{ ...dialogStyle, display: "flex", flexDirection: "column" }}
         >
-          <DialogHeader className="pl-4 pt-4">
+          <DialogHeader className="pb-6 pt-4">
             <DialogTitle>{ComponentDialogTitle}</DialogTitle>
+            <div className="w-full border" />
           </DialogHeader>
           <DialogDescription
             className="flex grow flex-col overflow-auto"

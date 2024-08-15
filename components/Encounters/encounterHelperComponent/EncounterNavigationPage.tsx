@@ -132,10 +132,10 @@ export const EncounterNavigationPage = () => {
             <MedicalDetailsFormHelper
               isLoading={false}
               handleLoading={() => {}}
+              handleReturn={() => {}}
               currentTab={{
                 tab: tableProcess.navigation,
                 tabData: [],
-                tabDataToExtract: "",
               }}
               MEDICAL_DETAILS={MEDICAL_DETAILS}
               mode={"edit"}

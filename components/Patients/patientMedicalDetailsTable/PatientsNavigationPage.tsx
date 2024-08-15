@@ -14,7 +14,6 @@ import {
 import { DataTable } from "@/components/table/DataTable";
 import { Button } from "@/components/ui/button";
 import VerticalTabsComponent from "@/components/vertical-tabs/VerticalTabsComponent";
-import { getPatient } from "@/lib/actions/patient.actions";
 
 import PatientsNavigationApiHelper from "./PatientsNavigationApiHelper";
 
@@ -24,19 +23,25 @@ type StateTableProcess = {
   formData: any[];
   columnsTableData: any[];
   isInForm: boolean;
-  currentUser: any;
+};
+
+const getInitialNav = () => {
+  if (typeof window !== "undefined") {
+    const storedNav = localStorage.getItem("current-nav");
+    return storedNav || "symptoms";
+  }
+  return "symptoms";
 };
 
 export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
   const EXCLUDED_MEDICAL_DETAILS = [MEDICAL_DETAILS.ENCOUNTERS.value];
 
   const [tableProcess, setTableProcess] = useState<StateTableProcess>({
-    navigation: "symptoms",
+    navigation: getInitialNav(),
     dataTableData: [],
     formData: [],
-    columnsTableData: null,
+    columnsTableData: [],
     isInForm: false,
-    currentUser: {},
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -92,30 +97,24 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
       fetchMedicalDetails(tableProcess.navigation);
       handleStateChange(
         "columnsTableData",
-        handleFetchColumns(tableProcess?.navigation)
+        handleFetchColumns(tableProcess.navigation)
       );
+      if (typeof window !== "undefined") {
+        localStorage.setItem("current-nav", tableProcess.navigation);
+      }
     }
   }, [tableProcess?.navigation]);
-
-  const fetchpatient = async () => {
-    const patient = await getPatient(userId);
-    handleStateChange("currentUser", patient);
-  };
-
-  useEffect(() => {
-    fetchpatient();
-  }, []);
 
   return (
     <VerticalTabsComponent
       isLoading={isLoading}
       handleNavigation={(value: string) => {
-        if (tableProcess.navigation === "value" || isLoading) return;
+        if (tableProcess.navigation === value || isLoading) return;
         setTableProcess((prevState) => {
           const collection = { ...prevState };
           collection.navigation = value;
           collection.dataTableData = [];
-          collection.columnsTableData = null;
+          collection.columnsTableData = [];
           return collection;
         });
       }}
@@ -157,11 +156,11 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
           {tableProcess?.isInForm ? (
             <MedicalDetailsFormHelper
               handleLoading={setIsLoading}
+              handleReturn={() => handleDetailsClick()}
               isLoading={isLoading}
               currentTab={{
                 tab: tableProcess?.navigation,
                 tabData: tableProcess?.formData,
-                tabDataToExtract: tableProcess?.currentUser,
               }}
               MEDICAL_DETAILS={MEDICAL_DETAILS}
               mode={"edit"}

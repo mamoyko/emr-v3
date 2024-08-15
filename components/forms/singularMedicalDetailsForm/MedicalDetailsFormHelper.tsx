@@ -33,7 +33,6 @@ interface MedicalDetailsFormHelperProps {
   currentTab: {
     tab: string;
     tabData: any;
-    tabDataToExtract: string;
   };
   MEDICAL_DETAILS: {
     MEDICAL_HISTORY: { title: string; value: string };
@@ -46,6 +45,7 @@ interface MedicalDetailsFormHelperProps {
   userId: string;
   handleState: (data: any) => void;
   handleLoading: (data: any) => void;
+  handleReturn: () => void;
   isLoading: boolean;
 }
 
@@ -53,30 +53,32 @@ const MedicalDetailsFormHelper = ({
   currentTab,
   mode,
   userId,
+  isLoading,
   handleState,
   handleLoading,
-  isLoading,
+  handleReturn,
 }: MedicalDetailsFormHelperProps) => {
   const handleSubmitForm = async (dataCollection: any) => {
     handleLoading(true);
-
     const fetchFunction = fetchFunctions[currentTab.tab];
     if (!fetchFunction) throw new Error("System Error.");
 
     const result = await fetchFunction(dataCollection);
 
     if (result?.ok) {
+      handleLoading(false);
       handleState(result.data);
+      handleReturn();
     } else {
+      handleLoading(false);
       handleState([]);
     }
-    handleLoading(false);
   };
 
   const FormComponent = formComponents[currentTab.tab] || null;
 
   return (
-    <div className="flex-1 overflow-y-auto overflow-x-hidden p-4">
+    <div className="size-full">
       {FormComponent && (
         <FormComponent
           handleSubmitForm={handleSubmitForm}

@@ -185,7 +185,12 @@ export const columnsPatient: ColumnDef<Patients, any>[] = [
 ];
 
 export const patientSymptoms: ColumnDef<Symptoms, any>[] = [
-  // { accessorKey: "$id", header: "ID" },
+  {
+    header: "#",
+    cell: ({ row }) => {
+      return <p className="text-14-medium">{row.index + 1}</p>;
+    },
+  },
   {
     accessorKey: "$createdAt",
     header: "Created At",
@@ -209,7 +214,12 @@ export const patientSymptoms: ColumnDef<Symptoms, any>[] = [
 ];
 
 export const patientMedicalHistory: ColumnDef<MedicalHistory, any>[] = [
-  // { accessorKey: "$id", header: "ID" },
+  {
+    header: "#",
+    cell: ({ row }) => {
+      return <p className="text-14-medium">{row.index + 1}</p>;
+    },
+  },
   {
     accessorKey: "$createdAt",
     header: "Created At",
@@ -236,7 +246,12 @@ export const patientPhysicalExaminationFindings: ColumnDef<
   PhysicalExamFindings,
   any
 >[] = [
-  // { accessorKey: "$id", header: "ID" },
+  {
+    header: "#",
+    cell: ({ row }) => {
+      return <p className="text-14-medium">{row.index + 1}</p>;
+    },
+  },
   {
     accessorKey: "$createdAt",
     header: "Created At",
@@ -260,7 +275,12 @@ export const patientPhysicalExaminationFindings: ColumnDef<
 ];
 
 export const patientVitalSigns: ColumnDef<VitalSign, any>[] = [
-  // { accessorKey: "$id", header: "ID" },
+  {
+    header: "#",
+    cell: ({ row }) => {
+      return <p className="text-14-medium">{row.index + 1}</p>;
+    },
+  },
   {
     accessorKey: "$createdAt",
     header: "Created At",

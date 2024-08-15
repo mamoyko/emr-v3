@@ -1,11 +1,28 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import React from "react";
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
+import { z } from "zod";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import { Button } from "@/components/ui/button";
+
+// Define the Zod schema
+const formDataSchema = z.object({
+  symptom_description: z.string().nonempty("Symptom Description is required"),
+  duration: z.string().nonempty("Duration is required"),
+  severity: z.string().nonempty("Severity is required"),
+  onset: z.string().nonempty("Onset is required"),
+  aggravating_factors: z.string().nonempty("Aggravating Factors are required"),
+  relieving_factors: z.string().nonempty("Relieving Factors are required"),
+  patient: z.string().nonempty("Patient ID is required"), // If patient ID is required
+});
+
+const schema = z.object({
+  formSets: z.array(formDataSchema),
+});
 
 interface FormData {
   patient: string;
@@ -27,9 +44,6 @@ const ENCOUNTER_DETAILS_FIELDS: Array<{
     label: "Symptom Description",
     type: FormFieldType.TEXTAREA,
   },
-  { value: "duration", label: "Duration", type: FormFieldType.INPUT },
-  { value: "severity", label: "Severity", type: FormFieldType.INPUT },
-  { value: "onset", label: "Onset", type: FormFieldType.INPUT },
   {
     value: "aggravating_factors",
     label: "Aggravating Factors",
@@ -40,6 +54,9 @@ const ENCOUNTER_DETAILS_FIELDS: Array<{
     label: "Relieving Factors",
     type: FormFieldType.TEXTAREA,
   },
+  { value: "severity", label: "Severity", type: FormFieldType.INPUT },
+  { value: "duration", label: "Duration", type: FormFieldType.INPUT },
+  { value: "onset", label: "Onset", type: FormFieldType.INPUT },
 ];
 
 interface FormSymptomsProps {
@@ -58,7 +75,6 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
   isLoading,
 }) => {
   const params = useParams();
-
   const patientId: string = params.id as string;
 
   const methods = useForm<{ formSets: FormData[] }>({
@@ -78,6 +94,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
               },
             ],
     },
+    resolver: zodResolver(schema), // Use the Zod schema for validation
   });
 
   const { handleSubmit, control } = methods;
@@ -87,10 +104,10 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
   });
 
   const handleSubmitData = (dataCollection: any) => {
-    dataCollection = isMultiForm
+    const processedData = isMultiForm
       ? dataCollection.formSets
-      : dataCollection?.formSets[0];
-    handleSubmitForm(dataCollection);
+      : dataCollection.formSets[0];
+    handleSubmitForm(processedData);
   };
 
   return (
@@ -100,22 +117,21 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
           <div className="size-full overflow-auto">
             <form
               onSubmit={handleSubmit(handleSubmitData)}
-              className="flex h-full flex-col space-y-6"
+              className="flex size-full flex-col space-y-6"
             >
               {fields.map((field, index) => (
                 <div
                   key={field.id}
-                  className="flex flex-1 flex-col gap-4 rounded-md border p-4 shadow-sm"
+                  className="grid grow gap-4 lg:grid-cols-1 xl:grid-cols-2"
                 >
                   {isMultiForm && (
                     <h3 className="mb-4 text-lg font-semibold">
                       Form Set {index + 1}
                     </h3>
                   )}
-                  <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2">
-                    {ENCOUNTER_DETAILS_FIELDS.filter(
-                      (field) => field.value !== "patient"
-                    ).map(({ value, label, type }) => (
+                  {ENCOUNTER_DETAILS_FIELDS.map(({ value, label, type }) => {
+                    if (value === "patient") return null;
+                    return (
                       <CustomFormField
                         key={value}
                         control={control}
@@ -124,11 +140,11 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                         fieldType={type}
                         disabled={mode === "view"}
                       />
-                    ))}
-                  </div>
+                    );
+                  })}
                   {mode === "edit" ||
                     (isMultiForm && (
-                      <div className="mt-4 flex justify-end">
+                      <div className="flex justify-end md:col-span-2">
                         <Button
                           type="button"
                           disabled={fields.length === 1}

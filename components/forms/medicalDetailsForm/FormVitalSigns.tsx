@@ -1,11 +1,29 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import React from "react";
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
+import { z } from "zod";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import { Button } from "@/components/ui/button";
+
+// Define the Zod schema
+const formDataSchema = z.object({
+  blood_pressure: z.string().nonempty("Blood Pressure is required"),
+  heart_rate: z.string().nonempty("Heart Rate is required"),
+  respiratory_rate: z.string().nonempty("Respiratory Rate is required"),
+  temperature: z.string().nonempty("Temperature is required"),
+  oxygen_saturation: z.string().nonempty("Oxygen Saturation is required"),
+  weight: z.string().nonempty("Weight is required"),
+  height: z.string().nonempty("Height is required"),
+  body_mass_index: z.string().nonempty("Body Mass Index is required"),
+});
+
+const schema = z.object({
+  formSets: z.array(formDataSchema),
+});
 
 interface FormData {
   blood_pressure: string;
@@ -66,7 +84,6 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
   isLoading = false,
 }) => {
   const params = useParams();
-
   const patientId: string = params.id as string;
 
   const methods = useForm<{ formSets: FormData[] }>({
@@ -88,6 +105,7 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
               },
             ],
     },
+    resolver: zodResolver(schema), // Use the Zod schema for validation
   });
 
   const { handleSubmit, control } = methods;
@@ -97,10 +115,10 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
   });
 
   const handleSubmitData = (dataCollection: any) => {
-    dataCollection = isMultiForm
+    const processedData = isMultiForm
       ? dataCollection.formSets
-      : dataCollection?.formSets[0];
-    handleSubmitForm(dataCollection);
+      : dataCollection.formSets[0];
+    handleSubmitForm(processedData);
   };
 
   return (
@@ -110,20 +128,18 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
           <div className="size-full overflow-auto">
             <form
               onSubmit={handleSubmit(handleSubmitData)}
-              className="flex h-full flex-col space-y-6"
+              className="flex size-full flex-col space-y-6"
             >
               {fields.map((field, index) => (
                 <div
                   key={field.id}
-                  className="grid grow grid-cols-1 gap-4 rounded-md border p-4 shadow-sm md:grid-cols-2"
+                  className="grid grow gap-4 lg:grid-cols-1 xl:grid-cols-2"
                 >
-                  <div className="md:col-span-2">
-                    {isMultiForm && (
-                      <h3 className="mb-4 text-lg font-semibold">
-                        Form Set {index + 1}
-                      </h3>
-                    )}
-                  </div>
+                  {isMultiForm && (
+                    <h3 className="mb-4 text-lg font-semibold">
+                      Form Set {index + 1}
+                    </h3>
+                  )}
 
                   {ENCOUNTER_DETAILS_FIELDS.map(({ value, label, type }) => {
                     if (value === "patient") return null;

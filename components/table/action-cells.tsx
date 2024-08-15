@@ -140,6 +140,7 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
   const { height, width } = useWindowDimension();
 
   const rawDocument = row.original;
+  console.log("rawDocument", rawDocument);
   return (
     <div className="flex gap-1">
       <DialogCellComponent
@@ -150,15 +151,15 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
           maxHeight: "none",
         }}
         row={rawDocument}
-        ComponentDialogTitle={`${rawDocument?.patient?.name} Medical Details`}
+        ComponentDialogTitle={`${rawDocument?.patient?.name ?? ""} Medical Details`}
         ComponentDialogDescription={
           <MedicalDetailsFormHelper
             isLoading={false}
             handleLoading={() => {}}
+            handleReturn={() => {}}
             currentTab={{
               tab: columnValue,
               tabData: [rawDocument],
-              tabDataToExtract: "",
             }}
             mode={"view"}
             MEDICAL_DETAILS={MEDICAL_DETAILS}

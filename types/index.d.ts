@@ -64,7 +64,7 @@ declare type CreateEncounterParams = {
 };
 
 declare type CreateSymptomsParams = {
-  patient: any[];
+  patient: string;
   symptom_description: string;
   duration: string;
   severity: string;
@@ -74,7 +74,6 @@ declare type CreateSymptomsParams = {
 };
 
 declare type createVitalSigns = {
-  collectionId: string;
   blood_pressure: string;
   heart_rate: string;
   respiratory_rate: string;
@@ -83,11 +82,10 @@ declare type createVitalSigns = {
   weight: string;
   height: string;
   body_mass_index: string;
-  patient: any[];
+  patient: string;
 };
 
 declare type createPhysicalExaminationFindings = {
-  collectionId: string;
   general_appearance: string;
   head_and_neck: string;
   cardiovascular_system: string;
@@ -100,7 +98,6 @@ declare type createPhysicalExaminationFindings = {
 };
 
 declare type createMedicalHistory = {
-  collectionId: string;
   past_medical_conditions: string;
   past_surgical_history: string;
   current_medications: string;

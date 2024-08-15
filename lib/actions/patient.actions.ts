@@ -5,7 +5,6 @@ import { ID, InputFile, Query } from "node-appwrite";
 import {
   BUCKET_ID,
   DATABASE_ID,
-  ENCOUNTER_COLLECTION_ID,
   ENDPOINT,
   PATIENT_COLLECTION_ID,
   PROJECT_ID,
@@ -14,6 +13,8 @@ import {
   users,
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
+
+import { handleResponse } from "./actionsHelper";
 
 // CREATE APPWRITE USER
 export const createUser = async (user: CreateUserParams) => {
@@ -125,13 +126,23 @@ export const getPatient = async (userId: string) => {
       PATIENT_COLLECTION_ID!,
       [Query.equal("userId", [userId])]
     );
-
-    return parseStringify(patients.documents[0]);
-  } catch (error) {
+    return handleResponse({
+      success: true,
+      successCode: 201,
+      successMessage: "Success",
+      data: patients.documents,
+    });
+  } catch (error: any) {
     console.error(
       "An error occurred while retrieving the patient details:",
       error
     );
+    return handleResponse({
+      success: false,
+      errorCode: 500,
+      errorMessage: `Error creating Patient: ${error.message || "Unknown error"}`,
+      errorData: [],
+    });
   }
 };
 
