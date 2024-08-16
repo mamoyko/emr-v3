@@ -73,7 +73,6 @@ const EncountersAddPatientPage: React.FC = ({
           location: values.location,
         };
         const newEncounter = await createEncounter(encounters);
-        console.log("newEncounter", newEncounter);
         if (newEncounter) {
           form.reset();
           routePath(`/admin/patients`);

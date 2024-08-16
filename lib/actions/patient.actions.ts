@@ -17,17 +17,28 @@ import { parseStringify } from "../utils";
 import { handleResponse } from "./actionsHelper";
 
 // CREATE APPWRITE USER
-export const createPatient = async (patient: CreateEncounterParams) => {
+export const createUser = async (user: CreateUserParams) => {
   try {
-    const newEncounter = await databases.createDocument(
-      DATABASE_ID!,
-      PATIENT_COLLECTION_ID!,
+    // Create new user -> https://appwrite.io/docs/references/1.5.x/server-nodejs/users#create
+    const newuser = await users.create(
       ID.unique(),
-      patient
+      user.email,
+      user.phone,
+      undefined,
+      user.name
     );
-    return parseStringify(newEncounter);
-  } catch (error) {
-    console.error("An error occurred while creating a new encounter:", error);
+
+    return parseStringify(newuser);
+  } catch (error: any) {
+    // Check existing user
+    if (error && error?.code === 409) {
+      const existingUser = await users.list([
+        Query.equal("email", [user.email]),
+      ]);
+
+      return existingUser.users[0];
+    }
+    console.error("An error occurred while creating a new user:", error);
   }
 };
 

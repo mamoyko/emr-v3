@@ -11,7 +11,7 @@ import {
   patientMedicalHistory,
   columnEncounters,
 } from "@/components/table/columns";
-import { DataTable } from "@/components/table/DataTable";
+import { DataTableDimension } from "@/components/table/DataTable";
 import { Button } from "@/components/ui/button";
 import VerticalTabsComponent from "@/components/vertical-tabs/VerticalTabsComponent";
 
@@ -122,31 +122,36 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
       defaultValue={getInitialNav()}
       DescriptionComponent={null}
       TitleComponent={
-        <div className="flex w-full items-center justify-between">
-          <span>
+        <div className="flex w-full items-start justify-between">
+          <span className="flex-1 truncate">
             {
               MEDICAL_DETAILS[
                 tableProcess.navigation.toUpperCase().replace(/-/g, "_")
               ]?.title
             }
           </span>
+
           {EXCLUDED_MEDICAL_DETAILS.includes(
             MEDICAL_DETAILS[
               tableProcess.navigation.toUpperCase().replace(/-/g, "_")
             ]?.value
           ) ? (
-            <div />
+            <div className="shrink-0" />
           ) : (
-            <Button
-              variant="default"
+            <button
+              type="button"
               disabled={isLoading}
-              className={
-                tableProcess.isInForm ? "shad-danger-btn" : "shad-primary-btn"
-              }
+              className={`text-white focus:outline-none ${
+                tableProcess.isInForm
+                  ? "bg-red-700 hover:bg-red-800 focus:ring-red-300 dark:focus:ring-red-900"
+                  : "bg-green-700 hover:bg-green-800 focus:ring-green-300 dark:focus:ring-green-800"
+              } mb-2 me-2 rounded-md px-5 py-2 text-xs font-medium ${
+                isLoading ? "cursor-not-allowed opacity-50" : ""
+              }`}
               onClick={() => handleDetailsClick()}
             >
               {tableProcess.isInForm ? "Back" : "Add"}
-            </Button>
+            </button>
           )}
         </div>
       }
@@ -173,7 +178,8 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
               }}
             />
           ) : (
-            <DataTable
+            <DataTableDimension
+              heightToSubtrct={530}
               columns={tableProcess?.columnsTableData || []}
               data={tableProcess?.dataTableData || []}
             />

@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect, useState } from "react";
 
-import Loading from "@/app/loading";
 import {
   Card,
   CardContent,
@@ -15,6 +14,7 @@ import "./VerticalTabs.css";
 import { FNObjectLevelOneToArray } from "../helperFunctions/TransformObjectToArray";
 import UseRouting from "../helperFunctions/UseRouting";
 import useWindowDimension from "../helperFunctions/useWindowDimension";
+import { CustomLoading } from "../Loader";
 
 interface VerticalTabsComponentProps {
   navigationList: any;
@@ -64,7 +64,7 @@ const VerticalTabsComponent = ({
   return (
     <div
       className="vertical-tabs-container"
-      style={{ height: `${height - 280}px` }}
+      style={{ height: !height ? "100%" : `${height - 280}px` }}
     >
       <Tabs
         value={currentTab}
@@ -93,7 +93,7 @@ const VerticalTabsComponent = ({
         >
           <Card className="full-card">
             {(TitleComponent || DescriptionComponent) && (
-              <CardHeader>
+              <CardHeader className="sticky top-0 z-10 bg-inherit shadow-md">
                 {TitleComponent && <CardTitle>{TitleComponent}</CardTitle>}
                 {DescriptionComponent && (
                   <CardDescription>{DescriptionComponent}</CardDescription>
@@ -101,8 +101,11 @@ const VerticalTabsComponent = ({
               </CardHeader>
             )}
             {isLoading ? (
-              <div className="flex h-full items-center justify-center">
-                <Loading />
+              <div
+                className="flex h-full items-center justify-center"
+                style={{ height: `${height - 400}px` }}
+              >
+                <CustomLoading height={height} toDivide={2.5} />
               </div>
             ) : (
               <CardContent className="space-y-2">
