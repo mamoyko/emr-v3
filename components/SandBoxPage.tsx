@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Header } from "@/components/Header";
 
-import { FileUploader, FileUploaderNew } from "./fileUploader/FileUploader";
+import { FileUploader } from "./fileUploader/FileUploader";
 
 export const SandBoxPage: React.FC = () => {
   const [files, setFiles] = useState<File[] | undefined>(undefined);
@@ -22,7 +22,6 @@ export const SandBoxPage: React.FC = () => {
         </section>
         <section className="admin-stat">ss</section>
         <FileUploader files={files} onChange={handleFileChange} />
-        <FileUploaderNew files={files} onChange={handleFileChange} />
       </main>
     </div>
   );
