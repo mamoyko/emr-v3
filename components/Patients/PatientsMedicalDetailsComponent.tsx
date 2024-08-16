@@ -2,7 +2,6 @@
 import React, { useEffect } from "react";
 
 import { Header } from "@/components/Header";
-import { getPatient } from "@/lib/actions/patient.actions";
 
 import UseRouting from "../helperFunctions/UseRouting";
 import { Button } from "../ui/button";
@@ -24,7 +23,12 @@ const PatientsMedicalDetailsComponent = () => {
             variant="ghost"
             className="capitalize text-lime-500"
             size="sm"
-            onClick={() => routePath(`/admin/patients`)}
+            onClick={() => {
+              routePath(`/admin/patients`);
+              if (typeof window !== "undefined") {
+                localStorage.setItem("current-nav", "symptoms");
+              }
+            }}
           >
             Table List
           </Button>

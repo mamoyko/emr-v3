@@ -2,11 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import UseRouting from "@/components/helperFunctions/UseRouting";
 import SubmitButton from "@/components/SubmitButton";
 import { Form } from "@/components/ui/form";
 import { SelectItem } from "@/components/ui/select";
@@ -23,15 +23,6 @@ interface EncounterDetail {
   label: string;
   type?: "input" | "textarea" | "datetime-local";
 }
-
-const ENCOUNTER_DETAILS_FIELDS: EncounterDetail[] = [
-  { value: "primaryPhysician", label: "Physician" },
-  { value: "date_and_time", label: "Date and Time", type: "datetime-local" },
-  { value: "patient", label: "Patient" },
-  { value: "encounter_type", label: "Encounter Type" },
-  { value: "location", label: "Location", type: "textarea" },
-  { value: "reason", label: "Reason", type: "textarea" },
-];
 
 const formatDateTime = (dateTimeString: string) => {
   const date = new Date(dateTimeString);
@@ -52,7 +43,7 @@ const EncountersAddPatientPage: React.FC = ({
 }: {
   type?: string;
 }) => {
-  const router = useRouter();
+  const { routePath } = UseRouting();
   const EncountertFormValidation = getEncounterSchema(type);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -68,18 +59,6 @@ const EncountersAddPatientPage: React.FC = ({
     },
   });
 
-  const methods = useForm({
-    defaultValues: ENCOUNTER_DETAILS_FIELDS.reduce(
-      (acc, field) => {
-        acc[field.value] = "";
-        return acc;
-      },
-      {} as Record<string, string>
-    ),
-  });
-
-  const { handleSubmit, control, reset } = methods;
-
   const onSubmit = async (values: z.infer<typeof EncountertFormValidation>) => {
     setIsLoading(true);
 
@@ -92,12 +71,12 @@ const EncountersAddPatientPage: React.FC = ({
           encounter_type: values.encounter_type,
           reason: values.reason!,
           location: values.location,
-          collectionId: "",
         };
         const newEncounter = await createEncounter(encounters);
+        console.log("newEncounter", newEncounter);
         if (newEncounter) {
           form.reset();
-          router.push(`/admin/encounters`);
+          routePath(`/admin/patients`);
         }
       }
     } catch (error) {

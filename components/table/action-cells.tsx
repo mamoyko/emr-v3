@@ -84,10 +84,6 @@ export const EncounterActionCell: React.FC<EncounterCellProps> = ({ row }) => {
   const router = useRouter();
   const encounter = row.original;
 
-  // const handleDetailsClick = () => {
-  //   router.push(`/admin/encounters/${encounter.$id}`);
-  // };
-
   return (
     <div className="flex gap-1">
       <DialogCellComponent
@@ -140,7 +136,6 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
   const { height, width } = useWindowDimension();
 
   const rawDocument = row.original;
-  console.log("rawDocument", rawDocument);
   return (
     <div className="flex gap-1">
       <DialogCellComponent

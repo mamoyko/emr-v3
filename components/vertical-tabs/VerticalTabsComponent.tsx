@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 
 import Loading from "@/app/loading";
 import {
@@ -39,7 +39,7 @@ const VerticalTabsComponent = ({
   handleParentProcess,
   isLoading,
 }: VerticalTabsComponentProps) => {
-  const [currentTab, setCurrentTab] = useState(defaultValue);
+  const [currentTab, setCurrentTab] = useState<string>("");
   const { routePathId } = UseRouting();
   const { height } = useWindowDimension();
 
@@ -56,8 +56,11 @@ const VerticalTabsComponent = ({
     ? [...navigationList]
     : [...FNObjectLevelOneToArray({ toTransformData: navigationList })];
 
-  if (!height) return;
+  useEffect(() => {
+    handleTabChange(defaultValue);
+  }, []);
 
+  if (!height) return;
   return (
     <div
       className="vertical-tabs-container"

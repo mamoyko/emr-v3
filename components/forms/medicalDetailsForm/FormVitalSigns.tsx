@@ -63,6 +63,7 @@ interface FormVitalSignsProps {
   handleSubmitForm: (dataCollection: any) => Promise<void>;
   isMultiForm: boolean;
   isLoading: boolean;
+  userId: string;
 }
 
 const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
@@ -71,10 +72,8 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
   handleSubmitForm,
   isMultiForm = false,
   isLoading = false,
+  userId,
 }) => {
-  const params = useParams();
-  const patientId: string = params.id as string;
-
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
       formSets:
@@ -82,7 +81,7 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
           ? initialValue
           : [
               {
-                patient: patientId,
+                patient: userId,
                 blood_pressure: "",
                 heart_rate: "",
                 respiratory_rate: "",
@@ -176,7 +175,7 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
                       weight: "",
                       height: "",
                       body_mass_index: "",
-                      patient: patientId,
+                      patient: userId,
                     })
                   }
                   className="shad-primary-btn"

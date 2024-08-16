@@ -1,8 +1,21 @@
+import { useParams } from "next/navigation";
+
+import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
+
 import FormMedicalHistory from "../medicalDetailsForm/FormMedicalHistory";
 import FormPhysicalExaminationFindings from "../medicalDetailsForm/FormPhysicalExaminationFindings";
 import FormSymptoms from "../medicalDetailsForm/FormSymptoms";
 import FormVitalSigns from "../medicalDetailsForm/FormVitalSigns";
 
+type FetchFunction = (parameters?: any) => Promise<any>;
+
+const formComponents = {
+  [MEDICAL_DETAILS.MEDICAL_HISTORY.value]: FormMedicalHistory,
+  [MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value]:
+    FormPhysicalExaminationFindings,
+  [MEDICAL_DETAILS.SYMPTOMS.value]: FormSymptoms,
+  [MEDICAL_DETAILS.VITAL_SIGNS.value]: FormVitalSigns,
+};
 interface MultiMedicalDetailsFormHelperProps {
   currentTab: {
     tab: string;
@@ -25,70 +38,27 @@ const MultiMedicalDetailsFormHelper = ({
   mode,
   userId,
 }: MultiMedicalDetailsFormHelperProps) => {
+  const params = useParams();
+  const patientId: string = params.id as string;
+
   const handleSubmitForm = async (data: any) => {
     console.log("submit form", data);
   };
 
-  const renderComponent = () => {
-    switch (currentTab.tab) {
-      case MEDICAL_DETAILS.MEDICAL_HISTORY.value:
-        return (
-          <FormMedicalHistory
-            handleSubmitForm={handleSubmitForm}
-            initialValue={currentTab.tabData}
-            mode={mode}
-            isMultiForm={true}
-            isLoading={false}
-          />
-        );
-      case MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value:
-        return (
-          <FormPhysicalExaminationFindings
-            handleSubmitForm={handleSubmitForm}
-            initialValue={currentTab.tabData}
-            mode={mode}
-            isMultiForm={true}
-            isLoading={false}
-          />
-        );
-      case MEDICAL_DETAILS.SYMPTOMS.value:
-        return (
-          <FormSymptoms
-            handleSubmitForm={handleSubmitForm}
-            initialValue={currentTab.tabData}
-            mode={mode}
-            isMultiForm={true}
-            isLoading={false}
-          />
-        );
-      case MEDICAL_DETAILS.VITAL_SIGNS.value:
-        return (
-          <FormVitalSigns
-            handleSubmitForm={handleSubmitForm}
-            initialValue={currentTab.tabData}
-            mode={mode}
-            isMultiForm={true}
-            isLoading={false}
-          />
-        );
-      case MEDICAL_DETAILS.ENCOUNTERS.value:
-        return (
-          <FormVitalSigns
-            handleSubmitForm={handleSubmitForm}
-            initialValue={currentTab.tabData}
-            mode={mode}
-            isMultiForm={true}
-            isLoading={false}
-          />
-        );
-      default:
-        return null;
-    }
-  };
+  const FormComponent = formComponents[currentTab.tab] || null;
 
   return (
-    <div className="flex-1 overflow-y-auto overflow-x-hidden p-4">
-      {renderComponent()}
+    <div className="size-full">
+      {FormComponent && (
+        <FormComponent
+          userId={patientId}
+          handleSubmitForm={handleSubmitForm}
+          initialValue={currentTab.tabData}
+          mode={mode}
+          isMultiForm={false}
+          isLoading={false}
+        />
+      )}
     </div>
   );
 };

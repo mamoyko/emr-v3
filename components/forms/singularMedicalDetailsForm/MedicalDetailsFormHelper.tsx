@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useParams } from "next/navigation";
 
 import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import FormMedicalHistory from "@/components/forms/medicalDetailsForm/FormMedicalHistory";
@@ -58,6 +58,9 @@ const MedicalDetailsFormHelper = ({
   handleLoading,
   handleReturn,
 }: MedicalDetailsFormHelperProps) => {
+  const params = useParams();
+  const patientId: string = params.id as string;
+
   const handleSubmitForm = async (dataCollection: any) => {
     handleLoading(true);
     const fetchFunction = fetchFunctions[currentTab.tab];
@@ -81,6 +84,7 @@ const MedicalDetailsFormHelper = ({
     <div className="size-full">
       {FormComponent && (
         <FormComponent
+          userId={patientId}
           handleSubmitForm={handleSubmitForm}
           initialValue={currentTab.tabData}
           mode={mode}

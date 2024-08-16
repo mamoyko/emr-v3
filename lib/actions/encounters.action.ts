@@ -21,7 +21,6 @@ export const createEncounter = async (encounters: CreateEncounterParams) => {
       ID.unique(),
       encounters
     );
-
     return parseStringify(newEncounter);
   } catch (error) {
     console.error("An error occurred while creating a new encounter:", error);

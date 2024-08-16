@@ -19,6 +19,7 @@ interface FormData {
   musculoskeletal_system: string;
   neurological_system: string;
   skin: string;
+  patient: string;
 }
 
 const schema = z.object({
@@ -43,11 +44,19 @@ interface FormPhysicalExaminationFindingsProps {
   handleSubmitForm: (dataCollection: any) => Promise<void>;
   isMultiForm: boolean;
   isLoading: boolean;
+  userId: string;
 }
 
 const FormPhysicalExaminationFindings: React.FC<
   FormPhysicalExaminationFindingsProps
-> = ({ mode, initialValue = [], handleSubmitForm, isMultiForm, isLoading }) => {
+> = ({
+  mode,
+  initialValue = [],
+  handleSubmitForm,
+  isMultiForm,
+  isLoading,
+  userId,
+}) => {
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
       formSets:
@@ -64,6 +73,7 @@ const FormPhysicalExaminationFindings: React.FC<
                 musculoskeletal_system: "",
                 neurological_system: "",
                 skin: "",
+                patient: userId,
               },
             ],
     },
@@ -145,6 +155,7 @@ const FormPhysicalExaminationFindings: React.FC<
                       musculoskeletal_system: "",
                       neurological_system: "",
                       skin: "",
+                      patient: userId,
                     })
                   }
                   className="shad-primary-btn"

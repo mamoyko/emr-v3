@@ -55,6 +55,7 @@ interface FormSymptomsProps {
   handleSubmitForm: (dataCollection: any) => Promise<void>;
   isMultiForm: boolean;
   isLoading: boolean;
+  userId: string;
 }
 
 const FormSymptoms: React.FC<FormSymptomsProps> = ({
@@ -63,10 +64,8 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
   handleSubmitForm,
   isMultiForm,
   isLoading,
+  userId,
 }) => {
-  const params = useParams();
-  const patientId: string = params.id as string;
-
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
       formSets:
@@ -80,7 +79,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                 onset: "",
                 aggravating_factors: "",
                 relieving_factors: "",
-                patient: patientId,
+                patient: userId,
               },
             ],
     },
@@ -118,7 +117,6 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                 </h3>
               )}
               {ENCOUNTER_DETAILS_FIELDS.map(({ value, label, type }) => {
-                if (value === "patient") return null;
                 return (
                   <CustomFormField
                     key={value}
@@ -162,7 +160,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
                       onset: "",
                       aggravating_factors: "",
                       relieving_factors: "",
-                      patient: patientId,
+                      patient: userId,
                     })
                   }
                   className="shad-primary-btn"

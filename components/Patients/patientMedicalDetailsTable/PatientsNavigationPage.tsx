@@ -28,7 +28,7 @@ type StateTableProcess = {
 const getInitialNav = () => {
   if (typeof window !== "undefined") {
     const storedNav = localStorage.getItem("current-nav");
-    return storedNav || "symptoms";
+    return storedNav ?? "symptoms";
   }
   return "symptoms";
 };
@@ -37,7 +37,7 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
   const EXCLUDED_MEDICAL_DETAILS = [MEDICAL_DETAILS.ENCOUNTERS.value];
 
   const [tableProcess, setTableProcess] = useState<StateTableProcess>({
-    navigation: getInitialNav(),
+    navigation: "",
     dataTableData: [],
     formData: [],
     columnsTableData: [],
@@ -45,7 +45,6 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const handleStateChange = <stateFN extends keyof StateTableProcess>(
     key: stateFN,
     value: StateTableProcess[stateFN]
@@ -120,7 +119,7 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
       }}
       handleParentProcess={() => handleParentProcess()}
       navigationList={Object.values(MEDICAL_DETAILS)}
-      defaultValue={tableProcess.navigation}
+      defaultValue={getInitialNav()}
       DescriptionComponent={null}
       TitleComponent={
         <div className="flex w-full items-center justify-between">
@@ -128,13 +127,13 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
             {
               MEDICAL_DETAILS[
                 tableProcess.navigation.toUpperCase().replace(/-/g, "_")
-              ].title
+              ]?.title
             }
           </span>
           {EXCLUDED_MEDICAL_DETAILS.includes(
             MEDICAL_DETAILS[
               tableProcess.navigation.toUpperCase().replace(/-/g, "_")
-            ].value
+            ]?.value
           ) ? (
             <div />
           ) : (

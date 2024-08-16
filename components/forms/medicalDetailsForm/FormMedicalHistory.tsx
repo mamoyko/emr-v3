@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useParams } from "next/navigation";
 import React from "react";
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 import { z } from "zod";
@@ -16,6 +17,7 @@ interface FormData {
   allergies: string;
   immunization_history: string;
   family_medical_history: string;
+  patient: string;
 }
 
 const schema = z.object({
@@ -40,6 +42,7 @@ interface FormMedicalHistoryProps {
   handleSubmitForm: (dataCollection: any) => Promise<void>;
   isMultiForm: boolean;
   isLoading: boolean;
+  userId: string;
 }
 
 const FormMedicalHistory: React.FC<FormMedicalHistoryProps> = ({
@@ -48,6 +51,7 @@ const FormMedicalHistory: React.FC<FormMedicalHistoryProps> = ({
   handleSubmitForm,
   isMultiForm = false,
   isLoading = false,
+  userId,
 }) => {
   const methods = useForm<{ formSets: FormData[] }>({
     defaultValues: {
@@ -62,6 +66,7 @@ const FormMedicalHistory: React.FC<FormMedicalHistoryProps> = ({
                 allergies: "",
                 immunization_history: "",
                 family_medical_history: "",
+                patient: userId,
               },
             ],
     },
@@ -140,6 +145,7 @@ const FormMedicalHistory: React.FC<FormMedicalHistoryProps> = ({
                       allergies: "",
                       immunization_history: "",
                       family_medical_history: "",
+                      patient: userId,
                     })
                   }
                   className="shad-primary-btn"

@@ -54,7 +54,15 @@ declare type UpdateAppointmentParams = {
 };
 
 declare type CreateEncounterParams = {
-  collectionId: string;
+  primaryPhysician: string;
+  date_and_time: Date;
+  patient: string;
+  encounter_type: string;
+  reason: string;
+  location: string;
+};
+
+declare type CreatePatientParams = {
   primaryPhysician: string;
   date_and_time: Date;
   patient: string;

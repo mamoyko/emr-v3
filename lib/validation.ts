@@ -152,6 +152,7 @@ export const VitalSignsFormDataSchema = z.object({
   weight: z.string().min(1, "Weight is required"),
   height: z.string().min(1, "Height is required"),
   body_mass_index: z.string().min(1, "Body Mass Index is required"),
+  patient: z.string().min(1, "Patient ID is required"),
 });
 
 export const PhysicalExamFindingsFormDataSchema = z.object({
@@ -168,6 +169,7 @@ export const PhysicalExamFindingsFormDataSchema = z.object({
     .min(1, "Musculoskeletal System is required"),
   neurological_system: z.string().min(1, "Neurological System is required"),
   skin: z.string().min(1, "Skin is required"),
+  patient: z.string().min(1, "Patient ID is required"),
 });
 
 export const MedicalHistoryFormDataSchema = z.object({
@@ -181,4 +183,5 @@ export const MedicalHistoryFormDataSchema = z.object({
   family_medical_history: z
     .string()
     .min(1, "Family Medical History is required"),
+  patient: z.string().min(1, "Patient ID is required"),
 });
