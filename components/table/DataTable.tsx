@@ -1,4 +1,5 @@
 "use client";
+import "./DataTable.css";
 
 import {
   getPaginationRowModel,
@@ -9,7 +10,7 @@ import {
 } from "@tanstack/react-table";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -144,11 +145,21 @@ export function DataTableDimension<TData, TValue>({
   data,
   heightToSubtrct,
 }: DataTableDimensionProps<TData, TValue>) {
+  const cellRefs = useRef({});
   const { height } = useWindowDimension();
   const encryptedKey =
     typeof window !== "undefined"
       ? window.localStorage.getItem("accessKey")
       : null;
+
+  useEffect(() => {
+    Object.keys(cellRefs.current).forEach((key) => {
+      const cell = cellRefs.current[key];
+      if (cell) {
+        console.log(`Width of cell ${key}:`, cell.offsetWidth);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const accessKey = encryptedKey && decryptKey(encryptedKey);
@@ -160,7 +171,12 @@ export function DataTableDimension<TData, TValue>({
 
   const table = useReactTable({
     data,
-    columns,
+    columns: columns.map((col: any, idx) => {
+      return {
+        ...col,
+        width: idx === 0 ? 100 : 350,
+      };
+    }),
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
@@ -168,20 +184,17 @@ export function DataTableDimension<TData, TValue>({
   const TABLE_HEIGHT = height ? `${height - heightToSubtrct}px` : "100%";
 
   return (
-    <div className="data-table">
+    <div className="data-table-dimension">
       <div style={{ overflowX: "auto" }}>
-        <Table
-          className="shad-table"
-          style={{ width: "100%", borderCollapse: "collapse" }}
-        >
-          <TableHeader className="sticky top-0 z-10 bg-dark-200">
+        <Table className="shad-table-dimension">
+          <TableHeader className="sticky-dimension">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="shad-table-row-header">
+              <TableRow
+                key={headerGroup.id}
+                className="shad-table-row-header-dimension"
+              >
                 {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    style={{ position: "sticky", top: 0 }}
-                  >
+                  <TableHead key={header.id} className="sticky-dimension">
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -199,21 +212,13 @@ export function DataTableDimension<TData, TValue>({
           className="overflow-y-auto"
           style={{ height: TABLE_HEIGHT, overflowX: "auto" }}
         >
-          <Table
-            className="shad-table"
-            style={{ width: "100%", borderCollapse: "collapse" }}
-          >
-            <TableBody
-              style={{
-                height: TABLE_HEIGHT,
-              }}
-            >
+          <Table className="shad-table-dimension">
+            <TableBody>
               {table.getRowModel()?.rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
-                    className="shad-table-row"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
@@ -229,7 +234,7 @@ export function DataTableDimension<TData, TValue>({
                 <TableRow style={{ height: TABLE_HEIGHT, width: "100%" }}>
                   <TableCell
                     colSpan={columns.length}
-                    className="h-24 text-center"
+                    className="text-center"
                     style={{ height: TABLE_HEIGHT, width: "100%" }}
                   >
                     No results.
@@ -240,10 +245,7 @@ export function DataTableDimension<TData, TValue>({
           </Table>
         </div>
       </div>
-      <div
-        className="table-actions"
-        style={{ padding: "8px", borderTop: "1px solid #ddd" }}
-      >
+      <div className="table-actions-dimension">
         <Button
           variant="outline"
           size="sm"

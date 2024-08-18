@@ -187,6 +187,7 @@ export const columnsPatient: ColumnDef<Patients, any>[] = [
 export const patientSymptoms: ColumnDef<Symptoms, any>[] = [
   {
     header: "#",
+    size: 1000,
     cell: ({ row }) => {
       return <p className="text-14-medium">{row.index + 1}</p>;
     },
