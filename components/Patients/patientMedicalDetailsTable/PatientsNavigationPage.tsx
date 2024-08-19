@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 
 import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import MedicalDetailsFormHelper from "@/components/forms/singularMedicalDetailsForm/MedicalDetailsFormHelper";
+import { useResponse } from "@/components/helperComponent/helperResponse/ResponseComponentHelper";
 import {
   patientSymptoms,
   patientPhysicalExaminationFindings,
@@ -12,7 +13,6 @@ import {
   columnEncounters,
 } from "@/components/table/columns";
 import { DataTableDimension } from "@/components/table/DataTable";
-import { Button } from "@/components/ui/button";
 import VerticalTabsComponent from "@/components/vertical-tabs/VerticalTabsComponent";
 
 import PatientsNavigationApiHelper from "./PatientsNavigationApiHelper";
@@ -35,7 +35,7 @@ const getInitialNav = () => {
 
 export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
   const EXCLUDED_MEDICAL_DETAILS = [MEDICAL_DETAILS.ENCOUNTERS.value];
-
+  const { success, error } = useResponse();
   const [tableProcess, setTableProcess] = useState<StateTableProcess>({
     navigation: "",
     dataTableData: [],
@@ -76,8 +76,10 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
       userId,
     });
     if (response?.ok) {
+      success();
       handleStateChange("dataTableData", response?.data);
     } else {
+      error();
       handleStateChange("dataTableData", []);
     }
     setIsLoading(false);

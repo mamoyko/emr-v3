@@ -8,7 +8,7 @@ import { ID, Query } from "node-appwrite";
 import {
   responseFail,
   responseSuccess,
-} from "@/components/helperComponent/helperResponse/ResponseCollection";
+} from "@/components/helperComponent/helperResponse/FnResponseHelper";
 
 import {
   ENCOUNTER_COLLECTION_ID,

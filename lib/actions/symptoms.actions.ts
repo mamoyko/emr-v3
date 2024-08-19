@@ -7,7 +7,7 @@ import {
   responseError,
   responseFail,
   responseSuccess,
-} from "../../components/helperComponent/helperResponse/ResponseCollection";
+} from "../../components/helperComponent/helperResponse/FnResponseHelper";
 import {
   DATABASE_ID,
   SYMPTOMS_COLLECTION_ID,
