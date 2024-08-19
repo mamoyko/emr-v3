@@ -3,24 +3,20 @@
 import { ID, Query } from "node-appwrite";
 
 import {
+  responseCreate,
+  responseError,
+  responseFail,
+  responseSuccess,
+} from "../../components/helperComponent/helperResponse/ResponseCollection";
+import {
   DATABASE_ID,
   SYMPTOMS_COLLECTION_ID,
   databases,
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
 
-import { handleResponse } from "./actionsHelper";
-
-export const createSymptoms = async (
-  symptoms: CreateSymptomsParams
-): Promise<{ ok: boolean; code: number; message: string; data: any }> => {
-  if (!symptoms) {
-    return handleResponse({
-      success: false,
-      errorCode: 400,
-      errorMessage: "Symptoms data is required.",
-    });
-  }
+export const createSymptoms = async (symptoms: CreateSymptomsParams) => {
+  if (!symptoms) return responseFail({ failData: "Data" });
 
   try {
     const symptomsData = await databases.createDocument(
@@ -30,35 +26,23 @@ export const createSymptoms = async (
       symptoms
     );
 
-    return handleResponse({
-      success: true,
-      successCode: 201,
-      successMessage: "Symptoms created successfully.",
-      data: symptomsData,
-    });
+    return responseCreate({ successData: symptomsData });
   } catch (error: any) {
     console.error("Error creating Symptoms:", error);
-    return handleResponse({
-      success: false,
-      errorCode: 500,
-      errorMessage: `Error creating Symptoms: ${error.message || "Unknown error"}`,
-      errorData: error,
-    });
+    return responseError({ errorData: error });
   }
 };
 
 export const getSymptomsByUserId = async (userId: string) => {
   try {
+    if (!userId) return responseFail({ failData: "ID" });
+
     const symptoms = await databases.listDocuments(
       DATABASE_ID!,
       SYMPTOMS_COLLECTION_ID!,
       [Query.orderDesc("$createdAt")][Query.equal("$id", [userId])]
     );
-    const data = {
-      totalCount: symptoms.total,
-      documents: symptoms.documents,
-    };
-    return parseStringify(data);
+    return responseSuccess({ successData: symptoms?.documents });
   } catch (error) {
     console.error(
       "An error occurred while retrieving the user symptoms:",

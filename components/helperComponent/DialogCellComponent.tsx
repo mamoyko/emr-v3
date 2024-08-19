@@ -30,11 +30,13 @@ const DialogCellComponent: React.FC<DialogCellComponentProps> = ({
   return (
     <Fragment>
       <button
-        className="rounded-md bg-gradient-to-r from-lime-100 via-lime-500 to-lime-100 p-1 text-xs font-medium text-gray-900 shadow-rose-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-lime-300 dark:shadow-lg dark:shadow-rose-800/80 dark:focus:ring-green-800"
+        type="button"
+        className="border-none bg-transparent text-orange-100 hover:text-orange-500"
         onClick={handleState}
       >
         View Details
       </button>
+
       <CommandDialog open={isOpen} onOpenChange={handleState}>
         <DialogContent
           style={{ ...dialogStyle, display: "flex", flexDirection: "column" }}

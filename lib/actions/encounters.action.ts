@@ -6,6 +6,11 @@ import { revalidatePath } from "next/cache";
 import { ID, Query } from "node-appwrite";
 
 import {
+  responseFail,
+  responseSuccess,
+} from "@/components/helperComponent/helperResponse/ResponseCollection";
+
+import {
   ENCOUNTER_COLLECTION_ID,
   DATABASE_ID,
   databases,
@@ -116,16 +121,14 @@ export const getEncounterList = async () => {
 // GET APPOINTMENT
 export const getEncountersById = async (userId: string) => {
   try {
+    if (!userId) return responseFail({ failData: "ID" });
+
     const encounters = await databases.listDocuments(
       DATABASE_ID!,
       ENCOUNTER_COLLECTION_ID!,
       [Query.equal("patient", [userId])]
     );
-    const data = {
-      totalCount: encounters.total,
-      documents: encounters.documents,
-    };
-    return parseStringify(data);
+    return responseSuccess({ successData: encounters.documents });
   } catch (error) {
     console.error(
       "An error occurred while retrieving the user encounters:",

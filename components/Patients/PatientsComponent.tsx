@@ -1,23 +1,49 @@
 "use client";
 
-import { Header } from "@/components/Header";
-import { Patients } from "@/types/appwrite.types";
+import { useEffect, useState } from "react";
 
+import { Header } from "@/components/Header";
+import { getPatientList } from "@/lib/actions/patient.actions";
+
+import SearchComponent from "../helperComponent/SearchComponent";
 import UseRouting from "../helperFunctions/UseRouting";
 import { columnsPatient } from "../table/columns";
 import { DataTable } from "../table/DataTable";
 import { Button } from "../ui/button";
-
-interface PatientsComponentProps {
-  documents: Patients[];
-  totalCount: number;
+interface CollectionProps {
+  dataCollection: any;
+  pagination: any;
 }
 
-export const PatientsComponent = ({
-  documents,
-  totalCount,
-}: PatientsComponentProps) => {
+const PatientsComponent = () => {
   const { routePath } = UseRouting();
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [patientCollection, setPatientCollection] = useState<CollectionProps>({
+    dataCollection: [],
+    pagination: {},
+  });
+
+  const fetchPatientList = async () => {
+    setIsLoading(true);
+    const response = await getPatientList();
+    if (response.ok) {
+      setPatientCollection((prev: any) => {
+        const stateCollection = { ...prev };
+        stateCollection.dataCollection = response.data;
+        stateCollection.pagination = response?.data ?? {};
+        return stateCollection;
+      });
+    } else {
+      console.log("error");
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchPatientList();
+  }, []);
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
@@ -36,8 +62,19 @@ export const PatientsComponent = ({
             Add Patient
           </Button>
         </section>
-        <DataTable columns={columnsPatient} data={documents || []} />
+        <SearchComponent
+          handleSearch={(query: any) => {
+            console.log("search", query);
+          }}
+          iniSearchValue={""}
+        />
+        <DataTable
+          columns={columnsPatient}
+          data={patientCollection.dataCollection || []}
+        />
       </main>
     </div>
   );
 };
+
+export default PatientsComponent;

@@ -71,12 +71,12 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
 
   const fetchMedicalDetails = async (value: string) => {
     setIsLoading(true);
-    const result = await PatientsNavigationApiHelper({
+    const response = await PatientsNavigationApiHelper({
       actionValue: value,
       userId,
     });
-    if (result?.response?.ok) {
-      handleStateChange("dataTableData", result?.documents);
+    if (response?.ok) {
+      handleStateChange("dataTableData", response?.data);
     } else {
       handleStateChange("dataTableData", []);
     }

@@ -3,6 +3,12 @@
 import { ID, InputFile, Query } from "node-appwrite";
 
 import {
+  responseCreate,
+  responseError,
+  responseFail,
+  responseSuccess,
+} from "../../components/helperComponent/helperResponse/ResponseCollection";
+import {
   BUCKET_ID,
   DATABASE_ID,
   ENDPOINT,
@@ -13,8 +19,6 @@ import {
   users,
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
-
-import { handleResponse } from "./actionsHelper";
 
 // CREATE APPWRITE USER
 export const createUser = async (user: CreateUserParams) => {
@@ -43,7 +47,6 @@ export const createUser = async (user: CreateUserParams) => {
 };
 
 // GET PATIENT
-
 export const getPatientList = async () => {
   try {
     const patients = await databases.listDocuments(
@@ -52,17 +55,13 @@ export const getPatientList = async () => {
       [Query.orderDesc("$createdAt")]
     );
 
-    const data = {
-      totalCount: patients.total,
-      documents: patients.documents,
-    };
-
-    return parseStringify(data);
-  } catch (error) {
+    return responseSuccess({ successData: patients?.documents });
+  } catch (error: any) {
     console.error(
       "An error occurred while retrieving the recent patients:",
       error
     );
+    return responseError({ errorData: error });
   }
 };
 
@@ -121,28 +120,20 @@ export const registerPatient = async ({
 // GET PATIENT
 export const getPatient = async (userId: string) => {
   try {
+    if (!userId) return responseFail({ failData: "ID" });
+
     const patients = await databases.listDocuments(
       DATABASE_ID!,
       PATIENT_COLLECTION_ID!,
       [Query.equal("userId", [userId])]
     );
-    return handleResponse({
-      success: true,
-      successCode: 201,
-      successMessage: "Success",
-      data: patients.documents,
-    });
+    return responseSuccess({ successData: patients?.documents });
   } catch (error: any) {
     console.error(
       "An error occurred while retrieving the patient details:",
       error
     );
-    return handleResponse({
-      success: false,
-      errorCode: 500,
-      errorMessage: `Error creating Patient: ${error.message || "Unknown error"}`,
-      errorData: [],
-    });
+    return responseError({ errorData: error });
   }
 };
 

@@ -75,3 +75,17 @@ export function encryptKey(passkey: string) {
 export function decryptKey(passkey: string) {
   return atob(passkey);
 }
+
+export function debounce<T extends (...args: any[]) => void>(
+  functionHandler: T,
+  waitingTime: number
+): (...args: Parameters<T>) => void {
+  let timeout: NodeJS.Timeout;
+
+  return function (...args: Parameters<T>): void {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(() => functionHandler(...args), waitingTime);
+  };
+}

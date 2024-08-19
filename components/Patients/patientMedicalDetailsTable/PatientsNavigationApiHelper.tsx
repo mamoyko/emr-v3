@@ -5,12 +5,6 @@ import { getPhysicalExamFindingsByUserId } from "@/lib/actions/physicalExaminati
 import { getSymptomsByUserId } from "@/lib/actions/symptoms.actions";
 import { getVitalSignsByUserId } from "@/lib/actions/vitalSigns.actions";
 
-type FetchFunction = (userId: string) => Promise<{
-  totalCount: number;
-  documents: any[];
-  [key: string]: any;
-}>;
-
 const PatientsNavigationApiHelper = async ({
   actionValue,
   userId,
@@ -18,7 +12,7 @@ const PatientsNavigationApiHelper = async ({
   actionValue: string;
   userId: string;
 }) => {
-  const fetchFunctions: Record<string, FetchFunction | undefined> = {
+  const fetchFunctions: Record<string, any | undefined> = {
     [MEDICAL_DETAILS.ENCOUNTERS.value]: getEncountersById,
     [MEDICAL_DETAILS.SYMPTOMS.value]: getSymptomsByUserId,
     [MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value]:
@@ -29,28 +23,7 @@ const PatientsNavigationApiHelper = async ({
 
   const fetchFunction = fetchFunctions[actionValue];
 
-  try {
-    const result = await fetchFunction(userId);
-    return {
-      ...result,
-      response: {
-        ok: true,
-        code: 200,
-        message: "Success!",
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    return {
-      totalCount: 0,
-      documents: [],
-      response: {
-        ok: false,
-        code: 500,
-        message: "An unexpected error occurred",
-      },
-    };
-  }
+  return await fetchFunction(userId);
 };
 
 export default PatientsNavigationApiHelper;

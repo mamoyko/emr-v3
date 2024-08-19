@@ -3,25 +3,24 @@
 import { ID, Query } from "node-appwrite";
 
 import {
+  responseCreate,
+  responseError,
+  responseFail,
+  responseSuccess,
+} from "../../components/helperComponent/helperResponse/ResponseCollection";
+import {
   DATABASE_ID,
   MEDICAL_HISTORY_COLLECTION_ID,
   databases,
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
 
-import { handleResponse } from "./actionsHelper";
-
 // CREATE APPWRITE USER
 export const createMedicalHistory = async (
   medicalHistory: createMedicalHistory
-): Promise<{ ok: boolean; code: number; message: string; data: any }> => {
-  if (!medicalHistory) {
-    return handleResponse({
-      success: false,
-      errorCode: 400,
-      errorMessage: "Medical History data is required.",
-    });
-  }
+) => {
+  if (!medicalHistory) return responseFail({ failData: "Data" });
+
   try {
     const medicalHistorydata = await databases.createDocument(
       DATABASE_ID!,
@@ -30,35 +29,23 @@ export const createMedicalHistory = async (
       medicalHistory
     );
 
-    return handleResponse({
-      success: true,
-      successCode: 201,
-      successMessage: "Medical History created successfully.",
-      data: medicalHistorydata,
-    });
+    return responseCreate({ successData: medicalHistorydata });
   } catch (error: any) {
     console.error("Error creating Medical History:", error);
-    return handleResponse({
-      success: false,
-      errorCode: 500,
-      errorMessage: `Error creating Medical History: ${error.message || "Unknown error"}`,
-      errorData: error,
-    });
+    return responseError({ errorData: error });
   }
 };
 
 export const getMedicalHstoryByUserId = async (userId: string) => {
   try {
+    if (!userId) return responseFail({ failData: "ID" });
+
     const medicalHistory = await databases.listDocuments(
       DATABASE_ID!,
       MEDICAL_HISTORY_COLLECTION_ID!,
       [Query.orderDesc("$createdAt")][Query.equal("$id", [userId])]
     );
-    const data = {
-      totalCount: medicalHistory.total,
-      documents: medicalHistory.documents,
-    };
-    return parseStringify(data);
+    return responseSuccess({ successData: medicalHistory.documents });
   } catch (error) {
     console.error(
       "An error occurred while retrieving the user medical details:",

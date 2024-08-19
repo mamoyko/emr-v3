@@ -3,6 +3,12 @@
 import { ID, Query } from "node-appwrite";
 
 import {
+  responseCreate,
+  responseError,
+  responseFail,
+  responseSuccess,
+} from "../../components/helperComponent/helperResponse/ResponseCollection";
+import {
   DATABASE_ID,
   VITAL_SIGNS_COLLECTION_ID,
   databases,
@@ -10,18 +16,8 @@ import {
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
 
-import { handleResponse } from "./actionsHelper";
-
-export const createVitalSigns = async (
-  vitalSign: createVitalSigns
-): Promise<{ ok: boolean; code: number; message: string; data: any }> => {
-  if (!vitalSign) {
-    return handleResponse({
-      success: false,
-      errorCode: 400,
-      errorMessage: "Vital Sign data is required.",
-    });
-  }
+export const createVitalSigns = async (vitalSign: createVitalSigns) => {
+  if (!vitalSign) return responseFail({ failData: "Data" });
 
   try {
     const vitalSignData = await databases.createDocument(
@@ -31,35 +27,23 @@ export const createVitalSigns = async (
       vitalSign
     );
 
-    return handleResponse({
-      success: true,
-      successCode: 201,
-      successMessage: "Vital Signs created successfully.",
-      data: vitalSignData,
-    });
+    return responseCreate({ successData: vitalSignData });
   } catch (error: any) {
     console.error("Error creating Vital Signs:", error);
-    return handleResponse({
-      success: false,
-      errorCode: 500,
-      errorMessage: `Error creating Vital Signs: ${error.message || "Unknown error"}`,
-      errorData: error,
-    });
+    return responseError({ errorData: error });
   }
 };
 
 export const getVitalSignsByUserId = async (userId: string) => {
   try {
+    if (!userId) return responseFail({ failData: "ID" });
+
     const vitalSign = await databases.listDocuments(
       DATABASE_ID!,
       VITAL_SIGNS_COLLECTION_ID!,
       [Query.orderDesc("$createdAt")][Query.equal("$id", [userId])]
     );
-    const data = {
-      totalCount: vitalSign.total,
-      documents: vitalSign.documents,
-    };
-    return parseStringify(data);
+    return responseSuccess({ successData: vitalSign?.documents });
   } catch (error) {
     console.error(
       "An error occurred while retrieving the user details:",
