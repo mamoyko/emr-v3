@@ -181,6 +181,8 @@ export function DataTableDimension<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  const fff = new DataTable();
+
   const TABLE_HEIGHT = height ? `${height - heightToSubtrct}px` : "100%";
 
   return (
