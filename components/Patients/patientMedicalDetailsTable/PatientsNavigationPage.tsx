@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import MedicalDetailsFormHelper from "@/components/forms/singularMedicalDetailsForm/MedicalDetailsFormHelper";
 import { useResponse } from "@/components/helperComponent/helperResponse/ResponseComponentHelper";
+import { ImageComponent } from "@/components/helperComponent/ImageComponent";
+import { ToolTipTextShow } from "@/components/helperComponent/TextComponent";
 import {
   patientSymptoms,
   patientPhysicalExaminationFindings,
@@ -33,7 +35,13 @@ const getInitialNav = () => {
   return "symptoms";
 };
 
-export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
+export const PatientsNavigationPage = ({
+  userId,
+  dataCollection,
+}: {
+  userId: string;
+  dataCollection: any;
+}) => {
   const EXCLUDED_MEDICAL_DETAILS = [MEDICAL_DETAILS.ENCOUNTERS.value];
   const { success, error } = useResponse();
   const [tableProcess, setTableProcess] = useState<StateTableProcess>({
@@ -123,6 +131,29 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
       navigationList={Object.values(MEDICAL_DETAILS)}
       defaultValue={getInitialNav()}
       DescriptionComponent={null}
+      TabHeaderComponent={
+        <div
+          style={{
+            border: "3px solid black",
+            width: "100%",
+            display: "grid",
+            gap: "10px",
+          }}
+          className="flex-1 p-1"
+        >
+          <ImageComponent
+            className={"w-11/12"}
+            style={{
+              height: "190px",
+              border: "1px solid black",
+              width: "100%",
+            }}
+            src=""
+            alt="Placeholder Image"
+          />
+          <ToolTipTextShow style={{ width: "100%" }} text={"Monkey D. garp"} />
+        </div>
+      }
       TitleComponent={
         <div className="flex w-full items-start justify-between">
           <span className="flex-1 truncate">
@@ -181,7 +212,7 @@ export const PatientsNavigationPage = ({ userId }: { userId: string }) => {
             />
           ) : (
             <DataTableDimension
-              heightToSubtrct={530}
+              heightToSubtrct={500}
               columns={tableProcess?.columnsTableData || []}
               data={tableProcess?.dataTableData || []}
             />

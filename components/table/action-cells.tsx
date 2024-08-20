@@ -113,7 +113,7 @@ export const PatientActionCell: React.FC<PatientCellProps> = ({ row }) => {
   const router = useRouter();
   const patient = row.original;
   const handleDetailsClick = () => {
-    router.push(`/admin/patients/${patient.$id}`);
+    router.push(`/admin/patients/${patient.userId}`);
   };
 
   return (

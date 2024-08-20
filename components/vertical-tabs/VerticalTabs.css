@@ -18,6 +18,7 @@
   border-right: 1px solid #ccc;
   margin-right: 20px;
   width: 250px;
+  overflow-y: auto;
 }
 
 .vertical-tab-trigger {
@@ -45,6 +46,6 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-  padding: 16px;
+  padding: 2px;
   overflow-y: auto;
 }

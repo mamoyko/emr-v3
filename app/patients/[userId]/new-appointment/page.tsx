@@ -1,10 +1,10 @@
 import Image from "next/image";
 
 import { AppointmentForm } from "@/components/forms/AppointmentForm";
-import { getPatient } from "@/lib/actions/patient.actions";
+import { getPatientById } from "@/lib/actions/patient.actions";
 
 const Appointment = async ({ params: { userId } }: SearchParamProps) => {
-  const patient = await getPatient(userId);
+  const patient = await getPatientById(userId);
 
   return (
     <div className="flex h-screen max-h-screen">

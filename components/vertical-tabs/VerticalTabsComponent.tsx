@@ -11,6 +11,8 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import "./VerticalTabs.css";
+import { ImageComponent } from "../helperComponent/ImageComponent";
+import { ToolTipTextShow } from "../helperComponent/TextComponent";
 import { FNObjectLevelOneToArray } from "../helperFunctions/TransformObjectToArray";
 import UseRouting from "../helperFunctions/UseRouting";
 import useWindowDimension from "../helperFunctions/useWindowDimension";
@@ -18,6 +20,7 @@ import { CustomLoading } from "../Loader";
 
 interface VerticalTabsComponentProps {
   navigationList: any;
+  TabHeaderComponent: ReactNode;
   ContentComponent: ReactNode;
   FooterComponent: ReactNode;
   defaultValue: string;
@@ -35,13 +38,14 @@ const VerticalTabsComponent = ({
   TitleComponent,
   FooterComponent,
   DescriptionComponent,
+  TabHeaderComponent,
   handleNavigation,
   handleParentProcess,
   isLoading,
 }: VerticalTabsComponentProps) => {
   const [currentTab, setCurrentTab] = useState<string>("");
   const { routePathId } = UseRouting();
-  const { height } = useWindowDimension();
+  const { height, width } = useWindowDimension();
 
   const handleTabChange = (value: string) => {
     if (!isLoading) {
@@ -75,6 +79,7 @@ const VerticalTabsComponent = ({
           className="vertical-tab-list"
           style={{ height: `${height - 280}px` }}
         >
+          {TabHeaderComponent}
           {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => (
             <TabsTrigger
               key={navItem.value}
@@ -89,7 +94,7 @@ const VerticalTabsComponent = ({
         <TabsContent
           className="vertical-tab-content"
           value={currentTab}
-          style={{ height: `${height - 280}px` }}
+          style={{ height: `${height - 295}px` }}
         >
           <Card className="full-card">
             {(TitleComponent || DescriptionComponent) && (

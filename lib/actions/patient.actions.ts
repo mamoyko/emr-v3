@@ -118,7 +118,7 @@ export const registerPatient = async ({
 };
 
 // GET PATIENT
-export const getPatient = async (userId: string) => {
+export const getPatientById = async (userId: string) => {
   try {
     if (!userId) return responseFail({ failData: "ID" });
 
@@ -127,6 +127,7 @@ export const getPatient = async (userId: string) => {
       PATIENT_COLLECTION_ID!,
       [Query.equal("userId", [userId])]
     );
+
     return responseSuccess({ successData: patients?.documents });
   } catch (error: any) {
     console.error(
