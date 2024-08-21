@@ -6,6 +6,8 @@ import { getPatientById } from "@/lib/actions/patient.actions";
 
 import UseRouting from "../helperFunctions/UseRouting";
 
+import PatientInfo from "./PatientInfoComponent";
+import PatientInfoComponent from "./PatientInfoComponent";
 import { PatientsNavigationPage } from "./patientMedicalDetailsTable/PatientsNavigationPage";
 
 const PatientsMedicalDetailsComponent = () => {
@@ -36,6 +38,7 @@ const PatientsMedicalDetailsComponent = () => {
         <section className="sticky top-0 z-10 flex w-full flex-row items-end justify-between">
           <h1 className="header">View Patient</h1>
         </section>
+        <PatientInfo />
         <PatientsNavigationPage
           dataCollection={{ isLoading, currentPatient }}
           userId={userId}

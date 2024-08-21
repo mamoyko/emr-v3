@@ -79,7 +79,7 @@ const VerticalTabsComponent = ({
           className="vertical-tab-list"
           style={{ height: `${height - 280}px` }}
         >
-          {TabHeaderComponent}
+          {/* {TabHeaderComponent} */}
           {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => (
             <TabsTrigger
               key={navItem.value}
