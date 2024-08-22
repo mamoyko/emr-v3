@@ -42,39 +42,36 @@ const PatientsComponent = () => {
   };
 
   useEffect(() => {
-    fetchPatientList({});
+    fetchPatientList("");
   }, []);
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <Header />
 
-      <main className="admin-main">
-        <section className="w-full space-y-4">
+      <main className="flex-1 items-start justify-between overflow-y-auto px-[5%] xl:space-y-8 xl:px-12">
+        <section className="flex w-full items-end justify-between space-y-4">
           <h1 className="header">Patients</h1>
-        </section>
-        <section className="admin-stat">
           <Button
-            variant="ghost"
+            variant="outline"
             className="capitalize text-sky-500"
             onClick={() => routePath(`/admin/patients/create`)}
           >
             Add Patient
           </Button>
         </section>
-        <SearchComponent
-          handleSearch={(query: any) => {
-            const params = {
-              name: query,
-            };
-            fetchPatientList(params);
-          }}
-          iniSearchValue={""}
-        />
-        <DataTable
-          columns={columnsPatient}
-          data={patientCollection.dataCollection || []}
-        />
+        <section className="w-full flex-row items-end justify-between space-y-4">
+          <SearchComponent
+            handleSearch={(query: any) => {
+              fetchPatientList(query);
+            }}
+            iniSearchValue={""}
+          />
+          <DataTable
+            columns={columnsPatient}
+            data={patientCollection.dataCollection || []}
+          />
+        </section>
       </main>
     </div>
   );
