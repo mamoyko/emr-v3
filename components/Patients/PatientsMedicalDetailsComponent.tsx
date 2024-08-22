@@ -5,18 +5,18 @@ import { Header } from "@/components/Header";
 import { getPatientById } from "@/lib/actions/patient.actions";
 
 import UseRouting from "../helperFunctions/UseRouting";
+import useWindowDimension from "../helperFunctions/useWindowDimension";
 
-import PatientInfo from "./PatientInfoComponent";
 import PatientInfoComponent from "./PatientInfoComponent";
 import { PatientsNavigationPage } from "./patientMedicalDetailsTable/PatientsNavigationPage";
 
 const PatientsMedicalDetailsComponent = () => {
   const { routePath, getRoutePathId } = UseRouting();
   const userId = getRoutePathId();
+  const { width, height } = useWindowDimension();
 
   const [currentPatient, setCurrentPatient] = useState<any>({});
   const [isLoading, setIsloading] = useState<boolean>(false);
-
   const fetchSelectedPatient = async (userId: string) => {
     setIsloading(true);
     const response = await getPatientById(userId);
@@ -34,15 +34,17 @@ const PatientsMedicalDetailsComponent = () => {
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <Header />
 
-      <main className="admin-main">
-        <section className="sticky top-0 z-10 flex w-full flex-row items-end justify-between">
-          <h1 className="header">View Patient</h1>
-        </section>
-        <PatientInfo />
-        <PatientsNavigationPage
-          dataCollection={{ isLoading, currentPatient }}
-          userId={userId}
-        />
+      <main className="flex-1 items-start justify-between overflow-y-auto px-[5%] xl:space-y-12 xl:px-12">
+        <div className="sticky top-0 z-10 flex w-full flex-row items-start justify-between">
+          {/* <h1 className="header">View Patient</h1> */}
+          <PatientInfoComponent patient={currentPatient} />
+        </div>
+        <div className="sticky top-0 z-10 flex w-full flex-row items-end justify-between">
+          <PatientsNavigationPage
+            dataCollection={{ isLoading, currentPatient }}
+            userId={userId}
+          />
+        </div>
       </main>
     </div>
   );

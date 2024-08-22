@@ -1,32 +1,60 @@
 "use client";
+import { format } from "date-fns";
 
-// import EncountersAddPatientPage from "@/components/forms/encounters/EncountersAddPatientPage";
-// import { Header } from "@/components/Header";
-
-const PatientInfoComponent = () => {
+const PatientInfoComponent = ({ patient }) => {
+  const handleDateFormat = (dateString: string) => {
+    console.log("dateString", dateString);
+    if (!dateString) return;
+    const date = new Date(dateString);
+    return format(date, "MMMM  d  yyyy");
+  };
   return (
-    <div className="mx-auto flex max-w-7xl space-x-14 p-4">
-      {/* First Box: Image Box */}
-      <div className="shrink-0">
-        <div className="flex size-40 items-center justify-center rounded-lg bg-gray-200">
-          {/* Replace with patient image */}
+    <div className="grid grid-flow-col gap-5 md:grid-rows-1">
+      <div className="grid grid-rows-subgrid md:mb-0 md:w-[250px]">
+        <div className="flex h-[180px] w-full items-center justify-center rounded-lg bg-gray-200">
           image box
         </div>
       </div>
 
-      {/* Second Box: Details */}
-      <div className="grow">
-        <div className="space-y-4">
+      <div
+        className="grid grid-flow-col grid-cols-2 p-1 md:grid-rows-1"
+        style={{ border: "1px solid black" }}
+      >
+        <div className="grid grid-flow-dense">
           <div>
-            <span className="font-semibold">First Name:</span> John
+            <span className="font-semibold">Name:</span> {patient.name}
           </div>
           <div>
-            <span className="font-semibold">Last Name:</span> Doe
+            <span className="font-semibold">Address:</span> {patient.address}
           </div>
           <div>
-            <span className="font-semibold">Date of Birth:</span> 01/01/1990
+            <span className="font-semibold">Contact no.:</span> {patient.phone}
           </div>
-          {/* Add more details as needed */}
+          <div>
+            <span className="font-semibold">Email:</span> {patient.email}
+          </div>
+          <div>
+            <span className="font-semibold">Gender:</span> {patient.gender}
+          </div>
+        </div>
+
+        <div className="grid grid-flow-dense">
+          <div>
+            <span className="font-semibold">Occupation:</span>
+            {patient.occupation}
+          </div>
+          <div>
+            <span className="font-semibold">Birth Date:</span>
+            {handleDateFormat(patient.birthDate)}
+          </div>
+          <div>
+            <span className="font-semibold">Emergency Contact:</span>
+            {patient.emergencyContactName}
+          </div>
+          <div>
+            <span className="font-semibold">Emergency Contact Number:</span>
+            {patient.emergencyContactNumber}
+          </div>
         </div>
       </div>
     </div>

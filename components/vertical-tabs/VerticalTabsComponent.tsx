@@ -29,6 +29,7 @@ interface VerticalTabsComponentProps {
   DescriptionComponent: ReactNode;
   handleParentProcess: () => void;
   isLoading: boolean;
+  verticalTabHeightControl: number;
 }
 
 const VerticalTabsComponent = ({
@@ -42,6 +43,7 @@ const VerticalTabsComponent = ({
   handleNavigation,
   handleParentProcess,
   isLoading,
+  verticalTabHeightControl,
 }: VerticalTabsComponentProps) => {
   const [currentTab, setCurrentTab] = useState<string>("");
   const { routePathId } = UseRouting();
@@ -68,7 +70,11 @@ const VerticalTabsComponent = ({
   return (
     <div
       className="vertical-tabs-container"
-      style={{ height: !height ? "100%" : `${height - 280}px` }}
+      style={{
+        height: !height
+          ? "100%"
+          : `${height - 280 - verticalTabHeightControl}px`,
+      }}
     >
       <Tabs
         value={currentTab}
@@ -77,9 +83,13 @@ const VerticalTabsComponent = ({
       >
         <TabsList
           className="vertical-tab-list"
-          style={{ height: `${height - 280}px` }}
+          style={{
+            height: !height
+              ? "100%"
+              : `${height - 280 - verticalTabHeightControl}px`,
+          }}
         >
-          {/* {TabHeaderComponent} */}
+          {TabHeaderComponent}
           {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => (
             <TabsTrigger
               key={navItem.value}
@@ -94,7 +104,11 @@ const VerticalTabsComponent = ({
         <TabsContent
           className="vertical-tab-content"
           value={currentTab}
-          style={{ height: `${height - 295}px` }}
+          style={{
+            height: !height
+              ? "100%"
+              : `${height - 295 - verticalTabHeightControl}px`,
+          }}
         >
           <Card className="full-card">
             {(TitleComponent || DescriptionComponent) && (
@@ -108,9 +122,16 @@ const VerticalTabsComponent = ({
             {isLoading ? (
               <div
                 className="flex h-full items-center justify-center"
-                style={{ height: `${height - 400}px` }}
+                style={{
+                  height: !height
+                    ? "100%"
+                    : `${height - 400 - verticalTabHeightControl}px`,
+                }}
               >
-                <CustomLoading height={height} toDivide={2.5} />
+                <CustomLoading
+                  height={height - verticalTabHeightControl}
+                  toDivide={2.5}
+                />
               </div>
             ) : (
               <CardContent className="space-y-2">

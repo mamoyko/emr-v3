@@ -25,7 +25,7 @@ export const CustomLoading = ({
   return (
     <div
       className="flex-center size-full h-screen gap-3 text-white"
-      style={{ height: height ? `${height / toDivide}px` : "100%" }}
+      style={{ height: height ? `${height / toDivide - 40}px` : "100%" }}
     >
       <Image
         src="/assets/icons/loader.svg"

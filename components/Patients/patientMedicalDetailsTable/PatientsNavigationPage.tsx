@@ -1,12 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 
 import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import MedicalDetailsFormHelper from "@/components/forms/singularMedicalDetailsForm/MedicalDetailsFormHelper";
 import { useResponse } from "@/components/helperComponent/helperResponse/ResponseComponentHelper";
-import { ImageComponent } from "@/components/helperComponent/ImageComponent";
-import { ToolTipTextShow } from "@/components/helperComponent/TextComponent";
 import {
   patientSymptoms,
   patientPhysicalExaminationFindings,
@@ -18,6 +16,8 @@ import { DataTableDimension } from "@/components/table/DataTable";
 import VerticalTabsComponent from "@/components/vertical-tabs/VerticalTabsComponent";
 
 import PatientsNavigationApiHelper from "./PatientsNavigationApiHelper";
+
+const VERTICAL_TAB_HEIGHT_CONTROL = 130;
 
 type StateTableProcess = {
   navigation: string;
@@ -52,14 +52,13 @@ export const PatientsNavigationPage = ({
     isInForm: false,
   });
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const handleStateChange = <stateFN extends keyof StateTableProcess>(
     key: stateFN,
     value: StateTableProcess[stateFN]
   ) => {
     setTableProcess((prevState) => ({ ...prevState, [key]: value }));
   };
-
+  console.log(dataCollection);
   const handleFetchColumns = (value: string) => {
     switch (value) {
       case MEDICAL_DETAILS.SYMPTOMS.value:
@@ -77,20 +76,21 @@ export const PatientsNavigationPage = ({
     }
   };
 
-  const fetchMedicalDetails = async (value: string) => {
-    setIsLoading(true);
-    const response = await PatientsNavigationApiHelper({
-      actionValue: value,
-      userId,
-    });
-    if (response?.ok) {
-      success();
-      handleStateChange("dataTableData", response?.data);
-    } else {
-      error();
-      handleStateChange("dataTableData", []);
+  const handleGetData = (value: string) => {
+    switch (value) {
+      case MEDICAL_DETAILS.SYMPTOMS.value:
+        return dataCollection.currentPatient?.symptoms || [];
+      case MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value:
+        return dataCollection.currentPatient?.physicalExaminationFindings || [];
+      case MEDICAL_DETAILS.MEDICAL_HISTORY.value:
+        return dataCollection.currentPatient?.medicalHistory || [];
+      case MEDICAL_DETAILS.VITAL_SIGNS.value:
+        return dataCollection.currentPatient?.dataCollection || [];
+      case MEDICAL_DETAILS.ENCOUNTERS.value:
+        return dataCollection.currentPatient?.encounter || [];
+      default:
+        return dataCollection?.currentPatient?.symptoms || [];
     }
-    setIsLoading(false);
   };
 
   const handleDetailsClick = () => {
@@ -103,22 +103,26 @@ export const PatientsNavigationPage = ({
 
   useEffect(() => {
     if (tableProcess?.navigation) {
-      fetchMedicalDetails(tableProcess.navigation);
-      handleStateChange(
-        "columnsTableData",
-        handleFetchColumns(tableProcess.navigation)
-      );
+      setTableProcess((prev) => {
+        const collection = { ...prev };
+        collection.dataTableData = handleGetData(tableProcess?.navigation);
+        collection.columnsTableData = handleFetchColumns(
+          tableProcess?.navigation
+        );
+        return collection;
+      });
       if (typeof window !== "undefined") {
         localStorage.setItem("current-nav", tableProcess.navigation);
       }
     }
-  }, [tableProcess?.navigation]);
+  }, [dataCollection, tableProcess?.navigation]);
 
   return (
     <VerticalTabsComponent
-      isLoading={isLoading}
+      verticalTabHeightControl={VERTICAL_TAB_HEIGHT_CONTROL}
+      isLoading={false}
       handleNavigation={(value: string) => {
-        if (tableProcess.navigation === value || isLoading) return;
+        if (tableProcess.navigation === value) return;
         setTableProcess((prevState) => {
           const collection = { ...prevState };
           collection.navigation = value;
@@ -131,56 +135,32 @@ export const PatientsNavigationPage = ({
       navigationList={Object.values(MEDICAL_DETAILS)}
       defaultValue={getInitialNav()}
       DescriptionComponent={null}
-      TabHeaderComponent={
-        <div
-          style={{
-            border: "3px solid black",
-            width: "100%",
-            display: "grid",
-            gap: "10px",
-          }}
-          className="flex-1 p-1"
-        >
-          <ImageComponent
-            className={"w-11/12"}
-            style={{
-              height: "190px",
-              border: "1px solid black",
-              width: "100%",
-            }}
-            src=""
-            alt="Placeholder Image"
-          />
-          <ToolTipTextShow style={{ width: "100%" }} text={"Monkey D. garp"} />
-        </div>
-      }
+      TabHeaderComponent={null}
       TitleComponent={
-        <div className="flex w-full items-start justify-between">
-          <span className="flex-1 truncate">
+        <div className=" flex h-[15px] w-full items-start justify-between">
+          <div className="flex-1 truncate">
             {
               MEDICAL_DETAILS[
                 tableProcess.navigation.toUpperCase().replace(/-/g, "_")
               ]?.title
             }
-          </span>
+          </div>
 
           {EXCLUDED_MEDICAL_DETAILS.includes(
             MEDICAL_DETAILS[
               tableProcess.navigation.toUpperCase().replace(/-/g, "_")
             ]?.value
           ) ? (
-            <div className="shrink-0" />
+            <Fragment />
           ) : (
             <button
               type="button"
-              disabled={isLoading}
+              disabled={false}
               className={`text-white focus:outline-none ${
                 tableProcess.isInForm
                   ? "bg-red-700 hover:bg-red-800 focus:ring-red-300 dark:focus:ring-red-900"
                   : "bg-green-700 hover:bg-green-800 focus:ring-green-300 dark:focus:ring-green-800"
-              } mb-2 me-2 rounded-md px-5 py-2 text-xs font-medium ${
-                isLoading ? "cursor-not-allowed opacity-50" : ""
-              }`}
+              } mb-2 me-2 rounded-md px-5 py-2 text-xs font-medium `}
               onClick={() => handleDetailsClick()}
             >
               {tableProcess.isInForm ? "Back" : "Add"}
@@ -192,9 +172,9 @@ export const PatientsNavigationPage = ({
         <div className="flex-1 overflow-y-auto overflow-x-hidden">
           {tableProcess?.isInForm ? (
             <MedicalDetailsFormHelper
-              handleLoading={setIsLoading}
+              handleLoading={() => {}}
               handleReturn={() => handleDetailsClick()}
-              isLoading={isLoading}
+              isLoading={false}
               currentTab={{
                 tab: tableProcess?.navigation,
                 tabData: tableProcess?.formData,
@@ -212,7 +192,7 @@ export const PatientsNavigationPage = ({
             />
           ) : (
             <DataTableDimension
-              heightToSubtrct={500}
+              heightToSubtrct={500 + VERTICAL_TAB_HEIGHT_CONTROL}
               columns={tableProcess?.columnsTableData || []}
               data={tableProcess?.dataTableData || []}
             />

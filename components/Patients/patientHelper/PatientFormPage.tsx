@@ -96,7 +96,7 @@ export const PatientFormPage = () => {
   return (
     <div className="flex h-screen w-full">
       <VerticalTabsComponent
-        TabHeaderComponent={<div />}
+        verticalTabHeightControl={0}
         isLoading={false}
         handleParentProcess={() => {}}
         handleNavigation={(value: string) => {
@@ -104,6 +104,7 @@ export const PatientFormPage = () => {
         }}
         navigationList={Object.values(MEDICAL_DETAILS)}
         defaultValue={tabProcess.navigation}
+        TabHeaderComponent={null}
         TitleComponent={
           <div className="flex w-full items-center justify-between">
             <span>

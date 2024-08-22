@@ -98,7 +98,8 @@ export const EncounterNavigationPage = () => {
 
   return (
     <VerticalTabsComponent
-      TabHeaderComponent={<div />}
+      verticalTabHeightControl={0}
+      TabHeaderComponent={null}
       isLoading={false}
       handleNavigation={(value: string) => {
         handleStateChange("navigation", value);
