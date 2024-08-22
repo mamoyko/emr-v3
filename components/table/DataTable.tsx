@@ -212,7 +212,7 @@ export function DataTableDimension<TData, TValue>({
           className="overflow-y-auto"
           style={{ height: TABLE_HEIGHT, overflowX: "auto" }}
         >
-          <Table className="shad-table-dimension">
+          <Table className="shad-table-dimension w-full">
             <TableBody>
               {table.getRowModel()?.rows?.length ? (
                 table.getRowModel().rows.map((row) => (
@@ -231,11 +231,14 @@ export function DataTableDimension<TData, TValue>({
                   </TableRow>
                 ))
               ) : (
-                <TableRow style={{ height: TABLE_HEIGHT, width: "100%" }}>
+                <TableRow
+                  style={{ height: TABLE_HEIGHT }}
+                  className="flex items-center justify-center"
+                >
                   <TableCell
                     colSpan={columns.length}
-                    className="text-center"
-                    style={{ height: TABLE_HEIGHT, width: "100%" }}
+                    className="flex items-center justify-center text-center"
+                    style={{ height: TABLE_HEIGHT }}
                   >
                     No results.
                   </TableCell>

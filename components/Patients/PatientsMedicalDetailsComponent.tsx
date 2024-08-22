@@ -33,18 +33,12 @@ const PatientsMedicalDetailsComponent = () => {
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <Header />
-
-      <main className="flex-1 items-start justify-between overflow-y-auto px-[5%] xl:space-y-12 xl:px-12">
-        <div className="sticky top-0 z-10 flex w-full flex-row items-start justify-between">
-          {/* <h1 className="header">View Patient</h1> */}
-          <PatientInfoComponent patient={currentPatient} />
-        </div>
-        <div className="sticky top-0 z-10 flex w-full flex-row items-end justify-between">
-          <PatientsNavigationPage
-            dataCollection={{ isLoading, currentPatient }}
-            userId={userId}
-          />
-        </div>
+      <main className="flex-1 items-start justify-between overflow-y-auto xl:space-y-6 xl:px-12">
+        <PatientInfoComponent patient={currentPatient} />
+        <PatientsNavigationPage
+          dataCollection={{ isLoading, currentPatient }}
+          userId={userId}
+        />
       </main>
     </div>
   );

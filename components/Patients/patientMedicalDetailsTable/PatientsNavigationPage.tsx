@@ -43,7 +43,7 @@ export const PatientsNavigationPage = ({
   dataCollection: any;
 }) => {
   const EXCLUDED_MEDICAL_DETAILS = [MEDICAL_DETAILS.ENCOUNTERS.value];
-  const { success, error } = useResponse();
+
   const [tableProcess, setTableProcess] = useState<StateTableProcess>({
     navigation: "",
     dataTableData: [],
@@ -58,7 +58,7 @@ export const PatientsNavigationPage = ({
   ) => {
     setTableProcess((prevState) => ({ ...prevState, [key]: value }));
   };
-  console.log(dataCollection);
+
   const handleFetchColumns = (value: string) => {
     switch (value) {
       case MEDICAL_DETAILS.SYMPTOMS.value:

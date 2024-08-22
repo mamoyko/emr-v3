@@ -11,8 +11,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import "./VerticalTabs.css";
-import { ImageComponent } from "../helperComponent/ImageComponent";
-import { ToolTipTextShow } from "../helperComponent/TextComponent";
 import { FNObjectLevelOneToArray } from "../helperFunctions/TransformObjectToArray";
 import UseRouting from "../helperFunctions/UseRouting";
 import useWindowDimension from "../helperFunctions/useWindowDimension";
@@ -69,7 +67,7 @@ const VerticalTabsComponent = ({
   if (!height) return;
   return (
     <div
-      className="vertical-tabs-container"
+      className="flex w-full items-center justify-center"
       style={{
         height: !height
           ? "100%"
@@ -79,22 +77,20 @@ const VerticalTabsComponent = ({
       <Tabs
         value={currentTab}
         onValueChange={handleTabChange}
-        className="vertical-tabs"
+        className="flex w-full"
+        style={{
+          height: !height
+            ? "100%"
+            : `${height - 305 - verticalTabHeightControl}px`,
+        }}
       >
-        <TabsList
-          className="vertical-tab-list"
-          style={{
-            height: !height
-              ? "100%"
-              : `${height - 280 - verticalTabHeightControl}px`,
-          }}
-        >
+        <TabsList className=" flex h-full w-[250px] flex-col items-start overflow-y-auto">
           {TabHeaderComponent}
           {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => (
             <TabsTrigger
               key={navItem.value}
               value={navItem.value}
-              className={`vertical-tab-trigger ${isLoading ? "cursor-not-allowed opacity-50" : ""}`}
+              className={`w-full cursor-pointer bg-transparent py-2.5 text-left transition-colors duration-200 ease-in-out hover:bg-gray-200 ${isLoading ? "cursor-not-allowed opacity-50" : ""}`}
               disabled={isLoading}
             >
               <span>{navItem.title}</span>
@@ -102,15 +98,15 @@ const VerticalTabsComponent = ({
           ))}
         </TabsList>
         <TabsContent
-          className="vertical-tab-content"
+          className="flex grow flex-col items-start overflow-y-auto"
           value={currentTab}
           style={{
             height: !height
               ? "100%"
-              : `${height - 295 - verticalTabHeightControl}px`,
+              : `${height - 320 - verticalTabHeightControl}px`,
           }}
         >
-          <Card className="full-card">
+          <Card className="flex size-full flex-col overflow-y-auto">
             {(TitleComponent || DescriptionComponent) && (
               <CardHeader className="sticky top-0 z-10 bg-inherit shadow-md">
                 {TitleComponent && <CardTitle>{TitleComponent}</CardTitle>}
