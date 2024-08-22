@@ -67,43 +67,46 @@ const VerticalTabsComponent = ({
   if (!height) return;
   return (
     <div
-      className="flex w-full items-center justify-center"
+      className="flex items-center justify-center rounded-xl bg-slate-800 p-5 md:p-0"
       style={{
         height: !height
           ? "100%"
           : `${height - 280 - verticalTabHeightControl}px`,
+        border: "1px solid black",
       }}
     >
       <Tabs
         value={currentTab}
         onValueChange={handleTabChange}
-        className="flex w-full"
+        className="flex w-full flex-col md:flex-row"
         style={{
           height: !height
             ? "100%"
-            : `${height - 305 - verticalTabHeightControl}px`,
+            : `${height - 285 - verticalTabHeightControl}px`,
         }}
       >
-        <TabsList className=" flex h-full w-[250px] flex-col items-start overflow-y-auto">
+        <TabsList className=" flex size-full flex-row items-start overflow-y-auto md:w-[250px] md:flex-col">
           {TabHeaderComponent}
-          {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => (
-            <TabsTrigger
-              key={navItem.value}
-              value={navItem.value}
-              className={`w-full cursor-pointer bg-transparent py-2.5 text-left transition-colors duration-200 ease-in-out hover:bg-gray-200 ${isLoading ? "cursor-not-allowed opacity-50" : ""}`}
-              disabled={isLoading}
-            >
-              <span>{navItem.title}</span>
-            </TabsTrigger>
-          ))}
+          <div>
+            {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => (
+              <TabsTrigger
+                key={navItem.value}
+                value={navItem.value}
+                className={`w-full cursor-pointer bg-transparent py-2.5 text-left transition-colors duration-200 ease-in-out hover:bg-gray-200 ${isLoading ? "cursor-not-allowed opacity-50" : ""}`}
+                disabled={isLoading}
+              >
+                <span>{navItem.title}</span>
+              </TabsTrigger>
+            ))}
+          </div>
         </TabsList>
         <TabsContent
-          className="flex grow flex-col items-start overflow-y-auto"
+          className="flex grow flex-col items-start overflow-y-auto px-1"
           value={currentTab}
           style={{
             height: !height
               ? "100%"
-              : `${height - 320 - verticalTabHeightControl}px`,
+              : `${height - 300 - verticalTabHeightControl}px`,
           }}
         >
           <Card className="flex size-full flex-col overflow-y-auto">

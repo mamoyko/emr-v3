@@ -1,23 +1,17 @@
 "use client";
 
-import React, { Fragment, useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
-import MedicalDetailsFormHelper from "@/components/forms/singularMedicalDetailsForm/MedicalDetailsFormHelper";
-import { useResponse } from "@/components/helperComponent/helperResponse/ResponseComponentHelper";
-import {
-  patientSymptoms,
-  patientPhysicalExaminationFindings,
-  patientVitalSigns,
-  patientMedicalHistory,
-  columnEncounters,
-} from "@/components/table/columns";
-import { DataTableDimension } from "@/components/table/DataTable";
 import VerticalTabsComponent from "@/components/vertical-tabs/VerticalTabsComponent";
 
-import PatientsNavigationApiHelper from "./PatientsNavigationApiHelper";
+import {
+  ContentComponent,
+  TitleComponent,
+} from "./PatientsNavigationComponent";
+import { PatientNavHelper } from "./PatientsNavigationHelper";
 
-const VERTICAL_TAB_HEIGHT_CONTROL = 130;
+const VERTICAL_TAB_HEIGHT_CONTROL = 100;
 
 type StateTableProcess = {
   navigation: string;
@@ -42,8 +36,7 @@ export const PatientsNavigationPage = ({
   userId: string;
   dataCollection: any;
 }) => {
-  const EXCLUDED_MEDICAL_DETAILS = [MEDICAL_DETAILS.ENCOUNTERS.value];
-
+  const { handleGetPatientColumns } = PatientNavHelper();
   const [tableProcess, setTableProcess] = useState<StateTableProcess>({
     navigation: "",
     dataTableData: [],
@@ -59,24 +52,15 @@ export const PatientsNavigationPage = ({
     setTableProcess((prevState) => ({ ...prevState, [key]: value }));
   };
 
-  const handleFetchColumns = (value: string) => {
-    switch (value) {
-      case MEDICAL_DETAILS.SYMPTOMS.value:
-        return patientSymptoms;
-      case MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value:
-        return patientPhysicalExaminationFindings;
-      case MEDICAL_DETAILS.MEDICAL_HISTORY.value:
-        return patientMedicalHistory;
-      case MEDICAL_DETAILS.VITAL_SIGNS.value:
-        return patientVitalSigns;
-      case MEDICAL_DETAILS.ENCOUNTERS.value:
-        return columnEncounters;
-      default:
-        return patientSymptoms;
-    }
+  const handleDetailsClick = () => {
+    handleStateChange("isInForm", !tableProcess.isInForm);
   };
 
-  const handleGetData = (value: string) => {
+  const handleParentProcess = () => {
+    handleStateChange("isInForm", false);
+  };
+
+  const handleGetPatientData = (value: string) => {
     switch (value) {
       case MEDICAL_DETAILS.SYMPTOMS.value:
         return dataCollection.currentPatient?.symptoms || [];
@@ -93,20 +77,24 @@ export const PatientsNavigationPage = ({
     }
   };
 
-  const handleDetailsClick = () => {
-    handleStateChange("isInForm", !tableProcess.isInForm);
+  const hanldeNavigation = (value: string) => {
+    if (tableProcess.navigation === value) return;
+    setTableProcess((prevState) => {
+      const collection = { ...prevState };
+      collection.navigation = value;
+      collection.dataTableData = [];
+      collection.columnsTableData = [];
+      return collection;
+    });
   };
-
-  const handleParentProcess = () => {
-    handleStateChange("isInForm", false);
-  };
-
   useEffect(() => {
     if (tableProcess?.navigation) {
       setTableProcess((prev) => {
         const collection = { ...prev };
-        collection.dataTableData = handleGetData(tableProcess?.navigation);
-        collection.columnsTableData = handleFetchColumns(
+        collection.dataTableData = handleGetPatientData(
+          tableProcess?.navigation
+        );
+        collection.columnsTableData = handleGetPatientColumns(
           tableProcess?.navigation
         );
         return collection;
@@ -121,83 +109,26 @@ export const PatientsNavigationPage = ({
     <VerticalTabsComponent
       verticalTabHeightControl={VERTICAL_TAB_HEIGHT_CONTROL}
       isLoading={false}
-      handleNavigation={(value: string) => {
-        if (tableProcess.navigation === value) return;
-        setTableProcess((prevState) => {
-          const collection = { ...prevState };
-          collection.navigation = value;
-          collection.dataTableData = [];
-          collection.columnsTableData = [];
-          return collection;
-        });
-      }}
+      handleNavigation={hanldeNavigation}
       handleParentProcess={() => handleParentProcess()}
       navigationList={Object.values(MEDICAL_DETAILS)}
       defaultValue={getInitialNav()}
       DescriptionComponent={null}
       TabHeaderComponent={null}
       TitleComponent={
-        <div className=" flex h-[15px] w-full items-start justify-between">
-          <div className="flex-1 truncate">
-            {
-              MEDICAL_DETAILS[
-                tableProcess.navigation.toUpperCase().replace(/-/g, "_")
-              ]?.title
-            }
-          </div>
-
-          {EXCLUDED_MEDICAL_DETAILS.includes(
-            MEDICAL_DETAILS[
-              tableProcess.navigation.toUpperCase().replace(/-/g, "_")
-            ]?.value
-          ) ? (
-            <Fragment />
-          ) : (
-            <button
-              type="button"
-              disabled={false}
-              className={`text-white focus:outline-none ${
-                tableProcess.isInForm
-                  ? "bg-red-700 hover:bg-red-800 focus:ring-red-300 dark:focus:ring-red-900"
-                  : "bg-green-700 hover:bg-green-800 focus:ring-green-300 dark:focus:ring-green-800"
-              } mb-2 me-2 rounded-md px-5 py-2 text-xs font-medium `}
-              onClick={() => handleDetailsClick()}
-            >
-              {tableProcess.isInForm ? "Back" : "Add"}
-            </button>
-          )}
-        </div>
+        <TitleComponent
+          tableProcess={tableProcess}
+          handleDetailsClick={handleDetailsClick}
+        />
       }
       ContentComponent={
-        <div className="flex-1 overflow-y-auto overflow-x-hidden">
-          {tableProcess?.isInForm ? (
-            <MedicalDetailsFormHelper
-              handleLoading={() => {}}
-              handleReturn={() => handleDetailsClick()}
-              isLoading={false}
-              currentTab={{
-                tab: tableProcess?.navigation,
-                tabData: tableProcess?.formData,
-              }}
-              MEDICAL_DETAILS={MEDICAL_DETAILS}
-              mode={"edit"}
-              userId={userId}
-              handleState={(data: any) => {
-                const collectedData = Array.isArray(data) ? data : [data];
-                handleStateChange("dataTableData", [
-                  ...tableProcess?.dataTableData,
-                  ...collectedData,
-                ]);
-              }}
-            />
-          ) : (
-            <DataTableDimension
-              heightToSubtrct={500 + VERTICAL_TAB_HEIGHT_CONTROL}
-              columns={tableProcess?.columnsTableData || []}
-              data={tableProcess?.dataTableData || []}
-            />
-          )}
-        </div>
+        <ContentComponent
+          handleDetailsClick={handleDetailsClick}
+          tableProcess={tableProcess}
+          userId={userId}
+          handleStateChange={handleStateChange}
+          VERTICAL_TAB_HEIGHT_CONTROL={VERTICAL_TAB_HEIGHT_CONTROL}
+        />
       }
       FooterComponent={null}
     />

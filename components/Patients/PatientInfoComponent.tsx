@@ -15,17 +15,15 @@ const PatientInfoComponent = ({ patient }) => {
     }
   };
 
-  const dataCollectionChekcer = Object.entries(patient || {}).length !== 0;
-
   return (
-    <div className="flex w-full flex-col items-center justify-center md:flex-row">
-      <div className="flex h-[180px] w-[320px] items-start overflow-y-auto">
-        <div className="flex size-full items-center justify-center rounded-lg bg-gray-200">
+    <div className="flex w-full flex-col items-center justify-center rounded-xl bg-slate-950 md:flex-row">
+      <div className="flex h-[180px] w-[320px] items-start overflow-y-auto py-[6px] pl-2">
+        <div className="flex size-full items-center justify-center bg-lime-900">
           Image box
         </div>
       </div>
 
-      <figure className=" size-full rounded-xl p-3 dark:bg-slate-800 lg:flex lg:p-2">
+      <figure className=" m-2 size-full  p-3 dark:bg-slate-800 lg:flex lg:p-1">
         <div className="size-full space-y-2 text-center lg:px-8 lg:py-1 lg:text-left">
           {[
             { label: "Name", value: patient?.name || "" },
@@ -33,8 +31,8 @@ const PatientInfoComponent = ({ patient }) => {
             { label: "Contact no.", value: patient?.phone || "" },
             { label: "Email", value: patient?.email || "" },
             { label: "Gender", value: patient?.gender || "" },
-          ].map((item, idx) => (
-            <DetailComponent key={idx} item={item} />
+          ].map((item, index) => (
+            <DetailComponent key={index} item={item} />
           ))}
         </div>
         <div className="size-full space-y-2 text-center lg:px-8 lg:py-1 lg:text-left">
@@ -52,8 +50,8 @@ const PatientInfoComponent = ({ patient }) => {
               label: "Emergency Contact Number",
               value: patient?.emergencyContactNumber || "",
             },
-          ].map((item, idx) => (
-            <DetailComponent key={idx} item={item} />
+          ].map((item, index) => (
+            <DetailComponent key={index} item={item} />
           ))}
         </div>
       </figure>
