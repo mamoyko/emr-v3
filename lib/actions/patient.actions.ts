@@ -47,14 +47,18 @@ export const createUser = async (user: CreateUserParams) => {
 };
 
 // GET PATIENT
-export const getPatientList = async () => {
+export const getPatientList = async (paginate?: any) => {
   try {
+    let query = [Query.orderDesc("$createdAt")];
+
+    if (Object.entries(paginate || {}).length !== 0) {
+      query = [...query, Query.search("name", paginate)];
+    }
     const patients = await databases.listDocuments(
       DATABASE_ID!,
       PATIENT_COLLECTION_ID!,
-      [Query.orderDesc("$createdAt")]
+      query
     );
-
     return responseSuccess({ successData: patients?.documents });
   } catch (error: any) {
     console.error(

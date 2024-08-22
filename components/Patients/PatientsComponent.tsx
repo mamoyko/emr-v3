@@ -12,7 +12,7 @@ import { DataTable } from "../table/DataTable";
 import { Button } from "../ui/button";
 interface CollectionProps {
   dataCollection: any;
-  pagination: any;
+  isSearching: string;
 }
 
 const PatientsComponent = () => {
@@ -22,27 +22,27 @@ const PatientsComponent = () => {
 
   const [patientCollection, setPatientCollection] = useState<CollectionProps>({
     dataCollection: [],
-    pagination: {},
+    isSearching: "",
   });
-
-  const fetchPatientList = async () => {
+  const fetchPatientList = async (paginate: any) => {
     setIsLoading(true);
-    const response = await getPatientList();
+
+    const response = await getPatientList(paginate);
+
     if (response.ok) {
       setPatientCollection((prev: any) => {
         const stateCollection = { ...prev };
         stateCollection.dataCollection = response.data;
-        stateCollection.pagination = response?.data ?? {};
         return stateCollection;
       });
     } else {
-      console.log("error");
+      console.error("Failed to fetch:", response?.message);
     }
     setIsLoading(false);
   };
 
   useEffect(() => {
-    fetchPatientList();
+    fetchPatientList({});
   }, []);
 
   return (
@@ -64,7 +64,10 @@ const PatientsComponent = () => {
         </section>
         <SearchComponent
           handleSearch={(query: any) => {
-            console.log("search", query);
+            const params = {
+              name: query,
+            };
+            fetchPatientList(params);
           }}
           iniSearchValue={""}
         />
