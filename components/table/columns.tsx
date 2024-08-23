@@ -197,11 +197,11 @@ export const patientSymptoms: ColumnDef<Symptoms, any>[] = [
     header: "Created At",
     cell: ({ row }) => <GenericDateHandlerCell row={row} />,
   },
-  {
-    accessorKey: "patient",
-    header: "Patient",
-    cell: ({ row }) => <GenericNameHandlerCell row={row} />,
-  },
+  // {
+  //   accessorKey: "patient",
+  //   header: "Patient",
+  //   cell: ({ row }) => <GenericNameHandlerCell row={row} />,
+  // },
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
@@ -226,11 +226,11 @@ export const patientMedicalHistory: ColumnDef<MedicalHistory, any>[] = [
     header: "Created At",
     cell: ({ row }) => <GenericDateHandlerCell row={row} />,
   },
-  {
-    accessorKey: "patient",
-    header: "Patient",
-    cell: ({ row }) => <GenericNameHandlerCell row={row} />,
-  },
+  // {
+  //   accessorKey: "patient",
+  //   header: "Patient",
+  //   cell: ({ row }) => <GenericNameHandlerCell row={row} />,
+  // },
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
@@ -258,11 +258,11 @@ export const patientPhysicalExaminationFindings: ColumnDef<
     header: "Created At",
     cell: ({ row }) => <GenericDateHandlerCell row={row} />,
   },
-  {
-    accessorKey: "patient",
-    header: "Patient",
-    cell: ({ row }) => <GenericNameHandlerCell row={row} />,
-  },
+  // {
+  //   accessorKey: "patient",
+  //   header: "Patient",
+  //   cell: ({ row }) => <GenericNameHandlerCell row={row} />,
+  // },
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,
@@ -291,11 +291,11 @@ export const patientVitalSigns: ColumnDef<VitalSign, any>[] = [
       </div>
     ),
   },
-  {
-    accessorKey: "patient",
-    header: "Patient",
-    cell: ({ row }) => <GenericNameHandlerCell row={row} />,
-  },
+  // {
+  //   accessorKey: "patient",
+  //   header: "Patient",
+  //   cell: ({ row }) => <GenericNameHandlerCell row={row} />,
+  // },
   {
     id: "actions",
     header: () => <div className="pl-4">Actions</div>,

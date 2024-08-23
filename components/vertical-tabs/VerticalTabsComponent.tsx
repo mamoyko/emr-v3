@@ -66,33 +66,32 @@ const VerticalTabsComponent = ({
 
   if (!height) return;
   return (
-    <div
-      className="flex items-center justify-center rounded-xl bg-slate-800 p-5 md:p-0"
+    <Tabs
+      value={currentTab}
+      onValueChange={handleTabChange}
+      className="flex w-full flex-col items-center justify-center rounded-lg dark:bg-gray-950 md:flex-row"
       style={{
         height: !height
           ? "100%"
-          : `${height - 280 - verticalTabHeightControl}px`,
-        border: "1px solid black",
+          : `${height - 285 - verticalTabHeightControl}px`,
       }}
     >
-      <Tabs
-        value={currentTab}
-        onValueChange={handleTabChange}
-        className="flex w-full flex-col md:flex-row"
-        style={{
-          height: !height
-            ? "100%"
-            : `${height - 285 - verticalTabHeightControl}px`,
-        }}
-      >
-        <TabsList className=" flex size-full flex-row items-start overflow-y-auto md:w-[250px] md:flex-col">
+      <div className=" flex size-full items-center justify-center overflow-y-auto rounded-lg bg-inherit py-[6px]  md:w-[320px] md:px-2">
+        <TabsList
+          className="flex size-full items-center justify-center rounded-2xl bg-slate-800"
+          style={{
+            height: !height
+              ? "100%"
+              : `${height - 300 - verticalTabHeightControl}px`,
+          }}
+        >
           {TabHeaderComponent}
-          <div>
+          <div className="flex h-full flex-wrap items-center justify-center md:flex-col md:items-center md:justify-center">
             {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => (
               <TabsTrigger
                 key={navItem.value}
                 value={navItem.value}
-                className={`w-full cursor-pointer bg-transparent py-2.5 text-left transition-colors duration-200 ease-in-out hover:bg-gray-200 ${isLoading ? "cursor-not-allowed opacity-50" : ""}`}
+                className={`flex w-full cursor-pointer bg-transparent py-2.5 text-left transition-colors duration-200 ease-in-out hover:bg-gray-200 ${isLoading ? "cursor-not-allowed opacity-50" : ""}`}
                 disabled={isLoading}
               >
                 <span>{navItem.title}</span>
@@ -100,8 +99,10 @@ const VerticalTabsComponent = ({
             ))}
           </div>
         </TabsList>
+      </div>
+      <div className="flex size-full flex-col items-center justify-center overflow-y-auto pr-2">
         <TabsContent
-          className="flex grow flex-col items-start overflow-y-auto px-1"
+          className="size-full"
           value={currentTab}
           style={{
             height: !height
@@ -111,7 +112,7 @@ const VerticalTabsComponent = ({
         >
           <Card className="flex size-full flex-col overflow-y-auto">
             {(TitleComponent || DescriptionComponent) && (
-              <CardHeader className="sticky top-0 z-10 bg-inherit shadow-md">
+              <CardHeader className="sticky top-0 z-10 shadow-md">
                 {TitleComponent && <CardTitle>{TitleComponent}</CardTitle>}
                 {DescriptionComponent && (
                   <CardDescription>{DescriptionComponent}</CardDescription>
@@ -140,8 +141,8 @@ const VerticalTabsComponent = ({
             {FooterComponent && <CardFooter>{FooterComponent}</CardFooter>}
           </Card>
         </TabsContent>
-      </Tabs>
-    </div>
+      </div>
+    </Tabs>
   );
 };
 

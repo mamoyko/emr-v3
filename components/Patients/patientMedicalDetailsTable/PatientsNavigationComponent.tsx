@@ -8,13 +8,15 @@ const EXCLUDED_MEDICAL_DETAILS = [MEDICAL_DETAILS.ENCOUNTERS.value];
 
 export const TitleComponent = ({ tableProcess, handleDetailsClick }) => {
   return (
-    <div className=" flex h-[15px] w-full items-start justify-between">
+    <div className=" flex h-[10px] w-full items-center justify-between">
       <div className="flex-1 truncate">
-        {
-          MEDICAL_DETAILS[
-            tableProcess.navigation.toUpperCase().replace(/-/g, "_")
-          ]?.title
-        }
+        <p className="text-xl tracking-wide">
+          {
+            MEDICAL_DETAILS[
+              tableProcess.navigation.toUpperCase().replace(/-/g, "_")
+            ]?.title
+          }
+        </p>
       </div>
 
       {EXCLUDED_MEDICAL_DETAILS.includes(
@@ -31,7 +33,7 @@ export const TitleComponent = ({ tableProcess, handleDetailsClick }) => {
             tableProcess.isInForm
               ? "bg-red-700 hover:bg-red-800 focus:ring-red-300 dark:focus:ring-red-900"
               : "bg-green-700 hover:bg-green-800 focus:ring-green-300 dark:focus:ring-green-800"
-          } mb-2 me-2 rounded-md px-5 py-2 text-xs font-medium `}
+          } mb-1 me-1 rounded-md px-3 py-1.5 text-xs font-medium`}
           onClick={handleDetailsClick}
         >
           {tableProcess.isInForm ? "Back" : "Add"}
@@ -72,7 +74,7 @@ export const ContentComponent = ({
         />
       ) : (
         <DataTableDimension
-          heightToSubtrct={500 + VERTICAL_TAB_HEIGHT_CONTROL}
+          heightToSubtrct={470 + VERTICAL_TAB_HEIGHT_CONTROL}
           columns={tableProcess?.columnsTableData || []}
           data={tableProcess?.dataTableData || []}
         />

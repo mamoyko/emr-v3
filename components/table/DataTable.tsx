@@ -155,6 +155,7 @@ export function DataTableDimension<TData, TValue>({
   useEffect(() => {
     Object.keys(cellRefs.current).forEach((key) => {
       const cell = cellRefs.current[key];
+      console.log("cell", cell);
       if (cell) {
         console.log(`Width of cell ${key}:`, cell.offsetWidth);
       }
@@ -184,17 +185,14 @@ export function DataTableDimension<TData, TValue>({
   const TABLE_HEIGHT = height ? `${height - heightToSubtrct}px` : "100%";
 
   return (
-    <div className="data-table-dimension">
+    <div className="flex-col overflow-hidden">
       <div style={{ overflowX: "auto" }}>
-        <Table className="shad-table-dimension">
-          <TableHeader className="sticky-dimension">
+        <Table className="w-full table-auto border-collapse">
+          <TableHeader className="sticky top-0 z-10 w-full">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow
-                key={headerGroup.id}
-                className="shad-table-row-header-dimension"
-              >
+              <TableRow key={headerGroup.id} className="flex-1 ">
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="sticky-dimension">
+                  <TableHead key={header.id} className="sticky top-0 z-10">
                     {header.isPlaceholder
                       ? null
                       : flexRender(

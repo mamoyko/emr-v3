@@ -16,14 +16,16 @@ const PatientInfoComponent = ({ patient }) => {
   };
 
   return (
-    <div className="flex w-full flex-col items-center justify-center rounded-xl bg-slate-950 md:flex-row">
+    <div
+      style={{ border: "1px solid black" }}
+      className="flex w-full flex-col items-center justify-center rounded-lg dark:bg-gray-950 md:flex-row"
+    >
       <div className="flex h-[180px] w-[320px] items-start overflow-y-auto py-[6px] pl-2">
-        <div className="flex size-full items-center justify-center bg-lime-900">
+        <div className="flex size-full items-center justify-center rounded-xl bg-white text-black">
           Image box
         </div>
       </div>
-
-      <figure className=" m-2 size-full  p-3 dark:bg-slate-800 lg:flex lg:p-1">
+      <figure className="m-2 size-full rounded-xl bg-gradient-to-r from-cyan-950 via-slate-900 to-zinc-900 p-3 lg:flex lg:p-1">
         <div className="size-full space-y-2 text-center lg:px-8 lg:py-1 lg:text-left">
           {[
             { label: "Name", value: patient?.name || "" },
