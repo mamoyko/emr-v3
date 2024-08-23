@@ -47,23 +47,28 @@ export const createUser = async (user: CreateUserParams) => {
 };
 
 // GET PATIENT
-export const getPatientList = async (paginate?: any) => {
+export const getPatientList = async (paginate?: Record<string, any>) => {
   try {
     const query = [Query.orderDesc("$createdAt")];
-
-    // if (Object.entries(paginate || {}).length !== 0) {
-    //   query = [...query, Query.search("name", paginate)];
+    // if (paginate && paginate.name && paginate.name !== "") {
+    //   console.log(paginate.name);
+    //   query.push(Query.search("name", paginate.name));
     // }
+
     const patients = await databases.listDocuments(
       DATABASE_ID!,
       PATIENT_COLLECTION_ID!,
       query
     );
-    return responseSuccess({ successData: patients?.documents });
+
+    const responseData = patients?.documents.map((document) => ({
+      ...document,
+    }));
+    return responseSuccess({ successData: responseData });
   } catch (error: any) {
     console.error(
-      "An error occurred while retrieving the recent patients:",
-      error
+      "An error occurred while retrieving the patient list:",
+      error.message
     );
     return responseError({ errorData: error });
   }

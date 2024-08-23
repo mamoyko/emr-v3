@@ -26,9 +26,7 @@ const PatientsComponent = () => {
   });
   const fetchPatientList = async (paginate: any) => {
     setIsLoading(true);
-
     const response = await getPatientList(paginate);
-
     if (response.ok) {
       setPatientCollection((prev: any) => {
         const stateCollection = { ...prev };
@@ -63,7 +61,10 @@ const PatientsComponent = () => {
         <section className="w-full flex-row items-end justify-between space-y-4">
           <SearchComponent
             handleSearch={(query: any) => {
-              fetchPatientList(query);
+              const collection = {
+                name: query,
+              };
+              // fetchPatientList(collection);
             }}
             iniSearchValue={""}
           />
