@@ -1,5 +1,4 @@
 "use client";
-import "./DataTable.css";
 
 import {
   getPaginationRowModel,
@@ -65,7 +64,7 @@ export function DataTable<TData, TValue>({
       <Table className="shad-table">
         <TableHeader className=" bg-dark-200">
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className="shad-table-row-header">
+            <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id}>
@@ -145,22 +144,12 @@ export function DataTableDimension<TData, TValue>({
   data,
   heightToSubtrct,
 }: DataTableDimensionProps<TData, TValue>) {
-  const cellRefs = useRef({});
   const { height } = useWindowDimension();
+
   const encryptedKey =
     typeof window !== "undefined"
       ? window.localStorage.getItem("accessKey")
       : null;
-
-  useEffect(() => {
-    Object.keys(cellRefs.current).forEach((key) => {
-      const cell = cellRefs.current[key];
-      console.log("cell", cell);
-      if (cell) {
-        console.log(`Width of cell ${key}:`, cell.offsetWidth);
-      }
-    });
-  }, []);
 
   useEffect(() => {
     const accessKey = encryptedKey && decryptKey(encryptedKey);
@@ -172,12 +161,7 @@ export function DataTableDimension<TData, TValue>({
 
   const table = useReactTable({
     data,
-    columns: columns.map((col: any, idx) => {
-      return {
-        ...col,
-        width: idx === 0 ? 100 : 350,
-      };
-    }),
+    columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
@@ -185,14 +169,14 @@ export function DataTableDimension<TData, TValue>({
   const TABLE_HEIGHT = height ? `${height - heightToSubtrct}px` : "100%";
 
   return (
-    <div className="flex-col overflow-hidden">
-      <div style={{ overflowX: "auto" }}>
-        <Table className="w-full table-auto border-collapse">
-          <TableHeader className="sticky top-0 z-10 w-full">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="flex-1 ">
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="sticky top-0 z-10">
+    <div className="size-full" style={{ height: TABLE_HEIGHT }}>
+      <Table>
+        <TableHeader className="w-full bg-dark-300">
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id} className="shad-table-row-header">
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -200,53 +184,39 @@ export function DataTableDimension<TData, TValue>({
                           header.getContext()
                         )}
                   </TableHead>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel()?.rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+                className="overflow-y-auto border-white"
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
                 ))}
               </TableRow>
-            ))}
-          </TableHeader>
-        </Table>
-
-        <div
-          className="overflow-y-auto"
-          style={{ height: TABLE_HEIGHT, overflowX: "auto" }}
-        >
-          <Table className="shad-table-dimension w-full">
-            <TableBody>
-              {table.getRowModel()?.rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow
-                  style={{ height: TABLE_HEIGHT }}
-                  className="flex items-center justify-center"
-                >
-                  <TableCell
-                    colSpan={columns.length}
-                    className="flex items-center justify-center text-center"
-                    style={{ height: TABLE_HEIGHT }}
-                  >
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-      </div>
-      <div className="table-actions-dimension">
+            ))
+          ) : (
+            <TableRow>
+              <TableCell
+                colSpan={columns.length}
+                className="size-full text-center"
+              >
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <div className="sticky bottom-0 z-10 flex w-full  items-center justify-between bg-slate-950 p-1">
         <Button
           variant="outline"
           size="sm"
@@ -272,7 +242,7 @@ export function DataTableDimension<TData, TValue>({
             src="/assets/icons/arrow.svg"
             width={24}
             height={24}
-            alt="arrow"
+            alt="arrow "
             className="rotate-180"
           />
         </Button>

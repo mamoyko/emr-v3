@@ -69,14 +69,14 @@ const VerticalTabsComponent = ({
     <Tabs
       value={currentTab}
       onValueChange={handleTabChange}
-      className="flex w-full flex-col items-center justify-center rounded-lg dark:bg-gray-950 md:flex-row"
+      className="flex w-full items-center justify-center rounded-lg dark:bg-gray-950 "
       style={{
         height: !height
           ? "100%"
           : `${height - 285 - verticalTabHeightControl}px`,
       }}
     >
-      <div className=" flex size-full items-center justify-center overflow-y-auto rounded-lg bg-inherit py-[6px]  md:w-[320px] md:px-2">
+      <div className=" flex w-[320px] items-center justify-center overflow-y-auto rounded-lg bg-inherit  py-[6px] md:px-2">
         <TabsList
           className="flex size-full items-center justify-center rounded-2xl bg-slate-800"
           style={{
@@ -91,7 +91,7 @@ const VerticalTabsComponent = ({
               <TabsTrigger
                 key={navItem.value}
                 value={navItem.value}
-                className={`flex w-full cursor-pointer bg-transparent py-2.5 text-left transition-colors duration-200 ease-in-out hover:bg-gray-200 ${isLoading ? "cursor-not-allowed opacity-50" : ""}`}
+                className={`flex w-full cursor-pointer  bg-transparent py-2.5 text-left transition-colors duration-200 ease-in-out hover:bg-gray-200 ${isLoading ? "cursor-not-allowed opacity-50" : ""}`}
                 disabled={isLoading}
               >
                 <span>{navItem.title}</span>
@@ -134,7 +134,7 @@ const VerticalTabsComponent = ({
                 />
               </div>
             ) : (
-              <CardContent className="space-y-2">
+              <CardContent className="space-y-1">
                 {ContentComponent}
               </CardContent>
             )}

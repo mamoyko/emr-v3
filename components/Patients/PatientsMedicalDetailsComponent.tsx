@@ -34,7 +34,7 @@ const PatientsMedicalDetailsComponent = () => {
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <Header />
 
-      <main className="flex-1 items-start justify-between overflow-y-auto px-[5%] xl:space-y-6 xl:px-12">
+      <main className="flex-1 items-start justify-between px-[5%] xl:space-y-6 xl:px-12">
         <PatientInfoComponent patient={currentPatient} />
         <PatientsNavigationPage
           dataCollection={{ isLoading, currentPatient }}

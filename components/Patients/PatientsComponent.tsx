@@ -53,7 +53,7 @@ const PatientsComponent = () => {
         <section className="flex w-full items-end justify-between space-y-4">
           <h1 className="header">Patients</h1>
           <Button
-            variant="outline"
+            variant="ghost"
             className="capitalize text-sky-500"
             onClick={() => routePath(`/admin/patients/create`)}
           >

@@ -74,7 +74,7 @@ export const ContentComponent = ({
         />
       ) : (
         <DataTableDimension
-          heightToSubtrct={470 + VERTICAL_TAB_HEIGHT_CONTROL}
+          heightToSubtrct={385 + VERTICAL_TAB_HEIGHT_CONTROL}
           columns={tableProcess?.columnsTableData || []}
           data={tableProcess?.dataTableData || []}
         />
