@@ -50,10 +50,10 @@ export const createUser = async (user: CreateUserParams) => {
 export const getPatientList = async (paginate?: Record<string, any>) => {
   try {
     const query = [Query.orderDesc("$createdAt")];
-    // if (paginate && paginate.name && paginate.name !== "") {
-    //   console.log(paginate.name);
-    //   query.push(Query.search("name", paginate.name));
-    // }
+    if (paginate && paginate.name) {
+      console.log(paginate.name);
+      query.push(Query.search("name", paginate.name));
+    }
 
     const patients = await databases.listDocuments(
       DATABASE_ID!,

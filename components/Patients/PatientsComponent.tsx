@@ -64,7 +64,7 @@ const PatientsComponent = () => {
               const collection = {
                 name: query,
               };
-              // fetchPatientList(collection);
+              fetchPatientList(collection);
             }}
             iniSearchValue={""}
           />
