@@ -7,11 +7,11 @@ import { getPatientById } from "@/lib/actions/patient.actions";
 import UseRouting from "../helperFunctions/UseRouting";
 import useWindowDimension from "../helperFunctions/useWindowDimension";
 
-import PatientInfoComponent from "./PatientInfoComponent";
+import PatientInfoComponent from "./patientComponents/PatientInfoComponent";
 import { PatientsNavigationPage } from "./patientMedicalDetailsTable/PatientsNavigationPage";
 
 const PatientsMedicalDetailsComponent = () => {
-  const { routePath, getRoutePathId } = UseRouting();
+  const { getRoutePathId } = UseRouting();
   const userId = getRoutePathId();
   const { width, height } = useWindowDimension();
 

@@ -250,3 +250,50 @@ export function DataTableDimension<TData, TValue>({
     </div>
   );
 }
+
+export const DataTableTest = ({ data }) => {
+  return (
+    <div className="overflow-x-auto">
+      <table className="min-w-full border-collapse border border-gray-200 bg-white shadow-md">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="border-b border-gray-200 px-4 py-2 text-left text-sm font-medium text-gray-600">
+              Name
+            </th>
+            <th className="border-b border-gray-200 px-4 py-2 text-left text-sm font-medium text-gray-600">
+              Age
+            </th>
+            <th className="border-b border-gray-200 px-4 py-2 text-left text-sm font-medium text-gray-600">
+              Email
+            </th>
+            <th className="border-b border-gray-200 px-4 py-2 text-left text-sm font-medium text-gray-600">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row, index) => (
+            <tr key={index} className="hover:bg-gray-50">
+              <td className="border-b border-gray-200 px-4 py-2 text-sm text-gray-700">
+                {row.name}
+              </td>
+              <td className="border-b border-gray-200 px-4 py-2 text-sm text-gray-700">
+                {row.age}
+              </td>
+              <td className="border-b border-gray-200 px-4 py-2 text-sm text-gray-700">
+                {row.email}
+              </td>
+              <td className="border-b border-gray-200 px-4 py-2 text-sm text-gray-700">
+                <button className="rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600">
+                  Edit
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default DataTable;

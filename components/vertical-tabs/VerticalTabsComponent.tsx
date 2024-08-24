@@ -94,7 +94,9 @@ const VerticalTabsComponent = ({
                 className={`flex w-full cursor-pointer  bg-transparent py-2.5 text-left transition-colors duration-200 ease-in-out hover:bg-gray-200 ${isLoading ? "cursor-not-allowed opacity-50" : ""}`}
                 disabled={isLoading}
               >
-                <span>{navItem.title}</span>
+                <span className=" col-start-1 flex text-wrap text-center text-sm leading-6 dark:text-slate-400 sm:col-span-2 lg:col-span-1 lg:row-start-4">
+                  {navItem.title}
+                </span>
               </TabsTrigger>
             ))}
           </div>

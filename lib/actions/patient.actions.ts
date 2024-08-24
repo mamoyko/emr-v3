@@ -51,7 +51,6 @@ export const getPatientList = async (paginate?: Record<string, any>) => {
   try {
     const query = [Query.orderDesc("$createdAt")];
     if (paginate && paginate.name) {
-      console.log(paginate.name);
       query.push(Query.search("name", paginate.name));
     }
 

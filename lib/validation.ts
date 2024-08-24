@@ -104,6 +104,18 @@ export const CreateEncounterSchema = z.object({
   reason: z.string().optional(),
 });
 
+export const CreatePatientSchema = z.object({
+  address: z.string().min(1, " is required"),
+  phone: z.string().min(1, " is required"),
+  email: z.string().min(1, " is required"),
+  gender: z.string().min(1, " is required"),
+  occupation: z.string().min(1, "is required"),
+  birthDate: z.string().min(1, "is required"),
+  emergencyContactName: z.string().min(1, "is required"),
+  emergencyContactNumber: z.string().min(1, "is required"),
+  name: z.string().min(1, "is required"),
+});
+
 export const CancelAppointmentSchema = z.object({
   primaryPhysician: z.string().min(2, "Select at least one doctor"),
   schedule: z.coerce.date(),

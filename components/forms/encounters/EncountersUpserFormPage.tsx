@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -18,10 +18,8 @@ import CustomFormField, { FormFieldType } from "../../CustomFormField";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-interface EncounterDetail {
-  value: string;
-  label: string;
-  type?: "input" | "textarea" | "datetime-local";
+interface EncounterDetailProps {
+  dataCollection: any;
 }
 
 const formatDateTime = (dateTimeString: string) => {
@@ -38,10 +36,12 @@ const formatDateTime = (dateTimeString: string) => {
   return formatter.format(date).replace(",", "");
 };
 
-const EncountersAddPatientPage: React.FC = ({
-  type = "create",
+const EncountersUpserFormPage = ({
+  type = "",
+  dataCollection,
 }: {
   type?: string;
+  dataCollection?: any;
 }) => {
   const { routePath } = UseRouting();
   const EncountertFormValidation = getEncounterSchema(type);
@@ -49,14 +49,17 @@ const EncountersAddPatientPage: React.FC = ({
 
   const form = useForm<z.infer<typeof EncountertFormValidation>>({
     resolver: zodResolver(EncountertFormValidation),
-    defaultValues: {
-      primaryPhysician: "",
-      date_and_time: new Date(Date.now()),
-      patient: "",
-      encounter_type: "",
-      location: "",
-      reason: "",
-    },
+    defaultValues:
+      type === "edit"
+        ? dataCollection?.currentPatient
+        : {
+            primaryPhysician: "",
+            date_and_time: new Date(Date.now()),
+            patient: "",
+            encounter_type: "",
+            location: "",
+            reason: "",
+          },
   });
 
   const onSubmit = async (values: z.infer<typeof EncountertFormValidation>) => {
@@ -84,13 +87,17 @@ const EncountersAddPatientPage: React.FC = ({
     setIsLoading(false);
   };
 
+  useEffect(() => {}, [dataCollection]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-6">
-        <section className="mb-12 space-y-4">
-          <h1 className="header">Hi there 👋</h1>
-          <p className="text-dark-700">Get started with appointments.</p>
-        </section>
+        {type === "create" && (
+          <section className="mb-12 space-y-4">
+            <h1 className="header">Hi there 👋</h1>
+            <p className="text-dark-700">Get started with appointments.</p>
+          </section>
+        )}
 
         <CustomFormField
           fieldType={FormFieldType.SELECT}
@@ -162,4 +169,4 @@ const EncountersAddPatientPage: React.FC = ({
   );
 };
 
-export default EncountersAddPatientPage;
+export default EncountersUpserFormPage;

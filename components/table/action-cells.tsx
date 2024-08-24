@@ -11,6 +11,7 @@ import MedicalDetailsFormHelper from "../forms/singularMedicalDetailsForm/Medica
 import TabularFormPage from "../forms/tabularDetailForms/TabularFormPage";
 import DialogCellComponent from "../helperComponent/DialogCellComponent";
 import "react-datepicker/dist/react-datepicker.css";
+import UseRouting from "../helperFunctions/UseRouting";
 import useWindowDimension from "../helperFunctions/useWindowDimension";
 
 type ActionsCellProps = {
@@ -112,18 +113,22 @@ export const EncounterActionCell: React.FC<EncounterCellProps> = ({ row }) => {
 export const PatientActionCell: React.FC<PatientCellProps> = ({ row }) => {
   const router = useRouter();
   const patient = row.original;
-  const handleDetailsClick = () => {
-    router.push(`/admin/patients/${patient.userId}`);
-  };
-
+  const { routePath } = UseRouting();
   return (
     <div className="flex gap-1">
       <Button
         variant="ghost"
         className="capitalize text-lime-500"
-        onClick={handleDetailsClick}
+        onClick={() => routePath(`/admin/patients/${patient.userId}`)}
       >
         Medical Details
+      </Button>
+      <Button
+        variant="ghost"
+        className=" text-lime-200 hover:text-orange-950"
+        onClick={() => routePath(`/admin/patients/edit/${patient.userId}`)}
+      >
+        Patient Details
       </Button>
     </div>
   );

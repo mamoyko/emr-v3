@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Header } from "@/components/Header";
 
 import { FileUploader } from "./fileUploader/FileUploader";
+import { DataTableTest } from "./table/DataTable";
 
 export const SandBoxPage: React.FC = () => {
   const [files, setFiles] = useState<File[] | undefined>(undefined);
@@ -21,6 +22,8 @@ export const SandBoxPage: React.FC = () => {
           <h1 className="header">Sand Box</h1>
         </section>
         <section className="admin-stat">ss</section>
+        <DataTableTest data={[]} />
+
         <FileUploader files={files} onChange={handleFileChange} />
       </main>
     </div>

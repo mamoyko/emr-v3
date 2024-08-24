@@ -1,0 +1,31 @@
+import Image from "next/image";
+import { Fragment } from "react";
+
+export const LoaderGeneric = ({
+  src = "/assets/icons/loader.svg",
+  width = 40,
+  height = 40,
+  className = "",
+  text = "Loading...",
+}) => {
+  return (
+    <div
+      className={`flex size-full flex-col items-center justify-center text-center ${className}`}
+    >
+      <div className="flex items-center justify-center space-x-2">
+        <Image
+          src={src}
+          alt={"loader"}
+          width={width}
+          height={height}
+          className="animate-spin"
+        />
+        {text !== "" && (
+          <span className="text-sm text-white sm:text-base lg:text-lg">
+            {text}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+};

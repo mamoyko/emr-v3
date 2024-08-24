@@ -1,6 +1,6 @@
 "use client";
 
-import EncountersAddPatientPage from "@/components/forms/encounters/EncountersAddPatientPage";
+import EncountersUpserFormPage from "@/components/forms/encounters/EncountersUpserFormPage";
 import { Header } from "@/components/Header";
 
 const EncountersAddComponent = () => {
@@ -13,7 +13,7 @@ const EncountersAddComponent = () => {
           <h1 className="header">Create Encounters</h1>
         </section>
         <section className="admin-stat">
-          <EncountersAddPatientPage />
+          <EncountersUpserFormPage />
         </section>
       </main>
     </div>

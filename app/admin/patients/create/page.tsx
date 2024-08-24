@@ -1,7 +1,7 @@
-import PatientAddComponent from "@/components/Patients/PatientAddComponent";
+import PatientUpsertComponent from "@/components/Patients/PatientUpsertComponent";
 
 const AdminPatientCreatePage = async () => {
-  return <PatientAddComponent />;
+  return <PatientUpsertComponent type="create" />;
 };
 
 export default AdminPatientCreatePage;

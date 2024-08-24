@@ -3,8 +3,6 @@ import React, { useState } from "react";
 
 import { Header } from "@/components/Header";
 
-import { PatientFormPage } from "./patientHelper/PatientFormPage";
-
 interface PatientDataState {
   data: any[];
   isErrorMessage: string;
@@ -56,7 +54,6 @@ const PatientMedicalFormComponent = () => {
             patientDetails.mode === "view" ? "View" : "Create"
           } Patient`}</h1>
         </section>
-        <PatientFormPage />
       </main>
     </div>
   );
