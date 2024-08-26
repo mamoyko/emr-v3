@@ -81,7 +81,6 @@ export const ActionsCell: React.FC<ActionsCellProps> = ({ row }) => {
 };
 
 export const EncounterActionCell: React.FC<EncounterCellProps> = ({ row }) => {
-  const { height, width } = useWindowDimension();
   const router = useRouter();
   const encounter = row.original;
 
@@ -89,12 +88,7 @@ export const EncounterActionCell: React.FC<EncounterCellProps> = ({ row }) => {
     <div className="flex gap-1">
       <DialogCellComponent
         dialogStyle={{
-          height: height ? `${height - 50}px` : "auto",
-          width: width ? `${width - 200}px` : "auto",
-          maxWidth: "none",
-          maxHeight: "none",
-          padding: 0,
-          margin: 0,
+          maxHeight: `calc(100vh - 50px)`,
         }}
         row={encounter}
         ComponentDialogTitle={`${!encounter?.patient ? "n/a" : encounter?.patient?.name} Medical Details`}
@@ -138,14 +132,12 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
   row,
   columnValue = "",
 }) => {
-  const { height, width } = useWindowDimension();
-
   const rawDocument = row.original;
   return (
     <div className="flex gap-1">
       <DialogCellComponent
         dialogStyle={{
-          maxHeight: height ? `${height - 50}px` : "auto",
+          maxHeight: `calc(100vh - 50px)`,
         }}
         row={rawDocument}
         ComponentDialogTitle={`${rawDocument?.patient?.name ?? ""} Medical Details`}

@@ -70,12 +70,14 @@ const EncountersUpsertV1FormPage: React.FC<EncountersUpsertV1FormPageProps> = ({
           <div
             className="flex grow flex-col gap-4 overflow-y-auto p-4 md:flex-row md:flex-wrap"
             style={{
-              height: !height ? "100%" : height - 335,
+              height: height
+                ? `calc(${height}px - 335px)`
+                : `calc(100vh - 340px)`,
             }}
           >
             <div className="flex w-full flex-col gap-4 md:flex-row">
               <CustomFormField
-                control={form.control}
+                control={control}
                 name="name"
                 label="Name"
                 fieldType={FormFieldType.INPUT}
@@ -104,7 +106,7 @@ const EncountersUpsertV1FormPage: React.FC<EncountersUpsertV1FormPageProps> = ({
             </div>
             <div className="flex w-full flex-col gap-4 md:flex-row">
               <CustomFormField
-                control={form.control}
+                control={control}
                 name="phone"
                 label="Contact no."
                 fieldType={FormFieldType.PHONE_INPUT_CUSTOM_STYLE}
@@ -113,7 +115,7 @@ const EncountersUpsertV1FormPage: React.FC<EncountersUpsertV1FormPageProps> = ({
 
               <div className="flex w-full items-start justify-start gap-4">
                 <CustomFormField
-                  control={form.control}
+                  control={control}
                   name="address"
                   label="Address"
                   fieldType={FormFieldType.TEXTAREA}
@@ -123,19 +125,19 @@ const EncountersUpsertV1FormPage: React.FC<EncountersUpsertV1FormPageProps> = ({
 
             <div className="flex w-full flex-col gap-4 md:flex-row">
               <CustomFormField
-                control={form.control}
+                control={control}
                 name="email"
                 label="Email"
                 fieldType={FormFieldType.INPUT}
               />
               <CustomFormField
-                control={form.control}
+                control={control}
                 name="birthDate"
                 label="Birth Date"
                 fieldType={FormFieldType.DATE_PICKER}
               />
               <CustomFormField
-                control={form.control}
+                control={control}
                 name="occupation"
                 label="Occupation"
                 fieldType={FormFieldType.INPUT}
@@ -147,14 +149,14 @@ const EncountersUpsertV1FormPage: React.FC<EncountersUpsertV1FormPageProps> = ({
                 Emergency Contact Information
               </span>
               <CustomFormField
-                control={form.control}
+                control={control}
                 name="emergencyContactName"
                 label="Emergency Contact"
                 fieldType={FormFieldType.INPUT}
               />
               <div className="flex w-full items-center justify-center gap-4 md:w-1/4">
                 <CustomFormField
-                  control={form.control}
+                  control={control}
                   name="emergencyContactNumber"
                   label="Emergency Contact no."
                   fieldType={FormFieldType.PHONE_INPUT_CUSTOM_STYLE}
