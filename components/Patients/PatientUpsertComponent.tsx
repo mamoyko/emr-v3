@@ -3,12 +3,14 @@
 import { useState, useEffect } from "react";
 
 import { Header } from "@/components/Header";
-import { getPatientById } from "@/lib/actions/patient.actions";
+import {
+  createPatient,
+  getPatientById,
+  updatePatient,
+} from "@/lib/actions/patient.actions";
 
-import EncountersUpserFormPage from "../forms/encounters/EncountersUpserFormPage";
 import EncountersUpsertV1FormPage from "../forms/encounters/EncountersUpsertV1FormPage";
 import UseRouting from "../helperFunctions/UseRouting";
-import { DataTableTest } from "../table/DataTable";
 
 const PatientUpsertComponent = ({ type }) => {
   const { getRoutePathId } = UseRouting();
@@ -27,6 +29,18 @@ const PatientUpsertComponent = ({ type }) => {
     setIsloading(false);
   };
 
+  const createOrUpdatePatient = async (patientId: string, patientData: any) => {
+    let response: any = "";
+    if (!patientId) {
+      response = await createPatient(patientData);
+    } else {
+      response = await updatePatient(patientId, patientData);
+    }
+    if (response.ok) {
+      console.log("yes sir");
+    }
+  };
+
   useEffect(() => {
     if (type === "edit") fetchSelectedPatient(userId);
   }, [type, userId]);
@@ -40,11 +54,24 @@ const PatientUpsertComponent = ({ type }) => {
           <h1 className="header">{actionMode}</h1>
         </section>
         <section className="admin-stat">
-          {/* <EncountersUpserFormPage
+          <EncountersUpsertV1FormPage
             type={type}
-            dataCollection={{ isLoading, currentPatient }}
-          /> */}
-          <EncountersUpsertV1FormPage type />
+            handleSubmitForm={createOrUpdatePatient}
+            dataCollection={
+              {
+                // address: "",
+                // phone: "",
+                // email: "",
+                // gender: "",
+                // occupation: "",
+                // birthDate: "",
+                // emergencyContactName: "",
+                // emergencyContactNumber: "",
+                // name: "",
+              }
+            }
+            userId={userId}
+          />
         </section>
       </main>
     </div>

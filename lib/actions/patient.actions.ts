@@ -9,6 +9,7 @@ import {
   responseSuccess,
 } from "../../components/helperComponent/helperResponse/FnResponseHelper";
 import {
+  APPOINTMENT_COLLECTION_ID,
   BUCKET_ID,
   DATABASE_ID,
   ENDPOINT,
@@ -43,6 +44,43 @@ export const createUser = async (user: CreateUserParams) => {
       return existingUser.users[0];
     }
     console.error("An error occurred while creating a new user:", error);
+  }
+};
+
+// CREATE APPWRITE USER
+export const createPatient = async (patient: CreateOrUpdatePatientParams) => {
+  try {
+    const newPatient = await databases.createDocument(
+      DATABASE_ID!,
+      PATIENT_COLLECTION_ID!,
+      ID.unique(),
+      patient
+    );
+    const data = parseStringify(newPatient);
+    return responseCreate({ successData: data?.document });
+  } catch (error: any) {
+    console.error("An error occurred while creating a new patient:", error);
+    return responseError({ errorData: error });
+  }
+};
+
+// CREATE APPWRITE USER
+export const updatePatient = async (
+  patientId: string,
+  patient: CreateOrUpdatePatientParams
+) => {
+  try {
+    const updatedPatient = await databases.updateDocument(
+      DATABASE_ID!,
+      APPOINTMENT_COLLECTION_ID!,
+      patientId,
+      patient
+    );
+    const data = parseStringify(updatedPatient);
+    return responseCreate({ successData: data?.document });
+  } catch (error: any) {
+    console.error("An error occurred while creating a new patient:", error);
+    return responseError({ errorData: error });
   }
 };
 

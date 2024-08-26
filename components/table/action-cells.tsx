@@ -145,10 +145,7 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
     <div className="flex gap-1">
       <DialogCellComponent
         dialogStyle={{
-          height: height ? `${height - 50}px` : "auto",
-          width: width ? `${width / 2.6}px` : "auto",
-          maxWidth: "none",
-          maxHeight: "none",
+          maxHeight: height ? `${height - 50}px` : "auto",
         }}
         row={rawDocument}
         ComponentDialogTitle={`${rawDocument?.patient?.name ?? ""} Medical Details`}

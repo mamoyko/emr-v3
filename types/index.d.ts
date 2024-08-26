@@ -62,13 +62,16 @@ declare type CreateEncounterParams = {
   location: string;
 };
 
-declare type CreatePatientParams = {
-  primaryPhysician: string;
-  date_and_time: Date;
-  patient: string;
-  encounter_type: string;
-  reason: string;
-  location: string;
+declare type CreateOrUpdatePatientParams = {
+  address: string;
+  phone: string;
+  email: string;
+  gender: string;
+  occupation: string;
+  birthDate: string;
+  emergencyContactName: string;
+  emergencyContactNumber: string;
+  name: string;
 };
 
 declare type CreateSymptomsParams = {

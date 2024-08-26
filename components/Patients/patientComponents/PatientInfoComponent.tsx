@@ -42,7 +42,6 @@ const PatientInfoComponent = ({ patient }) => {
         <figure className=" flex size-full flex-row rounded-xl bg-gradient-to-r from-green-600 via-teal-900 to-emerald-950 p-3 lg:flex lg:p-1">
           <span className="size-full space-y-1 text-center lg:px-8 lg:py-1 lg:text-left">
             {[
-              // { label: "Name", value: patient?.name || "" },
               { label: "Address", value: patient?.address || "" },
               { label: "Contact no.", value: patient?.phone || "" },
               { label: "Email", value: patient?.email || "" },
@@ -97,7 +96,7 @@ const DetailComponent = ({
   return (
     <article
       key={item.label}
-      className={`flex w-full flex-col space-y-1 text-center md:flex-row md:space-x-4 md:space-y-0 md:text-left ${articleClass}`}
+      className={`flex w-full flex-col space-y-1 text-ellipsis text-center md:flex-row md:space-x-4 md:space-y-0 md:text-left ${articleClass}`}
     >
       {item.label && (
         <p className="w-full truncate border-t text-left text-sm sm:text-sm md:w-auto md:shrink-0 md:border-none lg:text-base">

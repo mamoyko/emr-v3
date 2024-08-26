@@ -5,12 +5,38 @@ import { z } from "zod";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import stringHelpers from "@/components/helperFunctions/stringHelpers";
+import useWindowDimension from "@/components/helperFunctions/useWindowDimension";
 import { CreatePatientSchema } from "@/lib/validation";
 
-const EncountersUpsertV1FormPage = ({
-  type = "create",
-  dataCollection = {},
+interface FormData {
+  address: string;
+  phone: string;
+  email: string;
+  gender: string;
+  occupation: string;
+  birthDate: string;
+  emergencyContactName: string;
+  emergencyContactNumber: string;
+  name: string;
+}
+
+interface EncountersUpsertV1FormPageProps {
+  type: string;
+  dataCollection?: any;
+  userId: string;
+  handleSubmitForm: (
+    patientId: string,
+    dataCollection: FormData
+  ) => Promise<void>;
+}
+
+const EncountersUpsertV1FormPage: React.FC<EncountersUpsertV1FormPageProps> = ({
+  type,
+  dataCollection,
+  handleSubmitForm,
+  userId,
 }) => {
+  const { height, width } = useWindowDimension();
   const form = useForm<z.infer<typeof CreatePatientSchema>>({
     resolver: zodResolver(CreatePatientSchema),
     defaultValues:
@@ -28,103 +54,120 @@ const EncountersUpsertV1FormPage = ({
             name: "",
           },
   });
+  const { handleSubmit, control } = form;
+
+  const handleSubmitData = (formData: any) => {
+    handleSubmitForm(dataCollection?.patientId, formData);
+  };
 
   return (
-    <div
-      className="size-full border-white"
-      style={{ border: "1px solid white" }}
-    >
+    <div className="size-full">
       <FormProvider {...form}>
         <form
-          onSubmit={form.handleSubmit((data) => {
-            console.log("Form submitted:", data);
-          })}
-          className="flex size-full flex-col space-y-6"
+          onSubmit={handleSubmit(handleSubmitData)}
+          className="flex size-full flex-col "
         >
           <div
-            className="grid grow gap-4 lg:grid-cols-1 xl:grid-cols-2"
-            style={{ border: "1px solid black" }}
+            className="flex grow flex-col gap-4 overflow-y-auto p-4 md:flex-row md:flex-wrap"
+            style={{
+              height: !height ? "100%" : height - 335,
+            }}
           >
-            {/* Render each CustomFormField component directly */}
-            <CustomFormField
-              control={form.control}
-              name="name"
-              label="Name"
-              fieldType={FormFieldType.INPUT}
-            />
-
-            <CustomFormField
-              control={form.control}
-              name="gender"
-              label="Gender"
-              fieldType={FormFieldType.SELECT}
-            >
-              {/* Render SELECT options for Gender */}
-              {["male", "female"].map((genderData, i) => (
-                <SelectItem
-                  key={i}
-                  value={stringHelpers.capitalFirst({ value: genderData })}
+            <div className="flex w-full flex-col gap-4 md:flex-row">
+              <CustomFormField
+                control={form.control}
+                name="name"
+                label="Name"
+                fieldType={FormFieldType.INPUT}
+              />
+              <div className="flex w-full md:w-1/4">
+                <CustomFormField
+                  control={control}
+                  name="gender"
+                  label="Gender"
+                  fieldType={FormFieldType.SELECT}
                 >
-                  <div className="flex cursor-pointer items-center gap-2">
-                    <p>{stringHelpers.capitalFirst({ value: genderData })}</p>
-                  </div>
-                </SelectItem>
-              ))}
-            </CustomFormField>
+                  {["male", "female"].map((genderData, i) => (
+                    <SelectItem
+                      key={i}
+                      value={stringHelpers.capitalFirst({ value: genderData })}
+                    >
+                      <div className="flex cursor-pointer items-center gap-2">
+                        <p>
+                          {stringHelpers.capitalFirst({ value: genderData })}
+                        </p>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </CustomFormField>
+              </div>
+            </div>
+            <div className="flex w-full flex-col gap-4 md:flex-row">
+              <CustomFormField
+                control={form.control}
+                name="phone"
+                label="Contact no."
+                fieldType={FormFieldType.PHONE_INPUT_CUSTOM_STYLE}
+                style={{ width: 100 }}
+              />
 
-            <CustomFormField
-              control={form.control}
-              name="address"
-              label="Address"
-              fieldType={FormFieldType.INPUT}
-            />
+              <div className="flex w-full items-start justify-start gap-4">
+                <CustomFormField
+                  control={form.control}
+                  name="address"
+                  label="Address"
+                  fieldType={FormFieldType.TEXTAREA}
+                />
+              </div>
+            </div>
 
-            <CustomFormField
-              control={form.control}
-              name="phone"
-              label="Contact no."
-              fieldType={FormFieldType.PHONE_INPUT}
-            />
+            <div className="flex w-full flex-col gap-4 md:flex-row">
+              <CustomFormField
+                control={form.control}
+                name="email"
+                label="Email"
+                fieldType={FormFieldType.INPUT}
+              />
+              <CustomFormField
+                control={form.control}
+                name="birthDate"
+                label="Birth Date"
+                fieldType={FormFieldType.DATE_PICKER}
+              />
+              <CustomFormField
+                control={form.control}
+                name="occupation"
+                label="Occupation"
+                fieldType={FormFieldType.INPUT}
+              />
+            </div>
 
-            <CustomFormField
-              control={form.control}
-              name="email"
-              label="Email"
-              fieldType={FormFieldType.INPUT}
-            />
+            <div className="flex grow flex-col gap-4 md:flex-row md:flex-wrap">
+              <span className="flex w-full items-center justify-center text-2xl">
+                Emergency Contact Information
+              </span>
+              <CustomFormField
+                control={form.control}
+                name="emergencyContactName"
+                label="Emergency Contact"
+                fieldType={FormFieldType.INPUT}
+              />
+              <div className="flex w-full items-center justify-center gap-4 md:w-1/4">
+                <CustomFormField
+                  control={form.control}
+                  name="emergencyContactNumber"
+                  label="Emergency Contact no."
+                  fieldType={FormFieldType.PHONE_INPUT_CUSTOM_STYLE}
+                  style={{ width: 100 }}
+                />
+              </div>
+            </div>
+          </div>
 
-            <CustomFormField
-              control={form.control}
-              name="birthDate"
-              label="Birth Date"
-              fieldType={FormFieldType.DATE_PICKER}
-            />
-
-            <CustomFormField
-              control={form.control}
-              name="occupation"
-              label="Occupation"
-              fieldType={FormFieldType.INPUT}
-            />
-
-            <CustomFormField
-              control={form.control}
-              name="emergencyContactName"
-              label="Emergency Contact"
-              fieldType={FormFieldType.PHONE_INPUT}
-            />
-
-            <CustomFormField
-              control={form.control}
-              name="emergencyContactNumber"
-              label="Emergency Contact no."
-              fieldType={FormFieldType.INPUT}
-            />
-
-            {/* Submit button or any other elements as needed */}
+          <div className="grid w-full items-center justify-end p-2">
             <button
               type="submit"
-              className="mt-4 rounded bg-blue-500 px-4 py-2 text-white"
+              className="rounded bg-blue-500 px-10 py-2 text-white"
             >
               Submit
             </button>
