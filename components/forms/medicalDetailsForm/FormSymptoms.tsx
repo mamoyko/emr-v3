@@ -104,12 +104,12 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
       <FormProvider {...methods}>
         <form
           onSubmit={handleSubmit(handleSubmitData)}
-          className="flex size-full flex-col space-y-6"
+          className="flex size-full flex-col items-center justify-center"
         >
           {fields.map((field, index) => (
             <div
               key={field.id}
-              className="grid grow gap-4 lg:grid-cols-1 xl:grid-cols-2"
+              className="flex w-full grow flex-col gap-4 overflow-y-auto p-4"
             >
               {isMultiForm && (
                 <h3 className="mb-4 text-lg font-semibold">
@@ -148,7 +148,7 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
             </div>
           ))}
           {mode === "edit" && (
-            <div className="mt-4 flex justify-end space-x-5">
+            <div className="flex w-full items-center justify-end pr-4">
               {isMultiForm && (
                 <Button
                   type="button"

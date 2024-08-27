@@ -69,16 +69,16 @@ const VerticalTabsComponent = ({
     <Tabs
       value={currentTab}
       onValueChange={handleTabChange}
-      className="flex w-full items-center justify-center rounded-lg dark:bg-gray-950 "
+      className="flex w-full items-center justify-center rounded-lg"
       style={{
         height: !height
           ? "100%"
           : `${height - 285 - verticalTabHeightControl}px`,
       }}
     >
-      <div className=" flex w-[320px] items-center justify-center overflow-y-auto rounded-lg bg-inherit  py-[6px] md:px-2">
+      <div className="flex w-[320px] items-center justify-center overflow-y-auto rounded-lg bg-inherit py-[6px] md:px-2">
         <TabsList
-          className="flex size-full items-center justify-center rounded-2xl bg-slate-800"
+          className="flex size-full items-center justify-center rounded-lg bg-slate-800"
           style={{
             height: !height
               ? "100%"
@@ -86,15 +86,15 @@ const VerticalTabsComponent = ({
           }}
         >
           {TabHeaderComponent}
-          <div className="flex h-full flex-wrap items-center justify-center md:flex-col md:items-center md:justify-center">
+          <div className="flex h-full flex-wrap items-center justify-center md:flex-col">
             {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => (
               <TabsTrigger
                 key={navItem.value}
                 value={navItem.value}
-                className={`flex w-full cursor-pointer  bg-transparent py-2.5 text-left transition-colors duration-200 ease-in-out hover:bg-gray-200 ${isLoading ? "cursor-not-allowed opacity-50" : ""}`}
+                className={`flex w-full cursor-pointer bg-transparent py-2.5 text-left transition-colors duration-200 ease-in-out hover:bg-gray-200 ${isLoading ? "cursor-not-allowed opacity-50" : ""}`}
                 disabled={isLoading}
               >
-                <span className=" col-start-1 flex text-wrap text-center text-sm leading-6 dark:text-slate-400 sm:col-span-2 lg:col-span-1 lg:row-start-4">
+                <span className="col-start-1 flex text-wrap text-center text-sm dark:text-slate-400 sm:col-span-2 lg:col-span-1 lg:row-start-4">
                   {navItem.title}
                 </span>
               </TabsTrigger>
@@ -112,7 +112,7 @@ const VerticalTabsComponent = ({
               : `${height - 300 - verticalTabHeightControl}px`,
           }}
         >
-          <Card className="flex size-full flex-col overflow-y-auto">
+          <Card className="flex size-full flex-col overflow-y-auto rounded-lg">
             {(TitleComponent || DescriptionComponent) && (
               <CardHeader className="sticky top-0 z-10 shadow-md">
                 {TitleComponent && <CardTitle>{TitleComponent}</CardTitle>}

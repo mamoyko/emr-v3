@@ -7,7 +7,7 @@ interface SearchInputProps {
   iniSearchValue: string;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({
+const SearchComponent: React.FC<SearchInputProps> = ({
   handleSearch,
   iniSearchValue,
 }) => {
@@ -55,4 +55,4 @@ const SearchInput: React.FC<SearchInputProps> = ({
   );
 };
 
-export default SearchInput;
+export default SearchComponent;

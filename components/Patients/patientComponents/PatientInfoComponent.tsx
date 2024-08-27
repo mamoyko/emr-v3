@@ -18,9 +18,9 @@ const PatientInfoComponent = ({ patient }) => {
   };
 
   return (
-    <div className="flex w-full flex-col items-center justify-center rounded-lg md:flex-row">
+    <div className="flex w-full flex-col items-center justify-center md:flex-row">
       <div className="flex h-[180px] w-[320px] items-start overflow-y-auto py-[6px] pl-2">
-        <div className="flex size-full items-center justify-center rounded-xl bg-white text-black">
+        <div className="flex size-full items-center justify-center rounded-lg bg-white text-black">
           {!patient.name ? (
             <LoaderGeneric width={20} height={20} text="" />
           ) : (
@@ -28,8 +28,8 @@ const PatientInfoComponent = ({ patient }) => {
           )}
         </div>
       </div>
-      <figure className="m-2 flex size-full flex-col rounded-xl bg-gradient-to-r from-green-600 via-teal-900 to-emerald-950 p-3 lg:flex lg:p-1">
-        <div className="size-full space-y-1 rounded-3xl border border-b-white p-1 text-center lg:px-8 lg:py-1 lg:text-left">
+      <figure className="m-2 flex size-full flex-col rounded-lg bg-gradient-to-r from-green-600 via-teal-900 to-emerald-950 p-3 lg:flex lg:p-1">
+        <div className="size-full space-y-1 border border-b-white p-1 text-center lg:px-8 lg:py-1 lg:text-left">
           <DetailComponent
             item={{
               label: null,
@@ -39,7 +39,7 @@ const PatientInfoComponent = ({ patient }) => {
             articleClass="items-center justify-center"
           />
         </div>
-        <figure className=" flex size-full flex-row rounded-xl bg-gradient-to-r from-green-600 via-teal-900 to-emerald-950 p-3 lg:flex lg:p-1">
+        <figure className="flex size-full flex-row rounded-lg bg-gradient-to-r from-green-600 via-teal-900 to-emerald-950 p-3 lg:flex lg:p-1">
           <span className="size-full space-y-1 text-center lg:px-8 lg:py-1 lg:text-left">
             {[
               { label: "Address", value: patient?.address || "" },
@@ -50,7 +50,7 @@ const PatientInfoComponent = ({ patient }) => {
               <DetailComponent
                 key={index}
                 item={item}
-                articleClass={"flex-col w-full md:flex-row "}
+                articleClass={"w-full flex-col md:flex-row"}
                 valueClass="w-full"
               />
             ))}
@@ -74,7 +74,7 @@ const PatientInfoComponent = ({ patient }) => {
               <DetailComponent
                 key={index}
                 item={item}
-                articleClass={"flex-col w-full md:flex-row "}
+                articleClass={"w-full flex-col md:flex-row"}
                 valueClass="w-full"
               />
             ))}
