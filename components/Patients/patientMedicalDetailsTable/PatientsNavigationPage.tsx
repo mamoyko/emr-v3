@@ -69,7 +69,7 @@ export const PatientsNavigationPage = ({
       case MEDICAL_DETAILS.MEDICAL_HISTORY.value:
         return dataCollection.currentPatient?.medicalHistory || [];
       case MEDICAL_DETAILS.VITAL_SIGNS.value:
-        return dataCollection.currentPatient?.dataCollection || [];
+        return dataCollection.currentPatient?.vital_signs || [];
       case MEDICAL_DETAILS.ENCOUNTERS.value:
         return dataCollection.currentPatient?.encounter || [];
       default:

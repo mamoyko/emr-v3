@@ -1,5 +1,9 @@
 "use client";
+import { text } from "stream/consumers";
+
 import { format, parseISO, isValid } from "date-fns";
+
+import { CustomGenericButton } from "@/components/helperComponent/ButtonComponent";
 
 import { LoaderGeneric } from "../../helperComponent/componentGeneric/LoadingGenericComponent";
 
@@ -28,17 +32,37 @@ const PatientInfoComponent = ({ patient }) => {
           )}
         </div>
       </div>
-      <figure className="m-2 flex size-full flex-col rounded-lg bg-gradient-to-r from-green-600 via-teal-900 to-emerald-950 p-3 lg:flex lg:p-1">
-        <div className="size-full space-y-1 border border-b-white p-1 text-center lg:px-8 lg:py-1 lg:text-left">
+      <figure className="m-2 flex size-full flex-col rounded-lg bg-gradient-to-r from-green-600 via-teal-900 to-emerald-950 ">
+        {/* [MERGE_REFERENCE]  Conflict  */}
+        {/* <div className="size-full space-y-1 border border-b-white p-1 text-center lg:px-8 lg:py-1 lg:text-left"> */}
+        <div className="flex size-full flex-row items-center justify-between space-y-1 border-b p-1 pl-9">
+          {/* <div className="flex" /> */}
           <DetailComponent
             item={{
               label: null,
               value: patient?.name,
             }}
             hasLoading={true}
-            articleClass="items-center justify-center"
+            loadingControl={{
+              height: 10,
+              width: 20,
+              text: "",
+            }}
+            articleClass="items-center justify-start font-semibold"
+          />
+          <CustomGenericButton
+            onClick={() => console.log("asakjskahsas")}
+            isLoading={!patient.name}
+            baseClassStyle="text-xs"
+            loadingControl={{
+              height: 10,
+              width: 20,
+              text: "",
+            }}
+            buttonText="Edit"
           />
         </div>
+        {/* </div> */}
         <figure className="flex size-full flex-row rounded-lg bg-gradient-to-r from-green-600 via-teal-900 to-emerald-950 p-3 lg:flex lg:p-1">
           <span className="size-full space-y-1 text-center lg:px-8 lg:py-1 lg:text-left">
             {[
@@ -92,14 +116,19 @@ const DetailComponent = ({
   articleClass = null,
   valueClass = null,
   hasLoading = false,
+  loadingControl = {
+    height: 18,
+    width: 20,
+    text: "",
+  },
 }) => {
   return (
     <article
       key={item.label}
-      className={`flex w-full flex-col space-y-1 text-ellipsis text-center md:flex-row md:space-x-4 md:space-y-0 md:text-left ${articleClass}`}
+      className={`flex w-full flex-col space-y-1 text-ellipsis md:flex-row md:space-x-4 md:space-y-0 ${articleClass}`}
     >
       {item.label && (
-        <p className="w-full truncate border-t text-left text-sm sm:text-sm md:w-auto md:shrink-0 md:border-none lg:text-base">
+        <p className="w-full truncate border-t text-sm sm:text-sm md:shrink-0 md:border-none">
           {item.label}:
         </p>
       )}
@@ -108,7 +137,10 @@ const DetailComponent = ({
       >
         {!item.value ? (
           hasLoading ? (
-            <LoaderGeneric width={20} height={20} />
+            <LoaderGeneric
+              width={loadingControl.width}
+              height={loadingControl.height}
+            />
           ) : (
             item.value
           )
