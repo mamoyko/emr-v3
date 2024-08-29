@@ -117,13 +117,6 @@ export const PatientActionCell: React.FC<PatientCellProps> = ({ row }) => {
       >
         Medical Details
       </Button>
-      <Button
-        variant="ghost"
-        className=" text-lime-200 hover:text-orange-950"
-        onClick={() => routePath(`/admin/patients/edit/${patient.userId}`)}
-      >
-        Patient Details
-      </Button>
     </div>
   );
 };

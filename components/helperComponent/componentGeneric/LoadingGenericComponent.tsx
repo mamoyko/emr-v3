@@ -10,7 +10,7 @@ export const LoaderGeneric = ({
 }) => {
   return (
     <div
-      className={`flex size-full flex-col items-center justify-center text-center ${className}`}
+      className={`flex-col items-center justify-center text-center ${className}`}
     >
       <div className="flex items-center justify-center space-x-2">
         <Image
@@ -20,11 +20,7 @@ export const LoaderGeneric = ({
           height={height}
           className="animate-spin"
         />
-        {text !== "" && (
-          <span className="text-sm text-white sm:text-base lg:text-lg">
-            {text}
-          </span>
-        )}
+        {text !== "" && <span>{text}</span>}
       </div>
     </div>
   );

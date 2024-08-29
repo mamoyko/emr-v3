@@ -57,19 +57,7 @@ const PatientUpsertComponent = ({ type }) => {
           <EncountersUpsertV1FormPage
             type={type}
             handleSubmitForm={createOrUpdatePatient}
-            dataCollection={
-              {
-                // address: "",
-                // phone: "",
-                // email: "",
-                // gender: "",
-                // occupation: "",
-                // birthDate: "",
-                // emergencyContactName: "",
-                // emergencyContactNumber: "",
-                // name: "",
-              }
-            }
+            dataCollection={{}}
             userId={userId}
           />
         </section>

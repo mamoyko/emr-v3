@@ -2,6 +2,7 @@ import { Fragment } from "react";
 
 import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import MedicalDetailsFormHelper from "@/components/forms/singularMedicalDetailsForm/MedicalDetailsFormHelper";
+import { CustomGenericButton } from "@/components/helperComponent/ButtonComponent";
 import { DataTableDimension } from "@/components/table/DataTable";
 
 const EXCLUDED_MEDICAL_DETAILS = [MEDICAL_DETAILS.ENCOUNTERS.value];
@@ -26,18 +27,18 @@ export const TitleComponent = ({ tableProcess, handleDetailsClick }) => {
       ) ? (
         <Fragment />
       ) : (
-        <button
-          type="button"
-          disabled={false}
-          className={`text-white focus:outline-none ${
-            tableProcess.isInForm
-              ? "bg-red-700 hover:bg-red-800 focus:ring-red-300 dark:focus:ring-red-900"
-              : "bg-green-700 hover:bg-green-800 focus:ring-green-300 dark:focus:ring-green-800"
-          } mb-1 me-1 rounded-md px-3 py-1.5 text-xs font-medium`}
-          onClick={handleDetailsClick}
-        >
-          {tableProcess.isInForm ? "Back" : "Add"}
-        </button>
+        <CustomGenericButton
+          onClick={() => console.log("logging")}
+          isLoading={false}
+          baseClassStyle="text-xs"
+          buttonText="Add"
+          normalClassColor="green"
+          loadingControl={{
+            height: 10,
+            width: 20,
+            text: "",
+          }}
+        />
       )}
     </div>
   );
