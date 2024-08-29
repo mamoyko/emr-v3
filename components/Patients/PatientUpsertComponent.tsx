@@ -55,6 +55,7 @@ const PatientUpsertComponent = ({ type }) => {
         </section>
         <section className="admin-stat">
           <EncountersUpsertV1FormPage
+            classControl="w-2/3"
             type={type}
             handleSubmitForm={createOrUpdatePatient}
             dataCollection={{}}

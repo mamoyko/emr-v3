@@ -1,13 +1,23 @@
 "use client";
-import { text } from "stream/consumers";
+import { type } from "os";
 
 import { format, parseISO, isValid } from "date-fns";
+import { useEffect, useState } from "react";
 
+import EncountersUpsertV1FormPage from "@/components/forms/encounters/EncountersUpsertV1FormPage";
 import { CustomGenericButton } from "@/components/helperComponent/ButtonComponent";
+import { DialogGenericComponent } from "@/components/helperComponent/DialogComponent";
+import { SkeletonGeneric } from "@/components/helperComponent/SkeletonComponent";
+import UseRouting from "@/components/helperFunctions/UseRouting";
+import { updatePatient } from "@/lib/actions/patient.actions";
 
 import { LoaderGeneric } from "../../helperComponent/componentGeneric/LoadingGenericComponent";
 
 const PatientInfoComponent = ({ patient }) => {
+  const { getRoutePathId } = UseRouting();
+  const userId = getRoutePathId();
+  const [patientInfo, setPatientInfo] = useState<any>({});
+  const [dialogAction, setDialogAction] = useState<boolean>(false);
   const handleDateFormat = (dateString: string): string => {
     if (!dateString) return dateString;
     try {
@@ -20,19 +30,25 @@ const PatientInfoComponent = ({ patient }) => {
       return dateString;
     }
   };
+  const createOrUpdatePatient = async (patientId: string, patientData: any) => {
+    const response = await updatePatient(patientId, patientData);
+    if (response.ok) {
+      setPatientInfo(response?.data);
+    }
+  };
+
+  useEffect(() => {
+    setPatientInfo(patient);
+  }, [patient]);
 
   return (
     <div className="flex w-full flex-col items-center justify-center md:flex-row">
       <div className="flex h-[180px] w-[320px] items-start overflow-y-auto py-[6px] pl-2">
         <div className="flex size-full items-center justify-center rounded-lg bg-white text-black">
-          {!patient.name ? (
-            <LoaderGeneric width={20} height={20} text="" />
-          ) : (
-            "Image box"
-          )}
+          {!patient.name ? <SkeletonGeneric /> : "Image box"}
         </div>
       </div>
-      <figure className="m-2 flex size-full flex-col rounded-lg bg-gradient-to-r from-neutral-700 via-neutral-800 to-neutral-900">
+      <figure className="m-2 flex size-full flex-col rounded-lg bg-gradient-to-r from-neutral-700 via-neutral-800 to-neutral-900 p-1">
         <div className="flex size-full flex-row items-center justify-between space-y-1 border-b p-1 pl-9">
           <DetailComponent
             item={{
@@ -48,7 +64,9 @@ const PatientInfoComponent = ({ patient }) => {
             articleClass="items-center justify-start font-semibold"
           />
           <CustomGenericButton
-            onClick={() => console.log("asakjskahsas")}
+            onClick={() => {
+              setDialogAction(!dialogAction);
+            }}
             isLoading={!patient.name}
             baseClassStyle="text-xs"
             variant=""
@@ -60,9 +78,8 @@ const PatientInfoComponent = ({ patient }) => {
             buttonText="Edit"
           />
         </div>
-        {/* </div> */}
-        <figure className="flex size-full flex-row rounded-lg bg-gradient-to-r from-neutral-700 via-neutral-800 to-neutral-900 p-3 lg:flex lg:p-1">
-          <span className="size-full space-y-1 text-center lg:px-8 lg:py-1 lg:text-left">
+        <figure className="flex size-full flex-row rounded-lg bg-gradient-to-r from-neutral-700 via-neutral-800 to-neutral-900 p-1 ">
+          <span className="size-full space-y-2 text-center lg:px-8 lg:py-1 lg:text-left">
             {[
               { label: "Address", value: patient?.address || "" },
               { label: "Contact no.", value: patient?.phone || "" },
@@ -77,7 +94,7 @@ const PatientInfoComponent = ({ patient }) => {
               />
             ))}
           </span>
-          <span className="size-full space-y-1 text-center lg:px-8 lg:py-1 lg:text-left">
+          <span className="size-full space-y-2 text-center lg:px-8 lg:py-1 lg:text-left">
             {[
               { label: "Occupation", value: patient?.occupation || "" },
               {
@@ -103,6 +120,41 @@ const PatientInfoComponent = ({ patient }) => {
           </span>
         </figure>
       </figure>
+      <DialogGenericComponent
+        row={""}
+        ComponentDialogDescription={
+          <EncountersUpsertV1FormPage
+            type={"edit"}
+            classControl={"w-full"}
+            handleSubmitForm={createOrUpdatePatient}
+            dataCollection={{
+              patientId: userId,
+              patientInfo: {
+                address: patientInfo.address,
+                phone: patientInfo.phone,
+                email: patientInfo.email,
+                gender: patientInfo.gender,
+                occupation: patientInfo.occupation,
+                birthDate: patientInfo.birthDate,
+                emergencyContactName: patientInfo.emergencyContactName,
+                emergencyContactNumber: patientInfo.emergencyContactNumber,
+                name: patientInfo.name,
+              },
+            }}
+            userId={userId}
+          />
+        }
+        ComponentDialogTitle={`${patient?.name ?? ""} medical details`}
+        dialogStyle={null}
+        DialogComponentView={null}
+        dialogInAction={{
+          isInAction: true,
+          isOpenDialog: dialogAction,
+          handleDialogAction: () => {
+            setDialogAction(!dialogAction);
+          },
+        }}
+      />
     </div>
   );
 };
@@ -126,12 +178,12 @@ const DetailComponent = ({
       className={`flex w-full flex-col space-y-1 text-ellipsis md:flex-row md:space-x-4 md:space-y-0 ${articleClass}`}
     >
       {item.label && (
-        <p className="w-full truncate border-t text-sm sm:text-sm md:shrink-0 md:border-none">
+        <p className="truncate border-t text-sm sm:text-sm md:shrink-0 md:border-none">
           {item.label}:
         </p>
       )}
       <p
-        className={`flex w-full items-center truncate text-sm sm:text-sm md:w-auto lg:text-base ${valueClass}`}
+        className={`flex w-full items-center truncate text-sm sm:text-sm md:w-auto ${valueClass}`}
       >
         {!item.value ? (
           hasLoading ? (

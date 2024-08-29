@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Fragment } from "react";
 
 export const LoaderGeneric = ({
   src = "/assets/icons/loader.svg",
@@ -10,6 +9,7 @@ export const LoaderGeneric = ({
 }) => {
   return (
     <div
+      style={{ height: "100%" }}
       className={`flex-col items-center justify-center text-center ${className}`}
     >
       <div className="flex items-center justify-center space-x-2">

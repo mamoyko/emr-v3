@@ -59,7 +59,6 @@ export const PatientsNavigationPage = ({
   const handleParentProcess = () => {
     handleStateChange("isInForm", false);
   };
-  console.log("dataCollection.currentPatient", dataCollection.currentPatient);
   const handleGetPatientData = (value: string) => {
     switch (value) {
       case MEDICAL_DETAILS.SYMPTOMS.value:

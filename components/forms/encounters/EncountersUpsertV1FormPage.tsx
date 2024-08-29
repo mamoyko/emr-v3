@@ -26,6 +26,7 @@ interface EncountersUpsertV1FormPageProps {
   type: string;
   dataCollection?: any;
   userId: string;
+  classControl: string;
   handleSubmitForm: (
     patientId: string,
     dataCollection: FormData
@@ -37,13 +38,14 @@ const EncountersUpsertV1FormPage: React.FC<EncountersUpsertV1FormPageProps> = ({
   dataCollection,
   handleSubmitForm,
   userId,
+  classControl,
 }) => {
   const { height, width } = useWindowDimension();
   const form = useForm<z.infer<typeof CreatePatientSchema>>({
     resolver: zodResolver(CreatePatientSchema),
     defaultValues:
       type === "edit"
-        ? dataCollection
+        ? dataCollection.patientInfo
         : {
             address: "",
             phone: "",
@@ -70,7 +72,7 @@ const EncountersUpsertV1FormPage: React.FC<EncountersUpsertV1FormPageProps> = ({
           className="flex size-full flex-col items-center justify-center"
         >
           <div
-            className="flex w-2/3 grow flex-col gap-4 overflow-y-auto p-4"
+            className={`flex ${classControl} grow flex-col gap-4 overflow-y-auto p-4`}
             style={{
               height: height
                 ? `calc(${height}px - 335px)`

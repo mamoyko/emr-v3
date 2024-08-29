@@ -9,7 +9,7 @@ const EXCLUDED_MEDICAL_DETAILS = [MEDICAL_DETAILS.ENCOUNTERS.value];
 
 export const TitleComponent = ({ tableProcess, handleDetailsClick }) => {
   return (
-    <div className="flex h-[10px] w-full items-center justify-between">
+    <div className="flex w-full items-center justify-between">
       <div className="flex-1 truncate">
         <p className="text-xl tracking-wide">
           {
@@ -75,7 +75,7 @@ export const ContentComponent = ({
         />
       ) : (
         <DataTableDimension
-          heightToSubtrct={385 + VERTICAL_TAB_HEIGHT_CONTROL}
+          heightToSubtrct={400 + VERTICAL_TAB_HEIGHT_CONTROL}
           columns={tableProcess?.columnsTableData || []}
           data={tableProcess?.dataTableData || []}
         />

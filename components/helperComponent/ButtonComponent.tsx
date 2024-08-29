@@ -28,14 +28,20 @@ export const CustomGenericButton = ({
     variantClasses[variant] || variantClasses.default,
     isLoading ? loadingClasses : normalClasses
   );
-
   return (
-    <div className="flex items-center justify-center">
+    <div
+      className="flex items-center justify-center"
+      style={{ height: "100%" }}
+    >
       <button
         type="button"
         disabled={isLoading}
         className={buttonClasses}
         onClick={onClick}
+        style={{
+          height: "100%",
+          width: "100%",
+        }}
       >
         {isLoading ? (
           <LoaderGeneric

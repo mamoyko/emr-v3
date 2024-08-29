@@ -9,10 +9,9 @@ import { AppointmentModal } from "../AppointmentModal";
 import { MEDICAL_DETAILS } from "../enums/medicalDetailsEnums";
 import MedicalDetailsFormHelper from "../forms/singularMedicalDetailsForm/MedicalDetailsFormHelper";
 import TabularFormPage from "../forms/tabularDetailForms/TabularFormPage";
-import DialogCellComponent from "../helperComponent/DialogCellComponent";
 import "react-datepicker/dist/react-datepicker.css";
+import { DialogCellComponent } from "../helperComponent/DialogComponent";
 import UseRouting from "../helperFunctions/UseRouting";
-import useWindowDimension from "../helperFunctions/useWindowDimension";
 
 type ActionsCellProps = {
   row: Row<Appointment>;
