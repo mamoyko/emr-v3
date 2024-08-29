@@ -59,7 +59,7 @@ export const PatientsNavigationPage = ({
   const handleParentProcess = () => {
     handleStateChange("isInForm", false);
   };
-
+  console.log("dataCollection.currentPatient", dataCollection.currentPatient);
   const handleGetPatientData = (value: string) => {
     switch (value) {
       case MEDICAL_DETAILS.SYMPTOMS.value:
@@ -69,7 +69,7 @@ export const PatientsNavigationPage = ({
       case MEDICAL_DETAILS.MEDICAL_HISTORY.value:
         return dataCollection.currentPatient?.medicalHistory || [];
       case MEDICAL_DETAILS.VITAL_SIGNS.value:
-        return dataCollection.currentPatient?.vital_signs || [];
+        return dataCollection.currentPatient?.vitalSigns || [];
       case MEDICAL_DETAILS.ENCOUNTERS.value:
         return dataCollection.currentPatient?.encounter || [];
       default:
