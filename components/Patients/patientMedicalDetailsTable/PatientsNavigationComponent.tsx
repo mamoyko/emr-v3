@@ -9,7 +9,7 @@ const EXCLUDED_MEDICAL_DETAILS = [MEDICAL_DETAILS.ENCOUNTERS.value];
 
 export const TitleComponent = ({ tableProcess, handleDetailsClick }) => {
   return (
-    <div className=" flex h-[10px] w-full items-center justify-between">
+    <div className="flex h-[10px] w-full items-center justify-between">
       <div className="flex-1 truncate">
         <p className="text-xl tracking-wide">
           {
@@ -28,11 +28,11 @@ export const TitleComponent = ({ tableProcess, handleDetailsClick }) => {
         <Fragment />
       ) : (
         <CustomGenericButton
-          onClick={() => console.log("logging")}
+          onClick={handleDetailsClick}
           isLoading={false}
           baseClassStyle="text-xs"
-          buttonText="Add"
-          normalClassColor="green"
+          buttonText={tableProcess.isInForm ? "Back" : "Add"}
+          variant={tableProcess.isInForm ? "danger" : "primary"}
           loadingControl={{
             height: 10,
             width: 20,
