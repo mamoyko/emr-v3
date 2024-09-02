@@ -1,5 +1,4 @@
 "use client";
-import { type } from "os";
 
 import { format, parseISO, isValid } from "date-fns";
 import { useEffect, useState } from "react";
@@ -18,6 +17,8 @@ const PatientInfoComponent = ({ patient }) => {
   const userId = getRoutePathId();
   const [patientInfo, setPatientInfo] = useState<any>({});
   const [dialogAction, setDialogAction] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const handleDateFormat = (dateString: string): string => {
     if (!dateString) return dateString;
     try {
@@ -30,11 +31,14 @@ const PatientInfoComponent = ({ patient }) => {
       return dateString;
     }
   };
-  const createOrUpdatePatient = async (patientId: string, patientData: any) => {
+  const updatePatientInfo = async (patientId: string, patientData: any) => {
+    // setIsLoading(true);
     const response = await updatePatient(patientId, patientData);
+    console.log("response", response);
     if (response.ok) {
       setPatientInfo(response?.data);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -122,11 +126,16 @@ const PatientInfoComponent = ({ patient }) => {
       </figure>
       <DialogGenericComponent
         row={""}
+        ComponentDialogAction={<div></div>}
         ComponentDialogDescription={
           <EncountersUpsertV1FormPage
+            isLoading={isLoading}
+            handleClose={() => {
+              setDialogAction(!dialogAction);
+            }}
             type={"edit"}
             classControl={"w-full"}
-            handleSubmitForm={createOrUpdatePatient}
+            handleSubmitForm={updatePatientInfo}
             dataCollection={{
               patientId: userId,
               patientInfo: {

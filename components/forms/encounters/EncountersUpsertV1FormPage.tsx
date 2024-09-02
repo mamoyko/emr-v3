@@ -1,14 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SelectItem } from "@radix-ui/react-select";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
-import stringHelpers from "@/components/helperFunctions/stringHelpers";
 import useWindowDimension from "@/components/helperFunctions/useWindowDimension";
+import { SelectItem } from "@/components/ui/select";
 import { CreatePatientSchema } from "@/lib/validation";
-
-import { Patient } from "../../../types/appwrite.types";
 
 interface FormData {
   address: string;
@@ -16,7 +13,7 @@ interface FormData {
   email: string;
   gender: string;
   occupation: string;
-  birthDate: string;
+  birthDate: Date;
   emergencyContactName: string;
   emergencyContactNumber: string;
   name: string;
@@ -31,6 +28,8 @@ interface EncountersUpsertV1FormPageProps {
     patientId: string,
     dataCollection: FormData
   ) => Promise<void>;
+  handleClose: () => void;
+  isLoading: boolean;
 }
 
 const EncountersUpsertV1FormPage: React.FC<EncountersUpsertV1FormPageProps> = ({
@@ -39,29 +38,43 @@ const EncountersUpsertV1FormPage: React.FC<EncountersUpsertV1FormPageProps> = ({
   handleSubmitForm,
   userId,
   classControl,
+  handleClose = () => {},
+  isLoading = false,
 }) => {
   const { height, width } = useWindowDimension();
   const form = useForm<z.infer<typeof CreatePatientSchema>>({
     resolver: zodResolver(CreatePatientSchema),
     defaultValues:
       type === "edit"
-        ? dataCollection.patientInfo
+        ? {
+            address: dataCollection.patientInfo.address,
+            phone: dataCollection.patientInfo.phone,
+            email: dataCollection.patientInfo.email,
+            gender: dataCollection.patientInfo.gender,
+            occupation: dataCollection.patientInfo.occupation,
+            birthDate: new Date(dataCollection.patientInfo.birthDate),
+            emergencyContactName:
+              dataCollection.patientInfo.emergencyContactName,
+            emergencyContactNumber:
+              dataCollection.patientInfo.emergencyContactNumber,
+            name: dataCollection.patientInfo.name,
+          }
         : {
             address: "",
             phone: "",
             email: "",
             gender: "",
             occupation: "",
-            birthDate: "",
+            birthDate: new Date(Date.now()),
             emergencyContactName: "",
             emergencyContactNumber: "",
             name: "",
           },
   });
-  const { handleSubmit, control } = form;
-
+  const { handleSubmit, control, reset } = form;
   const handleSubmitData = (formData: any) => {
-    handleSubmitForm(dataCollection?.patientId, formData);
+    formData.birthDate = new Date(formData.birthDate);
+    handleSubmitForm(userId, formData);
   };
 
   return (
@@ -75,7 +88,7 @@ const EncountersUpsertV1FormPage: React.FC<EncountersUpsertV1FormPageProps> = ({
             className={`flex ${classControl} grow flex-col gap-4 overflow-y-auto p-4`}
             style={{
               height: height
-                ? `calc(${height}px - 335px)`
+                ? `calc(${height}px - 330px)`
                 : `calc(100vh - 340px)`,
             }}
           >
@@ -89,18 +102,19 @@ const EncountersUpsertV1FormPage: React.FC<EncountersUpsertV1FormPageProps> = ({
               fieldType={FormFieldType.INPUT}
             />
             <CustomFormField
-              control={control}
+              control={form.control}
               name="gender"
               label="Gender"
               fieldType={FormFieldType.SELECT}
+              placeholder="Select a gender"
             >
-              {["male", "female"].map((genderData, i) => (
-                <SelectItem
-                  key={i}
-                  value={stringHelpers.capitalFirst({ value: genderData })}
-                >
+              {[
+                { value: "Male", label: "Male" },
+                { value: "Female", label: "Female" },
+              ].map((genderData, i) => (
+                <SelectItem key={genderData.value} value={genderData.value}>
                   <div className="flex cursor-pointer items-center gap-2">
-                    <p>{stringHelpers.capitalFirst({ value: genderData })}</p>
+                    <p>{genderData.value}</p>
                   </div>
                 </SelectItem>
               ))}
@@ -128,16 +142,11 @@ const EncountersUpsertV1FormPage: React.FC<EncountersUpsertV1FormPageProps> = ({
               fieldType={FormFieldType.INPUT}
             />
             <CustomFormField
+              fieldType={FormFieldType.DATE_PICKER}
               control={control}
               name="birthDate"
               label="Birth Date"
-              fieldType={FormFieldType.DATE_PICKER}
-            />
-            <CustomFormField
-              control={control}
-              name="occupation"
-              label="Occupation"
-              fieldType={FormFieldType.INPUT}
+              dateFormat="MM/dd/yyyy"
             />
 
             <div className="flex grow flex-col gap-4">
@@ -159,14 +168,27 @@ const EncountersUpsertV1FormPage: React.FC<EncountersUpsertV1FormPageProps> = ({
               />
             </div>
           </div>
-
-          <div className="grid w-2/3 items-center justify-end pr-4">
-            <button
-              type="submit"
-              className="rounded bg-blue-500 px-10 py-2 text-white"
-            >
-              Submit
-            </button>
+          <div
+            className={`${classControl} m-2 flex items-end justify-end border-white`}
+          >
+            <div className={" space-x-1"}>
+              {type !== "create" && (
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  className="flex-1 rounded bg-red-500 px-4 py-2 text-white"
+                >
+                  Cancel
+                </button>
+              )}
+              <button
+                type="submit"
+                disabled={isLoading}
+                className={`${isLoading ? "cursor-not-allowed" : "cursor-pointer"}flex-1 rounded bg-blue-500 px-4 py-2 text-white`}
+              >
+                Submit
+              </button>
+            </div>
           </div>
         </form>
       </FormProvider>

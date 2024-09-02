@@ -55,11 +55,13 @@ const PatientUpsertComponent = ({ type }) => {
         </section>
         <section className="admin-stat">
           <EncountersUpsertV1FormPage
+            handleClose={() => {}}
             classControl="w-2/3"
             type={type}
             handleSubmitForm={createOrUpdatePatient}
             dataCollection={{}}
             userId={userId}
+            isLoading={false}
           />
         </section>
       </main>

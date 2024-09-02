@@ -21,6 +21,7 @@ type DialogGenericComponentProps = {
   row: any;
   ComponentDialogDescription: ReactNode;
   ComponentDialogTitle: ReactNode;
+  ComponentDialogAction: ReactNode;
   dialogStyle: any;
   DialogComponentView: ReactNode;
   dialogInAction: any;
@@ -85,12 +86,14 @@ export const DialogGenericComponent: React.FC<DialogGenericComponentProps> = ({
   row,
   ComponentDialogDescription,
   ComponentDialogTitle,
+  ComponentDialogAction,
   dialogStyle,
   DialogComponentView,
   dialogInAction = {
     isInAction: false,
     isOpenDialog: false,
     handleDialogAction: () => {},
+    unHideFooter: false,
   },
 }) => {
   return (
@@ -112,7 +115,6 @@ export const DialogGenericComponent: React.FC<DialogGenericComponentProps> = ({
         >
           <DialogHeader className="pb-6 pt-4">
             <DialogTitle>{ComponentDialogTitle}</DialogTitle>
-            <div className="w-full border" />
           </DialogHeader>
           <DialogDescription
             className="flex grow flex-col overflow-auto"
@@ -120,18 +122,23 @@ export const DialogGenericComponent: React.FC<DialogGenericComponentProps> = ({
           >
             {ComponentDialogDescription}
           </DialogDescription>
-          <DialogFooter className="pb-4 pr-4">
-            <Button
-              onClick={() => {
-                dialogInAction.handleDialogAction(!dialogInAction.isOpenDialog);
-              }}
-              type="button"
-              variant="secondary"
-              size="sm"
-            >
-              Close
-            </Button>
-          </DialogFooter>
+          {dialogInAction?.unHideFooter && (
+            <DialogFooter className="pb-4 pr-4">
+              {ComponentDialogAction && ComponentDialogAction}
+              <Button
+                onClick={() => {
+                  dialogInAction?.handleDialogAction(
+                    !dialogInAction?.isOpenDialog
+                  );
+                }}
+                type="button"
+                variant="secondary"
+                size="sm"
+              >
+                Close
+              </Button>
+            </DialogFooter>
+          )}
         </DialogContent>
       </CommandDialog>
     </Fragment>

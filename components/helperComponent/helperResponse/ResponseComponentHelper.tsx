@@ -35,18 +35,18 @@ export const useResponse = () => {
   const error = () => {
     showToast({
       title: "Error",
-      // description: "An error occurred. Please try again.",
-      // actionText: "Retry",
-      // actionAltText: "Retry the action",
+      description: "An error occurred. Please try again.",
+      actionText: "Retry",
+      actionAltText: "Retry the action",
     });
   };
 
   const success = () => {
     showToast({
       title: "Success",
-      // description: "The operation was successful.",
-      // actionText: "View",
-      // actionAltText: "View details",
+      description: "The operation was successful.",
+      actionText: "View",
+      actionAltText: "View details",
     });
   };
 

@@ -1,5 +1,7 @@
 "use server";
 
+import { Console } from "console";
+
 import { ID, InputFile, Query } from "node-appwrite";
 
 import {
@@ -9,7 +11,6 @@ import {
   responseSuccess,
 } from "../../components/helperComponent/helperResponse/FnResponseHelper";
 import {
-  APPOINTMENT_COLLECTION_ID,
   BUCKET_ID,
   DATABASE_ID,
   ENDPOINT,
@@ -69,13 +70,16 @@ export const updatePatient = async (
   patientId: string,
   patient: CreateOrUpdatePatientParams
 ) => {
+  console.log("++++++++++++++++", patientId, patient);
+
   try {
     const updatedPatient = await databases.updateDocument(
       DATABASE_ID!,
-      APPOINTMENT_COLLECTION_ID!,
+      PATIENT_COLLECTION_ID!,
       patientId,
       patient
     );
+    console.log("------------------", updatedPatient);
     const data = parseStringify(updatedPatient);
     return responseCreate({ successData: data?.document });
   } catch (error: any) {

@@ -110,7 +110,7 @@ export const CreatePatientSchema = z.object({
   email: z.string().min(1, " is required"),
   gender: z.string().min(1, " is required"),
   occupation: z.string().min(1, "is required"),
-  birthDate: z.string().min(1, "is required"),
+  birthDate: z.coerce.date(),
   emergencyContactName: z.string().min(1, "is required"),
   emergencyContactNumber: z.string().min(1, "is required"),
   name: z.string().min(1, "is required"),
