@@ -1,68 +1,73 @@
 "use client";
 
 import Image from "next/image";
-import React, { Fragment, useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import "./FileUploader.css";
 
+import "./FileUploader.css";
 import { convertFileToUrl } from "@/lib/utils";
 
+import { useResponse } from "../helperComponent/helperResponse/ResponseComponentHelper";
+
 type FileUploaderV1Props = {
-  // files: File[] | undefined;
-  onChange: () => void;
-  maxFiles: number;
+  files?: File[];
+  onChange: (data: any) => void;
+  uploadControl?: {
+    maxUploadFile: number;
+    maxAcceptFile: number;
+  };
 };
 
-type FileCollectionProps = {
-  fileRejections: any[];
-  acceptedFiles: any[];
+type FileProps = {
+  name: string;
 };
 
-export const FileUploaderV1 = ({
-  // files,
+const FileUploaderV1: React.FC<FileUploaderV1Props> = ({
+  files,
   onChange,
-  maxFiles,
-}: FileUploaderV1Props) => {
-  const [fileCollection, setFileCollection] = useState<FileCollectionProps>({
-    fileRejections: [],
-    acceptedFiles: [],
-  });
+  uploadControl = { maxUploadFile: 1, maxAcceptFile: 1 },
+}) => {
+  const { warning, info, success, error } = useResponse();
+  const [fileCollection, setFileCollection] = useState<File[]>([]);
+
   const onDrop = useCallback(
-    (acceptedFiles: File[], fileRejections: any[], event: any) => {
-      onChange();
-      const isAccepted = acceptedFiles.length > 0;
-      const collectionType = isAccepted ? "acceptedFiles" : "fileRejections";
-
-      const isDuplicate =
-        isAccepted &&
-        fileCollection.acceptedFiles.some(
-          (file) => file.name === acceptedFiles[0].name
-        );
-
-      if (isDuplicate) {
-        alert("Duplicate file detected!");
-        return;
+    (acceptedFiles: File[], fileRejections: any[]) => {
+      if (fileCollection.length >= uploadControl.maxAcceptFile) {
+        return warning("Maximum file limit reached.");
       }
 
-      const newFiles = isAccepted ? acceptedFiles : fileRejections;
+      if (fileRejections.length > 0) {
+        const errorMessage =
+          fileRejections[0]?.errors[0]?.message || "Something went wrong!";
+        return error(errorMessage);
+      }
 
-      setFileCollection((prevCollection) => ({
-        ...prevCollection,
-        [collectionType]: [...prevCollection[collectionType], ...newFiles],
-      }));
+      const currentFileNames = new Set(fileCollection.map((file) => file.name));
+      const newFiles = acceptedFiles.filter(
+        (file) => !currentFileNames.has(file.name)
+      );
+
+      if (newFiles.length !== acceptedFiles.length) {
+        warning("Duplicate files removed!");
+      }
+
+      if (
+        fileCollection.length + newFiles.length >
+        uploadControl.maxAcceptFile
+      ) {
+        return warning(
+          "Adding these files will exceed the maximum allowed limit."
+        );
+      }
+      const collection = [...newFiles, ...fileCollection];
+      setFileCollection(collection);
+      onChange(collection);
+      success("Files uploaded successfully!");
     },
-    [onChange, fileCollection]
+    [fileCollection, uploadControl]
   );
 
-  console.log("fileCollection", fileCollection);
-
-  const {
-    getRootProps,
-    getInputProps,
-    isDragActive,
-    fileRejections,
-    acceptedFiles,
-  } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
       "image/jpeg": [".jpg", ".jpeg"],
@@ -70,107 +75,85 @@ export const FileUploaderV1 = ({
       "image/gif": [".gif"],
       "image/svg+xml": [".svg"],
     },
-    maxFiles,
-    // fileRejections: [],
+    maxFiles: uploadControl.maxUploadFile,
   });
+
+  const handleRemoveFile = (name: string) => {
+    let collection = [...fileCollection];
+    collection = collection.filter((file) => file.name !== name);
+    setFileCollection(collection);
+    onChange(collection);
+    info("File removed!");
+  };
+
+  useEffect(() => {
+    if (files.length !== 0) setFileCollection(files || []);
+  }, [files]);
 
   return (
     <div className="file-uploader-container">
       <div
         {...getRootProps()}
         className={`file-upload ${isDragActive ? "drag-active" : ""}`}
-        // style={{
-        //   textAlign: "center",
-        //   backgroundColor: isDragActive ? "#f0f0f0" : "#qqqqq",
-        //   transition: "background-color 0.3s ease",
-        //   flex: "1",
-        //   border: ".01px dashed #ddd",
-        // }}
       >
         <FileUploadComponent />
         <input {...getInputProps()} />
-        {fileCollection.acceptedFiles.map((file, index) => {
-          return (
-            <div
-              key={index}
-              style={{
-                textAlign: "center",
-                backgroundColor: isDragActive ? "#f0f0f0" : "#qqqqq",
-                transition: "background-color 0.3s ease",
-                flex: "1",
-                border: ".01px dashed #ddd",
-              }}
-            >
-              <FilePreview file={file} />
+        {fileCollection.map((file, index) => (
+          <div
+            key={index}
+            className="size-full"
+            style={{
+              textAlign: "center",
+              transition: "background-color 0.3s ease",
+            }}
+          >
+            <div className="flex w-full items-center justify-end">
+              <button
+                type="button"
+                onClick={(event) => {
+                  handleRemoveFile(file.name);
+                  event.stopPropagation();
+                }}
+                className="rounded-sm border-red-200 bg-red-700 p-0.5"
+              >
+                Remove
+              </button>
             </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
-
-const FilePreview = ({ file }) => {
-  return (
-    <Fragment>
-      {/* {Object.entries(file ?? {}).length !== 0 ? ( */}
-      <div
-        className="file-preview"
-        style={{
-          border: "1px solid white",
-        }}
-      >
-        <Image
-          src={convertFileToUrl(file)}
-          width={300}
-          height={300}
-          alt="Uploaded preview"
-          className="object-cover"
-        />
-      </div>
-      {/* ) : (
-        <div className="file-upload_placeholder">
-          <Image
-            src="/assets/icons/upload.svg"
-            width={40}
-            height={40}
-            alt="Upload"
-          />
-          <div className="file-upload_label">
-            <p className="text-14-regular">
-              <span className="text-green-500">Click to upload</span> or drag
-              and drop
-            </p>
-            <p className="text-12-regular">
-              SVG, PNG, JPG or GIF (max. 800x400px)
-            </p>
+            <FilePreview file={file} />
           </div>
-        </div>
-      )} */}
-    </Fragment>
-  );
-};
-
-const FileUploadComponent = () => {
-  return (
-    <div>
-      <div className="file-upload_placeholder">
-        <Image
-          src="/assets/icons/upload.svg"
-          width={40}
-          height={40}
-          alt="Upload"
-        />
-        <div className="file-upload_label">
-          <p className="text-14-regular">
-            <span className="text-green-500">Click to upload</span> or drag and
-            drop
-          </p>
-          <p className="text-12-regular">
-            SVG, PNG, JPG or GIF (max. 800x400px)
-          </p>
-        </div>
+        ))}
       </div>
     </div>
   );
 };
+
+type FilePreviewProps = {
+  file: FileProps;
+};
+
+const FilePreview: React.FC<FilePreviewProps> = ({ file }: any) => (
+  <div className="file-preview" style={{ position: "relative" }}>
+    <Image
+      src={convertFileToUrl(file)}
+      width={300}
+      height={200}
+      alt="Uploaded preview"
+      className="object-cover"
+      style={{ objectFit: "cover" }}
+    />
+  </div>
+);
+
+const FileUploadComponent: React.FC = () => (
+  <div className="file-upload_placeholder">
+    <Image src="/assets/icons/upload.svg" width={40} height={40} alt="Upload" />
+    <div className="file-upload_label">
+      <p className="text-14-regular">
+        <span className="text-green-500">Click to upload</span> or drag and drop
+      </p>
+      <p className="text-12-regular">SVG, PNG, JPG or GIF (max. 800x400px)</p>
+    </div>
+  </div>
+);
+
+export default FileUploaderV1;
