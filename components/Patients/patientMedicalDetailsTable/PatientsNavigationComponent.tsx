@@ -37,6 +37,7 @@ export const TitleComponent = ({ tableProcess, handleDetailsClick }) => {
             height: 10,
             width: 20,
             text: "",
+            brightness: "80%",
           }}
         />
       )}
