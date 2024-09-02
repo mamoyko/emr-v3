@@ -32,7 +32,7 @@ const PatientInfoComponent = ({ patient }) => {
     }
   };
   const updatePatientInfo = async (patientId: string, patientData: any) => {
-    // setIsLoading(true);
+    setIsLoading(true);
     const response = await updatePatient(patientId, patientData);
     console.log("response", response);
     if (response.ok) {
@@ -47,9 +47,19 @@ const PatientInfoComponent = ({ patient }) => {
 
   return (
     <div className="flex w-full flex-col items-center justify-center md:flex-row">
-      <div className="flex h-[180px] w-[320px] items-start overflow-y-auto py-[6px] pl-2">
+      <div className="flex h-[180px] w-[320px] items-center justify-center overflow-y-auto py-[6px] pl-2">
         <div className="flex size-full items-center justify-center rounded-lg bg-white text-black">
-          {!patient.name ? <SkeletonGeneric /> : "Image box"}
+          {!patient.name ? (
+            <SkeletonGeneric
+              loaderControl={{
+                height: 40,
+                width: 40,
+                brightness: "0%",
+              }}
+            />
+          ) : (
+            "Image box"
+          )}
         </div>
       </div>
       <figure className="m-2 flex size-full flex-col rounded-lg bg-gradient-to-r from-neutral-700 via-neutral-800 to-neutral-900 p-1">
@@ -72,14 +82,15 @@ const PatientInfoComponent = ({ patient }) => {
               setDialogAction(!dialogAction);
             }}
             isLoading={!patient.name}
+            variant="default"
             baseClassStyle="text-xs"
-            variant=""
+            buttonText="Edit"
             loadingControl={{
               height: 10,
               width: 20,
               text: "",
+              brightness: "0%",
             }}
-            buttonText="Edit"
           />
         </div>
         <figure className="flex size-full flex-row rounded-lg bg-gradient-to-r from-neutral-700 via-neutral-800 to-neutral-900 p-1 ">
@@ -197,6 +208,7 @@ const DetailComponent = ({
         {!item.value ? (
           hasLoading ? (
             <LoaderGeneric
+              brightness="100%"
               width={loadingControl.width}
               height={loadingControl.height}
             />

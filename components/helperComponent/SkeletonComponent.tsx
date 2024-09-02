@@ -1,14 +1,26 @@
-import { LoaderGeneric } from "./componentGeneric/LoadingGenericComponent";
+import { LoaderRelativity } from "./componentGeneric/LoadingGenericComponent";
 
-export const SkeletonGeneric = ({ componentCount = 3 }) => {
+export const SkeletonGeneric = ({
+  loaderControl = {
+    height: 20,
+    width: 20,
+    brightness: "50%",
+  },
+  componentCount = 3,
+  loderText = "",
+}) => {
   return (
     <div
       role="status"
-      style={{ border: "1px solid black" }}
       className="flex size-full grow animate-pulse items-center justify-center"
     >
-      <div className="bg-gray-200 p-2 dark:bg-gray-700">
-        <LoaderGeneric />
+      <div className="flex size-full items-center justify-center bg-gray-200 p-2 dark:bg-gray-700">
+        <LoaderRelativity
+          height={loaderControl.height}
+          width={loaderControl.width}
+          text={loderText}
+          brightness={loaderControl.brightness}
+        />
       </div>
     </div>
   );
