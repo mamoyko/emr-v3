@@ -89,7 +89,7 @@ export const FileUploaderV1 = ({
       >
         <FileUploadComponent />
         <input {...getInputProps()} />
-        {acceptedFiles.map((file, index) => {
+        {fileCollection.acceptedFiles.map((file, index) => {
           return (
             <div
               key={index}

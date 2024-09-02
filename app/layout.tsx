@@ -3,9 +3,7 @@ import "./globals.css";
 import { Plus_Jakarta_Sans as FontSans } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 
-import { ToastProvider } from "@/components/ui/toast"; // Ensure this is the correct provider
-// import "your-toast-library/dist/styles.css"; // Import the CSS if required
-
+import { Toaster } from "@/components/ui/toaster/toaster";
 import { cn } from "@/lib/utils";
 
 const fontSans = FontSans({
@@ -37,7 +35,8 @@ export default function RootLayout({
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="dark">
-          <ToastProvider>{children}</ToastProvider>
+          <Toaster />
+          {children}
         </ThemeProvider>
       </body>
     </html>

@@ -3,16 +3,17 @@
 import React from "react";
 
 import { ToastAction } from "@/components/ui/toast";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/toaster/use-toast";
 
 interface ToastOptions {
   title: string;
   description?: string;
   actionText?: string;
   actionAltText?: string;
+  variant?: "default" | "error" | "success" | "info" | "warning";
 }
 
-export const useResponse = () => {
+const useToastHandler = () => {
   const { toast } = useToast();
 
   const showToast = ({
@@ -20,10 +21,12 @@ export const useResponse = () => {
     description,
     actionText,
     actionAltText,
+    variant,
   }: ToastOptions) => {
-    return toast({
+    toast({
       title,
       description,
+      variant,
       action: actionText ? (
         <ToastAction altText={actionAltText || "Undo"}>
           {actionText}
@@ -32,23 +35,67 @@ export const useResponse = () => {
     });
   };
 
-  const error = () => {
+  return { showToast };
+};
+
+export const useResponse = () => {
+  const { showToast } = useToastHandler();
+
+  const error = (message = "") => {
     showToast({
       title: "Error",
-      description: "An error occurred. Please try again.",
+      description: message,
+      variant: "error",
+    });
+  };
+
+  const success = (message = "") => {
+    showToast({
+      title: "Success",
+      description: message,
+      variant: "success",
+    });
+  };
+
+  const warning = (message = "") => {
+    showToast({
+      title: "Warning",
+      description: message,
+      variant: "warning",
+    });
+  };
+
+  const info = (message = "") => {
+    showToast({
+      title: "Info",
+      description: message,
+      variant: "info",
+    });
+  };
+
+  return { error, success, info, warning };
+};
+
+export const useResponseAction = () => {
+  const { showToast } = useToastHandler();
+
+  const errorAction = (description = "") => {
+    showToast({
+      title: "Error",
+      description,
       actionText: "Retry",
       actionAltText: "Retry the action",
     });
   };
 
-  const success = () => {
+  const successAction = (description = "") => {
     showToast({
       title: "Success",
-      description: "The operation was successful.",
+      description,
       actionText: "View",
       actionAltText: "View details",
     });
   };
 
-  return { error, success };
+  return { errorAction, successAction };
 };
