@@ -30,8 +30,15 @@ export const SandBoxPage: React.FC = () => {
         </section>
         <section className="admin-stat">test corner</section>
         <DataTableTest data={[]} />
-
-        <FileUploader files={files} onChange={(data) => setFiles(data)} />
+        <FileUploaderV1
+          uploadControl={{
+            maxUploadFile: 5,
+            maxAcceptFile: 5,
+          }}
+          files={files}
+          onChange={handleFileChange}
+        />
+        {/* <FileUploader files={files} onChange={(data) => setFiles(data)} /> */}
       </main>
     </div>
   );

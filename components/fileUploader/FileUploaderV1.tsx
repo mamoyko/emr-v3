@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
 import "./FileUploader.css";
@@ -86,42 +86,15 @@ const FileUploaderV1: React.FC<FileUploaderV1Props> = ({
     info("File removed!");
   };
 
-  useEffect(() => {
-    if (files.length !== 0) setFileCollection(files || []);
-  }, [files]);
-
   return (
     <div className="file-uploader-container">
       <div
         {...getRootProps()}
         className={`file-upload ${isDragActive ? "drag-active" : ""}`}
       >
-        <FileUploadComponent />
+        {/* <FileUploadComponent /> */}
         <input {...getInputProps()} />
-        {fileCollection.map((file, index) => (
-          <div
-            key={index}
-            className="size-full"
-            style={{
-              textAlign: "center",
-              transition: "background-color 0.3s ease",
-            }}
-          >
-            <div className="flex w-full items-center justify-end">
-              <button
-                type="button"
-                onClick={(event) => {
-                  handleRemoveFile(file.name);
-                  event.stopPropagation();
-                }}
-                className="rounded-sm border-red-200 bg-red-700 p-0.5"
-              >
-                Remove
-              </button>
-            </div>
-            <FilePreview file={file} />
-          </div>
-        ))}
+        <ImageList files={fileCollection} handleRemoveFile={handleRemoveFile} />
       </div>
     </div>
   );
@@ -146,7 +119,12 @@ const FilePreview: React.FC<FilePreviewProps> = ({ file }: any) => (
 
 const FileUploadComponent: React.FC = () => (
   <div className="file-upload_placeholder">
-    <Image src="/assets/icons/upload.svg" width={40} height={40} alt="Upload" />
+    <Image
+      src="/assets/icons/upload.svg"
+      width={40}
+      height={100}
+      alt="Upload"
+    />
     <div className="file-upload_label">
       <p className="text-14-regular">
         <span className="text-green-500">Click to upload</span> or drag and drop
@@ -155,5 +133,76 @@ const FileUploadComponent: React.FC = () => (
     </div>
   </div>
 );
+
+type ImageListProps = {
+  files: File[];
+  handleRemoveFile: (name: string) => void;
+};
+
+const ImageList: React.FC<ImageListProps> = ({ files, handleRemoveFile }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const totalImages = files.length;
+
+  const handleNext = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % totalImages);
+  };
+
+  const handlePrevious = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + totalImages) % totalImages);
+  };
+
+  if (totalImages === 0) {
+    return (
+      <Fragment>
+        <FileUploadComponent />
+      </Fragment>
+    );
+  }
+
+  return (
+    <div
+      className="flex size-full flex-col gap-1 bg-inherit"
+      // style={{ border: "0.5 solid white" }}
+    >
+      <div className="flex max-w-md flex-row rounded-lg bg-inherit">
+        {totalImages >= 2 && (
+          <button onClick={handlePrevious} className="h-full w-5 bg-inherit">
+            &lt;
+          </button>
+        )}
+        <div className="relative w-full max-w-md overflow-hidden rounded-sm shadow-lg">
+          <Image
+            src={convertFileToUrl(files[currentIndex])}
+            width={300}
+            height={200}
+            alt="Uploaded preview"
+            className="object-cover"
+          />
+        </div>
+        {totalImages >= 2 && (
+          <button onClick={handleNext} className="h-full w-5 bg-inherit">
+            &gt;
+          </button>
+        )}
+      </div>
+
+      <div className="flex size-full items-center justify-between bg-inherit px-5 ">
+        <button
+          type="button"
+          onClick={(event) => {
+            handleRemoveFile(files[currentIndex]?.name);
+            event.stopPropagation();
+          }}
+          className="rounded-xl border-red-200 bg-red-700 px-1 text-left font-bold"
+        >
+          x
+        </button>
+        <span>{`${currentIndex + 1}/${totalImages}`}</span>
+      </div>
+    </div>
+  );
+};
 
 export default FileUploaderV1;

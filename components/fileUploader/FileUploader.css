@@ -10,8 +10,8 @@
   border: 1px solid #6e1e1e;
   padding: 1px;
   background-color: #00000000;
-  /* max-width: 225px;
-  max-height: 150px; */
+  max-width: 225px;
+  max-height: 225px;
 }
 
 .file-upload_placeholder {
