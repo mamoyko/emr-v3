@@ -69,6 +69,17 @@ const FileUploaderGeneric: React.FC<FileUploaderGenericProps> = ({
     [fileCollection, uploadControl]
   );
 
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      "image/jpeg": [".jpg", ".jpeg"],
+      "image/png": [".png"],
+      "image/gif": [".gif"],
+      "image/svg+xml": [".svg"],
+    },
+    maxFiles: uploadControl.maxUploadFile,
+  });
+
   const handleNext = (event: React.MouseEvent<HTMLButtonElement>) => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % fileCollection.length);
     event.stopPropagation();
@@ -82,17 +93,6 @@ const FileUploaderGeneric: React.FC<FileUploaderGenericProps> = ({
     event.stopPropagation();
   };
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/jpeg": [".jpg", ".jpeg"],
-      "image/png": [".png"],
-      "image/gif": [".gif"],
-      "image/svg+xml": [".svg"],
-    },
-    maxFiles: uploadControl.maxUploadFile,
-  });
-
   const handleRemoveFile = (name: string) => {
     let collection = [...fileCollection];
     collection = collection.filter((file) => file.name !== name);
@@ -103,12 +103,14 @@ const FileUploaderGeneric: React.FC<FileUploaderGenericProps> = ({
 
   return (
     <div className="">
-      <ImageListHeader
-        currentFile={fileCollection[currentIndex]}
-        handleRemoveFile={handleRemoveFile}
-        totalImages={fileCollection.length}
-        currentIndex={currentIndex}
-      />
+      {fileCollection.length !== 0 && (
+        <ImageListHeader
+          currentFile={fileCollection[currentIndex]}
+          handleRemoveFile={handleRemoveFile}
+          totalImages={fileCollection.length}
+          currentIndex={currentIndex}
+        />
+      )}
       <div className="file-uploader-container">
         <div
           {...getRootProps()}

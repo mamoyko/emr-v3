@@ -70,8 +70,6 @@ export const updatePatient = async (
   patientId: string,
   patient: CreateOrUpdatePatientParams
 ) => {
-  console.log("++++++++++++++++", patientId, patient);
-
   try {
     const updatedPatient = await databases.updateDocument(
       DATABASE_ID!,
@@ -79,7 +77,6 @@ export const updatePatient = async (
       patientId,
       patient
     );
-    console.log("------------------", updatedPatient);
     const data = parseStringify(updatedPatient);
     return responseCreate({ successData: data?.document });
   } catch (error: any) {

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Header } from "@/components/Header";
 
 import { FileUploader } from "./fileUploader/FileUploader";
-import FileUploaderV1 from "./fileUploader/FileUploaderV1";
+import FileUploaderGeneric from "./fileUploader/FileUploaderGeneric";
 import { useResponse } from "./helperComponent/helperResponse/ResponseComponentHelper";
 import { DataTableTest } from "./table/DataTable";
 
@@ -30,7 +30,7 @@ export const SandBoxPage: React.FC = () => {
         </section>
         <section className="admin-stat">test corner</section>
         <DataTableTest data={[]} />
-        <FileUploaderV1
+        <FileUploaderGeneric
           uploadControl={{
             maxUploadFile: 5,
             maxAcceptFile: 5,
