@@ -5,6 +5,7 @@ import FormMedicalHistory from "@/components/forms/medicalDetailsForm/FormMedica
 import FormPhysicalExaminationFindings from "@/components/forms/medicalDetailsForm/FormPhysicalExaminationFindings";
 import FormSymptoms from "@/components/forms/medicalDetailsForm/FormSymptoms";
 import FormVitalSigns from "@/components/forms/medicalDetailsForm/FormVitalSigns";
+import { useResponse } from "@/components/helperComponent/helperResponse/ResponseComponentHelper";
 import { createEncounter } from "@/lib/actions/encounters.action";
 import { createMedicalHistory } from "@/lib/actions/medicalHistory.actions";
 import { createPhysicalExamFindings } from "@/lib/actions/physicalExaminationFindings.actions";
@@ -58,6 +59,7 @@ const MedicalDetailsFormHelper = ({
   handleLoading,
   handleReturn,
 }: MedicalDetailsFormHelperProps) => {
+  const { error, success } = useResponse();
   const params = useParams();
   const patientId: string = params.id as string;
 
@@ -69,10 +71,12 @@ const MedicalDetailsFormHelper = ({
     const result = await fetchFunction(dataCollection);
 
     if (result?.ok) {
+      success(result?.messaging || "");
       handleLoading(false);
       handleState(result.data);
       handleReturn();
     } else {
+      error(result?.messaging || "");
       handleLoading(false);
       handleState([]);
     }

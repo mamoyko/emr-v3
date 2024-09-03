@@ -6,15 +6,14 @@ import { useEffect, useState } from "react";
 import EncountersUpsertV1FormPage from "@/components/forms/encounters/EncountersUpsertV1FormPage";
 import { CustomGenericButton } from "@/components/helperComponent/ButtonComponent";
 import { DialogGenericComponent } from "@/components/helperComponent/DialogComponent";
+import { useResponse } from "@/components/helperComponent/helperResponse/ResponseComponentHelper";
 import { SkeletonGeneric } from "@/components/helperComponent/SkeletonComponent";
-import UseRouting from "@/components/helperFunctions/UseRouting";
 import { updatePatient } from "@/lib/actions/patient.actions";
 
 import { LoaderGeneric } from "../../helperComponent/componentGeneric/LoadingGenericComponent";
 
-const PatientInfoComponent = ({ patient }) => {
-  const { getRoutePathId } = UseRouting();
-  const userId = getRoutePathId();
+const PatientInfoComponent = ({ patient, userId }) => {
+  const { error, success } = useResponse();
   const [patientInfo, setPatientInfo] = useState<any>({});
   const [dialogAction, setDialogAction] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -31,12 +30,15 @@ const PatientInfoComponent = ({ patient }) => {
       return dateString;
     }
   };
+
   const updatePatientInfo = async (patientId: string, patientData: any) => {
     setIsLoading(true);
     const response = await updatePatient(patientId, patientData);
-    console.log("response", response);
     if (response.ok) {
       setPatientInfo(response?.data);
+      success(response.message || "");
+    } else {
+      error(response.message || "");
     }
     setIsLoading(false);
   };
@@ -93,7 +95,7 @@ const PatientInfoComponent = ({ patient }) => {
             }}
           />
         </div>
-        <figure className="flex size-full flex-row rounded-lg bg-gradient-to-r from-neutral-700 via-neutral-800 to-neutral-900 p-1 ">
+        <figure className="flex size-full flex-row rounded-lg bg-gradient-to-r from-neutral-700 via-neutral-800 to-neutral-900 p-1">
           <span className="size-full space-y-2 text-center lg:px-8 lg:py-1 lg:text-left">
             {[
               { label: "Address", value: patient?.address || "" },

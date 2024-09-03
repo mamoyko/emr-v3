@@ -88,7 +88,7 @@ const EncountersUpsertV1FormPage: React.FC<EncountersUpsertV1FormPageProps> = ({
             className={`flex ${classControl} grow flex-col gap-4 overflow-y-auto p-4`}
             style={{
               height: height
-                ? `calc(${height}px - 330px)`
+                ? `calc(${height}px - 340px)`
                 : `calc(100vh - 340px)`,
             }}
           >
@@ -177,7 +177,7 @@ const EncountersUpsertV1FormPage: React.FC<EncountersUpsertV1FormPageProps> = ({
           <div
             className={`${classControl} m-2 flex items-end justify-end border-white`}
           >
-            <div className={" space-x-1"}>
+            <div className={"space-x-1"}>
               {type !== "create" && (
                 <button
                   type="button"
