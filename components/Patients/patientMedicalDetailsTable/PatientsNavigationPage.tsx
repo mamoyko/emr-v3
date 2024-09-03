@@ -118,6 +118,7 @@ export const PatientsNavigationPage = ({
         <TitleComponent
           tableProcess={tableProcess}
           handleDetailsClick={handleDetailsClick}
+          dataCollection={dataCollection?.currentPatient}
         />
       }
       ContentComponent={

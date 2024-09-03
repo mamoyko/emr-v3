@@ -38,7 +38,7 @@ export const SandBoxPage: React.FC = () => {
           files={files}
           onChange={handleFileChange}
         />
-        {/* <FileUploader files={files} onChange={(data) => setFiles(data)} /> */}
+        <FileUploader files={files} onChange={(data) => setFiles(data)} />
       </main>
     </div>
   );

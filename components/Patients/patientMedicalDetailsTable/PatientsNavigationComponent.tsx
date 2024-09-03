@@ -7,7 +7,11 @@ import { DataTableDimension } from "@/components/table/DataTable";
 
 const EXCLUDED_MEDICAL_DETAILS = [MEDICAL_DETAILS.ENCOUNTERS.value];
 
-export const TitleComponent = ({ tableProcess, handleDetailsClick }) => {
+export const TitleComponent = ({
+  dataCollection,
+  tableProcess,
+  handleDetailsClick,
+}) => {
   return (
     <div className="flex w-full items-center justify-between">
       <div className="flex-1 truncate">
@@ -29,7 +33,7 @@ export const TitleComponent = ({ tableProcess, handleDetailsClick }) => {
       ) : (
         <CustomGenericButton
           onClick={handleDetailsClick}
-          isLoading={false}
+          isLoading={!dataCollection.userId}
           baseClassStyle="text-xs"
           buttonText={tableProcess.isInForm ? "Back" : "Add"}
           variant={tableProcess.isInForm ? "danger" : "primary"}
@@ -37,7 +41,7 @@ export const TitleComponent = ({ tableProcess, handleDetailsClick }) => {
             height: 10,
             width: 20,
             text: "",
-            brightness: "80%",
+            brightness: "0%",
           }}
         />
       )}

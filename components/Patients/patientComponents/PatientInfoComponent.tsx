@@ -12,7 +12,7 @@ import { updatePatient } from "@/lib/actions/patient.actions";
 
 import { LoaderGeneric } from "../../helperComponent/componentGeneric/LoadingGenericComponent";
 
-const PatientInfoComponent = ({ patient, userId }) => {
+const PatientInfoComponent = ({ patient }) => {
   const { error, success } = useResponse();
   const [patientInfo, setPatientInfo] = useState<any>({});
   const [dialogAction, setDialogAction] = useState<boolean>(false);
@@ -150,7 +150,7 @@ const PatientInfoComponent = ({ patient, userId }) => {
             classControl={"w-full"}
             handleSubmitForm={updatePatientInfo}
             dataCollection={{
-              patientId: userId,
+              patientId: patientInfo.userId,
               patientInfo: {
                 address: patientInfo.address,
                 phone: patientInfo.phone,
@@ -163,7 +163,7 @@ const PatientInfoComponent = ({ patient, userId }) => {
                 name: patientInfo.name,
               },
             }}
-            userId={userId}
+            userId={patientInfo.userId}
           />
         }
         ComponentDialogTitle={`${patient?.name ?? ""} medical details`}

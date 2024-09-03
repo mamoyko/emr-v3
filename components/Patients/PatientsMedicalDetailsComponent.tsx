@@ -5,7 +5,6 @@ import { Header } from "@/components/Header";
 import { getPatientById } from "@/lib/actions/patient.actions";
 
 import UseRouting from "../helperFunctions/UseRouting";
-import useWindowDimension from "../helperFunctions/useWindowDimension";
 
 import PatientInfoComponent from "./patientComponents/PatientInfoComponent";
 import { PatientsNavigationPage } from "./patientMedicalDetailsTable/PatientsNavigationPage";
@@ -13,7 +12,6 @@ import { PatientsNavigationPage } from "./patientMedicalDetailsTable/PatientsNav
 const PatientsMedicalDetailsComponent = () => {
   const { getRoutePathId } = UseRouting();
   const userId = getRoutePathId();
-  const { width, height } = useWindowDimension();
 
   const [currentPatient, setCurrentPatient] = useState<any>({});
   const [isLoading, setIsloading] = useState<boolean>(false);
