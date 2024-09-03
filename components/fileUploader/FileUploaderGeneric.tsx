@@ -102,7 +102,7 @@ const FileUploaderGeneric: React.FC<FileUploaderGenericProps> = ({
   };
 
   return (
-    <div className="">
+    <Fragment>
       {fileCollection.length !== 0 && (
         <ImageListHeader
           currentFile={fileCollection[currentIndex]}
@@ -130,7 +130,7 @@ const FileUploaderGeneric: React.FC<FileUploaderGenericProps> = ({
           />
         </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 
