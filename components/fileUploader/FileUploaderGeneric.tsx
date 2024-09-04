@@ -7,7 +7,14 @@ import { useDropzone } from "react-dropzone";
 import "./FileUploader.css";
 import { convertFileToUrl } from "@/lib/utils";
 
+// D:\project\emr-v3\components\helperFunctions\stringHelpers.tsx
 import { useResponse } from "../helperComponent/helperResponse/ResponseComponentHelper";
+import { ToolTipControlled } from "../helperComponent/TooltipComponent";
+import stringHelpers, {
+  truncateStrings,
+} from "../helperFunctions/stringHelpers";
+
+import { kMaxLength } from "buffer";
 
 type FileUploaderGenericProps = {
   files?: File[];
@@ -29,7 +36,7 @@ const FileUploaderGeneric: React.FC<FileUploaderGenericProps> = ({
 }) => {
   const { warning, info, success, error } = useResponse();
   const [fileCollection, setFileCollection] = useState<File[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  let [currentIndex, setCurrentIndex] = useState(0);
 
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejections: any[]) => {
@@ -60,9 +67,10 @@ const FileUploaderGeneric: React.FC<FileUploaderGenericProps> = ({
           "Adding these files will exceed the maximum allowed limit."
         );
       }
-      const collection = [...newFiles, ...fileCollection];
+      const collection = [...fileCollection, ...newFiles];
       setFileCollection(collection);
       onChange(collection);
+      setCurrentIndex(fileCollection.length);
       if (newFiles.length === acceptedFiles.length)
         success("Files uploaded successfully!");
     },
@@ -96,13 +104,16 @@ const FileUploaderGeneric: React.FC<FileUploaderGenericProps> = ({
   const handleRemoveFile = (name: string) => {
     let collection = [...fileCollection];
     collection = collection.filter((file) => file.name !== name);
-    setFileCollection(collection);
+    const fileLength = collection.length;
+    if (currentIndex >= fileLength) currentIndex = fileLength - 1;
     onChange(collection);
+    setFileCollection(collection);
+    setCurrentIndex(currentIndex);
     info("File removed!");
   };
 
   return (
-    <Fragment>
+    <div className="flex flex-col items-center justify-center">
       {fileCollection.length !== 0 && (
         <ImageListHeader
           currentFile={fileCollection[currentIndex]}
@@ -130,7 +141,10 @@ const FileUploaderGeneric: React.FC<FileUploaderGenericProps> = ({
           />
         </div>
       </div>
-    </Fragment>
+      {fileCollection.length !== 0 && (
+        <ImageListFooter currentFile={fileCollection[currentIndex]} />
+      )}
+    </div>
   );
 };
 
@@ -171,7 +185,7 @@ const ImageListPreview: React.FC<ImageListPreviewProps> = ({
   }
 
   return (
-    <div className="flex h-full flex-row items-center justify-center gap-1 bg-inherit">
+    <div className="flex h-full flex-row items-center justify-center gap-1 bg-inherit p-1">
       <button onClick={handlePrevious} className={buttonClasses} />
       <div
         style={{
@@ -219,6 +233,45 @@ const ImageListHeader: React.FC<ImageListHeaderProps> = ({
         remove
       </button>
       <span>{`${currentIndex + 1}/${totalImages}`}</span>
+    </div>
+  );
+};
+
+type ImageListFooterProps = {
+  currentFile: any;
+};
+
+const ImageListFooter: React.FC<ImageListFooterProps> = ({ currentFile }) => {
+  return (
+    <div className="flex size-full items-start justify-between bg-inherit">
+      <p
+        className="text-ellipsis text-wrap"
+        style={{
+          width: "calc(100% - 100px)",
+        }}
+      >
+        {stringHelpers.truncateString({
+          string: currentFile?.name,
+          maxLength: 30,
+        })}
+      </p>
+      <ToolTipControlled
+        ComponentTrigger={<div className="bg-inherit">[FullScreen]</div>}
+      >
+        <div className="flex flex-col rounded-md bg-black p-1">
+          <p className="text-center text-lg font-extrabold">
+            {currentFile?.name}
+          </p>
+          <Image
+            src={convertFileToUrl(currentFile)}
+            width={500}
+            height={500}
+            alt="Uploaded preview"
+            className="object-cover"
+            style={{ objectFit: "cover" }}
+          />
+        </div>
+      </ToolTipControlled>
     </div>
   );
 };

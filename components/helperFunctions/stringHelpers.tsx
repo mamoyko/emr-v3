@@ -10,5 +10,11 @@ const stringHelpers = {
       .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
   },
+  truncateString: ({ string = "", maxLength }) => {
+    if (string.length <= maxLength) {
+      return string;
+    }
+    return string.slice(0, maxLength) + "...";
+  },
 };
 export default stringHelpers;
