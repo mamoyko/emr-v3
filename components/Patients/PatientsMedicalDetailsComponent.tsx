@@ -13,8 +13,9 @@ const PatientsMedicalDetailsComponent = () => {
   const { getRoutePathId } = UseRouting();
   const userId = getRoutePathId();
 
-  const [currentPatient, setCurrentPatient] = useState<any>({});
+  const [currentPatient, setCurrentPatient] = useState<any>([]);
   const [isLoading, setIsloading] = useState<boolean>(false);
+
   const fetchSelectedPatient = async (userId: string) => {
     setIsloading(true);
     const response = await getPatientById(userId);
@@ -36,7 +37,7 @@ const PatientsMedicalDetailsComponent = () => {
         <PatientInfoComponent patient={currentPatient} />
         <PatientsNavigationPage
           dataCollection={{ isLoading, currentPatient }}
-          userId={userId}
+          userId={currentPatient?.userId || null}
         />
       </main>
     </div>

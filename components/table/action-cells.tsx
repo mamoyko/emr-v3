@@ -45,9 +45,8 @@ interface GenericDateCellProps {
 export const ActionsCell: React.FC<ActionsCellProps> = ({ row }) => {
   const router = useRouter();
   const appointment = row.original;
-
   const handleDetailsClick = () => {
-    router.push(`/admin/patients/${appointment.patient.$id}`);
+    router.push(`/admin/patients/${appointment.userId}`);
   };
 
   return (

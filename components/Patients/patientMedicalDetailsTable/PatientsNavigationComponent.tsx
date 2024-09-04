@@ -33,7 +33,7 @@ export const TitleComponent = ({
       ) : (
         <CustomGenericButton
           onClick={handleDetailsClick}
-          isLoading={!dataCollection.userId}
+          isLoading={!dataCollection?.userId}
           baseClassStyle="text-xs"
           buttonText={tableProcess.isInForm ? "Back" : "Add"}
           variant={tableProcess.isInForm ? "danger" : "primary"}

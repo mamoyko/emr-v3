@@ -7,14 +7,9 @@ import { useDropzone } from "react-dropzone";
 import "./FileUploader.css";
 import { convertFileToUrl } from "@/lib/utils";
 
-// D:\project\emr-v3\components\helperFunctions\stringHelpers.tsx
 import { useResponse } from "../helperComponent/helperResponse/ResponseComponentHelper";
 import { ToolTipControlled } from "../helperComponent/TooltipComponent";
-import stringHelpers, {
-  truncateStrings,
-} from "../helperFunctions/stringHelpers";
-
-import { kMaxLength } from "buffer";
+import stringHelpers from "../helperFunctions/stringHelpers";
 
 type FileUploaderGenericProps = {
   files?: File[];

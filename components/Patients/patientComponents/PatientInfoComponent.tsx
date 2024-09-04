@@ -51,7 +51,7 @@ const PatientInfoComponent = ({ patient }) => {
     <div className="flex w-full flex-col items-center justify-center md:flex-row">
       <div className="flex h-[180px] w-[320px] items-center justify-center overflow-y-auto py-[6px] pl-2">
         <div className="flex size-full items-center justify-center rounded-lg bg-white text-black">
-          {!patient.name ? (
+          {!patient?.name ? (
             <SkeletonGeneric
               loaderControl={{
                 height: 40,
@@ -83,7 +83,7 @@ const PatientInfoComponent = ({ patient }) => {
             onClick={() => {
               setDialogAction(!dialogAction);
             }}
-            isLoading={!patient.name}
+            isLoading={!patient?.name}
             variant="default"
             baseClassStyle="text-xs"
             buttonText="Edit"
@@ -150,20 +150,20 @@ const PatientInfoComponent = ({ patient }) => {
             classControl={"w-full"}
             handleSubmitForm={updatePatientInfo}
             dataCollection={{
-              patientId: patientInfo.userId,
+              patientId: patientInfo?.userId,
               patientInfo: {
-                address: patientInfo.address,
-                phone: patientInfo.phone,
-                email: patientInfo.email,
-                gender: patientInfo.gender,
-                occupation: patientInfo.occupation,
-                birthDate: patientInfo.birthDate,
-                emergencyContactName: patientInfo.emergencyContactName,
-                emergencyContactNumber: patientInfo.emergencyContactNumber,
-                name: patientInfo.name,
+                address: patientInfo?.address,
+                phone: patientInfo?.phone,
+                email: patientInfo?.email,
+                gender: patientInfo?.gender,
+                occupation: patientInfo?.occupation,
+                birthDate: patientInfo?.birthDate,
+                emergencyContactName: patientInfo?.emergencyContactName,
+                emergencyContactNumber: patientInfo?.emergencyContactNumber,
+                name: patientInfo?.name,
               },
             }}
-            userId={patientInfo.userId}
+            userId={patientInfo?.userId}
           />
         }
         ComponentDialogTitle={`${patient?.name ?? ""} medical details`}
