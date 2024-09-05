@@ -90,7 +90,7 @@ const VerticalTabsV1Component = ({
           }}
         >
           <div className="size-full" style={{ border: "1px solid white" }}>
-            <div className="flex h-[180px] items-center justify-center overflow-y-auto p-1 py-[6px]">
+            <div className="flex h-[180px] flex-col items-center justify-center gap-2 overflow-y-auto p-1 py-[6px]">
               <div className="flex size-full items-center justify-center rounded-lg bg-white text-black">
                 {!dataUserCollections?.name ? (
                   <SkeletonGeneric
@@ -104,8 +104,21 @@ const VerticalTabsV1Component = ({
                   "Image box"
                 )}
               </div>
+              <DetailComponent
+                item={{
+                  label: null,
+                  value: dataUserCollections?.name,
+                }}
+                hasLoading={true}
+                loadingControl={{
+                  height: 10,
+                  width: 20,
+                  text: "",
+                }}
+                articleClass="flex items-center justify-center font-semibold"
+              />
             </div>
-            <div>
+            {/* <div>
               <DetailComponent
                 item={{
                   label: null,
@@ -119,11 +132,11 @@ const VerticalTabsV1Component = ({
                 }}
                 articleClass="items-center justify-start font-semibold"
               />
-            </div>
+            </div> */}
           </div>
 
           {TabHeaderComponent}
-          <div className="flex h-full flex-wrap items-center justify-center md:flex-col">
+          <div className="flex h-full flex-wrap items-center justify-center overflow-y-auto md:flex-col">
             {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => (
               <TabsTrigger
                 key={navItem.value}
