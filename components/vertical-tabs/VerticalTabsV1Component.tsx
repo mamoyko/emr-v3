@@ -17,6 +17,7 @@ import UseRouting from "../helperFunctions/UseRouting";
 import useWindowDimension from "../helperFunctions/useWindowDimension";
 import { CustomLoading } from "../Loader";
 import { DetailComponent } from "../Patients/patientMedicalDetailsTable/PatientProfileInfo";
+
 interface VerticalTabsV1ComponentProps {
   navigationList: any;
   TabHeaderComponent: ReactNode;
@@ -76,7 +77,7 @@ const VerticalTabsV1Component = ({
       style={{
         height: !height
           ? "100%"
-          : `${height - 285 - verticalTabHeightControl}px`,
+          : `${height - 265 - verticalTabHeightControl}px`,
       }}
     >
       <div className="flex w-[320px] items-center justify-center overflow-y-auto rounded-lg bg-inherit py-[6px] md:px-2">
@@ -85,7 +86,7 @@ const VerticalTabsV1Component = ({
           style={{
             height: !height
               ? "100%"
-              : `${height - 300 - verticalTabHeightControl}px`,
+              : `${height - 280 - verticalTabHeightControl}px`,
           }}
         >
           <div className="size-full" style={{ border: "1px solid white" }}>
@@ -145,7 +146,7 @@ const VerticalTabsV1Component = ({
           style={{
             height: !height
               ? "100%"
-              : `${height - 300 - verticalTabHeightControl}px`,
+              : `${height - 280 - verticalTabHeightControl}px`,
           }}
         >
           <Card className="flex size-full flex-col overflow-y-auto rounded-lg">
@@ -163,7 +164,7 @@ const VerticalTabsV1Component = ({
                 style={{
                   height: !height
                     ? "100%"
-                    : `${height - 400 - verticalTabHeightControl}px`,
+                    : `${height - 380 - verticalTabHeightControl}px`,
                 }}
               >
                 <CustomLoading

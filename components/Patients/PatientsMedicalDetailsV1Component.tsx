@@ -32,12 +32,17 @@ const PatientsMedicalDetailsV1Component = () => {
     <div className="flex flex-col space-y-14">
       <Header />
 
-      <main className="flex flex-col items-start justify-between xl:space-y-6 xl:px-12">
-        <PatientsNavigationV1Page
-          dataCollection={{ isLoading, currentPatient }}
-          userId={currentPatient?.userId || null}
-        />
+      <main className="flex flex-col items-start justify-between xl:space-y-6 xl:px-3">
+        <section className="w-full space-y-4">
+          <h1 className="header">
+            The Quick Brown Fox Jumped Over The Lazy Dog
+          </h1>
+        </section>
       </main>
+      <PatientsNavigationV1Page
+        dataCollection={{ isLoading, currentPatient }}
+        userId={currentPatient?.userId || null}
+      />
     </div>
   );
 };

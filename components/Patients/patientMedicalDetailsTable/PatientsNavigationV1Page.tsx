@@ -11,7 +11,7 @@ import {
 } from "./PatientsNavigationComponent";
 import { PatientNavHelper } from "./PatientsNavigationHelper";
 
-const VERTICAL_TAB_HEIGHT_CONTROL = 100;
+const VERTICAL_TAB_HEIGHT_CONTROL = 0;
 
 type StateTableProcess = {
   navigation: string;
