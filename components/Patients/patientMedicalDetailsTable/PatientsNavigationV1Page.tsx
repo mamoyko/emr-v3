@@ -106,6 +106,7 @@ export const PatientsNavigationV1Page = ({
 
   return (
     <VerticalTabsV1Component
+      dataUserCollections={dataCollection}
       verticalTabHeightControl={VERTICAL_TAB_HEIGHT_CONTROL}
       isLoading={false}
       handleNavigation={hanldeNavigation}

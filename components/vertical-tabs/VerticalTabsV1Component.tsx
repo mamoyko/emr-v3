@@ -11,11 +11,12 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import "./VerticalTabs.css";
+import { SkeletonGeneric } from "../helperComponent/SkeletonComponent";
 import { FNObjectLevelOneToArray } from "../helperFunctions/TransformObjectToArray";
 import UseRouting from "../helperFunctions/UseRouting";
 import useWindowDimension from "../helperFunctions/useWindowDimension";
 import { CustomLoading } from "../Loader";
-
+import { DetailComponent } from "../Patients/patientMedicalDetailsTable/PatientProfileInfo";
 interface VerticalTabsV1ComponentProps {
   navigationList: any;
   TabHeaderComponent: ReactNode;
@@ -28,6 +29,7 @@ interface VerticalTabsV1ComponentProps {
   handleParentProcess: () => void;
   isLoading: boolean;
   verticalTabHeightControl: number;
+  dataUserCollections: any;
 }
 
 const VerticalTabsV1Component = ({
@@ -42,6 +44,7 @@ const VerticalTabsV1Component = ({
   handleParentProcess,
   isLoading,
   verticalTabHeightControl,
+  dataUserCollections = {},
 }: VerticalTabsV1ComponentProps) => {
   const [currentTab, setCurrentTab] = useState<string>("");
   const { routePathId } = UseRouting();
@@ -78,13 +81,46 @@ const VerticalTabsV1Component = ({
     >
       <div className="flex w-[320px] items-center justify-center overflow-y-auto rounded-lg bg-inherit py-[6px] md:px-2">
         <TabsList
-          className="flex size-full items-center justify-center rounded-lg bg-slate-800"
+          className="flex size-full flex-col items-center justify-center rounded-lg bg-slate-800"
           style={{
             height: !height
               ? "100%"
               : `${height - 300 - verticalTabHeightControl}px`,
           }}
         >
+          <div className="size-full" style={{ border: "1px solid white" }}>
+            <div className="flex h-[180px] items-center justify-center overflow-y-auto p-1 py-[6px]">
+              <div className="flex size-full items-center justify-center rounded-lg bg-white text-black">
+                {!dataUserCollections?.name ? (
+                  <SkeletonGeneric
+                    loaderControl={{
+                      height: 40,
+                      width: 40,
+                      brightness: "0%",
+                    }}
+                  />
+                ) : (
+                  "Image box"
+                )}
+              </div>
+            </div>
+            <div>
+              <DetailComponent
+                item={{
+                  label: null,
+                  value: dataUserCollections?.name,
+                }}
+                hasLoading={true}
+                loadingControl={{
+                  height: 10,
+                  width: 20,
+                  text: "",
+                }}
+                articleClass="items-center justify-start font-semibold"
+              />
+            </div>
+          </div>
+
           {TabHeaderComponent}
           <div className="flex h-full flex-wrap items-center justify-center md:flex-col">
             {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => (

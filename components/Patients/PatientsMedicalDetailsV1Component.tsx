@@ -8,7 +8,7 @@ import UseRouting from "../helperFunctions/UseRouting";
 
 import { PatientsNavigationV1Page } from "./patientMedicalDetailsTable/PatientsNavigationV1Page";
 
-const PatientsMedicalDetailsComponent = () => {
+const PatientsMedicalDetailsV1Component = () => {
   const { getRoutePathId } = UseRouting();
   const userId = getRoutePathId();
 
@@ -37,10 +37,9 @@ const PatientsMedicalDetailsComponent = () => {
           dataCollection={{ isLoading, currentPatient }}
           userId={currentPatient?.userId || null}
         />
-        <div className="size-full" style={{ border: "1px solid white" }}></div>
       </main>
     </div>
   );
 };
 
-export default PatientsMedicalDetailsComponent;
+export default PatientsMedicalDetailsV1Component;
