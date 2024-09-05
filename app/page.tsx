@@ -8,7 +8,10 @@ const Home = ({ searchParams }: SearchParamProps) => {
   const isAdmin = searchParams?.admin === "true";
 
   return (
-    <div className="flex h-screen max-h-screen">
+    <div
+      className="flex h-screen max-h-screen"
+      style={{ border: "1px solid white" }}
+    >
       {isAdmin && <PasskeyModal />}
 
       <section className="remove-scrollbar container my-auto">
