@@ -216,7 +216,7 @@ const ImageListHeader: React.FC<ImageListHeaderProps> = ({
   currentIndex,
 }) => {
   return (
-    <div className="flex size-full items-start justify-between bg-inherit">
+    <div className="flex size-full items-start justify-between bg-inherit p-1">
       <button
         type="button"
         onClick={(event) => {
@@ -251,7 +251,9 @@ const ImageListFooter: React.FC<ImageListFooterProps> = ({ currentFile }) => {
         })}
       </p>
       <ToolTipControlled
-        ComponentTrigger={<div className="bg-inherit">[FullScreen]</div>}
+        ComponentTrigger={
+          <div className="cursor-wait bg-inherit">[FullScreen]</div>
+        }
       >
         <div className="flex flex-col rounded-md bg-black p-1">
           <p className="text-center text-lg font-extrabold">
