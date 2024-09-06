@@ -82,7 +82,6 @@ const MedicalDetailsFormHelper = ({
     }
   };
   const FormComponent = formComponents[currentTab.tab] || null;
-  console.log("tableProcess", currentTab);
   return (
     <div className="size-full">
       {formComponents[currentTab.tab] && (

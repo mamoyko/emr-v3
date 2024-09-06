@@ -51,13 +51,17 @@ const FileUploaderGeneric: React.FC<FileUploaderGenericProps> = ({
       );
 
       if (newFiles.length !== acceptedFiles.length) {
-        warning("Duplicate files removed!");
+        return warning("Duplicate files removed!");
       }
 
       if (
         fileCollection.length + newFiles.length >
         uploadControl.maxAcceptFile
       ) {
+        console.log(
+          "Adding these files will exceed the maximum allowed limit."
+        );
+
         return warning(
           "Adding these files will exceed the maximum allowed limit."
         );

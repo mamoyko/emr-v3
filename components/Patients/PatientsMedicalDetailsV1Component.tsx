@@ -34,9 +34,7 @@ const PatientsMedicalDetailsV1Component = () => {
 
       <main className="flex flex-col items-start justify-between xl:space-y-6 xl:px-3">
         <section className="w-full space-y-4">
-          <h1 className="header">
-            The Quick Brown Fox Jumped Over The Lazy Dog
-          </h1>
+          <h1 className="header">Patient Information</h1>
         </section>
       </main>
       <PatientsNavigationV1Page

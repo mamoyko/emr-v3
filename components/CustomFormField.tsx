@@ -71,6 +71,7 @@ const RenderInput = ({
             <Input
               placeholder={props.placeholder}
               {...field}
+              disabled={props.disabled}
               className="shad-input border-0"
             />
           </FormControl>
@@ -104,7 +105,7 @@ const RenderInput = ({
     case FormFieldType.PHONE_INPUT_CUSTOM_STYLE:
       return (
         <div className="flex w-full flex-wrap pr-4">
-          <div className=" w-[17rem] flex-wrap items-center justify-center">
+          <div className="w-[17rem] flex-wrap items-center justify-center">
             <FormControl>
               <PhoneInput
                 defaultCountry="PH"

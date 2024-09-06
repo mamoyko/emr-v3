@@ -59,7 +59,6 @@ export const DetailComponentControllable = ({
     <article
       key={item?.label}
       className={`flex w-full flex-col space-y-1 text-ellipsis md:flex-row md:space-x-4 md:space-y-0 ${articleClass}`}
-      style={{ border: "1px solid white" }}
     >
       {item?.label && (
         <p className="truncate border-t text-sm sm:text-sm md:shrink-0 md:border-none">

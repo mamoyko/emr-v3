@@ -285,11 +285,7 @@ export const patientVitalSigns: ColumnDef<VitalSign, any>[] = [
   {
     accessorKey: "$createdAt",
     header: "Created At",
-    cell: ({ row }) => (
-      <div className="flex w-full items-center justify-start pl-4 text-left">
-        <GenericDateHandlerCell row={row} />,
-      </div>
-    ),
+    cell: ({ row }) => <GenericDateHandlerCell row={row} />,
   },
   // {
   //   accessorKey: "patient",

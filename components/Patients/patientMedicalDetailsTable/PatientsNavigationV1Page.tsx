@@ -117,7 +117,6 @@ export const PatientsNavigationV1Page = ({
         },
       },
     ];
-    console.log("columnsData", columnsData);
 
     setTableProcess((prev) => {
       const collection = { ...prev };
