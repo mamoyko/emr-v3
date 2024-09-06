@@ -19,7 +19,6 @@ export const SandBoxPage: React.FC = () => {
     // error();
     // info();
   };
-  console.log("files ==", files);
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <Header />

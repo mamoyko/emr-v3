@@ -100,7 +100,6 @@ export const PatientsNavigationV1Page = ({
         id: "actions",
         header: () => <div className="pl-4">Actions</div>,
         cell: ({ row }) => {
-          // console.log("row", row?.original);
           return (
             <Fragment>
               <button

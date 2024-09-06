@@ -58,10 +58,6 @@ const FileUploaderGeneric: React.FC<FileUploaderGenericProps> = ({
         fileCollection.length + newFiles.length >
         uploadControl.maxAcceptFile
       ) {
-        console.log(
-          "Adding these files will exceed the maximum allowed limit."
-        );
-
         return warning(
           "Adding these files will exceed the maximum allowed limit."
         );
