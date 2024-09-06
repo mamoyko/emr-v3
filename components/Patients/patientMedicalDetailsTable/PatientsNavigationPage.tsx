@@ -37,6 +37,8 @@ export const PatientsNavigationPage = ({
   dataCollection: any;
 }) => {
   const { handleGetPatientColumns } = PatientNavHelper();
+  const [toFormProcess, setToFormProcess] = useState<boolean>(false);
+
   const [tableProcess, setTableProcess] = useState<StateTableProcess>({
     navigation: "",
     dataTableData: [],
@@ -116,14 +118,15 @@ export const PatientsNavigationPage = ({
       TabHeaderComponent={null}
       TitleComponent={
         <TitleComponent
+          toFormProcess={toFormProcess}
           tableProcess={tableProcess}
-          handleDetailsClick={handleDetailsClick}
+          handleFormProcess={handleDetailsClick}
           dataCollection={dataCollection?.currentPatient}
         />
       }
       ContentComponent={
         <ContentComponent
-          handleDetailsClick={handleDetailsClick}
+          handleFormProcess={handleDetailsClick}
           tableProcess={tableProcess}
           userId={userId}
           handleStateChange={handleStateChange}

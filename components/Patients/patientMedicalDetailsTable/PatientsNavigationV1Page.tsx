@@ -110,7 +110,7 @@ export const PatientsNavigationV1Page = ({
                 }}
                 type="button"
               >
-                shahahahahah
+                View Medical Details
               </button>
             </Fragment>
           );
