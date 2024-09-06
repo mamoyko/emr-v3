@@ -202,16 +202,16 @@ export const patientSymptoms: ColumnDef<Symptoms, any>[] = [
   //   header: "Patient",
   //   cell: ({ row }) => <GenericNameHandlerCell row={row} />,
   // },
-  {
-    id: "actions",
-    header: () => <div className="pl-4">Actions</div>,
-    cell: ({ row }) => (
-      <GenericActionButtonCell
-        columnValue={MEDICAL_DETAILS.SYMPTOMS.value}
-        row={row}
-      />
-    ),
-  },
+  // {
+  //   id: "actions",
+  //   header: () => <div className="pl-4">Actions</div>,
+  //   cell: ({ row }) => (
+  //     <GenericActionButtonCell
+  //       columnValue={MEDICAL_DETAILS.SYMPTOMS.value}
+  //       row={row}
+  //     />
+  //   ),
+  // },
 ];
 
 export const patientMedicalHistory: ColumnDef<MedicalHistory, any>[] = [
@@ -231,16 +231,16 @@ export const patientMedicalHistory: ColumnDef<MedicalHistory, any>[] = [
   //   header: "Patient",
   //   cell: ({ row }) => <GenericNameHandlerCell row={row} />,
   // },
-  {
-    id: "actions",
-    header: () => <div className="pl-4">Actions</div>,
-    cell: ({ row }) => (
-      <GenericActionButtonCell
-        columnValue={MEDICAL_DETAILS.MEDICAL_HISTORY.value}
-        row={row}
-      />
-    ),
-  },
+  // {
+  //   id: "actions",
+  //   header: () => <div className="pl-4">Actions</div>,
+  //   cell: ({ row }) => (
+  //     <GenericActionButtonCell
+  //       columnValue={MEDICAL_DETAILS.MEDICAL_HISTORY.value}
+  //       row={row}
+  //     />
+  //   ),
+  // },
 ];
 
 export const patientPhysicalExaminationFindings: ColumnDef<
@@ -263,16 +263,16 @@ export const patientPhysicalExaminationFindings: ColumnDef<
   //   header: "Patient",
   //   cell: ({ row }) => <GenericNameHandlerCell row={row} />,
   // },
-  {
-    id: "actions",
-    header: () => <div className="pl-4">Actions</div>,
-    cell: ({ row }) => (
-      <GenericActionButtonCell
-        columnValue={MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value}
-        row={row}
-      />
-    ),
-  },
+  // {
+  //   id: "actions",
+  //   header: () => <div className="pl-4">Actions</div>,
+  //   cell: ({ row }) => (
+  //     <GenericActionButtonCell
+  //       columnValue={MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value}
+  //       row={row}
+  //     />
+  //   ),
+  // },
 ];
 
 export const patientVitalSigns: ColumnDef<VitalSign, any>[] = [
@@ -296,14 +296,14 @@ export const patientVitalSigns: ColumnDef<VitalSign, any>[] = [
   //   header: "Patient",
   //   cell: ({ row }) => <GenericNameHandlerCell row={row} />,
   // },
-  {
-    id: "actions",
-    header: () => <div className="pl-4">Actions</div>,
-    cell: ({ row }) => (
-      <GenericActionButtonCell
-        columnValue={MEDICAL_DETAILS.VITAL_SIGNS.value}
-        row={row}
-      />
-    ),
-  },
+  // {
+  //   id: "actions",
+  //   header: () => <div className="pl-4">Actions</div>,
+  //   cell: ({ row }) => (
+  //     <GenericActionButtonCell
+  //       columnValue={MEDICAL_DETAILS.VITAL_SIGNS.value}
+  //       row={row}
+  //     />
+  //   ),
+  // },
 ];

@@ -16,7 +16,7 @@ import { FNObjectLevelOneToArray } from "../helperFunctions/TransformObjectToArr
 import UseRouting from "../helperFunctions/UseRouting";
 import useWindowDimension from "../helperFunctions/useWindowDimension";
 import { CustomLoading } from "../Loader";
-import { DetailComponent } from "../Patients/patientMedicalDetailsTable/PatientProfileInfo";
+import { DetailComponentControllable } from "../Patients/patientMedicalDetailsTable/PatientProfileInfoHelper";
 
 interface VerticalTabsV1ComponentProps {
   navigationList: any;
@@ -89,7 +89,7 @@ const VerticalTabsV1Component = ({
               : `${height - 280 - verticalTabHeightControl}px`,
           }}
         >
-          <div className="size-full" style={{ border: "1px solid white" }}>
+          <div className="size-full">
             <div className="flex h-[180px] flex-col items-center justify-center gap-2 overflow-y-auto p-1 py-[6px]">
               <div className="flex size-full items-center justify-center rounded-lg bg-white text-black">
                 {!dataUserCollections?.name ? (
@@ -104,39 +104,25 @@ const VerticalTabsV1Component = ({
                   "Image box"
                 )}
               </div>
-              <DetailComponent
-                item={{
-                  label: null,
-                  value: dataUserCollections?.name,
-                }}
-                hasLoading={true}
-                loadingControl={{
-                  height: 10,
-                  width: 20,
-                  text: "",
-                }}
-                articleClass="flex items-center justify-center font-semibold"
-              />
             </div>
-            {/* <div>
-              <DetailComponent
-                item={{
-                  label: null,
-                  value: dataUserCollections?.name,
-                }}
-                hasLoading={true}
-                loadingControl={{
-                  height: 10,
-                  width: 20,
-                  text: "",
-                }}
-                articleClass="items-center justify-start font-semibold"
-              />
-            </div> */}
+            <DetailComponentControllable
+              item={{
+                label: null,
+                value: dataUserCollections?.name,
+              }}
+              hasLoading={true}
+              loadingControl={{
+                height: 10,
+                width: 20,
+                text: "",
+              }}
+              articleClass="flex items-center justify-center font-semibold"
+              valueClass="h-full text-wrap text-center"
+            />
           </div>
 
           {TabHeaderComponent}
-          <div className="flex h-full flex-wrap items-center justify-center overflow-y-auto md:flex-col">
+          <div className="flex h-full flex-wrap items-center justify-start overflow-y-auto pt-1 md:flex-col">
             {MEMOIZE_NAV.map((navItem: { value: string; title: string }) => (
               <TabsTrigger
                 key={navItem.value}

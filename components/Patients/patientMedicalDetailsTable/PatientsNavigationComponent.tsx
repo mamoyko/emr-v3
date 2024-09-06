@@ -1,16 +1,19 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import MedicalDetailsFormHelper from "@/components/forms/singularMedicalDetailsForm/MedicalDetailsFormHelper";
 import { CustomGenericButton } from "@/components/helperComponent/ButtonComponent";
 import { DataTableDimension } from "@/components/table/DataTable";
 
+import { NAVIGATION_FORM_PROCESS } from "./PatientNavEnums";
+
 const EXCLUDED_MEDICAL_DETAILS = [MEDICAL_DETAILS.ENCOUNTERS.value];
 
 export const TitleComponent = ({
   dataCollection,
   tableProcess,
-  handleDetailsClick,
+  handleFormProcess,
+  toFormProcess,
 }) => {
   return (
     <div className="flex w-full items-center justify-between">
@@ -32,11 +35,17 @@ export const TitleComponent = ({
         <Fragment />
       ) : (
         <CustomGenericButton
-          onClick={handleDetailsClick}
+          onClick={() =>
+            handleFormProcess(
+              toFormProcess
+                ? NAVIGATION_FORM_PROCESS.NAV_TABLE
+                : NAVIGATION_FORM_PROCESS.NAV_CREATE_EDIT
+            )
+          }
           isLoading={!dataCollection?.userId}
           baseClassStyle="text-xs"
-          buttonText={tableProcess.isInForm ? "Back" : "Add"}
-          variant={tableProcess.isInForm ? "danger" : "primary"}
+          buttonText={toFormProcess ? "Back" : "Add"}
+          variant={toFormProcess ? "danger" : "primary"}
           loadingControl={{
             height: 10,
             width: 20,
@@ -50,7 +59,7 @@ export const TitleComponent = ({
 };
 
 export const ContentComponent = ({
-  handleDetailsClick,
+  handleFormProcess,
   tableProcess,
   userId,
   handleStateChange,
@@ -58,10 +67,36 @@ export const ContentComponent = ({
 }) => {
   return (
     <div className="flex-1 overflow-y-auto overflow-x-hidden">
-      {tableProcess?.isInForm ? (
+      {tableProcess?.isInForm === NAVIGATION_FORM_PROCESS.NAV_VIEW && (
         <MedicalDetailsFormHelper
           handleLoading={() => {}}
-          handleReturn={handleDetailsClick}
+          handleReturn={() =>
+            handleFormProcess(NAVIGATION_FORM_PROCESS.NAV_TABLE)
+          }
+          isLoading={false}
+          currentTab={{
+            tab: tableProcess?.navigation,
+            tabData: tableProcess?.formData,
+          }}
+          MEDICAL_DETAILS={MEDICAL_DETAILS}
+          mode={"view"}
+          userId={userId}
+          handleState={(data: any) => {
+            const collectedData = Array.isArray(data) ? data : [data];
+            handleStateChange("dataTableData", [
+              ...tableProcess?.dataTableData,
+              ...collectedData,
+            ]);
+          }}
+        />
+      )}
+
+      {tableProcess?.isInForm === NAVIGATION_FORM_PROCESS.NAV_CREATE_EDIT && (
+        <MedicalDetailsFormHelper
+          handleLoading={() => {}}
+          handleReturn={() =>
+            handleFormProcess(NAVIGATION_FORM_PROCESS.NAV_TABLE)
+          }
           isLoading={false}
           currentTab={{
             tab: tableProcess?.navigation,
@@ -78,7 +113,9 @@ export const ContentComponent = ({
             ]);
           }}
         />
-      ) : (
+      )}
+
+      {tableProcess?.isInForm === NAVIGATION_FORM_PROCESS.NAV_TABLE && (
         <DataTableDimension
           heightToSubtrct={400 + VERTICAL_TAB_HEIGHT_CONTROL}
           columns={tableProcess?.columnsTableData || []}

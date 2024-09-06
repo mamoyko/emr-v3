@@ -78,7 +78,9 @@ const FormVitalSigns: React.FC<FormVitalSignsProps> = ({
     defaultValues: {
       formSets:
         mode === "view" || initialValue.length > 0
-          ? initialValue
+          ? Array.isArray(initialValue)
+            ? initialValue
+            : [initialValue]
           : [
               {
                 patient: userId,

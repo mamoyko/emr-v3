@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import VerticalTabsV1Component from "@/components/vertical-tabs/VerticalTabsV1Component";
 
+import { NAVIGATION_FORM_PROCESS } from "./PatientNavEnums";
 import {
   ContentComponent,
   TitleComponent,
@@ -18,7 +19,7 @@ type StateTableProcess = {
   dataTableData: any[];
   formData: any[];
   columnsTableData: any[];
-  isInForm: boolean;
+  isInForm: string;
 };
 
 const getInitialNav = () => {
@@ -42,8 +43,10 @@ export const PatientsNavigationV1Page = ({
     dataTableData: [],
     formData: [],
     columnsTableData: [],
-    isInForm: false,
+    isInForm: "table",
   });
+
+  const [toFormProcess, setToFormProcess] = useState<boolean>(false);
 
   const handleStateChange = <stateFN extends keyof StateTableProcess>(
     key: stateFN,
@@ -52,13 +55,11 @@ export const PatientsNavigationV1Page = ({
     setTableProcess((prevState) => ({ ...prevState, [key]: value }));
   };
 
-  const handleDetailsClick = () => {
-    handleStateChange("isInForm", !tableProcess.isInForm);
+  const handleFormProcess = (process: string) => {
+    setToFormProcess((prev) => !prev);
+    handleStateChange("isInForm", process);
   };
 
-  const handleParentProcess = () => {
-    handleStateChange("isInForm", false);
-  };
   const handleGetPatientData = (value: string) => {
     switch (value) {
       case MEDICAL_DETAILS.SYMPTOMS.value:
@@ -77,28 +78,59 @@ export const PatientsNavigationV1Page = ({
   };
 
   const hanldeNavigation = (value: string) => {
+    setToFormProcess(false);
     if (tableProcess.navigation === value) return;
     setTableProcess((prevState) => {
       const collection = { ...prevState };
       collection.navigation = value;
       collection.dataTableData = [];
       collection.columnsTableData = [];
+      collection.isInForm = "table";
       return collection;
     });
   };
+
+  const getPatientData = () => {
+    const columnsData = handleGetPatientColumns(tableProcess?.navigation);
+    const rowData = handleGetPatientData(tableProcess?.navigation);
+
+    const columnCollection = [
+      ...columnsData,
+      {
+        id: "actions",
+        header: () => <div className="pl-4">Actions</div>,
+        cell: ({ row }) => {
+          // console.log("row", row?.original);
+          return (
+            <Fragment>
+              <button
+                onClick={() => {
+                  handleStateChange("formData", row?.original);
+                  handleFormProcess(NAVIGATION_FORM_PROCESS.NAV_VIEW);
+                }}
+                type="button"
+              >
+                shahahahahah
+              </button>
+            </Fragment>
+          );
+        },
+      },
+    ];
+    console.log("columnsData", columnsData);
+
+    setTableProcess((prev) => {
+      const collection = { ...prev };
+      collection.dataTableData = rowData;
+      collection.columnsTableData = columnCollection;
+      return collection;
+    });
+  };
+
   useEffect(() => {
     if (tableProcess?.navigation) {
-      setTableProcess((prev) => {
-        const collection = { ...prev };
-        collection.dataTableData = handleGetPatientData(
-          tableProcess?.navigation
-        );
-        collection.columnsTableData = handleGetPatientColumns(
-          tableProcess?.navigation
-        );
-        return collection;
-      });
       if (typeof window !== "undefined") {
+        getPatientData();
         localStorage.setItem("current-nav", tableProcess.navigation);
       }
     }
@@ -106,25 +138,26 @@ export const PatientsNavigationV1Page = ({
 
   return (
     <VerticalTabsV1Component
-      dataUserCollections={dataCollection}
+      dataUserCollections={dataCollection?.currentPatient}
       verticalTabHeightControl={VERTICAL_TAB_HEIGHT_CONTROL}
       isLoading={false}
       handleNavigation={hanldeNavigation}
-      handleParentProcess={() => handleParentProcess()}
+      handleParentProcess={() => setToFormProcess(false)}
       navigationList={Object.values(MEDICAL_DETAILS)}
       defaultValue={getInitialNav()}
       DescriptionComponent={null}
       TabHeaderComponent={null}
       TitleComponent={
         <TitleComponent
+          toFormProcess={toFormProcess}
           tableProcess={tableProcess}
-          handleDetailsClick={handleDetailsClick}
+          handleFormProcess={handleFormProcess}
           dataCollection={dataCollection?.currentPatient}
         />
       }
       ContentComponent={
         <ContentComponent
-          handleDetailsClick={handleDetailsClick}
+          handleFormProcess={handleFormProcess}
           tableProcess={tableProcess}
           userId={userId}
           handleStateChange={handleStateChange}

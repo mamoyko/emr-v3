@@ -70,7 +70,9 @@ const FormSymptoms: React.FC<FormSymptomsProps> = ({
     defaultValues: {
       formSets:
         mode === "view" || initialValue.length > 0
-          ? initialValue
+          ? Array.isArray(initialValue)
+            ? initialValue
+            : [initialValue]
           : [
               {
                 symptom_description: "",

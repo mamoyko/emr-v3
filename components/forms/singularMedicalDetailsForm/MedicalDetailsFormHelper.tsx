@@ -81,12 +81,11 @@ const MedicalDetailsFormHelper = ({
       handleState([]);
     }
   };
-
   const FormComponent = formComponents[currentTab.tab] || null;
-
+  console.log("tableProcess", currentTab);
   return (
     <div className="size-full">
-      {FormComponent && (
+      {formComponents[currentTab.tab] && (
         <FormComponent
           userId={patientId}
           handleSubmitForm={handleSubmitForm}

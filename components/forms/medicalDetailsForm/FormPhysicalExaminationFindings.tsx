@@ -61,7 +61,9 @@ const FormPhysicalExaminationFindings: React.FC<
     defaultValues: {
       formSets:
         mode === "view" || initialValue.length > 0
-          ? initialValue
+          ? Array.isArray(initialValue)
+            ? initialValue
+            : [initialValue]
           : [
               {
                 general_appearance: "",
