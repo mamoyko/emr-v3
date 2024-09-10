@@ -29,18 +29,12 @@ const formComponents = {
     FormPhysicalExaminationFindings,
   [MEDICAL_DETAILS.SYMPTOMS.value]: FormSymptoms,
   [MEDICAL_DETAILS.VITAL_SIGNS.value]: FormVitalSigns,
+  [MEDICAL_DETAILS.VITAL_SIGNS.value]: FormVitalSigns,
 };
 interface MedicalDetailsFormHelperProps {
   currentTab: {
     tab: string;
     tabData: any;
-  };
-  MEDICAL_DETAILS: {
-    MEDICAL_HISTORY: { title: string; value: string };
-    PHYSICAL_EXAMINATION_FINDINGS: { title: string; value: string };
-    SYMPTOMS: { title: string; value: string };
-    VITAL_SIGNS: { title: string; value: string };
-    ENCOUNTERS: { title: string; value: string };
   };
   mode: string;
   userId: string;

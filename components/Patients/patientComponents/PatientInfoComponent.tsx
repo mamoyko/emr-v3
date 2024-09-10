@@ -1,16 +1,15 @@
 "use client";
 
-import { format, parseISO, isValid } from "date-fns";
 import { useEffect, useState } from "react";
 
 import EncountersUpsertV1FormPage from "@/components/forms/encounters/EncountersUpsertV1FormPage";
 import { CustomGenericButton } from "@/components/helperComponent/ButtonComponent";
 import { DialogGenericComponent } from "@/components/helperComponent/DialogComponent";
+import { handleDateFormat } from "@/components/helperComponent/helperDate/dateHelper";
 import { useResponse } from "@/components/helperComponent/helperResponse/ResponseComponentHelper";
 import { SkeletonGeneric } from "@/components/helperComponent/SkeletonComponent";
 import { updatePatient } from "@/lib/actions/patient.actions";
 
-import { LoaderGeneric } from "../../helperComponent/componentGeneric/LoadingGenericComponent";
 import { DetailComponent } from "../patientMedicalDetailsTable/PatientProfileInfoHelper";
 
 const PatientInfoComponent = ({ patient }) => {
@@ -18,19 +17,6 @@ const PatientInfoComponent = ({ patient }) => {
   const [patientInfo, setPatientInfo] = useState<any>({});
   const [dialogAction, setDialogAction] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const handleDateFormat = (dateString: string): string => {
-    if (!dateString) return dateString;
-    try {
-      const date = parseISO(dateString);
-      if (!isValid(date)) {
-        return dateString;
-      }
-      return format(date, "MMMM d, yyyy");
-    } catch {
-      return dateString;
-    }
-  };
 
   const updatePatientInfo = async (patientId: string, patientData: any) => {
     setIsLoading(true);

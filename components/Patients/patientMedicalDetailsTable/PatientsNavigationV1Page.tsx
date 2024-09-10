@@ -2,15 +2,18 @@
 
 import React, { Fragment, useEffect, useState } from "react";
 
-import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
+import {
+  NAVIGATION_PROCESS_CONFIGURATION,
+  NAVIGATION_LIST,
+} from "@/components/enums/medicalDetailsEnums";
+import { handleDateFormat } from "@/components/helperComponent/helperDate/dateHelper";
 import VerticalTabsV1Component from "@/components/vertical-tabs/VerticalTabsV1Component";
 
-import { NAVIGATION_FORM_PROCESS } from "./PatientNavEnums";
+import { PatientNavHelper } from "./PatientsNavigationHelper";
 import {
   ContentComponent,
   TitleComponent,
-} from "./PatientsNavigationComponent";
-import { PatientNavHelper } from "./PatientsNavigationHelper";
+} from "./PatientsNavigationV1Component";
 
 const VERTICAL_TAB_HEIGHT_CONTROL = 0;
 
@@ -19,15 +22,16 @@ type StateTableProcess = {
   dataTableData: any[];
   formData: any[];
   columnsTableData: any[];
-  isInForm: string;
+  isWhatConfiguration: string;
+  isWhatConfigurationMode: string;
 };
 
 const getInitialNav = () => {
   if (typeof window !== "undefined") {
     const storedNav = localStorage.getItem("current-nav");
-    return storedNav ?? "symptoms";
+    return storedNav ?? NAVIGATION_LIST.USER_DETAILS.value;
   }
-  return "symptoms";
+  return NAVIGATION_LIST.USER_DETAILS.value;
 };
 
 export const PatientsNavigationV1Page = ({
@@ -43,7 +47,8 @@ export const PatientsNavigationV1Page = ({
     dataTableData: [],
     formData: [],
     columnsTableData: [],
-    isInForm: "table",
+    isWhatConfiguration: "table",
+    isWhatConfigurationMode: "table",
   });
 
   const [toFormProcess, setToFormProcess] = useState<boolean>(false);
@@ -57,35 +62,38 @@ export const PatientsNavigationV1Page = ({
 
   const handleFormProcess = (process: string) => {
     setToFormProcess((prev) => !prev);
-    handleStateChange("isInForm", process);
+    handleStateChange("isWhatConfiguration", process);
   };
 
   const handleGetPatientData = (value: string) => {
     switch (value) {
-      case MEDICAL_DETAILS.SYMPTOMS.value:
+      case NAVIGATION_LIST.SYMPTOMS.value:
         return dataCollection.currentPatient?.symptoms || [];
-      case MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value:
+      case NAVIGATION_LIST.PHYSICAL_EXAMINATION_FINDINGS.value:
         return dataCollection.currentPatient?.physicalExaminationFindings || [];
-      case MEDICAL_DETAILS.MEDICAL_HISTORY.value:
+      case NAVIGATION_LIST.MEDICAL_HISTORY.value:
         return dataCollection.currentPatient?.medicalHistory || [];
-      case MEDICAL_DETAILS.VITAL_SIGNS.value:
+      case NAVIGATION_LIST.VITAL_SIGNS.value:
         return dataCollection.currentPatient?.vitalSigns || [];
-      case MEDICAL_DETAILS.ENCOUNTERS.value:
+      case NAVIGATION_LIST.ENCOUNTERS.value:
         return dataCollection.currentPatient?.encounter || [];
+      case NAVIGATION_LIST.USER_DETAILS?.value:
+        return userDetails(dataCollection?.currentPatient) || [];
       default:
-        return dataCollection?.currentPatient?.symptoms || [];
+        return [];
     }
   };
 
-  const hanldeNavigation = (value: string) => {
+  const hanldeNavigation = (currentNav: any) => {
     setToFormProcess(false);
-    if (tableProcess.navigation === value) return;
+    if (tableProcess.navigation === currentNav?.value) return;
     setTableProcess((prevState) => {
       const collection = { ...prevState };
-      collection.navigation = value;
+      collection.navigation = currentNav?.value;
       collection.dataTableData = [];
       collection.columnsTableData = [];
-      collection.isInForm = "table";
+      collection.isWhatConfiguration = "table";
+      collection.isWhatConfigurationMode = currentNav?.isWhatConfigurationMode;
       return collection;
     });
   };
@@ -93,7 +101,6 @@ export const PatientsNavigationV1Page = ({
   const getPatientData = () => {
     const columnsData = handleGetPatientColumns(tableProcess?.navigation);
     const rowData = handleGetPatientData(tableProcess?.navigation);
-
     const columnCollection = [
       ...columnsData,
       {
@@ -105,7 +112,7 @@ export const PatientsNavigationV1Page = ({
               <button
                 onClick={() => {
                   handleStateChange("formData", row?.original);
-                  handleFormProcess(NAVIGATION_FORM_PROCESS.NAV_VIEW);
+                  handleFormProcess(NAVIGATION_PROCESS_CONFIGURATION.NAV_VIEW);
                 }}
                 type="button"
               >
@@ -141,7 +148,7 @@ export const PatientsNavigationV1Page = ({
       isLoading={false}
       handleNavigation={hanldeNavigation}
       handleParentProcess={() => setToFormProcess(false)}
-      navigationList={Object.values(MEDICAL_DETAILS)}
+      navigationList={Object.values(NAVIGATION_LIST)}
       defaultValue={getInitialNav()}
       DescriptionComponent={null}
       TabHeaderComponent={null}
@@ -165,4 +172,18 @@ export const PatientsNavigationV1Page = ({
       FooterComponent={null}
     />
   );
+};
+
+const userDetails = (dataCollection: any) => {
+  return {
+    name: dataCollection?.name ?? "",
+    address: dataCollection?.address ?? "",
+    phone: dataCollection?.phone ?? "",
+    email: dataCollection?.email ?? "",
+    gender: dataCollection?.gender ?? "",
+    occupation: dataCollection?.occupation ?? "",
+    birthDate: dataCollection?.birthDate ?? "",
+    emergencyContactName: dataCollection?.emergencyContactName ?? "",
+    emergencyContactNumber: dataCollection?.emergencyContactNumber ?? "",
+  };
 };

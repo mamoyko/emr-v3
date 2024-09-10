@@ -51,18 +51,22 @@ const VerticalTabsV1Component = ({
   const { routePathId } = UseRouting();
   const { height, width } = useWindowDimension();
 
-  const handleTabChange = (value: string) => {
-    if (!isLoading) {
-      setCurrentTab(value);
-      routePathId("active", value);
-      handleNavigation(value);
-      handleParentProcess();
-    }
-  };
-
   const MEMOIZE_NAV = Array.isArray(navigationList)
     ? [...navigationList]
     : [...FNObjectLevelOneToArray({ toTransformData: navigationList })];
+
+  const handleTabChange = (value: string) => {
+    const collection = [...MEMOIZE_NAV];
+    const filteredCollection = collection.filter(
+      (data, index) => data.value === value
+    )[0];
+    if (!isLoading) {
+      setCurrentTab(value);
+      routePathId("active", value);
+      handleNavigation(filteredCollection);
+      handleParentProcess();
+    }
+  };
 
   useEffect(() => {
     handleTabChange(defaultValue);

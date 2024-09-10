@@ -20,7 +20,7 @@ type StateTableProcess = {
   dataTableData: any[];
   formData: any[];
   columnsTableData: any[];
-  isInForm: boolean;
+  isWhatConfiguration: boolean;
 };
 
 export const EncounterNavigationPage = () => {
@@ -30,7 +30,7 @@ export const EncounterNavigationPage = () => {
     dataTableData: [],
     formData: [],
     columnsTableData: null,
-    isInForm: false,
+    isWhatConfiguration: false,
   });
 
   const handleStateChange = <stateFN extends keyof StateTableProcess>(
@@ -85,11 +85,11 @@ export const EncounterNavigationPage = () => {
   };
 
   const handleDetailsClick = () => {
-    handleStateChange("isInForm", !tableProcess.isInForm);
+    handleStateChange("isWhatConfiguration", !tableProcess.isWhatConfiguration);
   };
 
   const handleParentProcess = () => {
-    handleStateChange("isInForm", false);
+    handleStateChange("isWhatConfiguration", false);
   };
 
   useEffect(() => {
@@ -120,17 +120,19 @@ export const EncounterNavigationPage = () => {
           <Button
             variant="outline"
             className={
-              tableProcess.isInForm ? "shad-danger-btn" : "shad-primary-btn"
+              tableProcess.isWhatConfiguration
+                ? "shad-danger-btn"
+                : "shad-primary-btn"
             }
             onClick={() => handleDetailsClick()}
           >
-            {tableProcess.isInForm ? "Back" : "Add"}
+            {tableProcess.isWhatConfiguration ? "Back" : "Add"}
           </Button>
         </div>
       }
       ContentComponent={
         <div className="flex-1 overflow-y-auto overflow-x-hidden">
-          {tableProcess.isInForm ? (
+          {tableProcess.isWhatConfiguration ? (
             <MedicalDetailsFormHelper
               isLoading={false}
               handleLoading={() => {}}
@@ -139,7 +141,6 @@ export const EncounterNavigationPage = () => {
                 tab: tableProcess.navigation,
                 tabData: [],
               }}
-              MEDICAL_DETAILS={MEDICAL_DETAILS}
               mode={"edit"}
               userId={""}
               handleState={() => {}}

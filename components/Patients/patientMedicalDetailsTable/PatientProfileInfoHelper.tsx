@@ -1,5 +1,3 @@
-import style from "styled-jsx/style";
-
 import { LoaderGeneric } from "@/components/helperComponent/componentGeneric/LoadingGenericComponent";
 
 export const DetailComponent = ({

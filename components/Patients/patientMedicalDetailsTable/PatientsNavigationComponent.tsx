@@ -1,11 +1,12 @@
 import { Fragment, useEffect, useState } from "react";
 
-import { MEDICAL_DETAILS } from "@/components/enums/medicalDetailsEnums";
+import {
+  MEDICAL_DETAILS,
+  NAVIGATION_PROCESS_CONFIGURATION,
+} from "@/components/enums/medicalDetailsEnums";
 import MedicalDetailsFormHelper from "@/components/forms/singularMedicalDetailsForm/MedicalDetailsFormHelper";
 import { CustomGenericButton } from "@/components/helperComponent/ButtonComponent";
 import { DataTableDimension } from "@/components/table/DataTable";
-
-import { NAVIGATION_FORM_PROCESS } from "./PatientNavEnums";
 
 const EXCLUDED_MEDICAL_DETAILS = [MEDICAL_DETAILS.ENCOUNTERS.value];
 
@@ -38,8 +39,8 @@ export const TitleComponent = ({
           onClick={() =>
             handleFormProcess(
               toFormProcess
-                ? NAVIGATION_FORM_PROCESS.NAV_TABLE
-                : NAVIGATION_FORM_PROCESS.NAV_CREATE_EDIT
+                ? NAVIGATION_PROCESS_CONFIGURATION.NAV_TABLE
+                : NAVIGATION_PROCESS_CONFIGURATION.NAV_CREATE_EDIT
             )
           }
           isLoading={!dataCollection?.userId}
@@ -67,18 +68,17 @@ export const ContentComponent = ({
 }) => {
   return (
     <div className="flex-1 overflow-y-auto overflow-x-hidden">
-      {tableProcess?.isInForm === NAVIGATION_FORM_PROCESS.NAV_VIEW && (
+      {tableProcess?.isInForm === NAVIGATION_PROCESS_CONFIGURATION.NAV_VIEW && (
         <MedicalDetailsFormHelper
           handleLoading={() => {}}
           handleReturn={() =>
-            handleFormProcess(NAVIGATION_FORM_PROCESS.NAV_TABLE)
+            handleFormProcess(NAVIGATION_PROCESS_CONFIGURATION.NAV_TABLE)
           }
           isLoading={false}
           currentTab={{
             tab: tableProcess?.navigation,
             tabData: tableProcess?.formData,
           }}
-          MEDICAL_DETAILS={MEDICAL_DETAILS}
           mode={"view"}
           userId={userId}
           handleState={(data: any) => {
@@ -91,18 +91,18 @@ export const ContentComponent = ({
         />
       )}
 
-      {tableProcess?.isInForm === NAVIGATION_FORM_PROCESS.NAV_CREATE_EDIT && (
+      {tableProcess?.isInForm ===
+        NAVIGATION_PROCESS_CONFIGURATION.NAV_CREATE_EDIT && (
         <MedicalDetailsFormHelper
           handleLoading={() => {}}
           handleReturn={() =>
-            handleFormProcess(NAVIGATION_FORM_PROCESS.NAV_TABLE)
+            handleFormProcess(NAVIGATION_PROCESS_CONFIGURATION.NAV_TABLE)
           }
           isLoading={false}
           currentTab={{
             tab: tableProcess?.navigation,
             tabData: tableProcess?.formData,
           }}
-          MEDICAL_DETAILS={MEDICAL_DETAILS}
           mode={"edit"}
           userId={userId}
           handleState={(data: any) => {
@@ -115,7 +115,8 @@ export const ContentComponent = ({
         />
       )}
 
-      {tableProcess?.isInForm === NAVIGATION_FORM_PROCESS.NAV_TABLE && (
+      {tableProcess?.isInForm ===
+        NAVIGATION_PROCESS_CONFIGURATION.NAV_TABLE && (
         <DataTableDimension
           heightToSubtrct={400 + VERTICAL_TAB_HEIGHT_CONTROL}
           columns={tableProcess?.columnsTableData || []}

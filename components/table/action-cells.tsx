@@ -142,7 +142,6 @@ export const GenericActionButtonCell: React.FC<GenericActionCellProps> = ({
               tabData: [rawDocument],
             }}
             mode={"view"}
-            MEDICAL_DETAILS={MEDICAL_DETAILS}
             userId={""}
             handleState={() => {}}
           />

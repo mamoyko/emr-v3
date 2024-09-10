@@ -18,7 +18,7 @@ type StateTableProcess = {
   dataTableData: any[];
   formData: any[];
   columnsTableData: any[];
-  isInForm: boolean;
+  isWhatConfiguration: boolean;
 };
 
 const getInitialNav = () => {
@@ -44,7 +44,7 @@ export const PatientsNavigationPage = ({
     dataTableData: [],
     formData: [],
     columnsTableData: [],
-    isInForm: false,
+    isWhatConfiguration: false,
   });
 
   const handleStateChange = <stateFN extends keyof StateTableProcess>(
@@ -55,11 +55,11 @@ export const PatientsNavigationPage = ({
   };
 
   const handleDetailsClick = () => {
-    handleStateChange("isInForm", !tableProcess.isInForm);
+    handleStateChange("isWhatConfiguration", !tableProcess.isWhatConfiguration);
   };
 
   const handleParentProcess = () => {
-    handleStateChange("isInForm", false);
+    handleStateChange("isWhatConfiguration", false);
   };
   const handleGetPatientData = (value: string) => {
     switch (value) {
