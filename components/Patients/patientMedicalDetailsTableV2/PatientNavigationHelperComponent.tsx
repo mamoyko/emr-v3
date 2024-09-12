@@ -66,18 +66,20 @@ const PatientNavigationHelperComponent = ({
 
   const handleGetPatientData = (value: string) => {
     switch (value) {
-      case MEDICAL_DETAILS.SYMPTOMS.value:
+      case NAVIGATION_LIST.SYMPTOMS.value:
         return dataCollection.currentPatient?.symptoms || [];
-      case MEDICAL_DETAILS.PHYSICAL_EXAMINATION_FINDINGS.value:
+      case NAVIGATION_LIST.PHYSICAL_EXAMINATION_FINDINGS.value:
         return dataCollection.currentPatient?.physicalExaminationFindings || [];
-      case MEDICAL_DETAILS.MEDICAL_HISTORY.value:
+      case NAVIGATION_LIST.MEDICAL_HISTORY.value:
         return dataCollection.currentPatient?.medicalHistory || [];
-      case MEDICAL_DETAILS.VITAL_SIGNS.value:
+      case NAVIGATION_LIST.VITAL_SIGNS.value:
         return dataCollection.currentPatient?.vitalSigns || [];
-      case MEDICAL_DETAILS.ENCOUNTERS.value:
+      case NAVIGATION_LIST.ENCOUNTERS.value:
         return dataCollection.currentPatient?.encounter || [];
+      case NAVIGATION_LIST.USER_DETAILS?.value:
+        return userDetails(dataCollection?.currentPatient) || [];
       default:
-        return dataCollection?.currentPatient?.symptoms || [];
+        return [];
     }
   };
 
@@ -137,3 +139,17 @@ const PatientNavigationHelperComponent = ({
 };
 
 export default PatientNavigationHelperComponent;
+
+const userDetails = (dataCollection: any) => {
+  return {
+    name: dataCollection?.name ?? "",
+    address: dataCollection?.address ?? "",
+    phone: dataCollection?.phone ?? "",
+    email: dataCollection?.email ?? "",
+    gender: dataCollection?.gender ?? "",
+    occupation: dataCollection?.occupation ?? "",
+    birthDate: dataCollection?.birthDate ?? "",
+    emergencyContactName: dataCollection?.emergencyContactName ?? "",
+    emergencyContactNumber: dataCollection?.emergencyContactNumber ?? "",
+  };
+};
