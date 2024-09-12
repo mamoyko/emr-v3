@@ -14,7 +14,6 @@ const NavCardContentComponent = ({
   handleStateChange,
   userId,
 }) => {
-  console.log("tableProcess", tableProcess);
   if (tableProcess.isWhatConfigurationMode === CONFIGURATION_MODE.MODE_FORM) {
     return (
       <div className="flex-1 overflow-y-auto overflow-x-hidden">
