@@ -7,6 +7,7 @@ import { getPatientById } from "@/lib/actions/patient.actions";
 import UseRouting from "../helperFunctions/UseRouting";
 
 import { PatientsNavigationV1Page } from "./patientMedicalDetailsTable/PatientsNavigationV1Page";
+import PatientNavigationHelperComponent from "./patientMedicalDetailsTableV2/PatientNavigationHelperComponent";
 
 const PatientsMedicalDetailsV1Component = () => {
   const { getRoutePathId } = UseRouting();
@@ -29,19 +30,10 @@ const PatientsMedicalDetailsV1Component = () => {
   }, [userId]);
 
   return (
-    <div className="flex flex-col space-y-14">
-      <Header />
-
-      <main className="flex flex-col items-start justify-between xl:space-y-6 xl:px-3">
-        <section className="w-full space-y-4">
-          <h1 className="header">Patient Information</h1>
-        </section>
-      </main>
-      <PatientsNavigationV1Page
-        dataCollection={{ isLoading, currentPatient }}
-        userId={currentPatient?.userId || null}
-      />
-    </div>
+    <PatientNavigationHelperComponent
+      dataCollection={{ isLoading, currentPatient }}
+      userId={currentPatient?.userId || null}
+    />
   );
 };
 

@@ -130,10 +130,7 @@ const VerticalTabsComponent = ({
                     : `${height - 400 - verticalTabHeightControl}px`,
                 }}
               >
-                <CustomLoading
-                  height={height - verticalTabHeightControl}
-                  toDivide={2.5}
-                />
+                <CustomLoading height="calc(100vh - 200px)" toDivide={2.5} />
               </div>
             ) : (
               <CardContent className="space-y-1">

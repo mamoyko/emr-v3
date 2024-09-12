@@ -1,3 +1,15 @@
+import {
+  BarChart,
+  Activity,
+  FileText,
+  CreditCard,
+  Clipboard,
+  Settings,
+  MessageSquare,
+  Bell,
+  Users,
+} from "lucide-react";
+
 export const CONFIGURATION_MODE = Object.freeze({
   MODE_FORM: "form",
   MODE_TABLE: "table",
@@ -54,6 +66,39 @@ export const NAVIGATION_LIST = {
     title: "Encounters",
     isWhatConfiguration: "",
     isWhatConfigurationMode: CONFIGURATION_MODE.MODE_TABLE,
+  },
+};
+
+export const NAVIGATION_LIST_VERTICAL = {
+  USER_DETAILS: {
+    value: "user-details",
+    title: "User Details",
+    icon: <Users className="mr-2 size-4" />,
+  },
+  SYMPTOMS: {
+    value: "symptoms",
+    title: "Symptoms",
+    icon: <Users className="mr-2 size-4" />,
+  },
+  VITAL_SIGNS: {
+    value: "vital-signs",
+    title: "Vital Signs",
+    icon: <Users className="mr-2 size-4" />,
+  },
+  PHYSICAL_EXAMINATION_FINDINGS: {
+    value: "physical-examination-findings",
+    title: "Physical Examination Findings",
+    icon: <Users className="mr-2 size-4" />,
+  },
+  MEDICAL_HISTORY: {
+    value: "medical-history",
+    title: "Medical History",
+    icon: <Users className="mr-2 size-4" />,
+  },
+  ENCOUNTERS: {
+    value: "encounters",
+    title: "Encounters",
+    icon: <Users className="mr-2 size-4" />,
   },
 };
 

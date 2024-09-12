@@ -24,7 +24,7 @@ export const TitleComponent = ({
         <p className="text-xl tracking-wide">
           {
             NAVIGATION_LIST[
-              tableProcess.navigation.toUpperCase().replace(/-/g, "_")
+              tableProcess?.navigation ?? "".toUpperCase().replace(/-/g, "_")
             ]?.title
           }
         </p>
@@ -32,7 +32,7 @@ export const TitleComponent = ({
 
       {EXCLUDED_MEDICAL_DETAILS.includes(
         NAVIGATION_LIST[
-          tableProcess.navigation.toUpperCase().replace(/-/g, "_")
+          tableProcess?.navigation ?? "".toUpperCase().replace(/-/g, "_")
         ]?.value
       ) ? (
         <Fragment />

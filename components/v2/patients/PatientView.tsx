@@ -19,7 +19,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default function Component() {
   return (
     <div className="flex h-screen bg-gray-900 text-gray-100">
-      {/* Left Sidebar */}
       <div className="w-64 space-y-4 bg-gray-800 p-4">
         <div className="text-2xl font-bold text-blue-400">EHR SYSTEM</div>
         <nav className="space-y-2">
@@ -210,7 +209,6 @@ export default function Component() {
                 </div>
               </CardContent>
             </Card>
-            {/* Add more content for vitals, etc. */}
           </TabsContent>
         </Tabs>
       </div>
