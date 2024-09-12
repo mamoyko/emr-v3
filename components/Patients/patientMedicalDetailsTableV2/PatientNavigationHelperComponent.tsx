@@ -22,7 +22,8 @@ type StateTableProcess = {
   dataTableData: any[];
   formData: any[];
   columnsTableData: any[];
-  isWhatConfiguration: boolean;
+  isWhatConfiguration: string;
+  isWhatConfigurationMode: string;
 };
 
 const getInitialNav = () => {
@@ -48,9 +49,9 @@ const PatientNavigationHelperComponent = ({
     dataTableData: [],
     formData: [],
     columnsTableData: [],
-    isWhatConfiguration: false,
+    isWhatConfiguration: "table",
+    isWhatConfigurationMode: "table",
   });
-
   const handleStateChange = <stateFN extends keyof StateTableProcess>(
     key: stateFN,
     value: StateTableProcess[stateFN]
@@ -58,13 +59,11 @@ const PatientNavigationHelperComponent = ({
     setTableProcess((prevState) => ({ ...prevState, [key]: value }));
   };
 
-  const handleDetailsClick = () => {
-    handleStateChange("isWhatConfiguration", !tableProcess.isWhatConfiguration);
+  const handleFormProcess = (process: string) => {
+    setToFormProcess((prev) => !prev);
+    handleStateChange("isWhatConfiguration", process);
   };
 
-  const handleParentProcess = () => {
-    handleStateChange("isWhatConfiguration", false);
-  };
   const handleGetPatientData = (value: string) => {
     switch (value) {
       case MEDICAL_DETAILS.SYMPTOMS.value:
@@ -82,16 +81,20 @@ const PatientNavigationHelperComponent = ({
     }
   };
 
-  const hanldeNavigation = (value: string) => {
-    if (tableProcess.navigation === value) return;
+  const hanldeNavigation = (currentNav: any) => {
+    setToFormProcess(false);
+    if (tableProcess.navigation === currentNav?.value) return;
     setTableProcess((prevState) => {
       const collection = { ...prevState };
-      collection.navigation = value;
+      collection.navigation = currentNav?.value;
       collection.dataTableData = [];
       collection.columnsTableData = [];
+      collection.isWhatConfiguration = "table";
+      collection.isWhatConfigurationMode = currentNav?.isWhatConfigurationMode;
       return collection;
     });
   };
+
   useEffect(() => {
     if (tableProcess?.navigation) {
       setTableProcess((prev) => {
@@ -115,7 +118,7 @@ const PatientNavigationHelperComponent = ({
       dataUserCollections={dataCollection?.currentPatient}
       isLoading={false}
       handleNavigation={hanldeNavigation}
-      handleParentProcess={() => handleParentProcess()}
+      handleParentProcess={() => setToFormProcess(false)}
       navigationListTabular={Object.values(NAVIGATION_LIST)}
       navigationListVertical={Object.values(NAVIGATION_LIST_VERTICAL)}
       defaultValue={getInitialNav()}

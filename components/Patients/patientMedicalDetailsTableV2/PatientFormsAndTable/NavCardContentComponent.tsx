@@ -10,6 +10,7 @@ const NavCardContentComponent = ({
   handleStateChange,
   userId,
 }) => {
+  console.log("tableProcess", tableProcess);
   return (
     <Fragment>
       {tableProcess?.isWhatConfiguration !==

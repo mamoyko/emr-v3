@@ -63,7 +63,7 @@ const PatientNavComponent = ({
       (data, index) => data.value === dataValue
     )[0];
     if (!isLoading) {
-      setCurrentTab(dataValue);
+      setCurrentTab(filteredCollection);
       routePathId("active", dataValue);
       handleNavigation(filteredCollection);
       handleParentProcess();
@@ -113,7 +113,7 @@ const PatientNavComponent = ({
         </div>
 
         <Tabs
-          value={currentTab}
+          value={currentTab.value}
           onValueChange={handleTabChange}
           className="rounded-lg text-gray-300"
         >
@@ -133,7 +133,7 @@ const PatientNavComponent = ({
           </TabsList>
           <TabsContent
             style={{ height: "calc(100vh - 180px)" }}
-            value={currentTab}
+            value={currentTab.value}
           >
             <Card className="flex size-full flex-col border-gray-700 bg-gray-800">
               {CardHeaderComponent && (
