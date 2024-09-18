@@ -27,7 +27,7 @@ const PatientInfoV1Component = ({ dataCollection }) => {
   };
 
   return (
-    <figure className="flex size-full flex-col rounded-lg bg-gradient-to-r from-neutral-700 via-neutral-800 to-neutral-900 p-1">
+    <figure className="flex size-full flex-col rounded-lg bg-gradient-to-r p-1">
       <span className="size-full space-y-2 text-center lg:px-8 lg:py-1 lg:text-left">
         {[
           { label: "Address", value: dataCollection?.address || "" },

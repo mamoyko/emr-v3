@@ -53,16 +53,7 @@ const MedicalDetailsFormGenericHelper = ({
   return (
     <div className="size-full">
       {formComponents[currentTab.tab] && (
-        <FormComponent
-          // mode={mode}
-          dataCollection={currentTab.tabData}
-          // handleSubmitForm={handleSubmitForm}
-          // userId={userId}
-          // classControl={""}
-          // handleClose={() => {}}
-          // isLoading={false}
-          // initialValue={null}
-        />
+        <FormComponent dataCollection={currentTab.tabData} />
       )}
     </div>
   );

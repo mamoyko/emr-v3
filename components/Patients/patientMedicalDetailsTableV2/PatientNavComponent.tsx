@@ -47,8 +47,6 @@ const PatientNavComponent = ({
   });
   const { routePathId } = UseRouting();
 
-  console.log("currentTab", currentTab);
-
   const MEMOIZE_NAV_TABULAR = Array.isArray(navigationListTabular)
     ? [...navigationListTabular]
     : [...FNObjectLevelOneToArray({ toTransformData: navigationListTabular })];
@@ -144,7 +142,7 @@ const PatientNavComponent = ({
                   {CardHeaderComponent}
                 </CardHeader>
               )}
-              <CardContent className="flex size-full items-center justify-center space-y-1 p-5 text-gray-300">
+              <CardContent className="flex size-full items-start justify-center space-y-1 p-5 text-gray-300">
                 {isLoading ? (
                   <CustomLoading height="calc(100vh - 200px)" toDivide={2.5} />
                 ) : (
