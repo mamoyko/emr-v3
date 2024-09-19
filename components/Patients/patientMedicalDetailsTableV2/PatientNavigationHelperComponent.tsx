@@ -1,20 +1,20 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 
 import {
-  MEDICAL_DETAILS,
   NAVIGATION_LIST,
   NAVIGATION_LIST_VERTICAL,
+  NAVIGATION_PROCESS_CONFIGURATION,
 } from "@/components/enums/medicalDetailsEnums";
+import { debounce } from "@/lib/utils";
 
 import { PatientNavHelper } from "../patientMedicalDetailsTable/PatientsNavigationHelper";
-import {
-  ContentComponent,
-  TitleComponent,
-} from "../patientMedicalDetailsTable/PatientsNavigationV1Component";
 
-import NavCardContentComponent from "./PatientFormsAndTable/NavCardContentComponent";
+import {
+  NavCardContentComponent,
+  NavCardTitleComponent,
+} from "./PatientFormsAndTable/NavCardContentComponent";
 import PatientNavComponent from "./PatientNavComponent";
 
 type StateTableProcess = {
@@ -43,14 +43,15 @@ const PatientNavigationHelperComponent = ({
 }) => {
   const { handleGetPatientColumns } = PatientNavHelper();
   const [toFormProcess, setToFormProcess] = useState<boolean>(false);
+  const [isLoading, setIsloading] = useState<boolean>(false);
 
   const [tableProcess, setTableProcess] = useState<StateTableProcess>({
     navigation: "",
     dataTableData: [],
     formData: [],
     columnsTableData: [],
-    isWhatConfiguration: "table",
-    isWhatConfigurationMode: "table",
+    isWhatConfiguration: "",
+    isWhatConfigurationMode: "",
   });
   const handleStateChange = <stateFN extends keyof StateTableProcess>(
     key: stateFN,
@@ -62,6 +63,20 @@ const PatientNavigationHelperComponent = ({
   const handleFormProcess = (process: string) => {
     setToFormProcess((prev) => !prev);
     handleStateChange("isWhatConfiguration", process);
+  };
+
+  const hanldeNavigation = (currentNav: any) => {
+    setToFormProcess(false);
+    if (tableProcess.navigation === currentNav?.value) return;
+    setTableProcess((prevState) => {
+      const collection = { ...prevState };
+      collection.navigation = currentNav?.value;
+      collection.dataTableData = [];
+      collection.columnsTableData = [];
+      collection.isWhatConfiguration = "table";
+      collection.isWhatConfigurationMode = currentNav?.isWhatConfigurationMode;
+      return collection;
+    });
   };
 
   const handleGetPatientData = (value: string) => {
@@ -83,48 +98,73 @@ const PatientNavigationHelperComponent = ({
     }
   };
 
-  const hanldeNavigation = (currentNav: any) => {
-    setToFormProcess(false);
-    if (tableProcess.navigation === currentNav?.value) return;
-    setTableProcess((prevState) => {
-      const collection = { ...prevState };
-      collection.navigation = currentNav?.value;
-      collection.dataTableData = [];
-      collection.columnsTableData = [];
-      collection.isWhatConfiguration = "table";
-      collection.isWhatConfigurationMode = currentNav?.isWhatConfigurationMode;
+  const getPatientData = () => {
+    const columnsData = handleGetPatientColumns(tableProcess?.navigation);
+    const rowData = handleGetPatientData(tableProcess?.navigation);
+    const columnCollection = [
+      ...columnsData,
+      {
+        id: "actions",
+        header: () => <div className="pl-4">Actions</div>,
+        cell: ({ row }) => {
+          return (
+            <Fragment>
+              <button
+                onClick={() => {
+                  handleStateChange("formData", row?.original);
+                  handleFormProcess(NAVIGATION_PROCESS_CONFIGURATION.NAV_VIEW);
+                }}
+                type="button"
+              >
+                View Medical Details
+              </button>
+            </Fragment>
+          );
+        },
+      },
+    ];
+
+    setTableProcess((prev) => {
+      const collection = { ...prev };
+      collection.dataTableData = rowData;
+      collection.columnsTableData = columnCollection;
       return collection;
     });
   };
 
   useEffect(() => {
     if (tableProcess?.navigation) {
-      setTableProcess((prev) => {
-        const collection = { ...prev };
-        collection.dataTableData = handleGetPatientData(
-          tableProcess?.navigation
-        );
-        collection.columnsTableData = handleGetPatientColumns(
-          tableProcess?.navigation
-        );
-        return collection;
-      });
       if (typeof window !== "undefined") {
+        getPatientData();
         localStorage.setItem("current-nav", tableProcess.navigation);
       }
     }
   }, [dataCollection, tableProcess?.navigation]);
 
+  const debouncedSearch = useCallback(
+    debounce(() => {
+      setIsloading((prev) => !prev);
+    }, 1000),
+    []
+  );
+
   return (
     <PatientNavComponent
       dataUserCollections={dataCollection?.currentPatient}
-      isLoading={false}
+      isLoading={isLoading}
       handleNavigation={hanldeNavigation}
       handleParentProcess={() => setToFormProcess(false)}
       navigationListTabular={Object.values(NAVIGATION_LIST)}
       navigationListVertical={Object.values(NAVIGATION_LIST_VERTICAL)}
       defaultValue={getInitialNav()}
-      CardHeaderComponent={null}
+      CardHeaderComponent={
+        <NavCardTitleComponent
+          toFormProcess={toFormProcess}
+          tableProcess={tableProcess}
+          handleFormProcess={handleFormProcess}
+          dataCollection={dataCollection?.currentPatient}
+        />
+      }
       CardFooterComponent={null}
       CardContentComponent={
         <NavCardContentComponent

@@ -146,7 +146,7 @@ const PatientNavComponent = ({
                 {isLoading ? (
                   <CustomLoading height="calc(100vh - 200px)" toDivide={2.5} />
                 ) : (
-                  <Fragment>{CardContentComponent}</Fragment>
+                  <Fragment>{!isLoading && CardContentComponent}</Fragment>
                 )}
               </CardContent>
               {CardFooterComponent && (
