@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { handleDateFormat } from "@/components/helperComponent/helperDate/dateHelper";
 import { useResponse } from "@/components/helperComponent/helperResponse/ResponseComponentHelper";
@@ -27,8 +27,11 @@ const PatientInfoV1Component = ({ dataCollection }) => {
   };
 
   return (
-    <figure className="flex size-full flex-col gap-4 rounded-lg bg-gradient-to-r p-1">
-      <span className="size-full space-y-2 text-center lg:px-8 lg:py-1 lg:text-left">
+    <figure className="flex size-full flex-col items-center justify-center gap-4 rounded-lg bg-gradient-to-r p-1">
+      <span
+        style={{ border: "1px solid white" }}
+        className="size-full items-center justify-center space-y-2 text-center lg:px-8 lg:py-1 lg:text-left"
+      >
         <div className="flex size-[120px] items-center justify-center rounded-full bg-white text-black">
           {!dataCollection?.name ? (
             <SkeletonGeneric
@@ -64,7 +67,10 @@ const PatientInfoV1Component = ({ dataCollection }) => {
           />
         ))}
       </span>
-      <span className="size-full space-y-2 text-center lg:px-8 lg:py-1 lg:text-left">
+      <span
+        style={{ border: "1px solid white" }}
+        className="size-full space-y-2 text-center lg:px-8 lg:py-1 lg:text-left"
+      >
         <p className="text-xl font-bold">Emergency Contact</p>
         {[
           {
