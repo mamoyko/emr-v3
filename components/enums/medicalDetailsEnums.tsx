@@ -108,3 +108,5 @@ export const NAVIGATION_PROCESS_CONFIGURATION = Object.freeze({
   NAV_TABLE: "table",
   NAV_FORM_TABLE: "form",
 });
+
+export const LIST_OF_VIEW_ONLY_NAVIGATION = ["user-details"];

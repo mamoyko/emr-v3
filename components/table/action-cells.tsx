@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Appointment, Encounters, Patients } from "@/types/appwrite.types";
 
 import { AppointmentModal } from "../AppointmentModal";
-import { MEDICAL_DETAILS } from "../enums/medicalDetailsEnums";
 import MedicalDetailsFormHelper from "../forms/singularMedicalDetailsForm/MedicalDetailsFormHelper";
 import TabularFormPage from "../forms/tabularDetailForms/TabularFormPage";
 import "react-datepicker/dist/react-datepicker.css";

@@ -13,8 +13,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import NavCardContentComponent from "./PatientFormsAndTable/NavCardContentComponent";
-
 interface PatientNavComponentProps {
   dataUserCollections: any;
   navigationListTabular: any;
@@ -24,7 +22,6 @@ interface PatientNavComponentProps {
   CardContentComponent: ReactNode;
   defaultValue: string;
   handleNavigation: (value: string) => void;
-  handleParentProcess: () => void;
   isLoading: boolean;
 }
 
@@ -35,7 +32,6 @@ const PatientNavComponent = ({
   CardFooterComponent,
   defaultValue,
   handleNavigation,
-  handleParentProcess,
   isLoading,
   CardContentComponent,
 }: PatientNavComponentProps) => {
@@ -64,7 +60,6 @@ const PatientNavComponent = ({
       setCurrentTab(filteredCollection);
       routePathId("active", dataValue);
       handleNavigation(filteredCollection);
-      handleParentProcess();
     }
   };
 
@@ -142,9 +137,9 @@ const PatientNavComponent = ({
                   {CardHeaderComponent}
                 </CardHeader>
               )}
-              <CardContent className="flex size-full items-start justify-center space-y-1 p-5 text-gray-300">
+              <CardContent className="flex size-full items-start justify-center space-y-1 overflow-y-auto p-5 text-gray-300">
                 {isLoading ? (
-                  <CustomLoading height="calc(100vh - 200px)" toDivide={2.5} />
+                  <CustomLoading height="calc(100vh - 300px)" toDivide={2.5} />
                 ) : (
                   <Fragment>{!isLoading && CardContentComponent}</Fragment>
                 )}

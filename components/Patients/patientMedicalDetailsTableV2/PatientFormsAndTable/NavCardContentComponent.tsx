@@ -88,6 +88,7 @@ export const NavCardTitleComponent = ({
   handleFormProcess,
   toFormProcess,
 }) => {
+  if (toFormProcess.isHide) return;
   return (
     <div className="flex w-full items-center justify-between">
       <div className="flex-1 truncate">
@@ -108,17 +109,17 @@ export const NavCardTitleComponent = ({
         <Fragment />
       ) : (
         <CustomGenericButton
-          onClick={() =>
+          onClick={() => {
             handleFormProcess(
-              toFormProcess
+              toFormProcess.isAction
                 ? NAVIGATION_PROCESS_CONFIGURATION.NAV_TABLE
                 : NAVIGATION_PROCESS_CONFIGURATION.NAV_CREATE_EDIT
-            )
-          }
+            );
+          }}
           isLoading={!dataCollection?.userId}
           baseClassStyle="text-xs"
-          buttonText={toFormProcess ? "Back" : "Add"}
-          variant={toFormProcess ? "danger" : "primary"}
+          buttonText={toFormProcess.isAction ? "Back" : "Add"}
+          variant={toFormProcess.isAction ? "danger" : "primary"}
           loadingControl={{
             height: 10,
             width: 20,

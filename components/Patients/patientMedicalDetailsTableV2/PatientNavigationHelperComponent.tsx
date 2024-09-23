@@ -6,6 +6,7 @@ import {
   NAVIGATION_LIST,
   NAVIGATION_LIST_VERTICAL,
   NAVIGATION_PROCESS_CONFIGURATION,
+  LIST_OF_VIEW_ONLY_NAVIGATION,
 } from "@/components/enums/medicalDetailsEnums";
 import { debounce } from "@/lib/utils";
 
@@ -16,6 +17,11 @@ import {
   NavCardTitleComponent,
 } from "./PatientFormsAndTable/NavCardContentComponent";
 import PatientNavComponent from "./PatientNavComponent";
+
+type StateFormProcess = {
+  isHide: boolean;
+  isAction: boolean;
+};
 
 type StateTableProcess = {
   navigation: string;
@@ -42,8 +48,11 @@ const PatientNavigationHelperComponent = ({
   dataCollection: any;
 }) => {
   const { handleGetPatientColumns } = PatientNavHelper();
-  const [toFormProcess, setToFormProcess] = useState<boolean>(false);
-  const [isLoading, setIsloading] = useState<boolean>(false);
+  const [toFormProcess, setToFormProcess] = useState<StateFormProcess>({
+    isHide: false,
+    isAction: false,
+  });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [tableProcess, setTableProcess] = useState<StateTableProcess>({
     navigation: "",
@@ -53,6 +62,7 @@ const PatientNavigationHelperComponent = ({
     isWhatConfiguration: "",
     isWhatConfigurationMode: "",
   });
+
   const handleStateChange = <stateFN extends keyof StateTableProcess>(
     key: stateFN,
     value: StateTableProcess[stateFN]
@@ -61,13 +71,28 @@ const PatientNavigationHelperComponent = ({
   };
 
   const handleFormProcess = (process: string) => {
-    setToFormProcess((prev) => !prev);
+    setToFormProcess((prev: any) => {
+      const collection = { ...prev };
+      collection.isHide = false;
+      collection.isAction = false;
+      return collection;
+    });
     handleStateChange("isWhatConfiguration", process);
   };
 
   const hanldeNavigation = (currentNav: any) => {
-    setToFormProcess(false);
     if (tableProcess.navigation === currentNav?.value) return;
+    const isAddingAndUpdateHide = LIST_OF_VIEW_ONLY_NAVIGATION.includes(
+      currentNav.value
+    );
+    setToFormProcess((prev) => {
+      const updatedValues = {
+        ...prev,
+        isHide: LIST_OF_VIEW_ONLY_NAVIGATION.includes(currentNav.value),
+        isAction: false,
+      };
+      return updatedValues;
+    });
     setTableProcess((prevState) => {
       const collection = { ...prevState };
       collection.navigation = currentNav?.value;
@@ -99,6 +124,7 @@ const PatientNavigationHelperComponent = ({
   };
 
   const getPatientData = () => {
+    setIsLoading(true);
     const columnsData = handleGetPatientColumns(tableProcess?.navigation);
     const rowData = handleGetPatientData(tableProcess?.navigation);
     const columnCollection = [
@@ -123,13 +149,13 @@ const PatientNavigationHelperComponent = ({
         },
       },
     ];
-
     setTableProcess((prev) => {
       const collection = { ...prev };
       collection.dataTableData = rowData;
       collection.columnsTableData = columnCollection;
       return collection;
     });
+    debouncedSearch(false);
   };
 
   useEffect(() => {
@@ -142,9 +168,9 @@ const PatientNavigationHelperComponent = ({
   }, [dataCollection, tableProcess?.navigation]);
 
   const debouncedSearch = useCallback(
-    debounce(() => {
-      setIsloading((prev) => !prev);
-    }, 1000),
+    debounce((loading: boolean) => {
+      setIsLoading(loading);
+    }, 500),
     []
   );
 
@@ -153,7 +179,6 @@ const PatientNavigationHelperComponent = ({
       dataUserCollections={dataCollection?.currentPatient}
       isLoading={isLoading}
       handleNavigation={hanldeNavigation}
-      handleParentProcess={() => setToFormProcess(false)}
       navigationListTabular={Object.values(NAVIGATION_LIST)}
       navigationListVertical={Object.values(NAVIGATION_LIST_VERTICAL)}
       defaultValue={getInitialNav()}

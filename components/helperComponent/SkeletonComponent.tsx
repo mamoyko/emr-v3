@@ -8,13 +8,16 @@ export const SkeletonGeneric = ({
   },
   componentCount = 3,
   loderText = "",
+  genericClassName = "",
 }) => {
   return (
     <div
       role="status"
-      className="flex size-full grow animate-pulse items-center justify-center"
+      className={`flex size-full grow animate-pulse items-center justify-center ${genericClassName}`}
     >
-      <div className="flex size-full items-center justify-center bg-gray-200 p-2 dark:bg-gray-700">
+      <div
+        className={`flex size-full items-center justify-center bg-gray-200 p-2 dark:bg-gray-700 ${genericClassName}`}
+      >
         <LoaderRelativity
           height={loaderControl.height}
           width={loaderControl.width}
