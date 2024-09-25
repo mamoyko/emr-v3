@@ -30,6 +30,8 @@ type StateTableProcess = {
   columnsTableData: any[];
   isWhatConfiguration: string;
   isWhatConfigurationMode: string;
+  hideTitleComponent: boolean;
+  hideFooterComponent: boolean;
 };
 
 const getInitialNav = () => {
@@ -48,10 +50,7 @@ const PatientNavigationHelperComponent = ({
   dataCollection: any;
 }) => {
   const { handleGetPatientColumns } = PatientNavHelper();
-  const [toFormProcess, setToFormProcess] = useState<StateFormProcess>({
-    isHide: false,
-    isAction: false,
-  });
+  const [toFormProcess, setToFormProcess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [tableProcess, setTableProcess] = useState<StateTableProcess>({
@@ -61,6 +60,8 @@ const PatientNavigationHelperComponent = ({
     columnsTableData: [],
     isWhatConfiguration: "",
     isWhatConfigurationMode: "",
+    hideTitleComponent: true,
+    hideFooterComponent: true,
   });
 
   const handleStateChange = <stateFN extends keyof StateTableProcess>(
@@ -71,37 +72,23 @@ const PatientNavigationHelperComponent = ({
   };
 
   const handleFormProcess = (process: string) => {
-    setToFormProcess((prev: any) => {
-      const collection = { ...prev };
-      collection.isHide = false;
-      collection.isAction = false;
-      return collection;
-    });
+    setToFormProcess((prev) => !prev);
     handleStateChange("isWhatConfiguration", process);
   };
 
   const hanldeNavigation = (currentNav: any) => {
     if (tableProcess.navigation === currentNav?.value) return;
-    const isAddingAndUpdateHide = LIST_OF_VIEW_ONLY_NAVIGATION.includes(
-      currentNav.value
+    const collection = { ...tableProcess };
+    collection.navigation = currentNav?.value;
+    collection.dataTableData = [];
+    collection.columnsTableData = [];
+    collection.isWhatConfiguration = "table";
+    collection.isWhatConfigurationMode = currentNav?.isWhatConfigurationMode;
+    collection.hideTitleComponent = LIST_OF_VIEW_ONLY_NAVIGATION.includes(
+      currentNav?.value
     );
-    setToFormProcess((prev) => {
-      const updatedValues = {
-        ...prev,
-        isHide: LIST_OF_VIEW_ONLY_NAVIGATION.includes(currentNav.value),
-        isAction: false,
-      };
-      return updatedValues;
-    });
-    setTableProcess((prevState) => {
-      const collection = { ...prevState };
-      collection.navigation = currentNav?.value;
-      collection.dataTableData = [];
-      collection.columnsTableData = [];
-      collection.isWhatConfiguration = "table";
-      collection.isWhatConfigurationMode = currentNav?.isWhatConfigurationMode;
-      return collection;
-    });
+    collection.hideFooterComponent = true;
+    setTableProcess(collection);
   };
 
   const handleGetPatientData = (value: string) => {
@@ -187,7 +174,7 @@ const PatientNavigationHelperComponent = ({
           toFormProcess={toFormProcess}
           tableProcess={tableProcess}
           handleFormProcess={handleFormProcess}
-          dataCollection={dataCollection?.currentPatient}
+          isLoading={!dataCollection?.currentPatient?.userId}
         />
       }
       CardFooterComponent={null}

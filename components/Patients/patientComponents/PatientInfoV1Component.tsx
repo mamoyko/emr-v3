@@ -1,11 +1,20 @@
 "use client";
 
+import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { useState } from "react";
 
 import { handleDateFormat } from "@/components/helperComponent/helperDate/dateHelper";
 import { useResponse } from "@/components/helperComponent/helperResponse/ResponseComponentHelper";
 import { SkeletonGeneric } from "@/components/helperComponent/SkeletonComponent";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { updatePatient } from "@/lib/actions/patient.actions";
+import { cn } from "@/lib/utils";
 
 import { DetailComponentControllable } from "../patientMedicalDetailsTable/PatientProfileInfoHelper";
 
@@ -27,70 +36,80 @@ const PatientInfoV1Component = ({ dataCollection }) => {
   };
 
   return (
-    <figure className="flex size-full flex-col items-center justify-center gap-4 rounded-lg bg-gradient-to-r p-1">
-      <span
-        style={{ border: "1px solid white" }}
-        className="size-full items-center justify-center space-y-2 text-center lg:px-8 lg:py-1 lg:text-left"
+    <Card className="flex w-full flex-col gap-5">
+      <CardHeader
+        className="flex flex-row items-center gap-5"
+        style={{
+          border: "1px solid white",
+          // width: "50%"
+        }}
       >
-        <div className="flex size-[120px] items-center justify-center rounded-full bg-white text-black">
-          {!dataCollection?.name ? (
-            <SkeletonGeneric
-              loaderControl={{
-                height: 40,
-                width: 40,
-                brightness: "0%",
-              }}
-              genericClassName="rounded-full"
-            />
-          ) : (
-            "Image circle"
-          )}
+        <Avatar
+          className="flex size-40 items-center justify-center overflow-hidden rounded-full"
+          style={{ border: "1px solid white" }}
+        >
+          <AvatarImage
+            src={dataCollection?.avatarUrl}
+            alt={dataCollection?.name}
+          />
+          <AvatarFallback>
+            {dataCollection?.name ??
+              ""
+                .split(" ")
+                .map((n) => n[0])
+                .join("")
+                .toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
+        <div className="flex flex-col">
+          <CardTitle>{dataCollection?.name}</CardTitle>
+          <CardDescription>{dataCollection?.role ?? "Patient"}</CardDescription>
         </div>
-        <p className="text-xl font-bold">Patient Details</p>
-        {[
-          { label: "Name", value: dataCollection?.name || "" },
-          { label: "Address", value: dataCollection?.address || "" },
-          { label: "Contact no.", value: dataCollection?.phone || "" },
-          { label: "Email", value: dataCollection?.email || "" },
-          { label: "Gender", value: dataCollection?.gender || "" },
-          { label: "Occupation", value: dataCollection?.occupation || "" },
-          {
-            label: "Birth Date",
-            value: handleDateFormat(dataCollection?.birthDate) || "",
-          },
-        ].map((item, index) => (
-          <DetailComponentControllable
-            key={index}
-            item={item}
-            articleClass={"w-full flex-col md:flex-row"}
-            valueClass="w-full"
-          />
-        ))}
-      </span>
-      <span
-        style={{ border: "1px solid white" }}
-        className="size-full space-y-2 text-center lg:px-8 lg:py-1 lg:text-left"
-      >
-        <p className="text-xl font-bold">Emergency Contact</p>
-        {[
-          {
-            label: "Emergency Contact",
-            value: dataCollection?.emergencyContactName || "",
-          },
-          {
-            label: "Emergency Contact no.",
-            value: dataCollection?.emergencyContactNumber || "",
-          },
-        ].map((item, index) => (
-          <DetailComponentControllable
-            key={index}
-            item={item}
-            articleClass={"w-full flex-col md:flex-row"}
-            valueClass="w-full"
-          />
-        ))}
-      </span>
-    </figure>
+      </CardHeader>
+      <CardContent className="flex size-full flex-col items-start justify-start gap-5 bg-gradient-to-r lg:flex-row">
+        <span className="size-full items-center justify-center space-y-2 text-center lg:py-1 lg:text-left">
+          <p className="py-2 text-start text-xl font-bold">Patient Details</p>
+          {[
+            { label: "Address", value: dataCollection?.address || "" },
+            { label: "Contact no.", value: dataCollection?.phone || "" },
+            { label: "Email", value: dataCollection?.email || "" },
+            { label: "Gender", value: dataCollection?.gender || "" },
+            { label: "Occupation", value: dataCollection?.occupation || "" },
+            {
+              label: "Birth Date",
+              value: handleDateFormat(dataCollection?.birthDate) || "",
+            },
+          ].map((item, index) => (
+            <DetailComponentControllable
+              key={index}
+              item={item}
+              articleClass={"w-full flex-col md:flex-row"}
+              valueClass="w-full"
+            />
+          ))}
+        </span>
+        <span className="size-full items-center justify-center space-y-2 text-center lg:py-1 lg:text-left">
+          <p className="py-2 text-start text-xl font-bold">Emergency Contact</p>
+          {[
+            {
+              label: "Emergency Contact",
+              value: dataCollection?.emergencyContactName || "",
+            },
+            {
+              label: "Emergency Contact no.",
+              value: dataCollection?.emergencyContactNumber || "",
+            },
+          ].map((item, index) => (
+            <DetailComponentControllable
+              key={index}
+              item={item}
+              articleClass={"w-full flex-col md:flex-row"}
+              valueClass="w-full"
+            />
+          ))}
+        </span>
+      </CardContent>
+    </Card>
   );
 };
 

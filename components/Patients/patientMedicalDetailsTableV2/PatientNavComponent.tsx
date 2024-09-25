@@ -89,20 +89,20 @@ const PatientNavComponent = ({
 
       {/* Main Content */}
       <div className="flex-1 overflow-auto bg-gray-900 p-8">
-        <div className="mb-6 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <Input
-              className="w-96 border-gray-700 bg-gray-800 text-white"
-              placeholder="Search for a patient or diagnosis"
-              type="search"
-            />
+        <div className="mb-6 flex flex-col items-start justify-between gap-5 lg:flex-row">
+          <Input
+            className="w-11/12 border-gray-700 bg-gray-800 text-white"
+            placeholder="Search for a patient or diagnosis"
+            type="search"
+          />
+          <div className="flex w-full flex-col items-start justify-between gap-5 lg:flex-row lg:items-start">
             <select className="rounded border border-gray-700 bg-gray-800 p-2 text-white">
               <option>All patients</option>
             </select>
+            <Button className="bg-blue-600 text-white hover:bg-blue-700">
+              Create new encounter
+            </Button>
           </div>
-          <Button className="bg-blue-600 text-white hover:bg-blue-700">
-            Create new encounter
-          </Button>
         </div>
 
         <Tabs
