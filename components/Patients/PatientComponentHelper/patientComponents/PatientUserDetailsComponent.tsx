@@ -16,7 +16,7 @@ import {
 import { updatePatient } from "@/lib/actions/patient.actions";
 import { cn } from "@/lib/utils";
 
-import { DetailComponentControllable } from "../patientMedicalDetailsTable/PatientProfileInfoHelper";
+import { DetailComponentControllable } from "../PatientProfileInfoHelper";
 
 const PatientInfoV1Component = ({ dataCollection }) => {
   const { error, success } = useResponse();

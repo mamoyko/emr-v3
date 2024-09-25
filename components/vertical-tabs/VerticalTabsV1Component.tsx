@@ -16,7 +16,7 @@ import { FNObjectLevelOneToArray } from "../helperFunctions/TransformObjectToArr
 import UseRouting from "../helperFunctions/UseRouting";
 import useWindowDimension from "../helperFunctions/useWindowDimension";
 import { CustomLoading } from "../Loader";
-import { DetailComponentControllable } from "../Patients/patientMedicalDetailsTable/PatientProfileInfoHelper";
+import { DetailComponentControllable } from "../Patients/PatientComponentHelper/PatientProfileInfoHelper";
 
 interface VerticalTabsV1ComponentProps {
   navigationList: any;

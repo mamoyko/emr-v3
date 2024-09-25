@@ -2,7 +2,7 @@ import React from "react";
 
 import { USER_FORM_DETAILS } from "@/components/enums/medicalDetailsEnums";
 import { useResponse } from "@/components/helperComponent/helperResponse/ResponseComponentHelper";
-import PatientInfoV1Component from "@/components/Patients/patientComponents/PatientInfoV1Component";
+import PatientInfoV1Component from "@/components/Patients/PatientComponentHelper/patientComponents/PatientUserDetailsComponent";
 
 interface MedicalDetailsFormGenericHelperProps {
   currentTab: {

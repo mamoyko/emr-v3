@@ -1,12 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-import { Header } from "@/components/Header";
 import { getPatientById } from "@/lib/actions/patient.actions";
 
 import UseRouting from "../helperFunctions/UseRouting";
 
-import { PatientsNavigationV1Page } from "./patientMedicalDetailsTable/PatientsNavigationV1Page";
 import PatientNavigationHelperComponent from "./patientMedicalDetailsTableV2/PatientNavigationHelperComponent";
 
 const PatientsMedicalDetailsV1Component = () => {

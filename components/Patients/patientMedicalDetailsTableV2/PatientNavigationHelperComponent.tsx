@@ -10,7 +10,7 @@ import {
 } from "@/components/enums/medicalDetailsEnums";
 import { debounce } from "@/lib/utils";
 
-import { PatientNavHelper } from "../patientMedicalDetailsTable/PatientsNavigationHelper";
+import { PatientNavHelper } from "../PatientComponentHelper/PatientsNavigationHelper";
 
 import {
   NavCardContentComponent,
