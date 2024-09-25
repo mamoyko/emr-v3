@@ -70,7 +70,9 @@ const PatientNavComponent = ({
   return (
     <div className="flex h-screen bg-gray-900 text-gray-100">
       <div className="w-64 space-y-4 bg-gray-800 p-4">
-        <div className="text-2xl font-bold text-blue-400">EHR SYSTEM</div>
+        <div className="text-center text-2xl font-bold text-blue-400">
+          EMR SYSTEM
+        </div>
         <nav className="space-y-2">
           {MEMOIZE_NAV_VERTICAL.map(
             (navItem: { value: string; title: string; icon: ReactNode }) => (
