@@ -78,6 +78,7 @@ const PatientNavigationHelperComponent = ({
 
   const hanldeNavigation = (currentNav: any) => {
     if (tableProcess.navigation === currentNav?.value) return;
+    setToFormProcess(false);
     const collection = { ...tableProcess };
     collection.navigation = currentNav?.value;
     collection.dataTableData = [];

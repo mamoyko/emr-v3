@@ -14,7 +14,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { updatePatient } from "@/lib/actions/patient.actions";
-import { cn } from "@/lib/utils";
 
 import { DetailComponentControllable } from "../PatientProfileInfoHelper";
 
